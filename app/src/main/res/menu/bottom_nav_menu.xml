@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_diary"
+        android:icon="@drawable/ic_nav_diary_selector"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_statistic"
+        android:icon="@drawable/ic_nav_statistic_selector"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_nothing"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_test_result"
+        android:icon="@drawable/ic_nav_test_result_selector"
+        android:title="" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_nav_profile_selector"
+        android:title="" />
+</selector>
