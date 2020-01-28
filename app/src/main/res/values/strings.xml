@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Moodie-Trail</string>
+
+    <!-- General -->
+
+    <string name="profile">個人</string>
+    <string name="internet_not_connected">您尚未連接 Internet</string>
+    <string name="you_know_nothing">You know nothing</string>
+    <string name="love_u_3000">Love you 3000</string>
+    <string name="add_mood">記錄心情</string>
+    <string name="add_test">開始測驗</string>
+
+
 </resources>
