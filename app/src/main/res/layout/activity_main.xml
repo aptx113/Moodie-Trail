@@ -10,6 +10,10 @@
         <variable
             name="activity"
             type="com.danteyu.studio.moodietrail.MainActivity" />
+
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +43,7 @@
                 android:layout_marginStart="@dimen/margin_basic"
                 android:fontFamily="@font/noto_sans"
                 android:letterSpacing="0.15"
-                android:text="Moodie"
+                android:text="@{viewModel.currentFragmentType.value}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
