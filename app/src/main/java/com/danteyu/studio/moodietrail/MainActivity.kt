@@ -13,6 +13,10 @@ import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+/**
+ * Created by George Yu in Jan. 2020.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

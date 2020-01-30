@@ -210,7 +210,7 @@
             app:maxImageSize="40dp"
             app:rippleColor="@color/blue_700" />
 
-        <com.danteyu.studio.moodietrail.FabBottomNavigationView
+        <com.danteyu.studio.moodietrail.component.FabBottomNavigationView
             android:id="@+id/bottomNavView"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_bottom_nav_view_main"

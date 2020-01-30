@@ -1,8 +1,12 @@
-package com.danteyu.studio.moodietrail
+package com.danteyu.studio.moodietrail.component
 
 import com.google.android.material.shape.EdgeTreatment
 import com.google.android.material.shape.ShapePath
 
+
+/**
+ * Created by George Yu in Jan. 2020.
+ */
 class TopCurvedEdgeTreatment(
     var fabCradleMargin: Float,
     var fabCradleRoundedCornerRadius: Float,
