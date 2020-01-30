@@ -8,13 +8,44 @@ import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var isFABOpen: Boolean = false
+
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_diary -> {
+                    findNavController(
+                        R.id
+                            .myNavHostFragment
+                    ).navigate(NavigationDirections.navigateToDiaryFragment())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_statistic -> {
+
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToStatisticFragment())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_test_result -> {
+
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTestResultFragment())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_profile -> {
+
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +60,15 @@ class MainActivity : AppCompatActivity() {
                 closeFABMenu()
             }
         }
+        setupBottomNav()
     }
 
+    /**
+     * Set up [BottomNavigationView]
+     */
+    private fun setupBottomNav() {
+        binding.bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+    }
 
     private fun openFABMenu() {
         isFABOpen = true
@@ -46,11 +84,13 @@ class MainActivity : AppCompatActivity() {
             fabAddMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
                 .translationX(-resources.getDimension(R.dimen.standard_70))
             textFabAddMood.animate().translationY(-resources.getDimension(R.dimen.standard_30))
-                .translationX(-resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration = 300
+                .translationX(-resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration =
+                300
             fabAddTest.animate().translationY(-resources.getDimension(R.dimen.standard_70))
                 .translationX(resources.getDimension(R.dimen.standard_70))
             textFabAddTest.animate().translationY(-resources.getDimension(R.dimen.standard_30))
-                .translationX(resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration = 300
+                .translationX(resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration =
+                300
 
         }
 

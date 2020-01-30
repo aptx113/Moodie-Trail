@@ -12,7 +12,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_cccccc"
+        android:background="@color/gray_f0f0f0"
         tools:context=".MainActivity">
 
 
@@ -120,57 +120,16 @@
 
         <ImageView
             android:id="@+id/fabShadow"
+            style="@style/FabShadow"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:elevation="5dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/toolbar"
             app:srcCompat="@color/translucent_40" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/fabLayout_sleep"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="2dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/fab"
-            app:layout_constraintEnd_toEndOf="@id/fab"
-            app:layout_constraintStart_toStartOf="@+id/fab"
-            app:layout_constraintTop_toTopOf="@+id/fab">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_sleep"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                app:elevation="0dp"
-                app:fabCustomSize="45dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/text_sleep_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/noto_sans"
-                android:paddingLeft="@dimen/dialog_padding"
-                android:paddingTop="@dimen/dialog_padding"
-                android:paddingRight="@dimen/dialog_padding"
-                android:paddingBottom="@dimen/dialog_padding"
-                android:text="@string/add_mood"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fab_sleep" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_mood"
@@ -179,7 +138,7 @@
             android:src="@drawable/ic_add_mood"
             android:visibility="invisible"
             app:backgroundTint="@color/blue_700"
-            app:elevation="0dp"
+            app:elevation="8dp"
             app:fabCustomSize="45dp"
             app:layout_constraintBottom_toBottomOf="@id/fab"
             app:layout_constraintEnd_toEndOf="@id/fab"
@@ -191,17 +150,17 @@
             android:id="@+id/text_fab_add_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:elevation="8dp"
             android:fontFamily="@font/noto_sans"
             android:text="@string/add_mood"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_content"
-            android:alpha="0.0"
             app:layout_constraintBottom_toBottomOf="@id/fab"
             app:layout_constraintEnd_toEndOf="@id/fab"
             app:layout_constraintStart_toStartOf="@id/fab"
             app:layout_constraintTop_toTopOf="@id/fab" />
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_test"
@@ -210,7 +169,7 @@
             android:src="@drawable/ic_add_test"
             android:visibility="invisible"
             app:backgroundTint="@color/blue_700"
-            app:elevation="0dp"
+            app:elevation="8dp"
             app:fabCustomSize="45dp"
             app:layout_constraintBottom_toBottomOf="@id/fab"
             app:layout_constraintEnd_toEndOf="@id/fab"
@@ -222,17 +181,17 @@
             android:id="@+id/text_fab_add_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:elevation="8dp"
             android:fontFamily="@font/noto_sans"
             android:text="@string/add_test"
             android:textAlignment="center"
-            android:alpha="0.0"
             android:textColor="@color/white"
             android:textSize="@dimen/text_content"
             app:layout_constraintBottom_toBottomOf="@id/fab"
             app:layout_constraintEnd_toEndOf="@id/fab"
             app:layout_constraintStart_toStartOf="@id/fab"
             app:layout_constraintTop_toTopOf="@id/fab" />
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -267,7 +226,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_nav_menu" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

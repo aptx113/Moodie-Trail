@@ -3,6 +3,9 @@
 
     <!-- General -->
 
+    <string name="diary">心情記錄</string>
+    <string name="statistic">統計</string>
+    <string name="test_result">測驗結果</string>
     <string name="profile">個人</string>
     <string name="internet_not_connected">您尚未連接 Internet</string>
     <string name="you_know_nothing">You know nothing</string>
