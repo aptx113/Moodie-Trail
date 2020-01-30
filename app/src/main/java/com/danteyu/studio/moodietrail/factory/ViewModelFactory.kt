@@ -1,0 +1,45 @@
+package com.danteyu.studio.moodietrail.factory
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.danteyu.studio.moodietrail.MainViewModel
+import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.diary.DiaryViewModel
+import com.danteyu.studio.moodietrail.profile.ProfileViewModel
+import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
+import com.danteyu.studio.moodietrail.testresult.TestResultViewModel
+import java.lang.IllegalArgumentException
+
+
+/**
+ * Created by George Yu in Jan. 2020.
+ *
+ * Factory for all ViewModels.
+ */
+@Suppress("UNCHECKED_CAST")
+class ViewModelFactory constructor(
+    private val moodieTrailRepository: MoodieTrailRepository
+) : ViewModelProvider.NewInstanceFactory() {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        with(modelClass) {
+            when {
+                isAssignableFrom(MainViewModel::class.java) -> MainViewModel(moodieTrailRepository)
+
+                isAssignableFrom(DiaryViewModel::class.java) -> DiaryViewModel(moodieTrailRepository)
+
+                isAssignableFrom(StatisticViewModel::class.java) -> StatisticViewModel(
+                    moodieTrailRepository
+                )
+
+                isAssignableFrom(TestResultViewModel::class.java) -> TestResultViewModel(
+                    moodieTrailRepository
+                )
+
+                isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(
+                    moodieTrailRepository
+                )
+                else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+            }
+        } as T
+}

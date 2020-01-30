@@ -3,21 +3,17 @@ package com.danteyu.studio.moodietrail
 import android.animation.Animator
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AlphaAnimation
-import android.view.animation.AnimationSet
-import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
  * Created by George Yu in Jan. 2020.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var isFABOpen: Boolean = false
@@ -64,6 +60,8 @@ class MainActivity : AppCompatActivity() {
                 closeFABMenu()
             }
         }
+        binding.fabShadow.setOnClickListener { closeFABMenu() }
+
         setupBottomNav()
     }
 
@@ -137,5 +135,13 @@ class MainActivity : AppCompatActivity() {
                 })
         }
 
+    }
+
+    override fun onBackPressed() {
+        if (isFABOpen) {
+            closeFABMenu()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

@@ -28,15 +28,23 @@
         tools:layout="@layout/fragment_profile" />
     <action
         android:id="@+id/navigate_to_profileFragment"
-        app:destination="@id/profileFragment" />
+        app:destination="@id/profileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
     <action
         android:id="@+id/navigate_to_statisticFragment"
-        app:destination="@id/statisticFragment" />
+        app:destination="@id/statisticFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
     <action
         android:id="@+id/navigate_to_testResultFragment"
-        app:destination="@id/testResultFragment" />
+        app:destination="@id/testResultFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
     <action
         android:id="@+id/navigate_to_diaryFragment"
-        app:destination="@id/diaryFragment" />
+        app:destination="@id/diaryFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
 
 </navigation>

@@ -6,6 +6,10 @@
     <data>
 
         <import type="android.view.View" />
+
+        <variable
+            name="activity"
+            type="com.danteyu.studio.moodietrail.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
