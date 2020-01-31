@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
@@ -15,4 +16,17 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
+
+    //Handle Fab open and close
+    private val _isFabOpen = MutableLiveData<Boolean>()
+
+    val isFabOpen: LiveData<Boolean>
+        get() = _isFabOpen
+
+    //Handle Fab open and close
+    fun onFabPressed() {
+        _isFabOpen.value = !(_isFabOpen.value ?: false)
+    }
+
+
 }

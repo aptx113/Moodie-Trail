@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
-import android.view.ViewConfiguration
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -35,8 +33,7 @@ class MainActivity : BaseActivity() {
     val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private var isFABOpen: Boolean = false
+//    private var isFabOpen: Boolean = false
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -84,14 +81,14 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.fab.setOnClickListener {
-            if (!isFABOpen) {
-                openFABMenu()
-            } else {
-                closeFABMenu()
-            }
-        }
-        binding.fabShadow.setOnClickListener { closeFABMenu() }
+//        binding.fab.setOnClickListener {
+//            if (!isFabOpen) {
+//                openFabMenu()
+//            } else {
+//                closeFabMenu()
+//            }
+//        }
+//        binding.fabShadow.setOnClickListener { closeFabMenu() }
 
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
@@ -100,9 +97,15 @@ class MainActivity : BaseActivity() {
             Logger.i("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         })
 
+        viewModel.isFabOpen.observe(this, Observer {
+            if(it) openFabMenu()
+            else closeFabMenu()
+        })
+
         setupToolbar()
         setupBottomNav()
         setupNavController()
+
     }
 
     /**
@@ -162,8 +165,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun openFABMenu() {
-        isFABOpen = true
+    private fun openFabMenu() {
+//        isFabOpen = true
 
         binding.apply {
             fabAddMood.visibility = View.VISIBLE
@@ -188,8 +191,8 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private fun closeFABMenu() {
-        isFABOpen = false
+    private fun closeFabMenu() {
+//        isFabOpen = false
 
         binding.apply {
             fabShadow.visibility = View.GONE
@@ -210,7 +213,7 @@ class MainActivity : BaseActivity() {
                 .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animator: Animator) {}
                     override fun onAnimationEnd(animator: Animator) {
-                        if (!isFABOpen) {
+                        if (!viewModel?.isFabOpen?.value!!) {
                             binding.apply {
                                 fabAddMood.visibility = View.GONE
 //                                textFabAddMood.visibility = View.GONE
@@ -228,8 +231,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (isFABOpen) {
-            closeFABMenu()
+        if (viewModel.isFabOpen.value!!) {
+            closeFabMenu()
         } else {
             super.onBackPressed()
         }

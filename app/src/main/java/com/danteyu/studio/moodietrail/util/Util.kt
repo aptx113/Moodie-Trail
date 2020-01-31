@@ -16,10 +16,12 @@ object Util {
      *
      * https://developer.android.com/training/monitoring-device-state/connectivity-monitoring
      */
-//    fun isInternetConnected():Boolean{
-//        val cm = MoodieTrailApplication.instance.getSystemService(Context.CONNECTIVITY_SERVICE)as ConnectivityManager
-//        val activeNetwork:NetworkInfo
-//    }
+    fun isInternetConnected(): Boolean {
+        val cm = MoodieTrailApplication.instance
+            .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        return activeNetwork?.isConnectedOrConnecting == true
+    }
 
     fun getString(resourceId: Int): String {
         return MoodieTrailApplication.instance.getString(resourceId)

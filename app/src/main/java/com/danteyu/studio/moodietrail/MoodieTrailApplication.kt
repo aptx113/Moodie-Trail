@@ -2,6 +2,7 @@ package com.danteyu.studio.moodietrail
 
 import android.app.Application
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.network.NetworkStateHolder.registerConnectivityBroadcaster
 import com.danteyu.studio.moodietrail.util.ServiceLocator
 import kotlin.properties.Delegates
 
@@ -25,5 +26,6 @@ class MoodieTrailApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        registerConnectivityBroadcaster()
     }
 }

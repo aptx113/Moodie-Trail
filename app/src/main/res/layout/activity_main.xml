@@ -133,6 +133,7 @@
             android:layout_height="0dp"
             android:elevation="5dp"
             android:visibility="gone"
+            android:onClick="@{()->viewModel.onFabPressed()}"
             app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -216,7 +217,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:maxImageSize="40dp"
-            app:rippleColor="@color/blue_700" />
+            app:rippleColor="@color/blue_700"
+            android:onClick="@{()->viewModel.onFabPressed()}"/>
 
         <com.danteyu.studio.moodietrail.component.FabBottomNavigationView
             android:id="@+id/bottomNavView"
