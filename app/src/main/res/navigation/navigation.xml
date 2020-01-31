@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/diaryFragment">
+
+    <fragment
+        android:id="@+id/diaryFragment"
+        android:name="com.danteyu.studio.moodietrail.diary.DiaryFragment"
+        android:label="DiaryFragment"
+        tools:layout="@layout/fragment_diary" />
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="com.danteyu.studio.moodietrail.statistic.StatisticFragment"
+        android:label="StatisticFragment"
+        tools:layout="@layout/fragment_statistic" />
+
+    <fragment
+        android:id="@+id/testResultFragment"
+        android:name="com.danteyu.studio.moodietrail.testresult.TestResultFragment"
+        android:label="TestResultFragment"
+        tools:layout="@layout/fragment_test_result" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.danteyu.studio.moodietrail.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+    <action
+        android:id="@+id/navigate_to_profileFragment"
+        app:destination="@id/profileFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/navigate_to_statisticFragment"
+        app:destination="@id/statisticFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/navigate_to_testResultFragment"
+        app:destination="@id/testResultFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/navigate_to_diaryFragment"
+        app:destination="@id/diaryFragment"
+        app:popUpTo="@id/navigation"
+        app:popUpToInclusive="true" />
+
+</navigation>
