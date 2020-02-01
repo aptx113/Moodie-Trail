@@ -54,7 +54,7 @@
                 tools:visibility="visible" />
 
             <ImageView
-                android:id="@+id/image_toolbar_back"
+                android:id="@+id/image_toolbar_last"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -132,22 +132,23 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:elevation="5dp"
-            android:visibility="gone"
             android:onClick="@{()->viewModel.onFabPressed()}"
+            android:visibility="@{viewModel.isFabOpen()== false ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/toolbar"
-            app:srcCompat="@color/translucent_40" />
+            app:srcCompat="@color/translucent_40"
+            tools:visibility="gone"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_mood"
+            android:id="@+id/fab_record_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_mood"
-            android:visibility="invisible"
+            android:src="@drawable/ic_record_mood"
+            android:visibility="gone"
             app:backgroundTint="@color/blue_700"
-            app:elevation="8dp"
+            app:elevation="@dimen/elevation_fab_option"
             app:fabCustomSize="45dp"
             app:layout_constraintBottom_toBottomOf="@id/fab"
             app:layout_constraintEnd_toEndOf="@id/fab"
@@ -156,11 +157,11 @@
             app:maxImageSize="24dp" />
 
         <TextView
-            android:id="@+id/text_fab_add_mood"
+            android:id="@+id/text_fab_record_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.0"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation_fab_option"
             android:fontFamily="@font/noto_sans"
             android:text="@string/record_mood"
             android:textAlignment="center"
@@ -172,13 +173,13 @@
             app:layout_constraintTop_toTopOf="@id/fab" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_test"
+            android:id="@+id/fab_start_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_test"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:backgroundTint="@color/blue_700"
-            app:elevation="8dp"
+            app:elevation="@dimen/elevation_fab_option"
             app:fabCustomSize="45dp"
             app:layout_constraintBottom_toBottomOf="@id/fab"
             app:layout_constraintEnd_toEndOf="@id/fab"
@@ -187,11 +188,11 @@
             app:maxImageSize="24dp" />
 
         <TextView
-            android:id="@+id/text_fab_add_test"
+            android:id="@+id/text_fab_start_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.0"
-            android:elevation="8dp"
+            android:elevation="@dimen/elevation_fab_option"
             android:fontFamily="@font/noto_sans"
             android:text="@string/start_test"
             android:textAlignment="center"
@@ -206,19 +207,19 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="@dimen/fab_margin"
             android:alpha="1.0"
             android:backgroundTint="@color/blue_700"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{()->viewModel.onFabPressed()}"
             android:src="@drawable/ic_action_add"
-            app:elevation="10dp"
+            app:elevation="@dimen/elevation_fab"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:maxImageSize="40dp"
-            app:rippleColor="@color/blue_700"
-            android:onClick="@{()->viewModel.onFabPressed()}"/>
+            app:rippleColor="@color/blue_700" />
 
         <com.danteyu.studio.moodietrail.component.FabBottomNavigationView
             android:id="@+id/bottomNavView"
