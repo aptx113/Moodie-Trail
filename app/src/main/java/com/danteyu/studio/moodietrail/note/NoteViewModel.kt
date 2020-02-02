@@ -3,8 +3,13 @@ package com.danteyu.studio.moodietrail.note
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
+import com.danteyu.studio.moodietrail.util.Logger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 
 /**
@@ -13,6 +18,11 @@ import com.danteyu.studio.moodietrail.network.LoadApiStatus
  * The [ViewModel] that is attached to the [NoteFragment].
  */
 class NoteViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
+
+    private val _notes = MutableLiveData<List<Note>>()
+
+    val notes: LiveData<List<Note>>
+        get() = _notes
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -31,4 +41,27 @@ class NoteViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
+
+    // Create a Coroutine scope using a job to be able to cancel when needed
+    private var viewModelJob = Job()
+
+    // the Coroutine runs using the Main (UI) dispatcher
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    /**
+     * When the [ViewModel] is finished, we can cancel our coroutine [viewModelJob], which tells the
+     * service to stop
+     */
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
+    init {
+        Logger.i("------------------------------------")
+        Logger.i("[${this::class.simpleName}]${this}")
+        Logger.i("------------------------------------")
+    }
+
+    fun refresh() {}
 }

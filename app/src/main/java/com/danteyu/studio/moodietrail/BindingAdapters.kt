@@ -5,9 +5,21 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
+import com.danteyu.studio.moodietrail.note.NoteAdapter
 
-
+@BindingAdapter("notes")
+fun bindRecyclerView(recyclerView: RecyclerView, homeItems: List<Note>?) {
+    homeItems?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is NoteAdapter -> submitList(it)
+            }
+        }
+    }
+}
 
 @BindingAdapter("itemPosition", "itemCount")
 fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int) {

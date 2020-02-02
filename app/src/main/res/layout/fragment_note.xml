@@ -30,32 +30,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:spanCount="2"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:notes="@{viewModel.notes}"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 tools:listitem="@layout/item_note">
 
             </androidx.recyclerview.widget.RecyclerView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/ProgressTheme"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setupApiStatus="@{viewModel.status}"
-            tools:visibility="gone" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setupApiErrorMessage="@{viewModel.error}"
-            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
+<!--<ProgressBar-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:theme="@style/ProgressTheme"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toTopOf="parent"-->
+<!--app:setupApiStatus="@{viewModel.status}"-->
+<!--tools:visibility="gone" />-->
+
+<!--<TextView-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toTopOf="parent"-->
+<!--app:setupApiErrorMessage="@{viewModel.error}"-->
+<!--tools:visibility="gone" />-->

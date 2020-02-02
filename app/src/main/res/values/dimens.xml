@@ -16,9 +16,9 @@
     <dimen name="dialog_padding">10dp</dimen>
 
     <!-- Note -->
-    <dimen name="space_catalog_grid">16dp</dimen>
-    <dimen name="width_catalog_item">156dp</dimen>
-    <dimen name="height_catalog_item">220dp</dimen>
+    <dimen name="space_note_grid">16dp</dimen>
+    <dimen name="width_note_item">156dp</dimen>
+    <dimen name="height_note_item">220dp</dimen>
     <dimen name="space_outside_horizontal_note_item">16dp</dimen>
     <dimen name="space_inside_horizontal_note_item">8dp</dimen>
     <dimen name="space_outside_vertical_note_item">24dp</dimen>

@@ -29,7 +29,7 @@ class MainActivity : BaseActivity() {
     /**
      * Lazily initialize our [MainViewModel].
      */
-    val viewModel by viewModels<MainViewModel> { getVmFactory() }
+    private val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     private lateinit var binding: ActivityMainBinding
 
