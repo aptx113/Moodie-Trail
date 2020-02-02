@@ -7,10 +7,13 @@ import kotlinx.android.parcel.Parcelize
  * Created by George Yu on 2020/1/31.
  */
 @Parcelize
-data class User(
+data class Test(
     val id: String = "",
-    val name: String = "",
-    val email: String = "",
-    val notes: List<Note> = listOf(),
-    val tests: List<Test> = listOf()
+    val item1: Int = -1,
+    val item2: Int = -1,
+    val item3: Int = -1,
+    val item4: Int = -1,
+    val item5: Int = -1,
+    val item6: Int = -1,
+    val createdTime: Long = -1
 ) : Parcelable

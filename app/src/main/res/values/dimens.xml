@@ -14,15 +14,15 @@
 
     <!-- Dialog Padding -->
     <dimen name="dialog_padding">10dp</dimen>
-    <!-- Catalog -->
-    <dimen name="height_catalog_tab">48dp</dimen>
-    <dimen name="space_catalog_grid">16dp</dimen>
-    <dimen name="width_catalog_item">156dp</dimen>
-    <dimen name="height_catalog_item">220dp</dimen>
-    <dimen name="space_outside_horizontal_catalog_item">16dp</dimen>
-    <dimen name="space_inside_horizontal_catalog_item">8dp</dimen>
-    <dimen name="space_outside_vertical_catalog_item">24dp</dimen>
-    <dimen name="space_inside_vertical_catalog_item">12dp</dimen>
+
+    <!-- Note -->
+    <dimen name="space_note_grid">16dp</dimen>
+    <dimen name="width_note_item">156dp</dimen>
+    <dimen name="height_note_item">220dp</dimen>
+    <dimen name="space_outside_horizontal_note_item">16dp</dimen>
+    <dimen name="space_inside_horizontal_note_item">8dp</dimen>
+    <dimen name="space_outside_vertical_note_item">24dp</dimen>
+    <dimen name="space_inside_vertical_note_item">12dp</dimen>
 
     <!-- Profile  -->
     <dimen name="height_profile_header">92dp</dimen>
@@ -58,14 +58,6 @@
     <dimen name="radius_detail_circle">3dp</dimen>
     <dimen name="edge_detail_circle">1px</dimen>
 
-    <!-- Cart -->
-    <dimen name="size_cart_color">22dp</dimen>
-    <dimen name="height_cart_select_amount">32dp</dimen>
-    <dimen name="width_cart_select_amount">86dp</dimen>
-    <dimen name="size_cart_select">32dp</dimen>
-    <dimen name="edge_cart_color">1dp</dimen>
-    <dimen name="edge_cart_select">2dp</dimen>
-
     <!-- Payment -->
     <dimen name="height_payment_editor">56dp</dimen>
     <dimen name="edge_payment_color">1dp</dimen>
@@ -90,9 +82,9 @@
     <!-- FAB  -->
     <dimen name="standard_30">30dp</dimen>
     <dimen name="standard_70">70dp</dimen>
-    <dimen name="standard_155">155dp</dimen>
-    <dimen name="standard_205">205dp</dimen>
-    <dimen name="standard_305">305dp</dimen>
     <dimen name="standard_0">0dp</dimen>
+    <dimen name="fab_margin">28dp</dimen>
+    <dimen name="elevation_fab">10dp</dimen>
+    <dimen name="elevation_fab_option">8dp</dimen>
 
 </resources>

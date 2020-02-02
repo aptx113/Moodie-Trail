@@ -2,6 +2,7 @@ package com.danteyu.studio.moodietrail.ext
 
 import android.app.Activity
 import android.graphics.Rect
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.TouchDelegate
 import android.view.View
@@ -12,6 +13,7 @@ import com.danteyu.studio.moodietrail.network.Event
 import com.danteyu.studio.moodietrail.network.NetworkConnectivityListener
 import com.danteyu.studio.moodietrail.network.NetworkEvents
 import com.danteyu.studio.moodietrail.network.NetworkState
+import java.util.*
 
 /**
  * Created by George Yu in Jan. 2020.
@@ -31,6 +33,9 @@ fun View.setTouchDelegate() {
     }
 }
 
+fun Long.toDisplayFormat(): String {
+    return SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.TAIWAN).format(this)
+}
 
 internal object Constants {
     const val ID_KEY = "network.monitoring.previousState"

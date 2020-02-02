@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/diaryFragment">
+    app:startDestination="@id/noteFragment">
 
     <fragment
-        android:id="@+id/diaryFragment"
-        android:name="com.danteyu.studio.moodietrail.diary.DiaryFragment"
-        android:label="DiaryFragment"
-        tools:layout="@layout/fragment_diary" />
+        android:id="@+id/noteFragment"
+        android:name="com.danteyu.studio.moodietrail.note.NoteFragment"
+        android:label="NoteFragment"
+        tools:layout="@layout/fragment_note" />
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.danteyu.studio.moodietrail.statistic.StatisticFragment"
@@ -42,8 +42,8 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/navigate_to_diaryFragment"
-        app:destination="@id/diaryFragment"
+        android:id="@+id/navigate_to_noteFragment"
+        app:destination="@id/noteFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
 

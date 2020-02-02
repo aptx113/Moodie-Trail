@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="note"
+            type="com.danteyu.studio.moodietrail.data.Note" />
+
+        <variable
+            name="itemPosition"
+            type="Integer" />
+
+        <variable
+            name="itemCount"
+            type="Integer" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_note"
+        android:paddingHorizontal="4dp"
+        android:elevation="@dimen/elevation_all"
+        app:itemPosition="@{itemPosition}"
+        app:itemCount="@{itemCount}">
+
+        <ImageView
+            android:id="@+id/image_note"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/text_note_created_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/image_placeholder"
+            tools:src="@drawable/image_placeholder" />
+
+        <ImageView
+            android:id="@+id/image_note_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_half"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_note" />
+
+        <ImageView
+            android:id="@+id/image_note_created_time"
+            android:layout_width="16dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_half"
+            android:src="@drawable/ic_note_created_time"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_note" />
+
+        <TextView
+            android:id="@+id/text_note_created_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_half"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:lines="1"
+            android:text="2020/02/01 週六"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/image_note_created_time"
+            app:layout_constraintStart_toEndOf="@id/image_note_created_time"
+            app:layout_constraintTop_toTopOf="@id/image_note_created_time"
+            tools:text="2020/02/01 週六" />
+
+        <TextView
+            android:id="@+id/text_note_created_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:lines="1"
+            android:text="16:10"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/text_note_created_date"
+            app:layout_constraintStart_toEndOf="@id/text_note_created_date"
+            tools:text="16:10" />
+
+        <ImageView
+            android:id="@+id/image_note_title"
+            android:layout_width="16dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_half"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="@id/image_note_created_time"
+            app:layout_constraintTop_toBottomOf="@id/image_note_created_time"
+            app:srcCompat="@drawable/ic_note_title" />
+
+        <TextView
+            android:id="@+id/text_note_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_half"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:maxLines="2"
+            android:text="@{note.title}"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/image_note_title"
+            app:layout_constraintEnd_toStartOf="@id/image_note_mood"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/image_note_title"
+            app:layout_constraintTop_toTopOf="@id/image_note_title"
+            tools:text="Title" />
+
+        <ImageView
+            android:id="@+id/image_note_location"
+            android:layout_width="12dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_half"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginBottom="@dimen/margin_half"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/image_note_created_time"
+            app:layout_constraintTop_toBottomOf="@id/image_note_title"
+            app:srcCompat="@drawable/ic_note_location" />
+
+        <TextView
+            android:id="@+id/text_note_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_half"
+            android:ellipsize="end"
+            android:fontFamily="@font/noto_sans"
+            android:maxLines="1"
+            android:text="台灣台北市信義區"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/image_note_location"
+            app:layout_constraintEnd_toStartOf="@id/image_note_mood"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/image_note_location"
+            app:layout_constraintTop_toTopOf="@id/image_note_location"
+            tools:text="台灣台北市信義區" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

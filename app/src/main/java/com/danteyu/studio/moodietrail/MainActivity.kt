@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
@@ -30,10 +29,9 @@ class MainActivity : BaseActivity() {
     /**
      * Lazily initialize our [MainViewModel].
      */
-    val viewModel by viewModels<MainViewModel> { getVmFactory() }
+    private val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     private lateinit var binding: ActivityMainBinding
-//    private var isFabOpen: Boolean = false
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -42,7 +40,7 @@ class MainActivity : BaseActivity() {
                     findNavController(
                         R.id
                             .myNavHostFragment
-                    ).navigate(NavigationDirections.navigateToDiaryFragment())
+                    ).navigate(NavigationDirections.navigateToNoteFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_statistic -> {
@@ -81,15 +79,6 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-//        binding.fab.setOnClickListener {
-//            if (!isFabOpen) {
-//                openFabMenu()
-//            } else {
-//                closeFabMenu()
-//            }
-//        }
-//        binding.fabShadow.setOnClickListener { closeFabMenu() }
-
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
             Logger.i("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -98,7 +87,7 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.isFabOpen.observe(this, Observer {
-            if(it) openFabMenu()
+            if (it) openFabMenu()
             else closeFabMenu()
         })
 
@@ -121,7 +110,7 @@ class MainActivity : BaseActivity() {
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
-                R.id.diaryFragment -> CurrentFragmentType.DIARY
+                R.id.noteFragment -> CurrentFragmentType.NOTE
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
                 R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
@@ -152,10 +141,14 @@ class MainActivity : BaseActivity() {
                 cutoutHeight > 0 -> {
                     Logger.i("cutoutHeight: ${cutoutHeight}px/${cutoutHeight / dpiMultiple}dp")
 
-                    val oriStatusBarHeight = resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
+                    val oriStatusBarHeight =
+                        resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
 
                     binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
-                    val layoutParams = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT)
+                    val layoutParams = Toolbar.LayoutParams(
+                        Toolbar.LayoutParams.WRAP_CONTENT,
+                        Toolbar.LayoutParams.WRAP_CONTENT
+                    )
                     layoutParams.gravity = Gravity.CENTER
                     layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
                     binding.textToolbarTitle.layoutParams = layoutParams
@@ -166,24 +159,21 @@ class MainActivity : BaseActivity() {
     }
 
     private fun openFabMenu() {
-//        isFabOpen = true
 
         binding.apply {
-            fabAddMood.visibility = View.VISIBLE
-//            textFabAddMood.visibility = View.VISIBLE
-            fabAddTest.visibility = View.VISIBLE
-//            textFabAddTest.visibility = View.VISIBLE
-            fabShadow.visibility = View.VISIBLE
+
+            fabRecordMood.visibility = View.VISIBLE
+            fabStartTest.visibility = View.VISIBLE
 
             fab.animate().rotation(135.0f)
-            fabAddMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
+            fabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
                 .translationX(-resources.getDimension(R.dimen.standard_70))
-            textFabAddMood.animate().translationY(-resources.getDimension(R.dimen.standard_30))
+            textFabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_30))
                 .translationX(-resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration =
                 300
-            fabAddTest.animate().translationY(-resources.getDimension(R.dimen.standard_70))
+            fabStartTest.animate().translationY(-resources.getDimension(R.dimen.standard_70))
                 .translationX(resources.getDimension(R.dimen.standard_70))
-            textFabAddTest.animate().translationY(-resources.getDimension(R.dimen.standard_30))
+            textFabStartTest.animate().translationY(-resources.getDimension(R.dimen.standard_30))
                 .translationX(resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration =
                 300
 
@@ -192,33 +182,31 @@ class MainActivity : BaseActivity() {
     }
 
     private fun closeFabMenu() {
-//        isFabOpen = false
 
         binding.apply {
-            fabShadow.visibility = View.GONE
 
             fab.animate().rotation(0.0f)
-            fabAddMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
+            fabRecordMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
-            textFabAddMood.animate().alpha(0.0f).duration = 300
+            textFabRecordMood.animate().alpha(0.0f).duration = 300
 //            textFabAddMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
 //                .translationX(resources.getDimension(R.dimen.standard_0)).duration = 1
-            textFabAddTest.animate().alpha(0.0f).duration = 300
+            textFabStartTest.animate().alpha(0.0f).duration = 300
 //            textFabAddTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
 //                .translationX(resources.getDimension(R.dimen.standard_0)).duration = 1
-            fabAddTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
+            fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
-            fabAddTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
+            fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
                 .setListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(animator: Animator) {}
                     override fun onAnimationEnd(animator: Animator) {
                         if (!viewModel?.isFabOpen?.value!!) {
                             binding.apply {
-                                fabAddMood.visibility = View.GONE
-//                                textFabAddMood.visibility = View.GONE
-                                fabAddTest.visibility = View.GONE
-//                                textFabAddTest.visibility = View.GONE
+
+                                fabRecordMood.visibility = View.GONE
+                                fabStartTest.visibility = View.GONE
+
                             }
                         }
                     }

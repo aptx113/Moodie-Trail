@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.diary.DiaryViewModel
+import com.danteyu.studio.moodietrail.note.NoteViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
 import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
 import com.danteyu.studio.moodietrail.testresult.TestResultViewModel
@@ -26,7 +26,7 @@ class ViewModelFactory constructor(
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(moodieTrailRepository)
 
-                isAssignableFrom(DiaryViewModel::class.java) -> DiaryViewModel(moodieTrailRepository)
+                isAssignableFrom(NoteViewModel::class.java) -> NoteViewModel(moodieTrailRepository)
 
                 isAssignableFrom(StatisticViewModel::class.java) -> StatisticViewModel(
                     moodieTrailRepository
