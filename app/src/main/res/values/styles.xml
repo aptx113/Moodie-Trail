@@ -15,4 +15,16 @@
     <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar">
         <item name="colorAccent">@color/black_3f3a3a</item>
     </style>
+
+    <style name="ProgressThemeDark" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="RecordMoodButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/button_record_blue_ripple</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

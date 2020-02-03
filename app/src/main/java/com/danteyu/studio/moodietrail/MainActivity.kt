@@ -87,8 +87,18 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.isFabOpen.observe(this, Observer {
-            if (it) openFabMenu()
-            else closeFabMenu()
+            it?.let {
+                if (it) openFabMenu()
+                else closeFabMenu()
+            }
+
+        })
+
+        viewModel.navigateToRecordMood.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToRecordMoodDialog())
+                viewModel.onRecordMoodNavigated()
+            }
         })
 
         setupToolbar()
@@ -114,6 +124,7 @@ class MainActivity : BaseActivity() {
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
                 R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.recordMoodDialog -> CurrentFragmentType.RECORDMOOD
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -182,6 +193,16 @@ class MainActivity : BaseActivity() {
     }
 
     private fun closeFabMenu() {
+
+        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD) {
+            binding.fabRecordMood.visibility = View.INVISIBLE
+            binding.fabStartTest.visibility = View.INVISIBLE
+            binding.textFabRecordMood.alpha = 0.0f
+            binding.textFabStartTest.alpha = 0.0f
+        } else {
+            binding.textFabRecordMood.alpha = 1.0f
+            binding.textFabStartTest.alpha = 1.0f
+        }
 
         binding.apply {
 

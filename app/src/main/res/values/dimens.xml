@@ -19,10 +19,14 @@
     <dimen name="space_note_grid">16dp</dimen>
     <dimen name="width_note_item">156dp</dimen>
     <dimen name="height_note_item">220dp</dimen>
-    <dimen name="space_outside_horizontal_note_item">16dp</dimen>
-    <dimen name="space_inside_horizontal_note_item">8dp</dimen>
+    <dimen name="space_outside_horizontal_note_item">12dp</dimen>
+    <dimen name="space_inside_horizontal_note_item">6dp</dimen>
     <dimen name="space_outside_vertical_note_item">24dp</dimen>
     <dimen name="space_inside_vertical_note_item">12dp</dimen>
+    <dimen name="note_image_corner_radius">15dp</dimen>
+
+    <!-- Record Mood Dialog -->
+    <dimen name="size_record_mood_mood">80dp</dimen>
 
     <!-- Profile  -->
     <dimen name="height_profile_header">92dp</dimen>
@@ -86,5 +90,8 @@
     <dimen name="fab_margin">28dp</dimen>
     <dimen name="elevation_fab">10dp</dimen>
     <dimen name="elevation_fab_option">8dp</dimen>
+    <dimen name="margin_quarter">4dp</dimen>
+    <dimen name="size_record_mood_close">44dp</dimen>
+
 
 </resources>

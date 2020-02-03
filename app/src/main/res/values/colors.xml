@@ -34,4 +34,11 @@
     <color name="blue_700_Light">#63a4ff</color>
     <color name="blue_700_Dark">#004ba0</color>
 
+    <!-- Mood Icon -->
+    <color name="mood_very_good">#ecb220</color>
+    <color name="mood_good">#4ab768</color>
+    <color name="mood_normal">#43b7b7</color>
+    <color name="mood_bad">#5b97b9</color>
+    <color name="mood_very_bad">#8d8d8d</color>
+
 </resources>

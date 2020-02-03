@@ -5,11 +5,9 @@
 
     <data>
 
-        <import type="android.view.View" />
+        <import type="com.danteyu.studio.moodietrail.util.CurrentFragmentType" />
 
-        <variable
-            name="activity"
-            type="com.danteyu.studio.moodietrail.MainActivity" />
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -20,7 +18,6 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_f0f0f0"
         tools:context=".MainActivity">
 
 
@@ -30,7 +27,7 @@
             android:layout_height="@dimen/height_toolbar"
             android:background="@color/blue_700"
             android:elevation="@dimen/elevation_all"
-            android:visibility="visible"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -139,12 +136,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/toolbar"
             app:srcCompat="@color/translucent_40"
-            tools:visibility="gone"/>
+            tools:visibility="gone" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_record_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.navigateToRecordMood()}"
             android:src="@drawable/ic_record_mood"
             android:visibility="gone"
             app:backgroundTint="@color/blue_700"
@@ -214,6 +212,7 @@
             android:focusable="true"
             android:onClick="@{()->viewModel.onFabPressed()}"
             android:src="@drawable/ic_action_add"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD ? View.GONE : View.VISIBLE}"
             app:elevation="@dimen/elevation_fab"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -226,7 +225,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_bottom_nav_view_main"
             android:elevation="@dimen/elevation_all"
-            android:visibility="visible"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD ? View.GONE : View.VISIBLE}"
             app:fab_cradle_margin="8dp"
             app:fab_cradle_rounded_corner_radius="32dp"
             app:fab_size="56dp"
