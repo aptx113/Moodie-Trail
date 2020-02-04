@@ -46,5 +46,13 @@
         app:destination="@id/noteFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/recordMoodDialog"
+        android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodDialog"
+        android:label="RecordMoodDialog"
+        tools:layout="@layout/dialog_record_mood" />
+    <action
+        android:id="@+id/navigate_to_recordMoodDialog"
+        app:destination="@id/recordMoodDialog" />
 
 </navigation>

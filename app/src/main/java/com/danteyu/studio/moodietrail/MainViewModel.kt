@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
+import com.danteyu.studio.moodietrail.util.Logger
 
 
 /**
@@ -23,10 +24,30 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val isFabOpen: LiveData<Boolean>
         get() = _isFabOpen
 
-    //Handle Fab open and close
+    // Handle navigation to record mood
+    private val _navigateToRecordMood = MutableLiveData<Boolean>()
+
+    val navigateToRecordMood: LiveData<Boolean>
+        get() = _navigateToRecordMood
+
+    init {
+        Logger.i("------------------------------------")
+        Logger.i("[${this::class.simpleName}]${this}")
+        Logger.i("------------------------------------")
+    }
+
+    //Change Fab status when is pressed
     fun onFabPressed() {
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
 
+    fun navigateToRecordMood() {
+        _navigateToRecordMood.value = true
+        _isFabOpen.value = false
+    }
+
+    fun onRecordMoodNavigated() {
+        _navigateToRecordMood.value = null
+    }
 
 }

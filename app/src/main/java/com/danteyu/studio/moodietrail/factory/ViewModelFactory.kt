@@ -6,6 +6,8 @@ import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.note.NoteViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
+import com.danteyu.studio.moodietrail.recordmood.RecordMoodDialog
+import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel
 import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
 import com.danteyu.studio.moodietrail.testresult.TestResultViewModel
 import java.lang.IllegalArgumentException
@@ -37,6 +39,10 @@ class ViewModelFactory constructor(
                 )
 
                 isAssignableFrom(ProfileViewModel::class.java) -> ProfileViewModel(
+                    moodieTrailRepository
+                )
+
+                isAssignableFrom(RecordMoodViewModel::class.java) -> RecordMoodViewModel(
                     moodieTrailRepository
                 )
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

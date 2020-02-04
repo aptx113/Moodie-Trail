@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ItemNoteBinding
+import kotlin.random.Random
 
 /**
  * Created by George Yu on 2020/2/1.
@@ -31,8 +32,11 @@ class NoteAdapter(private val onClickListener: OnClickListener) :
     class NoteViewHolder(private var binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note) {
+        fun bind(note: Note, itemCount: Int) {
+
             binding.note = note
+            binding.itemPosition = adapterPosition
+            binding.itemCount = itemCount
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -77,7 +81,12 @@ class NoteAdapter(private val onClickListener: OnClickListener) :
         holder.itemView.setOnClickListener {
             onClickListener.onClick(note)
         }
-        holder.bind(note)
+        holder.itemView.layoutParams.height = getRandomIntInRange(400, 300)
+        holder.bind(note, itemCount)
+
     }
 
+    private fun getRandomIntInRange(max: Int, min: Int): Int {
+        return Random.nextInt(max - min + min) + min
+    }
 }

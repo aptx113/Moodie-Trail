@@ -15,10 +15,9 @@ data class Note(
     val mood: Int = -1,
     val emotions: List<Int> = listOf(),
     val symptoms: List<Int> = listOf(),
-    val title: String = "",
     val content: String = "",
     val location: Location? = null,
-    val image: String = "",
+    val image: String? = null,
     val tags: List<String> = listOf()
 
 ) : Parcelable
