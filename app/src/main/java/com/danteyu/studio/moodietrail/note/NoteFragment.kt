@@ -36,11 +36,11 @@ class NoteFragment : Fragment() {
                 "9527", 20200202, 1, listOf(), listOf(), "content",  null, "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1295,h_720,f_auto/w_80,x_15,y_15,g_south_west,l_klook_water/activities/qcnercaton9p23l4muav/%E8%B2%93%E9%A0%AD%E9%B7%B9%E5%92%96%E5%95%A1%E5%BB%B3-%E7%A7%8B%E8%91%89%E5%8E%9F.jpg",
                 listOf()
             ), Note(
-                "9526", 20200202, 1, listOf(), listOf(), "content", null, "https://storage.googleapis.com/petsmao-images/images/2019/10/5a56af32-1571795279-a7d32647e0a334efbedeb39fdbad225a.jpg",
+                "9526", 20200202, 1, listOf(), listOf(), "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵", null, "https://storage.googleapis.com/petsmao-images/images/2019/10/5a56af32-1571795279-a7d32647e0a334efbedeb39fdbad225a.jpg",
                 listOf()
             )
             , Note(
-                "9528", 20200202, 1, listOf(), listOf(), "content",  null, "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAE4gJC.img?h=0&w=720&m=6&q=60&u=t&o=f&l=f&x=812&y=306",
+                "9528", 20200202, 1, listOf(), listOf(), "content",  null, null,
                 listOf()
             )
             , Note(

@@ -81,8 +81,9 @@ class NoteAdapter(private val onClickListener: OnClickListener) :
         holder.itemView.setOnClickListener {
             onClickListener.onClick(note)
         }
-        holder.itemView.layoutParams.height = getRandomIntInRange(200, 100)
+        holder.itemView.layoutParams.height = getRandomIntInRange(400, 300)
         holder.bind(note, itemCount)
+
     }
 
     private fun getRandomIntInRange(max: Int, min: Int): Int {
