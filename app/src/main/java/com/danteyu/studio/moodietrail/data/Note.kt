@@ -14,7 +14,7 @@ data class Note(
     val createdTime: Long = -1,
     val mood: Int = -1,
     val emotions: List<Int> = listOf(),
-    val symptoms: List<Int> = listOf(),
+    val feelings: List<Int> = listOf(),
     val content: String = "",
     val location: Location? = null,
     val image: String? = null,
