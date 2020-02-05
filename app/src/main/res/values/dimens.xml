@@ -96,6 +96,7 @@
 
     <!-- Record Detail Mood   -->
     <dimen name="record_detail_icon_width">40dp</dimen>
+    <dimen name="text_size_tag">13sp</dimen>
 
 
 </resources>
