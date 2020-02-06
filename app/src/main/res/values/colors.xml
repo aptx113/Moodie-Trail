@@ -22,8 +22,10 @@
     <color name="gray_888888">#888888</color>
     <color name="gray_999999">#999999</color>
     <color name="gray_cccccc">#cccccc</color>
+    <color name="gray_e7e7e7">#e7e7e7</color>
     <color name="gray_f0f0f0">#f0f0f0</color>
     <color name="gray_f5f5f5">#f5f5f5</color>
+
 
     <!-- Bottom Navigation -->
     <color name="bottom_navigation_item_normal">@color/gray_999999</color>
@@ -40,5 +42,10 @@
     <color name="mood_normal">#43b7b7</color>
     <color name="mood_bad">#5b97b9</color>
     <color name="mood_very_bad">#8d8d8d</color>
+    <color name="mood_very_good_Light">#e8c25f</color>
+    <color name="mood_good_Light">#7ec790</color>
+    <color name="mood_normal_Light">#76c6c7</color>
+    <color name="mood_bad_Light">#8ab2ca</color>
+    <color name="mood_very_bad_Light">#aaaaaa</color>
 
 </resources>

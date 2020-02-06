@@ -25,7 +25,6 @@
         android:id="@+id/layout_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_item_note"
         android:elevation="@dimen/elevation_all"
         app:itemCount="@{itemCount}"
         app:itemPosition="@{itemPosition}">
@@ -41,7 +40,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_note">
 
                 <ImageView
                     android:id="@+id/image_note"
@@ -59,7 +59,7 @@
 
                 <ImageView
                     android:id="@+id/image_note_mood"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/margin_quarter"
                     android:layout_marginEnd="@dimen/margin_half"
@@ -69,7 +69,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toEndOf="@id/text_note_created_date"
                     app:layout_constraintTop_toTopOf="@id/image_note_created_time"
-                    app:srcCompat="@drawable/ic_mood_square_alter_trans_good" />
+                    app:srcCompat="@drawable/ic_mood_square_trans_good" />
 
                 <ImageView
                     android:id="@+id/image_note_created_time"

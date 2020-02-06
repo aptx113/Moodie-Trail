@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/noteFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/noteFragment"
-        android:name="com.danteyu.studio.moodietrail.note.NoteFragment"
-        android:label="NoteFragment"
+        android:id="@+id/homeFragment"
+        android:name="com.danteyu.studio.moodietrail.home.HomeFragment"
+        android:label="HomeFragment"
         tools:layout="@layout/fragment_note" />
     <fragment
         android:id="@+id/statisticFragment"
@@ -42,17 +42,26 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/navigate_to_noteFragment"
-        app:destination="@id/noteFragment"
+        android:id="@+id/navigate_to_homeFragment"
+        app:destination="@id/homeFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <fragment
-        android:id="@+id/recordMoodDialog"
-        android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodDialog"
-        android:label="RecordMoodDialog"
-        tools:layout="@layout/dialog_record_mood" />
+        android:id="@+id/recordMoodFragment"
+        android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodFragment"
+        android:label="RecordMoodFragment"
+        tools:layout="@layout/fragment_record_mood" />
     <action
-        android:id="@+id/navigate_to_recordMoodDialog"
-        app:destination="@id/recordMoodDialog" />
+        android:id="@+id/navigate_to_recordMoodFragment"
+        app:destination="@id/recordMoodFragment" />
+    <fragment
+        android:id="@+id/recordDetailFragment"
+        android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailFragment"
+        android:label="RecordDetailFragment"
+        tools:layout="@layout/fragment_record_detail">
+    </fragment>
+    <action
+        android:id="@+id/navigate_to_recordDetailFragment"
+        app:destination="@id/recordDetailFragment" />
 
 </navigation>

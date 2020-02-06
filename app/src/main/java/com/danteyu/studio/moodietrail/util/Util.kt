@@ -1,6 +1,7 @@
 package com.danteyu.studio.moodietrail.util
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
@@ -29,5 +30,9 @@ object Util {
 
     fun getColor(resourceId: Int): Int {
         return MoodieTrailApplication.instance.getColor(resourceId)
+    }
+
+    fun getDrawable(resourceId: Int): Drawable? {
+        return MoodieTrailApplication.instance.getDrawable(resourceId)
     }
 }

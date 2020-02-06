@@ -2,7 +2,6 @@
     <string name="app_name">Moodie-Trail</string>
 
     <!-- General -->
-
     <string name="note">心情記錄</string>
     <string name="statistic">統計</string>
     <string name="test_result">測驗結果</string>
@@ -15,8 +14,31 @@
 
 
     <!-- Record Mood -->
-    <string name="instruction_mood">你好嗎？</string>
+    <string name="record_mood_instruction">你好嗎？</string>
     <string name="record_mood_quick_save">快速儲存</string>
     <string name="record_mood_add_detail">添加細節</string>
+
+    <!-- Record Detail Mood -->
+    <string name="emotion_happy">快樂</string>
+    <string name="emotion_sad">難過</string>
+    <string name="emotion_fear">害怕</string>
+    <string name="emotion_surprise">驚訝</string>
+    <string name="emotion_angry">生氣</string>
+    <string name="emotion_satisfied">滿足</string>
+    <string name="emotion_disgust">噁心</string>
+    <string name="emotion_anxious">焦慮</string>
+    <string name="emotion_loneliness">孤單</string>
+    <string name="emotion_excited">興奮</string>
+    <string name="record_detail_save">儲存</string>
+    <string name="hint_write_some_content">那時發生了什麼事…</string>
+    <string name="hint_add_tags">添加一些 tags 吧！</string>
+    <string name="feeling_headache">頭痛</string>
+    <string name="feeling_fatigue">疲倦</string>
+    <string name="feeling_dizziness">頭暈</string>
+    <string name="feeling_joint">關節痛</string>
+    <string name="feeling_menstrual_pain">經痛</string>
+    <string name="feeling_muscle">肌肉酸痛</string>
+    <string name="feeling_pain">身體疼痛</string>
+    <string name="record_detail_instruction">哪些感覺最符合你的心情？</string>
 
 </resources>

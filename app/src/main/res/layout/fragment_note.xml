@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.note.NoteViewModel" />
+            type="com.danteyu.studio.moodietrail.home.HomeViewModel" />
 
     </data>
 

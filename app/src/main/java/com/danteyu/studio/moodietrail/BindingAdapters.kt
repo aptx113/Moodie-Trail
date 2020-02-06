@@ -9,12 +9,9 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
-import com.danteyu.studio.moodietrail.note.NoteAdapter
+import com.danteyu.studio.moodietrail.home.HomeAdapter
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 @BindingAdapter("notes")
@@ -22,7 +19,7 @@ fun bindRecyclerView(recyclerView: RecyclerView, homeItems: List<Note>?) {
     homeItems?.let {
         recyclerView.adapter?.apply {
             when (this) {
-                is NoteAdapter -> submitList(it)
+                is HomeAdapter -> submitList(it)
             }
         }
     }
