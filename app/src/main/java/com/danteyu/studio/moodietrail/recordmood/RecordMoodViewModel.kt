@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail.recordmood
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import kotlinx.android.synthetic.main.fragment_record_mood.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,7 +20,19 @@ import kotlinx.coroutines.Job
  */
 class RecordMoodViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
-    private val note = MutableLiveData<Note>()
+    private val _note = MutableLiveData<Note>()
+
+    val note: LiveData<Note>
+        get() = _note
+
+//    private val _isSelected = MutableLiveData<Boolean>()
+//
+//    val isSelected: LiveData<Boolean>
+//        get() = _isSelected
+
+    val selectedIcon = MutableLiveData<View>()
+
+    val selectedMood = MutableLiveData<Int>()
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -71,6 +85,30 @@ class RecordMoodViewModel(private val moodieTrailRepository: MoodieTrailReposito
         Logger.i("------------------------------------")
     }
 
+//    fun selectMood(mood: Int) {
+//        Logger.w("selectMood = $mood")
+//        _isSelected.value = !(_isSelected.value ?: false)
+//        selectedMood.value = mood
+//    }
+
+
+    fun selectMood(view: View, mood: Int) {
+        if (selectedMood.value == mood) return
+        selectedMood.value = mood
+        selectedIcon.value?.isSelected = false
+        selectedIcon.value = view
+        selectedIcon.value?.isSelected = true
+
+        Logger.w("selectMood = $mood, selectIcon = ${view.id}")
+    }
+
+    fun insert() {
+        selectedMood.value?.let {
+            note.value?.mood = it
+        }
+        Logger.w("mood = ${note.value?.mood}")
+    }
+
     fun navigateToHome() {
         _navigateToHome.value = true
     }
@@ -81,7 +119,7 @@ class RecordMoodViewModel(private val moodieTrailRepository: MoodieTrailReposito
 
     fun navigateToRecordDetail() {
 
-        val note = note.value
+        val note = _note.value
 
         _navigateToRecordDetail.value = true
     }
@@ -96,6 +134,15 @@ class RecordMoodViewModel(private val moodieTrailRepository: MoodieTrailReposito
 
     fun onRecordMoodLeft() {
         _leaveRecordMood.value = null
+    }
+
+    companion object {
+
+        val VERY_BAD = 1
+        const val BAD = 2
+        const val NORMAL = 3
+        const val GOOD = 4
+        const val VERY_GOOD = 5
     }
 
 }

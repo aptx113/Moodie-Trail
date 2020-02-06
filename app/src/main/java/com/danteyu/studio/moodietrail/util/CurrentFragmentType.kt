@@ -12,5 +12,6 @@ enum class CurrentFragmentType(val value: String) {
     STATISTIC(getString(R.string.statistic)),
     TESTRESULT(getString(R.string.test_result)),
     PROFILE(getString(R.string.profile)),
-    RECORDMOOD("")
+    RECORDMOOD(""),
+    RECORDDETAIL("")
 }

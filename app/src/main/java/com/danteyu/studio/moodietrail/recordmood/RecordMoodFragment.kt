@@ -13,6 +13,7 @@ import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentRecordMoodBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.GOOD
 
 /**
  * Created by George Yu on 2020/2/2.
@@ -38,9 +39,9 @@ class RecordMoodFragment : Fragment() {
             )
         )
 
-
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.mood = RecordMoodViewModel.Companion
 
         viewModel.navigateToHome.observe(this, Observer {
             it?.let {

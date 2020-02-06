@@ -126,6 +126,7 @@ class MainActivity : BaseActivity() {
                 R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
+                R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL
                 else -> viewModel.currentFragmentType.value
             }
         }

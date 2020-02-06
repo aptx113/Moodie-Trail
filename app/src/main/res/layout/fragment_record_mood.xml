@@ -9,6 +9,10 @@
             name="viewModel"
             type="com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel" />
 
+        <variable
+            name="mood"
+            type="com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,48 +53,52 @@
             android:id="@+id/image_mood_very_bad"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_basic"
+            android:layout_marginTop="@dimen/margin_advanced"
+            android:background="@drawable/ic_mood_circle_very_bad_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, 1)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_mood_bad"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_record_mood_instruction"
-            app:srcCompat="@drawable/ic_mood_circle_trans_very_bad" />
+            app:layout_constraintTop_toBottomOf="@id/text_record_mood_instruction" />
 
         <ImageView
             android:id="@+id/image_mood_bad"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_bad_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, 2)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_mood_normal"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_mood_very_bad"
             app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_bad"
             tools:layout_editor_absoluteY="275dp" />
 
         <ImageView
             android:id="@+id/image_mood_normal"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_normal_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, 3) }"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_mood_bad"
             app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_normal"
             tools:layout_editor_absoluteY="275dp" />
 
         <ImageView
             android:id="@+id/image_mood_good"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_good_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, 4)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/image_mood_bad"
             app:layout_constraintStart_toEndOf="@id/image_mood_very_bad"
             app:layout_constraintTop_toBottomOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_good"
             tools:layout_editor_absoluteX="213dp"
             tools:layout_editor_absoluteY="385dp" />
 
@@ -98,28 +106,52 @@
             android:id="@+id/image_mood_very_good"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_very_good_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, 5)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/image_mood_normal"
             app:layout_constraintStart_toEndOf="@id/image_mood_bad"
             app:layout_constraintTop_toTopOf="@id/image_mood_good"
-            app:srcCompat="@drawable/ic_mood_circle_trans_very_good"
             tools:layout_editor_absoluteX="100dp"
             tools:layout_editor_absoluteY="385dp" />
+
+        <Button
+            android:id="@+id/button_add_detail"
+            style="@style/RecordMoodButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_basic"
+            android:onClick="@{() -> viewModel.navigateToRecordDetail()}"
+            android:text="@string/record_mood_add_detail"
+            app:layout_constraintBottom_toTopOf="@id/button_quick_save"
+            app:layout_constraintEnd_toEndOf="@id/image_mood_very_good"
+            app:layout_constraintStart_toStartOf="@id/image_mood_good" />
+
+        <ProgressBar
+            android:id="@+id/progress_record_mood_add_detail"
+            android:layout_width="24dp"
+            android:layout_height="0dp"
+            android:theme="@style/ProgressTheme"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/button_add_detail"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/button_add_detail"
+            app:layout_constraintStart_toStartOf="@id/button_add_detail"
+            app:layout_constraintTop_toTopOf="@id/button_add_detail"
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/button_quick_save"
             style="@style/RecordMoodButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_basic"
             android:layout_marginBottom="16dp"
             android:onClick="@{() -> viewModel.navigateToHome()}"
             android:text="@string/record_mood_quick_save"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_add_detail"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="@id/button_add_detail"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/button_add_detail" />
 
         <ProgressBar
             android:id="@+id/progress_record_mood_quick_save"
@@ -134,33 +166,6 @@
             app:layout_constraintTop_toTopOf="@id/button_quick_save"
             tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/button_add_detail"
-            style="@style/RecordMoodButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_half"
-            android:layout_marginEnd="@dimen/margin_basic"
-            android:layout_marginBottom="@dimen/margin_basic"
-            android:onClick="@{() -> viewModel.navigateToRecordDetail()}"
-            android:text="@string/record_mood_add_detail"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button_quick_save" />
-
-        <ProgressBar
-            android:id="@+id/progress_record_mood_add_detail"
-            android:layout_width="24dp"
-            android:layout_height="0dp"
-            android:theme="@style/ProgressTheme"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/button_add_detail"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/button_add_detail"
-            app:layout_constraintStart_toStartOf="@id/button_add_detail"
-            app:layout_constraintTop_toTopOf="@id/button_add_detail"
-            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

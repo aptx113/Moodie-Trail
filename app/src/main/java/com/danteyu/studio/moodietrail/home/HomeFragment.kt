@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
                 20200202,
                 1,
                 1,
+                1,
                 listOf(),
                 listOf(),
                 "content",
@@ -48,6 +49,7 @@ class HomeFragment : Fragment() {
                 20200202,
                 1,
                 1,
+                1,
                 listOf(),
                 listOf(),
                 "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵",
@@ -56,12 +58,13 @@ class HomeFragment : Fragment() {
                 listOf()
             )
             , Note(
-                "9528", 20200202, 1, 1, listOf(), listOf(), "content", null, null,
+                "9528", 20200202, 1,1, 1, listOf(), listOf(), "content", null, null,
                 listOf()
             )
             , Note(
                 "9529",
                 20200202,
+                1,
                 1,
                 1,
                 listOf(),
@@ -74,6 +77,7 @@ class HomeFragment : Fragment() {
             , Note(
                 "9525",
                 20200202,
+                1,
                 1,
                 1,
                 listOf(),
