@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,13 +30,14 @@
                 android:layout_marginStart="@dimen/margin_basic"
                 android:layout_marginTop="28dp"
                 android:background="@drawable/ic_back"
+                android:onClick="@{() -> viewModel.backToRecordMood()}"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/image_record_detail_mood"
-                android:layout_width="70dp"
+                android:layout_width="60dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/button_record_detail_back"
                 app:layout_constraintDimensionRatio="1:1"
@@ -50,7 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/layout_record_detail_time"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_record_detail_back">
@@ -88,8 +93,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginEnd="@dimen/margin_basic"
                 app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/layout_record_detail_location"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/layout_record_detail_date">
 
@@ -128,7 +134,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_basic"
                 app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/layout_record_detail_time">
 
                 <ImageView
                     android:id="@+id/image_record_detail_location"
@@ -163,19 +171,19 @@
             android:id="@+id/text_record_detail_emotion_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginTop="@dimen/margin_basic"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:text="@string/record_detail_instruction"
             android:textColor="@color/black_3f3a3a"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_record_detail_top" />
 
         <ImageView
             android:id="@+id/image_record_detail_happy"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintDimensionRatio="1:1"
@@ -195,7 +203,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_sad"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_fear"
@@ -214,7 +222,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_fear"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_surprise"
@@ -233,7 +241,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_surprise"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_angry"
@@ -252,7 +260,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_angry"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -271,9 +279,9 @@
 
         <ImageView
             android:id="@+id/image_record_detail_satisfied"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_basic"
+            android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_disgust"
             app:layout_constraintHorizontal_bias="0.5"
@@ -291,7 +299,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_disgust"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_anxious"
@@ -310,7 +318,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_anxious"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_loneliness"
@@ -329,7 +337,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_loneliness"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_excited"
@@ -348,7 +356,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_excited"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -367,12 +375,13 @@
 
         <ImageView
             android:id="@+id/image_record_detail_headache"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_dizziness"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_record_detail_satisfied"
             app:srcCompat="@drawable/ic_record_feeling_frontal_headaches" />
@@ -387,7 +396,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_dizziness"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_fatigue"
@@ -406,7 +415,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_fatigue"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_joint"
@@ -425,7 +434,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_joint"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -445,7 +454,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_muscle"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintDimensionRatio="1:1"
@@ -465,7 +474,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_menstrual_pain"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_record_detail_pain"
@@ -484,7 +493,7 @@
 
         <ImageView
             android:id="@+id/image_record_detail_pain"
-            android:layout_width="@dimen/record_detail_icon_width"
+            android:layout_width="@dimen/size_record_detail_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -504,7 +513,7 @@
         <EditText
             android:id="@+id/edit_record_detail_content"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginTop="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_quarter"
@@ -513,6 +522,7 @@
             android:hint="@string/hint_write_some_content"
             android:letterSpacing="0.15"
             android:padding="8dp"
+            android:scrollbars="vertical"
             android:textColor="@color/black"
             android:textColorHint="@color/gray_646464"
             android:textSize="14sp"
@@ -520,19 +530,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_record_detail_muscle"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/image_record_detail_select_image"
             android:layout_width="24dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_basic"
-            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginTop="@dimen/margin_quarter"
             android:tint="@color/blue_700"
-            app:layout_constraintBottom_toTopOf="@id/recycler_record_detail_tags"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_image_select" />
+            app:layout_constraintTop_toBottomOf="@id/edit_record_detail_content"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_image_picker" />
 
         <ImageView
             android:id="@+id/image_record_detail_tags"
@@ -570,7 +581,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_quarter"
             android:layout_marginEnd="@dimen/margin_basic"
-            android:background="@drawable/ic_add_circle"
+            android:background="@drawable/ic_action_add"
             android:backgroundTint="@color/blue_700"
             app:layout_constraintBottom_toBottomOf="@id/image_record_detail_tags"
             app:layout_constraintDimensionRatio="1:1"
@@ -579,29 +590,47 @@
             app:layout_constraintStart_toEndOf="@id/edit_record_detail_tag"
             app:layout_constraintTop_toTopOf="@id/image_record_detail_tags" />
 
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_quarter"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/button_record_detail_save"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="@id/image_record_detail_select_image"
+            app:layout_constraintTop_toBottomOf="@id/image_record_detail_select_image"
+            app:layout_constraintVertical_bias="0.0"
+            tools:src="@drawable/ic_placeholder" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_record_detail_tags"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_quarter"
             android:layout_marginEnd="@dimen/margin_basic"
-            android:layout_marginBottom="60dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/button_record_detail_save"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag" />
+            app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag"
+            app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
+            tools:listitem="@layout/item_tag" />
 
         <Button
             android:id="@+id/button_record_detail_save"
-            style="@style/RecordMoodButton"
+            style="@style/RecordDetailButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_basic"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="@dimen/margin_basic"
+            android:onClick="@{() -> viewModel.navigateToHome()}"
             android:text="@string/record_detail_save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_record_detail_tags"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

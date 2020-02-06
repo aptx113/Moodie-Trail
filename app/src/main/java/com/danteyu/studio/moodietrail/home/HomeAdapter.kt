@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.note
+package com.danteyu.studio.moodietrail.home
 
 
 import android.view.LayoutInflater
@@ -17,8 +17,8 @@ import kotlin.random.Random
  * [Note], including computing diffs between lists.
  * @param onClickListener a lambda that takes the
  */
-class NoteAdapter(private val onClickListener: OnClickListener) :
-    ListAdapter<Note, NoteAdapter.NoteViewHolder>(DiffCallback) {
+class HomeAdapter(private val onClickListener: OnClickListener) :
+    ListAdapter<Note, HomeAdapter.NoteViewHolder>(DiffCallback) {
 
     /**
      * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Note]

@@ -21,6 +21,14 @@
     </style>
 
     <style name="RecordMoodButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/blue_700</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/bg_record_mood_button</item>
+    </style>
+
+    <style name="RecordDetailButton" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:letterSpacing">0.15</item>

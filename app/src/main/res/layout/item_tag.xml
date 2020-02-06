@@ -19,8 +19,8 @@
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:maxLines="1"
-           android:layout_marginVertical="2dp"
-            android:layout_marginStart="@dimen/margin_quarter"
+           android:layout_marginVertical="1dp"
+            android:layout_marginStart="6dp"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_tag"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +38,8 @@
             app:layout_constraintStart_toEndOf="@id/text_tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete" />
+            app:layout_constraintVertical_bias="0.6"
+            app:srcCompat="@drawable/ic_close" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

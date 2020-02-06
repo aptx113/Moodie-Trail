@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.note
+package com.danteyu.studio.moodietrail.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,9 +15,9 @@ import kotlinx.coroutines.Job
 /**
  * Created by George Yu in Jan. 2020.
  *
- * The [ViewModel] that is attached to the [NoteFragment].
+ * The [ViewModel] that is attached to the [HomeFragment].
  */
-class NoteViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
+class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
     private val _notes = MutableLiveData<List<Note>>()
 

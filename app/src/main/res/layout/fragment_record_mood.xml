@@ -22,10 +22,12 @@
             android:layout_marginStart="@dimen/margin_basic"
             android:layout_marginTop="28dp"
             android:background="@drawable/ic_close"
+            android:backgroundTint="@color/blue_700"
             android:onClick="@{() -> viewModel.leaveRecordMood()}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/text_record_mood_instruction"
@@ -35,70 +37,74 @@
             android:letterSpacing="0.15"
             android:text="@string/record_mood_instruction"
             android:textColor="@color/black_3f3a3a"
-            android:textSize="24sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
-
+            app:layout_constraintVertical_bias="0.278" />
 
         <ImageView
             android:id="@+id/image_mood_very_bad"
-            android:layout_width="@dimen/size_record_mood_mood"
+            android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_basic"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_mood_bad"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_record_mood_instruction"
             app:srcCompat="@drawable/ic_mood_circle_trans_very_bad" />
 
         <ImageView
             android:id="@+id/image_mood_bad"
-            android:layout_width="@dimen/size_record_mood_mood"
+            android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_mood_normal"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_mood_very_bad"
             app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_bad" />
+            app:srcCompat="@drawable/ic_mood_circle_trans_bad"
+            tools:layout_editor_absoluteY="275dp" />
 
         <ImageView
             android:id="@+id/image_mood_normal"
-            android:layout_width="@dimen/size_record_mood_mood"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/image_mood_good"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_mood_bad"
-            app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_normal" />
-
-        <ImageView
-            android:id="@+id/image_mood_good"
-            android:layout_width="@dimen/size_record_mood_mood"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/image_mood_very_good"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_mood_normal"
-            app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_good" />
-
-        <ImageView
-            android:id="@+id/image_mood_very_good"
-            android:layout_width="@dimen/size_record_mood_mood"
+            android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_mood_good"
+            app:layout_constraintStart_toEndOf="@+id/image_mood_bad"
             app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
-            app:srcCompat="@drawable/ic_mood_circle_trans_very_good" />
+            app:srcCompat="@drawable/ic_mood_circle_trans_normal"
+            tools:layout_editor_absoluteY="275dp" />
+
+        <ImageView
+            android:id="@+id/image_mood_good"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/image_mood_bad"
+            app:layout_constraintStart_toEndOf="@id/image_mood_very_bad"
+            app:layout_constraintTop_toBottomOf="@id/image_mood_very_bad"
+            app:srcCompat="@drawable/ic_mood_circle_trans_good"
+            tools:layout_editor_absoluteX="213dp"
+            tools:layout_editor_absoluteY="385dp" />
+
+        <ImageView
+            android:id="@+id/image_mood_very_good"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/image_mood_normal"
+            app:layout_constraintStart_toEndOf="@id/image_mood_bad"
+            app:layout_constraintTop_toTopOf="@id/image_mood_good"
+            app:srcCompat="@drawable/ic_mood_circle_trans_very_good"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="385dp" />
 
         <Button
             android:id="@+id/button_quick_save"
@@ -107,6 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_basic"
             android:layout_marginBottom="16dp"
+            android:onClick="@{() -> viewModel.navigateToHome()}"
             android:text="@string/record_mood_quick_save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_add_detail"
@@ -118,7 +125,7 @@
             android:id="@+id/progress_record_mood_quick_save"
             android:layout_width="24dp"
             android:layout_height="0dp"
-            android:theme="@style/ProgressThemeDark"
+            android:theme="@style/ProgressTheme"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/button_quick_save"
             app:layout_constraintDimensionRatio="1:1"
@@ -135,6 +142,7 @@
             android:layout_marginStart="@dimen/margin_half"
             android:layout_marginEnd="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
+            android:onClick="@{() -> viewModel.navigateToRecordDetail()}"
             android:text="@string/record_mood_add_detail"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +153,7 @@
             android:id="@+id/progress_record_mood_add_detail"
             android:layout_width="24dp"
             android:layout_height="0dp"
-            android:theme="@style/ProgressThemeDark"
+            android:theme="@style/ProgressTheme"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/button_add_detail"
             app:layout_constraintDimensionRatio="1:1"

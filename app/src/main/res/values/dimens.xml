@@ -25,9 +25,6 @@
     <dimen name="space_inside_vertical_note_item">12dp</dimen>
     <dimen name="note_image_corner_radius">15dp</dimen>
 
-    <!-- Record Mood Dialog -->
-    <dimen name="size_record_mood_mood">80dp</dimen>
-
     <!-- Profile  -->
     <dimen name="height_profile_header">92dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
@@ -92,11 +89,12 @@
     <dimen name="fab_margin">28dp</dimen>
     <dimen name="elevation_fab">10dp</dimen>
     <dimen name="elevation_fab_option">8dp</dimen>
-    <dimen name="size_record_mood_close">44dp</dimen>
+    <dimen name="size_record_mood_close">40dp</dimen>
 
-    <!-- Record Detail Mood   -->
-    <dimen name="record_detail_icon_width">40dp</dimen>
+    <!-- Record Mood   -->
+    <dimen name="size_record_detail_icon">40dp</dimen>
     <dimen name="text_size_tag">13sp</dimen>
+    <dimen name="size_record_mood_icon">100dp</dimen>
 
 
 </resources>

@@ -11,7 +11,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Note(
     val id: String = "",
-    val createdTime: Long = -1,
+    val date: Long = -1,
+    val time: Long = -1,
     val mood: Int = -1,
     val emotions: List<Int> = listOf(),
     val feelings: List<Int> = listOf(),

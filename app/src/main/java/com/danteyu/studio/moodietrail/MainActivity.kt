@@ -1,6 +1,7 @@
 package com.danteyu.studio.moodietrail
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -40,7 +41,7 @@ class MainActivity : BaseActivity() {
                     findNavController(
                         R.id
                             .myNavHostFragment
-                    ).navigate(NavigationDirections.navigateToNoteFragment())
+                    ).navigate(NavigationDirections.navigateToHomeFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_statistic -> {
@@ -96,7 +97,7 @@ class MainActivity : BaseActivity() {
 
         viewModel.navigateToRecordMood.observe(this, Observer {
             it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToRecordMoodDialog())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToRecordMoodFragment())
                 viewModel.onRecordMoodNavigated()
             }
         })
@@ -120,11 +121,11 @@ class MainActivity : BaseActivity() {
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
-                R.id.noteFragment -> CurrentFragmentType.NOTE
+                R.id.homeFragment -> CurrentFragmentType.NOTE
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
                 R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
-                R.id.recordMoodDialog -> CurrentFragmentType.RECORDMOOD
+                R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -169,6 +170,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun openFabMenu() {
 
         binding.apply {
@@ -192,6 +194,7 @@ class MainActivity : BaseActivity() {
 
     }
 
+    @SuppressLint("RestrictedApi")
     private fun closeFabMenu() {
 
         if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD) {

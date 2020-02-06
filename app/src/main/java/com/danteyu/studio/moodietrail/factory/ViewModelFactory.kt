@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.note.NoteViewModel
+import com.danteyu.studio.moodietrail.home.HomeViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
-import com.danteyu.studio.moodietrail.recordmood.RecordMoodDialog
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel
 import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
 import com.danteyu.studio.moodietrail.testresult.TestResultViewModel
@@ -28,7 +28,7 @@ class ViewModelFactory constructor(
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(moodieTrailRepository)
 
-                isAssignableFrom(NoteViewModel::class.java) -> NoteViewModel(moodieTrailRepository)
+                isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(moodieTrailRepository)
 
                 isAssignableFrom(StatisticViewModel::class.java) -> StatisticViewModel(
                     moodieTrailRepository
@@ -43,6 +43,10 @@ class ViewModelFactory constructor(
                 )
 
                 isAssignableFrom(RecordMoodViewModel::class.java) -> RecordMoodViewModel(
+                    moodieTrailRepository
+                )
+
+                isAssignableFrom(RecordDetailViewModel::class.java) -> RecordDetailViewModel(
                     moodieTrailRepository
                 )
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

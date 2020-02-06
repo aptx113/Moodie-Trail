@@ -2,6 +2,8 @@ package com.danteyu.studio.moodietrail.ext
 
 import androidx.fragment.app.Fragment
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import com.danteyu.studio.moodietrail.data.Note
+
 import com.danteyu.studio.moodietrail.factory.ViewModelFactory
 
 
@@ -11,6 +13,13 @@ import com.danteyu.studio.moodietrail.factory.ViewModelFactory
  * Extension functions for Fragment.
  */
 fun Fragment.getVmFactory(): ViewModelFactory {
-    val repository = (requireContext().applicationContext as MoodieTrailApplication).moodieTrailRepository
+    val repository =
+        (requireContext().applicationContext as MoodieTrailApplication).moodieTrailRepository
     return ViewModelFactory(repository)
 }
+
+//fun Fragment.getVmFactory(note: Note): NoteViewModelFactory {
+//    val repository =
+//        (requireContext().applicationContext as MoodieTrailApplication).moodieTrailRepository
+//    return NoteViewModelFactory(repository, note)
+//}
