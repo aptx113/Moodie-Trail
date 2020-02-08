@@ -4,6 +4,7 @@
     package="com.danteyu.studio.moodietrail">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MoodieTrailApplication"
@@ -18,7 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="sensorPortrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

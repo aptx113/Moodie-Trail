@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "626010178842",
+    "firebase_url": "https://moodie-trail.firebaseio.com",
+    "project_id": "moodie-trail",
+    "storage_bucket": "moodie-trail.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626010178842:android:08b067fd0e5e0e032598a3",
+        "android_client_info": {
+          "package_name": "com.danteyu.studio.moodietrail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626010178842-vtu4d4trvi1ibl3q90pujqqmjaub1b38.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danteyu.studio.moodietrail",
+            "certificate_hash": "055d962df0fd89dd557ac53090160fe8906d5d99"
+          }
+        },
+        {
+          "client_id": "626010178842-qaqia8cp5ca898204gkcfend5v0khans.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ6nq7sDlpnKmSe-1DV2KCoTwhZzZ23Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626010178842-qaqia8cp5ca898204gkcfend5v0khans.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

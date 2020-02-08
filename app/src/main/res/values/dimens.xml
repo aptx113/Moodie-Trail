@@ -89,12 +89,17 @@
     <dimen name="fab_margin">28dp</dimen>
     <dimen name="elevation_fab">10dp</dimen>
     <dimen name="elevation_fab_option">8dp</dimen>
-    <dimen name="size_record_mood_close">40dp</dimen>
+
 
     <!-- Record Mood   -->
     <dimen name="size_record_detail_icon">40dp</dimen>
+    <dimen name="size_record_mood_close">40dp</dimen>
     <dimen name="text_size_tag">13sp</dimen>
     <dimen name="size_record_mood_icon">100dp</dimen>
+    <dimen name="space_outside_horizontal_tag_item">0dp</dimen>
+    <dimen name="space_inside_horizontal_tag_item">4dp</dimen>
+    <dimen name="space_outside_vertical_tag_item">0dp</dimen>
+    <dimen name="space_detail_tag">4dp</dimen>
 
 
 </resources>

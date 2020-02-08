@@ -30,6 +30,11 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val navigateToRecordMood: LiveData<Boolean>
         get() = _navigateToRecordMood
 
+    private val _refresh = MutableLiveData<Boolean>()
+
+    val refresh: LiveData<Boolean>
+        get() = _refresh
+
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
@@ -48,6 +53,14 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun onRecordMoodNavigated() {
         _navigateToRecordMood.value = null
+    }
+
+    fun refresh() {
+        _refresh.value = true
+    }
+
+    fun onRefreshed() {
+        _refresh.value = null
     }
 
 }
