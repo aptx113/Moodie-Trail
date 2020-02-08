@@ -11,5 +11,9 @@ import com.danteyu.studio.moodietrail.data.Result
  */
 interface MoodieTrailDataSource {
 
+    suspend fun getNotes(): Result<List<Note>>
+
     suspend fun writeDownNote(note: Note): Result<Boolean>
+
+    suspend fun deleteNote(note: Note): Result<Boolean>
 }

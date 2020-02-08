@@ -14,7 +14,15 @@ class DefaultMoodieTrailRepository(
     private val moodieTrailLocalDataSource: MoodieTrailDataSource
 ) : MoodieTrailRepository {
 
+    override suspend fun getNotes(): Result<List<Note>> {
+        return remoteDataSource.getNotes()
+    }
+
     override suspend fun writeDownNote(note: Note): Result<Boolean> {
         return remoteDataSource.writeDownNote(note)
+    }
+
+    override suspend fun deleteNote(note: Note): Result<Boolean> {
+        return remoteDataSource.deleteNote(note)
     }
 }
