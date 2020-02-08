@@ -10,15 +10,14 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Note(
-    val id: String = "",
-    val date: Long = -1,
-    val time: Long = -1,
-    val mood: Int = -1,
-    val emotions: List<Int> = listOf(),
-    val feelings: List<Int> = listOf(),
-    val content: String = "",
-    val location: Location? = null,
-    val image: String? = null,
-    val tags: List<String> = listOf()
+    var id: String = "",
+    var createdTime: Long = 0,
+    var mood: Int = 0,
+    var emotions: List<Int>? = null,
+    var feelings: List<Int>? = null,
+    var content: String? = null,
+    var location: Location? = null,
+    var image: String? = null,
+    var tags: List<String>? = null
 
 ) : Parcelable

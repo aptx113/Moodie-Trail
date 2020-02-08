@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.databinding.FragmentNoteBinding
+import com.danteyu.studio.moodietrail.databinding.FragmentHomeBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 
 /**
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentNoteBinding.inflate(inflater, container, false)
+        val binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
             Note(
                 "9527",
                 20200202,
-                1,
                 1,
                 listOf(),
                 listOf(),
@@ -47,7 +46,6 @@ class HomeFragment : Fragment() {
                 "9526",
                 20200202,
                 1,
-                1,
                 listOf(),
                 listOf(),
                 "喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵喵",
@@ -56,13 +54,12 @@ class HomeFragment : Fragment() {
                 listOf()
             )
             , Note(
-                "9528", 20200202, 1, 1, listOf(), listOf(), "content", null, null,
+                "9528", 20200202, 1, listOf(), listOf(), "content", null, null,
                 listOf()
             )
             , Note(
                 "9529",
                 20200202,
-                1,
                 1,
                 listOf(),
                 listOf(),
@@ -74,7 +71,6 @@ class HomeFragment : Fragment() {
             , Note(
                 "9525",
                 20200202,
-                1,
                 1,
                 listOf(),
                 listOf(),

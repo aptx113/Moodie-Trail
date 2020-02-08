@@ -17,6 +17,8 @@
     <string name="record_mood_instruction">你好嗎？</string>
     <string name="record_mood_quick_save">快速儲存</string>
     <string name="record_mood_add_detail">添加細節</string>
+    <string name="select_a_mood">請選擇一個心情</string>
+    <string name="save_success">新增成功！</string>
 
     <!-- Record Detail Mood -->
     <string name="emotion_happy">快樂</string>
@@ -40,5 +42,14 @@
     <string name="feeling_muscle">肌肉酸痛</string>
     <string name="feeling_pain">身體疼痛</string>
     <string name="record_detail_instruction">哪些感覺最符合你的心情？</string>
+    <string name="hash_tag">#%s</string>
+
+    <!-- SimpleDateFormat -->
+    <string name="simpledateformat_yyyy_MM_dd">yyyy/MM/dd</string>
+    <string name="simpledatefromat_yyyy_MM_dd_E">yyyy/MM/dd  E</string>
+    <string name="simpledateformat_MM_dd">MM-dd</string>
+    <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
+    <string name="simpledateformat_HH_mm">HH:mm</string>
+
 
 </resources>

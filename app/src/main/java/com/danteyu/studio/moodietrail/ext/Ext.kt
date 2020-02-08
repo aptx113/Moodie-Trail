@@ -9,17 +9,50 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.network.Event
 import com.danteyu.studio.moodietrail.network.NetworkConnectivityListener
 import com.danteyu.studio.moodietrail.network.NetworkEvents
 import com.danteyu.studio.moodietrail.network.NetworkState
+import com.danteyu.studio.moodietrail.util.Util.getString
 import java.util.*
 
 /**
  * Created by George Yu in Jan. 2020.
- *
- * Increase touch area of the view/button .
  */
+
+fun Long.toDisplayFormat(dateFormat: Int): String {
+
+    return SimpleDateFormat(
+        when (dateFormat) {
+            FORMAT_MM_DD -> getString(
+                R.string.simpledateformat_MM_dd
+            )
+            FORMAT_YYYY_MM -> getString(
+                R.string.simpledateformat_yyyy_MM
+            )
+            FORMAT_YYYY_MM_DD -> getString(
+                R.string.simpledateformat_yyyy_MM_dd
+            )
+            FORMAT_YYYY_MM_DD_E -> getString(
+                R.string.simpledatefromat_yyyy_MM_dd_E
+            )
+            FORMAT_HH_MM -> getString(
+                R.string.simpledateformat_HH_mm
+            )
+
+            else -> null
+        }
+        , Locale.TAIWAN
+    ).format(this)
+
+}
+
+//fun Long.toDisplayFormat(): String {
+//    return SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.TAIWAN).format(this)
+//}
+
+// Increase touch area of the view/button .
 fun View.setTouchDelegate() {
     val parent = this.parent as View  // button: the view you want to enlarge hit area
     parent.post {
@@ -33,9 +66,6 @@ fun View.setTouchDelegate() {
     }
 }
 
-fun Long.toDisplayFormat(): String {
-    return SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.TAIWAN).format(this)
-}
 
 internal object Constants {
     const val ID_KEY = "network.monitoring.previousState"
@@ -101,3 +131,9 @@ internal var Bundle.previousState: Boolean?
     set(value) {
         putInt(Constants.ID_KEY, if (value == true) 1 else 0)
     }
+
+const val FORMAT_MM_DD: Int = 0x01
+const val FORMAT_YYYY_MM_DD_E:Int = 0x02
+const val FORMAT_YYYY_MM_DD: Int = 0x03
+const val FORMAT_YYYY_MM: Int = 0x04
+const val FORMAT_HH_MM: Int = 0x05

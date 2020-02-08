@@ -8,21 +8,45 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.ext.FORMAT_HH_MM
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
+import com.danteyu.studio.moodietrail.recordmood.TagAdapter
+import com.danteyu.studio.moodietrail.util.Logger
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 @BindingAdapter("notes")
-fun bindRecyclerView(recyclerView: RecyclerView, homeItems: List<Note>?) {
-    homeItems?.let {
+fun bindRecyclerViewWithNotes(recyclerView: RecyclerView, notes: List<Note>?) {
+    notes?.let {
         recyclerView.adapter?.apply {
             when (this) {
                 is HomeAdapter -> submitList(it)
             }
         }
     }
+}
+
+@BindingAdapter("tags")
+fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
+    tags?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+
+                is TagAdapter -> {
+                    when (itemCount) {
+                        0 -> submitList(it)
+                        it.size -> notifyDataSetChanged()
+                        else -> submitList(it)
+                    }
+                }
+            }
+        }
+    }
+    recyclerView.smoothScrollToPosition(recyclerView.adapter!!.itemCount)
+    Logger.d("bindRecyclerViewWithTags, taga = $tags")
 }
 
 @BindingAdapter("itemPosition", "itemCount")
@@ -121,6 +145,67 @@ fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int
 //General
 
 /**
+ * Uses the Glide library to load an image by URL into an [ImageView]
+ */
+@BindingAdapter("imageUrlRoundedCorners")
+fun bindImageRadius(imgView: ImageView, imgUrl: String?) {
+
+    val radius =
+        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.note_image_corner_radius)
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .transform(
+                RoundedCornersTransformation(
+                    radius,
+                    0,
+                    RoundedCornersTransformation.CornerType.TOP
+                )
+            )
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_placeholder)
+            .into(imgView)
+    }
+}
+
+/**
+ * Adds decoration to [RecyclerView]
+ */
+@BindingAdapter("addDecoration")
+fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
+    decoration?.let { recyclerView.addItemDecoration(it) }
+}
+
+/**
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD]
+ */
+@BindingAdapter("timeToDisplayDateFormat")
+fun bindDisplayFormatDate(textView: TextView, time: Long?) {
+    Logger.d("bindDisplayFormatDate, time = $time")
+    Logger.d("bindDisplayFormatDate, toDisplayFormat = ${time?.toDisplayFormat(FORMAT_YYYY_MM_DD)}")
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD)
+}
+
+/**
+ * Displays Time to [TextView] by [FORMAT_HH_MM]
+ */
+@BindingAdapter("timeToDisplayTimeFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_HH_MM)
+}
+
+/**
+ * Displays tag to [TextView] by prefix #
+ */
+@BindingAdapter("hashTag")
+fun bindTag(textView: TextView, tag: String?) {
+    tag.let {
+        textView.text = MoodieTrailApplication.instance.getString(R.string.hash_tag, it)
+    }
+}
+
+/**
  * According to [LoadApiStatus] to decide the visibility of [ProgressBar]
  */
 @BindingAdapter("setupApiStatus")
@@ -147,22 +232,3 @@ fun bindApiErrorMessage(view: TextView, message: String?) {
     }
 }
 
-@BindingAdapter("imageUrlRoundedCorners")
-fun bindImageCircle(imgView: ImageView, imgUrl: String?) {
-
-    val radius =
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.note_image_corner_radius)
-    imgUrl?.let {
-        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-        Glide.with(imgView.context)
-            .load(imgUri)
-            .transform(RoundedCornersTransformation(
-                radius,
-                0,
-                RoundedCornersTransformation.CornerType.TOP
-            ))
-            .placeholder(R.drawable.ic_placeholder)
-            .error(R.drawable.ic_placeholder)
-            .into(imgView)
-    }
-}

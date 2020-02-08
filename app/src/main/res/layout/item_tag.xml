@@ -5,6 +5,14 @@
 
     <data>
 
+        <variable
+            name="tag"
+            type="String" />
+
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,13 +24,14 @@
             android:id="@+id/text_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="1dp"
+            android:layout_marginStart="6dp"
             android:fontFamily="@font/noto_sans"
             android:letterSpacing="0.15"
             android:maxLines="1"
-           android:layout_marginVertical="1dp"
-            android:layout_marginStart="6dp"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_tag"
+            app:hashTag="@{tag}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,12 +42,13 @@
             android:layout_width="12dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/margin_quarter"
-            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginBottom="1dp"
+            android:onClick="@{() -> viewModel.removeNoteTag(tag)}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_tag"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_tag"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6"
             app:srcCompat="@drawable/ic_close" />
 
 

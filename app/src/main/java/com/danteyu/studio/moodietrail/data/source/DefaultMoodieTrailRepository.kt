@@ -1,8 +1,7 @@
 package com.danteyu.studio.moodietrail.data.source
 
-import com.danteyu.studio.moodietrail.data.source.local.MoodieTrailLocalDataSource
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.Result
 
 
 /**
@@ -11,6 +10,11 @@ import kotlinx.coroutines.Dispatchers
  * Concrete implementation to load Moodie Trail sources.
  */
 class DefaultMoodieTrailRepository(
-    private val moodieTrailRemoteDataSource: MoodieTrailDataSource,
+    private val remoteDataSource: MoodieTrailDataSource,
     private val moodieTrailLocalDataSource: MoodieTrailDataSource
-) : MoodieTrailRepository {}
+) : MoodieTrailRepository {
+
+    override suspend fun writeDownNote(note: Note): Result<Boolean> {
+        return remoteDataSource.writeDownNote(note)
+    }
+}

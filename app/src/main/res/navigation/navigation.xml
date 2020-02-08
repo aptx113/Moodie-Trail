@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.danteyu.studio.moodietrail.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_note" />
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.danteyu.studio.moodietrail.statistic.StatisticFragment"
@@ -50,16 +50,25 @@
         android:id="@+id/recordMoodFragment"
         android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodFragment"
         android:label="RecordMoodFragment"
-        tools:layout="@layout/fragment_record_mood" />
+        tools:layout="@layout/fragment_record_mood">
+        <argument
+            android:name="noteKey"
+            app:argType="com.danteyu.studio.moodietrail.data.Note"
+            app:nullable="false" />
+    </fragment>
     <action
         android:id="@+id/navigate_to_recordMoodFragment"
         app:destination="@id/recordMoodFragment" />
-    <fragment
+    <dialog
         android:id="@+id/recordDetailFragment"
         android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailFragment"
         android:label="RecordDetailFragment"
-        tools:layout="@layout/fragment_record_detail">
-    </fragment>
+        tools:layout="@layout/dialog_record_detail">
+        <argument
+            android:name="noteKey"
+            app:argType="com.danteyu.studio.moodietrail.data.Note"
+            app:nullable="false" />
+    </dialog>
     <action
         android:id="@+id/navigate_to_recordDetailFragment"
         app:destination="@id/recordDetailFragment" />

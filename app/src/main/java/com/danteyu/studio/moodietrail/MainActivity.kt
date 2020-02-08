@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
@@ -37,7 +38,7 @@ class MainActivity : BaseActivity() {
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_diary -> {
+                R.id.navigation_home -> {
                     findNavController(
                         R.id
                             .myNavHostFragment
@@ -97,7 +98,9 @@ class MainActivity : BaseActivity() {
 
         viewModel.navigateToRecordMood.observe(this, Observer {
             it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToRecordMoodFragment())
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToRecordMoodFragment(
+                    Note()
+                ))
                 viewModel.onRecordMoodNavigated()
             }
         })
@@ -126,6 +129,7 @@ class MainActivity : BaseActivity() {
                 R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
+                R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL
                 else -> viewModel.currentFragmentType.value
             }
         }

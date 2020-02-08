@@ -42,13 +42,6 @@ class ViewModelFactory constructor(
                     moodieTrailRepository
                 )
 
-                isAssignableFrom(RecordMoodViewModel::class.java) -> RecordMoodViewModel(
-                    moodieTrailRepository
-                )
-
-                isAssignableFrom(RecordDetailViewModel::class.java) -> RecordDetailViewModel(
-                    moodieTrailRepository
-                )
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         } as T

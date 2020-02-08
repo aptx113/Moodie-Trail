@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 29
     dataBinding {
@@ -53,7 +55,6 @@ dependencies {
 
     // Room and Lifecycle dependencies
     implementation "androidx.room:room-runtime:$version_room"
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$version_room"
 
@@ -103,6 +104,9 @@ dependencies {
 
     // Facebook
     implementation 'com.facebook.android:facebook-login:5.13.0'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-firestore:21.4.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
