@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,65 +12,23 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <Button
-            android:id="@+id/button_fb_sign_in"
-            style="@style/FirebaseUI.Button.AccountChooser.FacebookButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="64dp"
-            android:layout_marginTop="40dp"
-            android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
-            android:text="@string/sign_in_with_fb"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6" />
-
-        <Button
-            android:id="@+id/button_google_sign_in"
-            style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_advanced"
-            android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
-            android:text="@string/sign_in_with_google"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"
-            app:layout_constraintStart_toStartOf="@id/button_fb_sign_in"
-            app:layout_constraintTop_toBottomOf="@id/button_fb_sign_in" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.67" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.2" />
-
         <ImageView
             android:id="@+id/image_app_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="0dp"
             android:layout_marginTop="50dp"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintCircleRadius="@dimen/margin_advanced"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:srcCompat="@drawable/ic_logo_s" />
+            app:srcCompat="@drawable/ic_logo_option" />
 
         <TextView
             android:id="@+id/text_app_name"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/margin_advanced"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_advanced"
             android:fontFamily="@font/noto_sans"
             android:text="@string/app_name"
             android:textAlignment="center"
@@ -95,5 +54,73 @@
             app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="@+id/text_app_name"
             app:layout_constraintTop_toBottomOf="@+id/text_app_name" />
+
+
+        <Button
+            android:id="@+id/button_fb_sign_in"
+            style="@style/FirebaseUI.Button.AccountChooser.FacebookButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:layout_marginTop="40dp"
+            android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
+            android:text="@string/sign_in_with_fb"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+        <ProgressBar
+            android:layout_width="@dimen/size_progress"
+            android:layout_height="@dimen/size_progress"
+            android:elevation="2dp"
+            android:theme="@style/ProgressThemeDark"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/button_fb_sign_in"
+            app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"
+            app:layout_constraintStart_toStartOf="@id/button_fb_sign_in"
+            app:layout_constraintTop_toTopOf="@id/button_fb_sign_in"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/button_google_sign_in"
+            style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_advanced"
+            android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
+            android:text="@string/sign_in_with_google"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"
+            app:layout_constraintStart_toStartOf="@id/button_fb_sign_in"
+            app:layout_constraintTop_toBottomOf="@id/button_fb_sign_in" />
+
+        <ProgressBar
+            android:layout_width="@dimen/size_progress"
+            android:layout_height="@dimen/size_progress"
+            android:elevation="2dp"
+            android:theme="@style/ProgressTheme"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/button_google_sign_in"
+            app:layout_constraintEnd_toEndOf="@id/button_google_sign_in"
+            app:layout_constraintStart_toStartOf="@id/button_google_sign_in"
+            app:layout_constraintTop_toTopOf="@id/button_google_sign_in"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.67" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
