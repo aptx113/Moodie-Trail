@@ -1,13 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_basic"
+                android:background="@drawable/bg_radius"
+                android:elevation="@dimen/margin_quarter"
+                android:paddingHorizontal="@dimen/margin_half"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/text_month_line_chart_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:text="每月心情趨勢"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_month_no_mood_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="目前沒有足夠數據繪製圖表\n記得記錄心情喔！"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintEnd_toEndOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintStart_toStartOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_month"
+                    tools:visibility="visible" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart_mood_by_month"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/margin_half"
+                    android:layout_marginVertical="@dimen/margin_half"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1.77:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_month_line_chart_title" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/ProgressTheme"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_month"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_basic"
+                android:background="@drawable/bg_radius"
+                android:elevation="@dimen/margin_quarter"
+                android:paddingHorizontal="@dimen/margin_half"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_month">
+
+                <TextView
+                    android:id="@+id/text_line_chart_title_by_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:text="每日心情趨勢"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_no_mood_data_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="目前沒有足夠數據繪製圖表\n記得記錄心情喔！"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_day"
+                    app:layout_constraintEnd_toEndOf="@id/line_chart_mood_by_day"
+                    app:layout_constraintStart_toStartOf="@id/line_chart_mood_by_day"
+                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_day"
+                    tools:visibility="visible" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart_mood_by_day"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/margin_half"
+                    android:layout_marginVertical="@dimen/margin_half"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1.77:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_line_chart_title_by_day" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/ProgressTheme"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_day"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_day"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
