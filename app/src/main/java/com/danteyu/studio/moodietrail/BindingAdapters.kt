@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.ext.FORMAT_HH_MM
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD_E
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
@@ -142,6 +143,20 @@ fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int
     layout.layoutParams = layoutParams
 }
 
+@BindingAdapter("moodImage")
+fun ImageView.setMoodImage(item: Note?) {
+    item?.let {
+        setImageResource(when (item.mood) {
+            1 -> R.drawable.ic_mood_circle_very_bad_selected
+            2 -> R.drawable.ic_mood_circle_bad_selected
+            3 -> R.drawable.ic_mood_circle_normal_selected
+            4 -> R.drawable.ic_mood_circle_good_selected
+            5 -> R.drawable.ic_mood_circle_very_good_selected
+            else -> R.drawable.ic_placeholder
+        })
+    }
+}
+
 //General
 
 /**
@@ -185,6 +200,14 @@ fun bindDisplayFormatDate(textView: TextView, time: Long?) {
     Logger.d("bindDisplayFormatDate, time = $time")
     Logger.d("bindDisplayFormatDate, toDisplayFormat = ${time?.toDisplayFormat(FORMAT_YYYY_MM_DD)}")
     textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD)
+}
+
+/**
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
+ */
+@BindingAdapter("timeToDisplayDateWithWeekFormat")
+fun bindDisplayFormatWeek(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
 }
 
 /**

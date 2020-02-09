@@ -12,6 +12,8 @@
     <string name="record_mood">記錄心情</string>
     <string name="start_test">開始測驗</string>
 
+    <string name="no_notes">沒有心情紀錄</string>
+
 
     <!-- Record Mood -->
     <string name="record_mood_instruction">你好嗎？</string>
@@ -46,7 +48,7 @@
 
     <!-- SimpleDateFormat -->
     <string name="simpledateformat_yyyy_MM_dd">yyyy/MM/dd</string>
-    <string name="simpledatefromat_yyyy_MM_dd_E">yyyy/MM/dd  E</string>
+    <string name="simpledatefromat_yyyy_MM_dd_E">yyyy/MM/dd\nE</string>
     <string name="simpledateformat_MM_dd">MM-dd</string>
     <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
     <string name="simpledateformat_HH_mm">HH:mm</string>

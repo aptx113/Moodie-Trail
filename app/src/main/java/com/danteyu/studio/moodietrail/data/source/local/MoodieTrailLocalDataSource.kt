@@ -13,7 +13,15 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
  */
 class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
 
+    override suspend fun getNotes(): Result<List<Note>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun writeDownNote(note: Note): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun deleteNote(note: Note): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
