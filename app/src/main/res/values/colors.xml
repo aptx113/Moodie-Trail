@@ -36,6 +36,11 @@
     <color name="blue_700_Light">#63a4ff</color>
     <color name="blue_700_Dark">#004ba0</color>
 
+    <!-- Purple Series -->
+    <color name="purple">#8E75BE</color>
+    <color name="purple_Light">#bfa4f1</color>
+    <color name="purple_dark">#5f498d</color>
+
     <!-- Mood Icon -->
     <color name="mood_very_good">#ecb220</color>
     <color name="mood_good">#4ab768</color>
