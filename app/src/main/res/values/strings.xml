@@ -56,7 +56,7 @@
     <string name="simpledateformat_MM_dd">MM-dd</string>
     <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
     <string name="simpledateformat_HH_mm">HH:mm</string>
-
+    <string name="simpledateformat_yyyy_MM_dd_HH_mm">yyyy/MM/dd HH:mm</string>
 
 
 </resources>

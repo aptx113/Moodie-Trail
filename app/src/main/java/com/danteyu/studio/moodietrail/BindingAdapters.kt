@@ -9,10 +9,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.ext.FORMAT_HH_MM
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD_E
-import com.danteyu.studio.moodietrail.ext.toDisplayFormat
+import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
@@ -208,6 +205,14 @@ fun bindDisplayFormatDate(textView: TextView, time: Long?) {
 @BindingAdapter("timeToDisplayDateWithWeekFormat")
 fun bindDisplayFormatWeek(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
+}
+
+/**
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
+ */
+@BindingAdapter("timeToDisplayDateToolbarFormat")
+fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM)
 }
 
 /**

@@ -179,7 +179,7 @@ class RecordMoodViewModel(
 
     private fun writeDown() {
         postNote(
-            Note(mood = selectedMood.value!!)
+            Note(createdTime = _timeOfNote.value!! ,mood = selectedMood.value!!)
         )
     }
 

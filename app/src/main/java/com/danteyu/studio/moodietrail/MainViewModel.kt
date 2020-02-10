@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
+import java.util.*
 
 
 /**
@@ -15,6 +16,8 @@ import com.danteyu.studio.moodietrail.util.Logger
  */
 class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
+    private val calendar = Calendar.getInstance()
+
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
@@ -23,6 +26,11 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     val isFabOpen: LiveData<Boolean>
         get() = _isFabOpen
+
+    private val _currentMonth = MutableLiveData<Long>()
+
+    val currentMonth: LiveData<Long>
+        get() = _currentMonth
 
     // Handle navigation to record mood
     private val _navigateToRecordMood = MutableLiveData<Boolean>()
@@ -39,11 +47,18 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
+        initialDate()
     }
 
     //Change Fab status when is pressed
     fun onFabPressed() {
         _isFabOpen.value = !(_isFabOpen.value ?: false)
+    }
+
+    private fun initialDate() {
+
+        _currentMonth.value = calendar.timeInMillis
     }
 
     fun navigateToRecordMood() {

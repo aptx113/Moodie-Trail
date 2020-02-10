@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail.home
 
+import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,12 +62,28 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         viewModelJob.cancel()
     }
 
+    val calendar = Calendar.getInstance()
+
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
         getNotesResult()
+
+        Logger.w("calendar.time = ${calendar.time}")
+        Logger.w("calendar.time.time = ${calendar.time.time}")
+        Logger.w("calendar.timeINMillis = ${calendar.timeInMillis}")
+        Logger.w("calendar.get(Calendar.YEAR) = ${calendar.get(Calendar.YEAR)}")
+        Logger.w("calendar.get(Calendar.MONTH).plus(1) = ${calendar.get(Calendar.MONTH).plus(1)}")
+        Logger.w("calendar.get(Calendar.DAY_OF_WEEK) = ${calendar.get(Calendar.DAY_OF_WEEK)}")
+        Logger.w("calendar.get(Calendar.DAY_OF_MONTH) = ${calendar.get(Calendar.DAY_OF_MONTH)}")
+        Logger.w("calendar.get(Calendar.DAY_OF_YEAR) = ${calendar.get(Calendar.DAY_OF_YEAR)}")
+        Logger.w("calendar[Calendar.HOUR_OF_DAY] = ${calendar[Calendar.HOUR_OF_DAY]}")
+        Logger.w("calendar.get(Calendar.HOUR_OF_DAY) = ${calendar.get(Calendar.HOUR_OF_DAY)}")
+        Logger.w("calendar[Calendar.MINUTE] = ${calendar[Calendar.MINUTE]}")
+        Logger.w("calendar[Calendar.SECOND] = ${calendar[Calendar.SECOND]}")
+        Logger.w("calendar.set(Calendar.YEAR,1) = ${calendar.set(Calendar.YEAR, 1)}")
     }
 
     private fun getNotesResult() {
