@@ -14,7 +14,7 @@ data class Note(
     var createdTime: Long = 0,
     var year: Int = 0,
     var month: Int = 0,
-    var weekOFMonth:Int = 0,
+    var weekOfMonth:Int = 0,
     var dayOfMonth: Int = 0,
     var hour: Int = 0,
     var mood: Int = 0,

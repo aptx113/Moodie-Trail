@@ -3,10 +3,12 @@ package com.danteyu.studio.moodietrail.recordmood
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
@@ -34,6 +36,28 @@ class RecordMoodViewModel(
 
     val note: LiveData<Note>
         get() = _note
+
+    private val _notesByDate = MutableLiveData<List<Note>>()
+
+    val notesByDate: LiveData<List<Note>>
+        get() = _notesByDate
+
+    val averageMood: LiveData<Float> = Transformations.map(_notesByDate) {
+        var totalMood = 0f
+        var aveMood = 0f
+
+        if (it.count() > 0) {
+            it.forEach { note ->
+                note.mood.let { mood ->
+                    totalMood += note.mood
+                }
+            }
+
+            aveMood = totalMood / it.count()
+        }
+
+        aveMood
+    }
 
     private val _dateOfNote = MutableLiveData<Long>()
 
@@ -154,9 +178,9 @@ class RecordMoodViewModel(
 
         }
 
-        weekOFMonthOfNote.value = when (_note.value?.weekOFMonth) {
+        weekOFMonthOfNote.value = when (_note.value?.weekOfMonth) {
             0 -> calendar.get(Calendar.WEEK_OF_MONTH)
-            else -> _note.value?.weekOFMonth
+            else -> _note.value?.weekOfMonth
         }
 
         dayOfNote.value = when (_note.value?.dayOfMonth) {
@@ -210,7 +234,7 @@ class RecordMoodViewModel(
             null -> _invalidWrite.value = INVALID_WRITE_MOOD_EMPTY
 
             else -> when (noteSavedType) {
-                NoteSavedType.DETAIL -> postThenNavigateToRecordDetail()
+                NoteSavedType.DETAIL -> navigateToRecordDetail()
                 NoteSavedType.QUICK -> writeDown()
             }
         }
@@ -223,15 +247,17 @@ class RecordMoodViewModel(
                 createdTime = _dateOfNote.value!!,
                 year = yearOfNote.value!!,
                 month = monthOfNote.value!!,
-                weekOFMonth = weekOFMonthOfNote.value!!,
+                weekOfMonth = weekOFMonthOfNote.value!!,
                 dayOfMonth = dayOfNote.value!!,
                 hour = hourOfNote.value!!,
                 mood = selectedMood.value!!
             )
+            , yearOfNote.value!!, monthOfNote.value!!, dayOfNote.value!!
         )
+
     }
 
-    private fun postNote(note: Note) {
+    private fun postNote(note: Note, year: Int, month: Int, day: Int) {
 
         coroutineScope.launch {
 
@@ -243,7 +269,8 @@ class RecordMoodViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    navigateToHome(true)
+                    getNotesResult(year, month, day)
+//                    navigateToHome(true)
                     result.data
                 }
                 is Result.Fail -> {
@@ -264,9 +291,106 @@ class RecordMoodViewModel(
                     null
                 }
             }
+
+        }
+
+    }
+
+    private fun getNotesResult(year: Int, month: Int, day: Int) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = moodieTrailRepository.getNotesByDate(year, month, day)
+
+            _notesByDate.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+//                    postAvgMood(
+//                        AverageMood(
+//                            avgMoodScore = averageMood.value!!,
+//                            year = year,
+//                            month = month,
+//                            dayOfMonth = day
+//                        )
+//                    )
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+//            _refreshStatus.value = false
         }
     }
 
+    private fun postAvgMood(averageMood: AverageMood) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+
+            when (val result = moodieTrailRepository.submitAvgMood(averageMood)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    navigateToHome(true)
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _invalidWrite.value = POST_NOTE_FAIL
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+
+        }
+
+    }
+
+    private fun navigateToRecordDetail() {
+
+        val note = Note(
+            createdTime = _dateOfNote.value!!,
+            year = yearOfNote.value!!,
+            month = monthOfNote.value!!,
+            weekOfMonth = weekOFMonthOfNote.value!!,
+            dayOfMonth = dayOfNote.value!!,
+            hour = hourOfNote.value!!,
+            mood = selectedMood.value!!
+        )
+
+        _navigateToRecordDetail.value = note
+    }
+
+    fun onRecordDetailNavigated() {
+        _navigateToRecordDetail.value = null
+    }
 
     fun showDatePickerDialog() {
         _showDatePickerDialog.value = true
@@ -290,25 +414,6 @@ class RecordMoodViewModel(
 
     fun onHomeNavigated() {
         _navigateToHome.value = null
-    }
-
-    private fun postThenNavigateToRecordDetail() {
-
-        val note = Note(
-            createdTime = _dateOfNote.value!!,
-            year = yearOfNote.value!!,
-            month = monthOfNote.value!!,
-            weekOFMonth = weekOFMonthOfNote.value!!,
-            dayOfMonth = dayOfNote.value!!,
-            hour = hourOfNote.value!!,
-            mood = selectedMood.value!!
-        )
-
-        _navigateToRecordDetail.value = note
-    }
-
-    fun onRecordDetailNavigated() {
-        _navigateToRecordDetail.value = null
     }
 
     fun leaveRecordMood() {

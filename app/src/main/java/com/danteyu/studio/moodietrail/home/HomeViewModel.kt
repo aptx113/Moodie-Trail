@@ -41,7 +41,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val error: LiveData<String>
         get() = _error
 
-    // status for the loading icon of swl
+    // status for the loading notes
     private val _refreshStatus = MutableLiveData<Boolean>()
 
     val refreshStatus: LiveData<Boolean>
