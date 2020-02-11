@@ -1,6 +1,5 @@
 package com.danteyu.studio.moodietrail.recordmood
 
-import android.icu.util.Calendar
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 /**
  * Created by George Yu on 2020/2/2.
@@ -35,10 +35,21 @@ class RecordMoodViewModel(
     val note: LiveData<Note>
         get() = _note
 
-    private val _timeOfNote = MutableLiveData<Long>()
+    private val _dateOfNote = MutableLiveData<Long>()
 
-    val timeOfNote: LiveData<Long>
-        get() = _timeOfNote
+    val dateOfNote: LiveData<Long>
+        get() = _dateOfNote
+
+    val yearOfNote = MutableLiveData<Int>()
+
+    val monthOfNote = MutableLiveData<Int>()
+
+    val weekOFMonthOfNote = MutableLiveData<Int>()
+
+    val dayOfNote = MutableLiveData<Int>()
+
+    val hourOfNote = MutableLiveData<Int>()
+
 
     val selectedIcon = MutableLiveData<View>()
 
@@ -121,26 +132,55 @@ class RecordMoodViewModel(
         initialDateOfNote()
     }
 
-    private fun initialDateOfNote() {
+    fun initialDateOfNote() {
 
-        Logger.w("_timeOfNote.value before = ${_timeOfNote.value}")
-        Logger.w("createdTime before= ${_note.value?.createdTime}")
-        _timeOfNote.value = when (_note.value?.createdTime) {
-            0L -> {
-                Logger.w("0 createdTime = ${_note.value?.createdTime}")
-                Logger.w("Calendar.getInstance().timeInMillis = ${Calendar.getInstance().timeInMillis}")
-                calendar.timeInMillis
-            }
-            else -> {
-                Logger.w("else createdTime = ${_note.value?.createdTime}")
-                _note.value?.createdTime
-            }
+
+        _dateOfNote.value = when (_note.value?.createdTime) {
+            0L -> calendar.timeInMillis
+            else -> _note.value?.createdTime
+
         }
-        Logger.w("timeOfNote = ${_timeOfNote.value}")
+
+
+        yearOfNote.value = when (_note.value?.year) {
+            0 -> calendar.get(Calendar.YEAR)
+            else -> _note.value?.year
+
+        }
+
+        monthOfNote.value = when (_note.value?.month) {
+            0 -> calendar.get(Calendar.MONTH).plus(1)
+            else -> _note.value?.month
+
+        }
+
+        weekOFMonthOfNote.value = when (_note.value?.weekOFMonth) {
+            0 -> calendar.get(Calendar.WEEK_OF_MONTH)
+            else -> _note.value?.weekOFMonth
+        }
+
+        dayOfNote.value = when (_note.value?.dayOfMonth) {
+            0 -> calendar.get(Calendar.DAY_OF_MONTH)
+            else -> _note.value?.dayOfMonth
+
+        }
+
+        hourOfNote.value = when (_note.value?.hour) {
+            0 -> calendar.get(Calendar.HOUR_OF_DAY)
+            else -> _note.value?.hour
+
+        }
+
     }
 
     fun updateDateAndTimeOfNote() {
-        _timeOfNote.value = calendar.timeInMillis
+        _dateOfNote.value = calendar.timeInMillis
+        yearOfNote.value = calendar.get(Calendar.YEAR)
+        monthOfNote.value = calendar.get(Calendar.MONTH).plus(1)
+        weekOFMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
+        dayOfNote.value = calendar.get(Calendar.DAY_OF_MONTH)
+        hourOfNote.value = calendar.get(Calendar.HOUR_OF_DAY)
+
     }
 
     fun selectMood(view: View, mood: Mood) {
@@ -179,7 +219,15 @@ class RecordMoodViewModel(
 
     private fun writeDown() {
         postNote(
-            Note(createdTime = _timeOfNote.value!! ,mood = selectedMood.value!!)
+            Note(
+                createdTime = _dateOfNote.value!!,
+                year = yearOfNote.value!!,
+                month = monthOfNote.value!!,
+                weekOFMonth = weekOFMonthOfNote.value!!,
+                dayOfMonth = dayOfNote.value!!,
+                hour = hourOfNote.value!!,
+                mood = selectedMood.value!!
+            )
         )
     }
 
@@ -244,9 +292,17 @@ class RecordMoodViewModel(
         _navigateToHome.value = null
     }
 
-    fun postThenNavigateToRecordDetail() {
+    private fun postThenNavigateToRecordDetail() {
 
-        val note = _note.value
+        val note = Note(
+            createdTime = _dateOfNote.value!!,
+            year = yearOfNote.value!!,
+            month = monthOfNote.value!!,
+            weekOFMonth = weekOFMonthOfNote.value!!,
+            dayOfMonth = dayOfNote.value!!,
+            hour = hourOfNote.value!!,
+            mood = selectedMood.value!!
+        )
 
         _navigateToRecordDetail.value = note
     }

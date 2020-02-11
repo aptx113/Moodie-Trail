@@ -6,8 +6,8 @@ package com.danteyu.studio.moodietrail.data
 
 data class AverageMood(
 
-    var avgMoodScore : Float = 0.0f,
-    var year:Long = 0,
-    var month:Long =0 ,
-    var dayOfMonth:Long =0
+    var avgMoodScore: Float = 0.0f,
+    var year: Long = 0,
+    var month: Long = 0,
+    var dayOfMonth: Long = 0
 )

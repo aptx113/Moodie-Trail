@@ -2,7 +2,6 @@ package com.danteyu.studio.moodietrail.recordmood
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,9 @@ import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.INVALID_WRITE_MOOD_EMPTY
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.POST_NOTE_FAIL
+import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 /**
  * Created by George Yu on 2020/2/2.
@@ -63,7 +64,7 @@ class RecordMoodFragment : Fragment() {
 
         viewModel.writeDownSuccess.observe(this, Observer {
             it?.let {
-                when(it) {
+                when (it) {
                     true -> activity.showToast(getString(R.string.save_success))
                 }
             }
@@ -72,14 +73,15 @@ class RecordMoodFragment : Fragment() {
         viewModel.invalidWrite.observe(this, Observer {
             it?.let {
                 when (it) {
-                    INVALID_WRITE_MOOD_EMPTY-> {
+                    INVALID_WRITE_MOOD_EMPTY -> {
                         activity.showToast(getString(R.string.select_a_mood))
                     }
 
                     POST_NOTE_FAIL -> {
                         activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
                     }
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
         })
@@ -133,12 +135,10 @@ class RecordMoodFragment : Fragment() {
             R.style.DatePicker,
             datePickerListener,
             calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.MONTH).plus(1),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
-//        viewModel.timeOfNote.observe(this, Observer {
-//            Logger.w("viewModel.timeOfNote.observe = $it")
-//        })
+
         datePickerDialog.datePicker.maxDate = calendar.timeInMillis
         viewModel.showDatePickerDialog.observe(this, Observer {
             it?.let {

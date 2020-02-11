@@ -63,7 +63,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:timeToDisplayDateFormat="@{viewModel.timeOfNote}"
+                app:timeToDisplayDateFormat="@{viewModel.dateOfNote}"
                 tools:text="2020/02/04" />
 
             <ImageView
@@ -105,7 +105,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:timeToDisplayTimeFormat="@{viewModel.timeOfNote}"
+                app:timeToDisplayTimeFormat="@{viewModel.dateOfNote}"
                 tools:text="12:42" />
 
             <ImageView
@@ -247,7 +247,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_advanced"
-            android:onClick="@{() -> viewModel.postThenNavigateToRecordDetail()}"
+            android:onClick="@{() -> viewModel.prepareWriteDown(NoteSavedType.DETAIL)}"
             android:text="@string/record_mood_add_detail"
             app:layout_constraintBottom_toTopOf="@id/button_quick_save"
             app:layout_constraintEnd_toEndOf="@id/image_mood_very_good"

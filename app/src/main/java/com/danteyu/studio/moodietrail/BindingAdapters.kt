@@ -194,8 +194,6 @@ fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDeco
  */
 @BindingAdapter("timeToDisplayDateFormat")
 fun bindDisplayFormatDate(textView: TextView, time: Long?) {
-    Logger.d("bindDisplayFormatDate, time = $time")
-    Logger.d("bindDisplayFormatDate, toDisplayFormat = ${time?.toDisplayFormat(FORMAT_YYYY_MM_DD)}")
     textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD)
 }
 
