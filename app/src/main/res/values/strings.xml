@@ -51,12 +51,13 @@
     <string name="hash_tag">#%s</string>
 
     <!-- SimpleDateFormat -->
-    <string name="simpledateformat_yyyy_MM_dd">yyyy/MM/dd</string>
+    <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
     <string name="simpledatefromat_yyyy_MM_dd_E">yyyy/MM/dd\nE</string>
     <string name="simpledateformat_MM_dd">MM-dd</string>
     <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
     <string name="simpledateformat_HH_mm">HH:mm</string>
     <string name="simpledateformat_yyyy_MM_dd_HH_mm">yyyy/MM/dd HH:mm</string>
+    <string name="time_list_format">yyyy/MM/dd/HH:mm</string>
 
 
 </resources>

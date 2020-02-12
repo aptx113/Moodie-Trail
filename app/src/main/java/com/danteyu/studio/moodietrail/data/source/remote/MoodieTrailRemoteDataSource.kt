@@ -34,6 +34,8 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val KEY_MONTH = "month"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_DAY = "dayOfMonth"
+    private const val KEY_AVGMOOD = "avgMoodScore"
+    private const val KEY_TIMELIST = "timeList"
 
 
     //    fun getStartOfDayInMillis(){
@@ -141,10 +143,13 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun submitAvgMood(averageMood: AverageMood): Result<Boolean> =
+    override suspend fun submitAvgMood(
+        averageMood: AverageMood,
+        timeList: String
+    ): Result<Boolean> =
         suspendCoroutine { continuation ->
             val avgMoods = FirebaseFirestore.getInstance().collection(PATH_AVGMOODS)
-            val document = avgMoods.document()
+            val document = avgMoods.document(timeList)
 
             averageMood.id = document.id
 
@@ -162,10 +167,17 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                             continuation.resume(Result.Error(it))
                             return@addOnCompleteListener
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                        continuation.resume(
+                            Result.Fail(
+                                MoodieTrailApplication.instance.getString(
+                                    R.string.you_know_nothing
+                                )
+                            )
+                        )
                     }
                 }
         }
+
 
     override suspend fun deleteNote(note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->

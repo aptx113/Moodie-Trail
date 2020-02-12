@@ -18,7 +18,7 @@ interface MoodieTrailDataSource {
 
     suspend fun writeDownNote(note: Note): Result<Boolean>
 
-    suspend fun submitAvgMood(averageMood: AverageMood):Result<Boolean>
+    suspend fun submitAvgMood(averageMood: AverageMood, timeList:String):Result<Boolean>
 
     suspend fun deleteNote(note: Note): Result<Boolean>
 }

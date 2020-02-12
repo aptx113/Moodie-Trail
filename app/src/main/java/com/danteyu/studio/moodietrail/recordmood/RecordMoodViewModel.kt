@@ -11,6 +11,9 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.Format_YYYY_MM_DD_HH_MM_LIST
+import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -42,7 +45,7 @@ class RecordMoodViewModel(
     val notesByDate: LiveData<List<Note>>
         get() = _notesByDate
 
-    val averageMood: LiveData<Float> = Transformations.map(_notesByDate) {
+    val averageMoodScore: LiveData<Float> = Transformations.map(_notesByDate) {
         var totalMood = 0f
         var aveMood = 0f
 
@@ -165,7 +168,6 @@ class RecordMoodViewModel(
 
         }
 
-
         yearOfNote.value = when (_note.value?.year) {
             0 -> calendar.get(Calendar.YEAR)
             else -> _note.value?.year
@@ -245,6 +247,7 @@ class RecordMoodViewModel(
         postNote(
             Note(
                 createdTime = _dateOfNote.value!!,
+                timeList = _dateOfNote.value?.toDisplayFormat(Format_YYYY_MM_DD_HH_MM_LIST)!!,
                 year = yearOfNote.value!!,
                 month = monthOfNote.value!!,
                 weekOfMonth = weekOFMonthOfNote.value!!,
@@ -269,7 +272,7 @@ class RecordMoodViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    getNotesResult(year, month, day)
+                    getNotesResultByDate(year, month, day)
 //                    navigateToHome(true)
                     result.data
                 }
@@ -296,7 +299,7 @@ class RecordMoodViewModel(
 
     }
 
-    private fun getNotesResult(year: Int, month: Int, day: Int) {
+    private fun getNotesResultByDate(year: Int, month: Int, day: Int) {
 
         coroutineScope.launch {
 
@@ -308,14 +311,7 @@ class RecordMoodViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-//                    postAvgMood(
-//                        AverageMood(
-//                            avgMoodScore = averageMood.value!!,
-//                            year = year,
-//                            month = month,
-//                            dayOfMonth = day
-//                        )
-//                    )
+
                     result.data
                 }
                 is Result.Fail -> {
@@ -335,18 +331,28 @@ class RecordMoodViewModel(
                     null
                 }
             }
+                                        postAvgMood(
+                        AverageMood(
+                            avgMoodScore = averageMoodScore.value!!,
+                            year = year,
+                            month = month,
+                            dayOfMonth = day,
+                            timeList = "$year/$month/$day"
+                        ),_dateOfNote.value?.toDisplayFormat(
+                                                FORMAT_YYYY_MM_DD)!!
+                    )
 //            _refreshStatus.value = false
         }
+
     }
 
-    private fun postAvgMood(averageMood: AverageMood) {
+    private fun postAvgMood(averageMood: AverageMood,timeList:String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-
-            when (val result = moodieTrailRepository.submitAvgMood(averageMood)) {
+            when (val result = moodieTrailRepository.submitAvgMood(averageMood,timeList)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

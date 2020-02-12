@@ -12,9 +12,10 @@ import kotlinx.android.parcel.Parcelize
 data class Note(
     var id: String = "",
     var createdTime: Long = 0,
+    var timeList: String = "",
     var year: Int = 0,
     var month: Int = 0,
-    var weekOfMonth:Int = 0,
+    var weekOfMonth: Int = 0,
     var dayOfMonth: Int = 0,
     var hour: Int = 0,
     var mood: Int = 0,

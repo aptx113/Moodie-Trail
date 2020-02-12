@@ -13,5 +13,6 @@ data class AverageMood(
     var avgMoodScore: Float = 0.0f,
     var year: Int = 0,
     var month: Int = 0,
-    var dayOfMonth: Int = 0
+    var dayOfMonth: Int = 0,
+    var timeList:String =""
 ) : Parcelable

@@ -1,5 +1,7 @@
 package com.danteyu.studio.moodietrail.statistic
 
+import android.graphics.Color
+import android.util.SparseArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -9,13 +11,20 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 /**
@@ -89,7 +98,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getNotesResult()
+//        getNotesResult()
 
     }
 
@@ -126,5 +135,55 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
             }
         }
     }
+
+    fun data(): LineData {
+
+        val entries = ArrayList<Entry>().apply {
+            add(Entry(1f, 1f))
+            add(Entry(2f, 2f))
+            add(Entry(3f, 4f))
+            add(Entry(4f, 4f))
+            add(Entry(5f, 3f))
+            add(Entry(6f, 3f))
+            add(Entry(7f, 3f))
+        }
+
+
+        val lineDataSet = LineDataSet(entries, "")
+            lineDataSet.run {
+
+            color = Color.BLUE
+            lineWidth = 1f
+            circleRadius = 3f
+
+            setDrawCircleHole(false)
+            setDrawCircles(true)
+            setDrawHorizontalHighlightIndicator(false)
+            setDrawHighlightIndicators(false)
+            setDrawValues(false)
+        }
+
+
+        return LineData(lineDataSet)
+    }
+
+    fun formatValue():SparseArray<String>{
+
+        val timeList =calendar.timeInMillis.toDisplayFormat(FORMAT_YYYY_MM_DD).split("/")
+
+        val day = timeList[2].toInt()
+        val dayOfMonth = SparseArray<String>()
+        dayOfMonth.run {
+            put(1,"${day-3}")
+            put(2,"${day-2}")
+            put(3,"${day-1}")
+            put(4,"$day")
+            put(5,"${day+1}")
+            put(6,"${day+2}")
+            put(7,"${day+3}")
+        }
+        return dayOfMonth
+    }
+
 
 }

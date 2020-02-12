@@ -27,8 +27,8 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.writeDownNote(note)
     }
 
-    override suspend fun submitAvgMood(averageMood: AverageMood): Result<Boolean> {
-        return remoteDataSource.submitAvgMood(averageMood)
+    override suspend fun submitAvgMood(averageMood: AverageMood,timeList:String): Result<Boolean> {
+        return remoteDataSource.submitAvgMood(averageMood,timeList)
     }
 
     override suspend fun deleteNote(note: Note): Result<Boolean> {

@@ -115,7 +115,7 @@ class RecordMoodFragment : Fragment() {
             }
         })
 
-        viewModel.averageMood.observe(this, Observer {
+        viewModel.averageMoodScore.observe(this, Observer {
             Logger.w("averageMood = $it")
         })
 
