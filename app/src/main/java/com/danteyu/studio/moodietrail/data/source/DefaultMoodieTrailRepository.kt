@@ -23,12 +23,19 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.getNotesByDate(year, month, day)
     }
 
+    override suspend fun getNotesByDateRange(startDate: Long, endDate: Long): Result<List<Note>> {
+        return remoteDataSource.getNotesByDateRange(startDate, endDate)
+    }
+
     override suspend fun writeDownNote(note: Note): Result<Boolean> {
         return remoteDataSource.writeDownNote(note)
     }
 
-    override suspend fun submitAvgMood(averageMood: AverageMood,timeList:String): Result<Boolean> {
-        return remoteDataSource.submitAvgMood(averageMood,timeList)
+    override suspend fun submitAvgMood(
+        averageMood: AverageMood,
+        timeList: String
+    ): Result<Boolean> {
+        return remoteDataSource.submitAvgMood(averageMood, timeList)
     }
 
     override suspend fun deleteNote(note: Note): Result<Boolean> {

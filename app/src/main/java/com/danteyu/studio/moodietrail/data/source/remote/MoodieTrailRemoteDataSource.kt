@@ -117,6 +117,37 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
+    override suspend fun getNotesByDateRange(startDate: Long, endDate: Long): Result<List<Note>> =
+        suspendCoroutine { continuation ->
+
+            FirebaseFirestore.getInstance()
+                .collection(PATH_NOTES)
+                .whereGreaterThanOrEqualTo(KEY_CREATED_TIME,startDate)
+                .whereLessThanOrEqualTo(KEY_CREATED_TIME,endDate)
+                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Note>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val note = document.toObject(Note::class.java)
+                            list.add(note)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
     override suspend fun writeDownNote(note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
             val notes = FirebaseFirestore.getInstance().collection(PATH_NOTES)
@@ -151,7 +182,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
             val avgMoods = FirebaseFirestore.getInstance().collection(PATH_AVGMOODS)
             val document = avgMoods.document(timeList)
 
-            averageMood.id = document.id
+            averageMood.idTime = document.id
 
             document
                 .set(averageMood)

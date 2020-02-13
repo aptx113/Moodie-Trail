@@ -9,10 +9,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class AverageMood(
-    var id: String = "",
+    var idTime: String = "",
     var avgMoodScore: Float = 0.0f,
-    var year: Int = 0,
-    var month: Int = 0,
-    var dayOfMonth: Int = 0,
-    var timeList:String =""
+    var time: Long = 0
 ) : Parcelable

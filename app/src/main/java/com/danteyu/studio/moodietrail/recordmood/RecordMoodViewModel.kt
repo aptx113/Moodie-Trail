@@ -20,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 import java.util.*
 
 /**
@@ -67,16 +68,7 @@ class RecordMoodViewModel(
     val dateOfNote: LiveData<Long>
         get() = _dateOfNote
 
-    val yearOfNote = MutableLiveData<Int>()
-
-    val monthOfNote = MutableLiveData<Int>()
-
     val weekOFMonthOfNote = MutableLiveData<Int>()
-
-    val dayOfNote = MutableLiveData<Int>()
-
-    val hourOfNote = MutableLiveData<Int>()
-
 
     val selectedIcon = MutableLiveData<View>()
 
@@ -157,55 +149,55 @@ class RecordMoodViewModel(
         Logger.i("------------------------------------")
 
         initialDateOfNote()
+
     }
 
-    fun initialDateOfNote() {
+//    val date = MutableLiveData<Date>()
 
+    /**
+     * Function to get Start Time Of Date in timestamp in milliseconds
+     */
+    private fun getStartTimeOfDate(timestamp: Long): Long? {
+
+        val dayStart = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_daybegin,
+                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+            )
+        )
+        return dayStart.time
+    }
+
+    /**
+     * Function to get End Time Of Date in timestamp in milliseconds
+     */
+    private fun getEndTimeOfDate(timestamp: Long): Long? {
+
+        val dayEnd = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_dayend,
+                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+            )
+        )
+        return dayEnd.time
+    }
+
+    private fun initialDateOfNote() {
 
         _dateOfNote.value = when (_note.value?.createdTime) {
             0L -> calendar.timeInMillis
             else -> _note.value?.createdTime
-
-        }
-
-        yearOfNote.value = when (_note.value?.year) {
-            0 -> calendar.get(Calendar.YEAR)
-            else -> _note.value?.year
-
-        }
-
-        monthOfNote.value = when (_note.value?.month) {
-            0 -> calendar.get(Calendar.MONTH).plus(1)
-            else -> _note.value?.month
-
         }
 
         weekOFMonthOfNote.value = when (_note.value?.weekOfMonth) {
             0 -> calendar.get(Calendar.WEEK_OF_MONTH)
             else -> _note.value?.weekOfMonth
         }
-
-        dayOfNote.value = when (_note.value?.dayOfMonth) {
-            0 -> calendar.get(Calendar.DAY_OF_MONTH)
-            else -> _note.value?.dayOfMonth
-
-        }
-
-        hourOfNote.value = when (_note.value?.hour) {
-            0 -> calendar.get(Calendar.HOUR_OF_DAY)
-            else -> _note.value?.hour
-
-        }
-
     }
 
     fun updateDateAndTimeOfNote() {
         _dateOfNote.value = calendar.timeInMillis
-        yearOfNote.value = calendar.get(Calendar.YEAR)
-        monthOfNote.value = calendar.get(Calendar.MONTH).plus(1)
         weekOFMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
-        dayOfNote.value = calendar.get(Calendar.DAY_OF_MONTH)
-        hourOfNote.value = calendar.get(Calendar.HOUR_OF_DAY)
 
     }
 
@@ -224,9 +216,6 @@ class RecordMoodViewModel(
         selectedIcon.value?.isSelected = false
         selectedIcon.value = view
         selectedIcon.value?.isSelected = true
-
-
-        Logger.w("selectMood = $mood, selectIcon = ${view.id}")
     }
 
     fun prepareWriteDown(noteSavedType: NoteSavedType) {
@@ -240,27 +229,24 @@ class RecordMoodViewModel(
                 NoteSavedType.QUICK -> writeDown()
             }
         }
-
     }
 
     private fun writeDown() {
+
+        if (dateOfNote.value == null ||
+            weekOFMonthOfNote.value == null || selectedMood.value == null
+        ) return
+
         postNote(
             Note(
                 createdTime = _dateOfNote.value!!,
-                timeList = _dateOfNote.value?.toDisplayFormat(Format_YYYY_MM_DD_HH_MM_LIST)!!,
-                year = yearOfNote.value!!,
-                month = monthOfNote.value!!,
                 weekOfMonth = weekOFMonthOfNote.value!!,
-                dayOfMonth = dayOfNote.value!!,
-                hour = hourOfNote.value!!,
                 mood = selectedMood.value!!
             )
-            , yearOfNote.value!!, monthOfNote.value!!, dayOfNote.value!!
         )
-
     }
 
-    private fun postNote(note: Note, year: Int, month: Int, day: Int) {
+    private fun postNote(note: Note) {
 
         coroutineScope.launch {
 
@@ -272,8 +258,10 @@ class RecordMoodViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    getNotesResultByDate(year, month, day)
-//                    navigateToHome(true)
+                    getNotesResultByDateRange(
+                        getStartTimeOfDate(_dateOfNote.value!!)!!,
+                        getEndTimeOfDate(_dateOfNote.value!!)!!
+                    )
                     result.data
                 }
                 is Result.Fail -> {
@@ -299,13 +287,13 @@ class RecordMoodViewModel(
 
     }
 
-    private fun getNotesResultByDate(year: Int, month: Int, day: Int) {
+    private fun getNotesResultByDateRange(startDate: Long, endDate: Long) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.getNotesByDate(year, month, day)
+            val result = moodieTrailRepository.getNotesByDateRange(startDate, endDate)
 
             _notesByDate.value = when (result) {
                 is Result.Success -> {
@@ -331,28 +319,26 @@ class RecordMoodViewModel(
                     null
                 }
             }
-                                        postAvgMood(
-                        AverageMood(
-                            avgMoodScore = averageMoodScore.value!!,
-                            year = year,
-                            month = month,
-                            dayOfMonth = day,
-                            timeList = "$year/$month/$day"
-                        ),_dateOfNote.value?.toDisplayFormat(
-                                                FORMAT_YYYY_MM_DD)!!
-                    )
+            postAvgMood(
+                AverageMood(
+                    avgMoodScore = averageMoodScore.value!!,
+                    time = getStartTimeOfDate(_dateOfNote.value!!)!!
+                ), _dateOfNote.value?.toDisplayFormat(
+                    FORMAT_YYYY_MM_DD
+                )!!
+            )
 //            _refreshStatus.value = false
         }
 
     }
 
-    private fun postAvgMood(averageMood: AverageMood,timeList:String) {
+    private fun postAvgMood(averageMood: AverageMood, timeList: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = moodieTrailRepository.submitAvgMood(averageMood,timeList)) {
+            when (val result = moodieTrailRepository.submitAvgMood(averageMood, timeList)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -383,11 +369,7 @@ class RecordMoodViewModel(
 
         val note = Note(
             createdTime = _dateOfNote.value!!,
-            year = yearOfNote.value!!,
-            month = monthOfNote.value!!,
             weekOfMonth = weekOFMonthOfNote.value!!,
-            dayOfMonth = dayOfNote.value!!,
-            hour = hourOfNote.value!!,
             mood = selectedMood.value!!
         )
 

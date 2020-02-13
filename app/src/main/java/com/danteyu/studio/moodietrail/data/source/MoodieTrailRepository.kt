@@ -16,6 +16,8 @@ interface MoodieTrailRepository {
 
     suspend fun getNotesByDate(year:Int, month:Int, day:Int): Result<List<Note>>
 
+    suspend fun getNotesByDateRange(startDate:Long, endDate:Long): Result<List<Note>>
+
     suspend fun writeDownNote(note: Note): Result<Boolean>
 
     suspend fun submitAvgMood(averageMood: AverageMood, timeList:String):Result<Boolean>
