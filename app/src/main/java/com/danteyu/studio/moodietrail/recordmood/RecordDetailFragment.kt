@@ -15,6 +15,7 @@ import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -68,6 +69,10 @@ class RecordDetailFragment : AppCompatDialogFragment() {
                 findNavController().navigateUp()
                 viewModel.onRecordMoodBacked()
             }
+        })
+
+        viewModel.note.observe(this, Observer {
+            Logger.w("note = $it")
         })
 
         return binding.root

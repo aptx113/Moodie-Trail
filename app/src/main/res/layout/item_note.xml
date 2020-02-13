@@ -32,7 +32,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,8 @@
                     android:id="@+id/image_note_mood"
                     android:layout_width="60dp"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/margin_basic"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginBottom="@dimen/margin_quarter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/text_note_created_time"
                     app:layout_constraintDimensionRatio="1:1"
@@ -108,19 +109,22 @@
                     android:fontFamily="@font/noto_sans"
                     android:lines="1"
                     android:textSize="12sp"
+                    app:layout_constraintHorizontal_bias="0.725"
+                    app:layout_constraintVertical_bias="0.95"
                     app:layout_constraintStart_toStartOf="@id/text_note_created_date"
-                    app:layout_constraintTop_toBottomOf="@id/text_note_created_date"
+                    app:layout_constraintTop_toTopOf="@id/text_note_created_date"
+                    app:layout_constraintEnd_toEndOf="@id/text_note_created_date"
+                    app:layout_constraintBottom_toBottomOf="@id/text_note_created_date"
                     app:timeToDisplayTimeFormat="@{note.createdTime}"
                     tools:text="16:10" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_note_content"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_half"
+                    android:layout_marginStart="@dimen/margin_half"
                     android:visibility="@{note.content == null ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_note_created_time">
 
@@ -137,10 +141,11 @@
 
                     <TextView
                         android:id="@+id/text_note_content"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_half"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="@dimen/margin_quarter"
+                        android:layout_marginEnd="8dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/noto_sans"
                         android:maxLines="3"
@@ -148,8 +153,7 @@
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@id/image_note_content"
+                        app:layout_constraintStart_toEndOf="@+id/image_note_content"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Content" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import kotlinx.android.parcel.Parcelize
 data class Note(
     var id: String = "",
     var createdTime: Long = 0,
+    var weekOfMonth: Int = 0,
     var mood: Int = 0,
     var emotions: List<Int>? = null,
     var feelings: List<Int>? = null,

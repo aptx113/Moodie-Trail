@@ -51,12 +51,19 @@
     <string name="hash_tag">#%s</string>
 
     <!-- SimpleDateFormat -->
-    <string name="simpledateformat_yyyy_MM_dd">yyyy/MM/dd</string>
+    <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
     <string name="simpledatefromat_yyyy_MM_dd_E">yyyy/MM/dd\nE</string>
     <string name="simpledateformat_MM_dd">MM-dd</string>
     <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
     <string name="simpledateformat_HH_mm">HH:mm</string>
+    <string name="simpledateformat_yyyy_MM_dd_HH_mm">yyyy/MM/dd HH:mm</string>
+    <string name="time_list_format">yyyy/MM/dd/HH:mm</string>
 
+    <!-- timestamp -->
+    <string name="timestamp_dayend">%s 23:59:59.999999999</string>
+    <string name="timestamp_daybegin">%s 00:00:00.000000000</string>
+    <string name="year_month_date">%s-%s-%s</string>
+    <string name="hour_minute">%s:%s</string>
 
 
 </resources>

@@ -15,6 +15,7 @@ import com.danteyu.studio.moodietrail.network.NetworkConnectivityListener
 import com.danteyu.studio.moodietrail.network.NetworkEvents
 import com.danteyu.studio.moodietrail.network.NetworkState
 import com.danteyu.studio.moodietrail.util.Util.getString
+import java.text.Format
 import java.util.*
 
 /**
@@ -37,6 +38,9 @@ fun Long.toDisplayFormat(dateFormat: Int): String {
             FORMAT_YYYY_MM_DD_E -> getString(
                 R.string.simpledatefromat_yyyy_MM_dd_E
             )
+            FORMAT_YYYY_MM_DD_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_HH_mm)
+            Format_YYYY_MM_DD_HH_MM_LIST -> getString(R.string.time_list_format)
+
             FORMAT_HH_MM -> getString(
                 R.string.simpledateformat_HH_mm
             )
@@ -133,7 +137,9 @@ internal var Bundle.previousState: Boolean?
     }
 
 const val FORMAT_MM_DD: Int = 0x01
-const val FORMAT_YYYY_MM_DD_E:Int = 0x02
+const val FORMAT_YYYY_MM_DD_E: Int = 0x02
 const val FORMAT_YYYY_MM_DD: Int = 0x03
 const val FORMAT_YYYY_MM: Int = 0x04
 const val FORMAT_HH_MM: Int = 0x05
+const val FORMAT_YYYY_MM_DD_HH_MM = 0x06
+const val Format_YYYY_MM_DD_HH_MM_LIST = 0x07

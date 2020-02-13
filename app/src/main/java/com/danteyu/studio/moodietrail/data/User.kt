@@ -12,5 +12,6 @@ data class User(
     val name: String = "",
     val email: String = "",
     val notes: List<Note> = listOf(),
-    val tests: List<Test> = listOf()
+    val tests: List<Test> = listOf(),
+    val averageMood: List<AverageMood> = listOf()
 ) : Parcelable

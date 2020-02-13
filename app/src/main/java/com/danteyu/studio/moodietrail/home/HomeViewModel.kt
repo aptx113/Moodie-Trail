@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail.home
 
+import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +41,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val error: LiveData<String>
         get() = _error
 
-    // status for the loading icon of swl
+    // status for the loading notes
     private val _refreshStatus = MutableLiveData<Boolean>()
 
     val refreshStatus: LiveData<Boolean>
@@ -61,12 +62,16 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         viewModelJob.cancel()
     }
 
+    val calendar = Calendar.getInstance()
+
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
         getNotesResult()
+
+        Logger.w("calendar.get(Calendar.YEAR) = ${calendar.get(Calendar.YEAR)}")
     }
 
     private fun getNotesResult() {

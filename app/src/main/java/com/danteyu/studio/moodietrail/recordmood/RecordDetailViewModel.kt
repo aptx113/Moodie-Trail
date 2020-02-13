@@ -26,6 +26,11 @@ class RecordDetailViewModel(
 
 ) : ViewModel() {
 
+    private val _note = MutableLiveData<Note>().apply { value = argument }
+
+    val note: LiveData<Note>
+        get() = _note
+
     val tags = MutableLiveData<MutableList<String>>().apply { value = mutableListOf() }
 
     val newTag = MutableLiveData<String>()
@@ -43,14 +48,20 @@ class RecordDetailViewModel(
         get() = _backToRecordMood
 
     val decoration = object : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
             super.getItemOffsets(outRect, view, parent, state)
 
             // Add top margin only for the first item to avoid double space between items
             if (parent.getChildLayoutPosition(view) == 0) {
                 outRect.left = 0
             } else {
-                outRect.left = MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_tag)
+                outRect.left =
+                    MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_tag)
             }
         }
     }

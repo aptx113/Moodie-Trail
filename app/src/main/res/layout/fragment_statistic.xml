@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.statistic.StatisticViewModel" />
+
     </data>
 
     <ScrollView
@@ -13,14 +17,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_basic">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_basic"
-                android:layout_marginTop="@dimen/margin_basic"
                 android:background="@drawable/bg_radius"
                 android:elevation="@dimen/margin_quarter"
                 android:paddingHorizontal="@dimen/margin_half"
@@ -85,9 +89,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_basic"
                 android:layout_marginTop="@dimen/margin_basic"
+                android:layout_marginBottom="@dimen/margin_basic"
                 android:background="@drawable/bg_radius"
                 android:elevation="@dimen/margin_quarter"
                 android:paddingHorizontal="@dimen/margin_half"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_month">
