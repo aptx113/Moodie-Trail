@@ -11,6 +11,7 @@ data class User(
     val id: String = "",
     val name: String = "",
     val email: String = "",
+    val picture: String = "",
     val notes: List<Note> = listOf(),
     val tests: List<Test> = listOf(),
     val averageMood: List<AverageMood> = listOf()

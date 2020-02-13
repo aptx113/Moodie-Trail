@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.login.LoginViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_advanced"
             android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
+            android:onClick="@{()->viewModel.loginGoogle()}"
             android:text="@string/sign_in_with_google"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"

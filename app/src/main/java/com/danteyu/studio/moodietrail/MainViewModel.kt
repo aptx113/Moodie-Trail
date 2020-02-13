@@ -3,6 +3,7 @@ package com.danteyu.studio.moodietrail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
@@ -17,6 +18,11 @@ import java.util.*
 class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
     private val calendar = Calendar.getInstance()
+
+    private val _user = MutableLiveData<User>()
+
+    val user: LiveData<User>
+        get() = _user
 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
@@ -49,6 +55,16 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("------------------------------------")
 
         initialDate()
+    }
+
+    fun setupUser(user: User) {
+
+        _user.value = user
+        Logger.i("=============")
+        Logger.i("| setupUser |")
+        Logger.i("user=$user")
+        Logger.i("MainViewModel=${this}")
+        Logger.i("=============")
     }
 
     //Change Fab status when is pressed

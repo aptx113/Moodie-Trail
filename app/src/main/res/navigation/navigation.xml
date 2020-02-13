@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.danteyu.studio.moodietrail.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/homeFragment"
@@ -26,6 +32,40 @@
         android:name="com.danteyu.studio.moodietrail.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/recordMoodFragment"
+        android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodFragment"
+        android:label="RecordMoodFragment"
+        tools:layout="@layout/fragment_record_mood">
+        <argument
+            android:name="noteKey"
+            app:argType="com.danteyu.studio.moodietrail.data.Note"
+            app:nullable="false" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/recordDetailFragment"
+        android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailFragment"
+        android:label="RecordDetailFragment"
+        tools:layout="@layout/dialog_record_detail">
+        <argument
+            android:name="noteKey"
+            app:argType="com.danteyu.studio.moodietrail.data.Note"
+            app:nullable="false" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/messageDialog"
+        android:name="com.danteyu.studio.moodietrail.dialog.MessageDialog"
+        android:label="MessageDialog"
+        tools:layout="@layout/dialog_message">
+
+        <argument
+            android:name="messageTypeKey"
+            app:argType="com.danteyu.studio.moodietrail.dialog.MessageDialog$MessageType"
+            app:nullable="false" />
+    </dialog>
     <action
         android:id="@+id/navigate_to_profileFragment"
         app:destination="@id/profileFragment"
@@ -46,31 +86,17 @@
         app:destination="@id/homeFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
-    <fragment
-        android:id="@+id/recordMoodFragment"
-        android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodFragment"
-        android:label="RecordMoodFragment"
-        tools:layout="@layout/fragment_record_mood">
-        <argument
-            android:name="noteKey"
-            app:argType="com.danteyu.studio.moodietrail.data.Note"
-            app:nullable="false" />
-    </fragment>
+
     <action
         android:id="@+id/navigate_to_recordMoodFragment"
         app:destination="@id/recordMoodFragment" />
-    <dialog
-        android:id="@+id/recordDetailFragment"
-        android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailFragment"
-        android:label="RecordDetailFragment"
-        tools:layout="@layout/dialog_record_detail">
-        <argument
-            android:name="noteKey"
-            app:argType="com.danteyu.studio.moodietrail.data.Note"
-            app:nullable="false" />
-    </dialog>
+
     <action
         android:id="@+id/navigate_to_recordDetailFragment"
         app:destination="@id/recordDetailFragment" />
+
+    <action
+        android:id="@+id/navigate_to_message_dialog"
+        app:destination="@id/messageDialog" />
 
 </navigation>

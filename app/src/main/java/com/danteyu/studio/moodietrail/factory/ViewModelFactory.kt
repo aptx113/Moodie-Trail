@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.home.HomeViewModel
+import com.danteyu.studio.moodietrail.login.LoginViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel
@@ -27,6 +28,8 @@ class ViewModelFactory constructor(
         with(modelClass) {
             when {
                 isAssignableFrom(MainViewModel::class.java) -> MainViewModel(moodieTrailRepository)
+
+                isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(moodieTrailRepository)
 
                 isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(moodieTrailRepository)
 
