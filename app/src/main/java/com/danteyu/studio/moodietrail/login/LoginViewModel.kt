@@ -1,6 +1,5 @@
 package com.danteyu.studio.moodietrail.login
 
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,13 +13,10 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getString
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -102,6 +98,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
 
     }
 
+// Check whether user had registered, if not than call sign up
     private fun getUserProfile(uid: String) {
         _status.value = LoadApiStatus.LOADING
 
@@ -119,7 +116,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    registerUserProfile(
+                    signUpUserProfile(
                         User(
                             name = UserManager.name!!,
                             picture = UserManager.picture!!,
@@ -142,11 +139,11 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
         }
     }
 
-    private fun registerUserProfile(userData: User, id: String) {
+    private fun signUpUserProfile(userData: User, id: String) {
         _status.value = LoadApiStatus.LOADING
         coroutineScope.launch {
 
-            when (val result = moodieTrailRepository.registerUser(userData, id)) {
+            when (val result = moodieTrailRepository.signUpUser(userData, id)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

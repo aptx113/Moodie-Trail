@@ -23,7 +23,7 @@ interface MoodieTrailRepository {
 
     suspend fun writeDownNote(uid:String, note: Note): Result<Boolean>
 
-    suspend fun registerUser(user: User,id: String):Result<Boolean>
+    suspend fun signUpUser(user: User, id: String):Result<Boolean>
 
     suspend fun submitAvgMood(uid:String, averageMood: AverageMood, timeList:String):Result<Boolean>
 

@@ -32,7 +32,7 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.getUserProfile(id)
     }
 
-    override suspend fun registerUser(user: User, id: String): Result<Boolean> {
+    override suspend fun signUpUser(user: User, id: String): Result<Boolean> {
         return remoteDataSource.registerUser(user,id)
     }
 

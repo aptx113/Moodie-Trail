@@ -36,13 +36,6 @@ class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
 
-//    override fun onStart() {
-//        super.onStart()
-////        (activity as MainActivity).bottom_nav_view.visibility = View.GONE
-//        // Configure Google Sign In
-//        currentUser = auth.currentUser!!
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
