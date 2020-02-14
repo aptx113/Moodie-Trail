@@ -57,50 +57,50 @@ class LoginFragment : Fragment() {
 
         val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
 
+        if (UserManager.userToken!!.isNotEmpty()){
+
+            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
 
 
-        viewModel.loginGoogle.observe(this, Observer {
-            it?.let {
+        }else {
 
-                context?.let {
-                    viewModel.googleSignInClient =
-                        GoogleSignIn.getClient(MoodieTrailApplication.instance, viewModel.gso)
-                    val signInIntent = viewModel.googleSignInClient?.signInIntent
-                    startActivityForResult(signInIntent!!, RC_SIGN_IN)
+            viewModel.loginGoogle.observe(this, Observer {
+                it?.let {
+
+                    context?.let {
+                        viewModel.googleSignInClient =
+                            GoogleSignIn.getClient(MoodieTrailApplication.instance, viewModel.gso)
+                        val signInIntent = viewModel.googleSignInClient?.signInIntent
+                        startActivityForResult(signInIntent!!, RC_SIGN_IN)
+                    }
+                    viewModel.onLoginGoogleCompleted()
                 }
-                viewModel.onLoginGoogleCompleted()
+            })
+
+        viewModel.user.observe(this, Observer {
+            if (it != null) {
                 findNavController().navigate(
                     NavigationDirections.navigateToMessageDialog(
                         MessageDialog.MessageType.LOGIN_SUCCESS
                     )
                 )
             }
+
         })
 
-//        viewModel.user.observe(this, Observer {
-//            if (it != null) {
-//                findNavController().navigate(
-//                    NavigationDirections.navigateToMessageDialog(
-//                        MessageDialog.MessageType.LOGIN_SUCCESS
+//            viewModel.navigateToLoginSuccess.observe(this, Observer {
+//                it?.let {
+//                    viewModel.navigateToLoginSuccess(it)
+//                    findNavController().navigate(
+//                        NavigationDirections.navigateToMessageDialog(
+//                            MessageDialog.MessageType.LOGIN_SUCCESS
+//                        )
 //                    )
-//                )
-//            }
-//
-//        })
+//                    viewModel.onLoginSuccessNavigated()
+//                }
+//            })
 
-//        viewModel.navigateToLoginSuccess.observe(this, Observer {
-//            it?.let {
-//                viewModel.navigateToLoginSuccess(it)
-//                findNavController().navigate(
-//                    NavigationDirections.navigateToMessageDialog(
-//                        MessageDialog.MessageType.LOGIN_SUCCESS
-//                    )
-//                )
-//                viewModel.onLoginSuccessNavigated()
-//            }
-//        })
-
-
+        }
         return binding.root
     }
 
@@ -113,13 +113,19 @@ class LoginFragment : Fragment() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account!!)
+
+                UserManager.userToken = account!!.idToken
+                UserManager.name = account.displayName
+                UserManager.picture = account.photoUrl.toString()
+                UserManager.mail = account.email
+
+                firebaseAuthWithGoogle(account)
                 Logger.i("ServerAuthCode =${account.serverAuthCode} account.id =${account.id}")
 
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
+
                 Logger.w("Google sign in failed")
-                // ...
+
             }
         } else {
             viewModel.fbCallbackManager?.onActivityResult(requestCode, resultCode, data)
@@ -138,6 +144,10 @@ class LoginFragment : Fragment() {
 
                     Logger.d("signInWithCredential:success")
                     val user = auth.currentUser
+                    user?.let {
+                        UserManager.id = it.uid
+                        viewModel.checkUser(it.uid)
+                    }
 
                 } else {
                     activity.showToast(getString(R.string.login_fail_toast))

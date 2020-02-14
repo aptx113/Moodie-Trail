@@ -1,19 +1,15 @@
 package com.danteyu.studio.moodietrail.data.source.remote
 
-import android.icu.util.Calendar
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
+import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD_E
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD_HH_MM
-import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.util.Logger
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -29,70 +25,49 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val PATH_NOTES = "notes"
     private const val PATH_TESTS = "tests"
     private const val PATH_AVGMOODS = "avgMoods"
+    private const val KEY_ID = "id"
     private const val KEY_CREATED_TIME = "createdTime"
-    private const val KEY_YEAR = "year"
-    private const val KEY_MONTH = "month"
     private const val KEY_WEEK = "weekOfMonth"
-    private const val KEY_DAY = "dayOfMonth"
     private const val KEY_AVGMOOD = "avgMoodScore"
     private const val KEY_TIMELIST = "timeList"
+    //    private val notesReference = FirebaseFirestore.getInstance().collection(PATH_NOTES)
+    private val userReference = FirebaseFirestore.getInstance().collection(PATH_USERS)
 
+    override suspend fun getNotes(uid: String): Result<List<Note>> =
+        suspendCoroutine { continuation ->
 
-    //    fun getStartOfDayInMillis(){
-//        val calendar = Calendar.getInstance()
-//        calendar.set(Calendar.HOUR_OF_DAY, 0)
-//        calendar
-//    }
-//    fun getStartOfDayInMillis(): Long {
-//        val calendar = Calendar.getInstance()
-//        calendar[Calendar.HOUR_OF_DAY] = 0
-//        calendar[Calendar.MINUTE] = 0
-//        calendar[Calendar.SECOND] = 0
-//        calendar[Calendar.MILLISECOND] = 0
-//        return calendar.timeInMillis
-//    }
+            userReference.document(uid).collection(PATH_NOTES)
+                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<Note>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
 
-//    fun getEndOfDayInMillis(): Long { // Add one day's time to the beginning of the day.
-//// 24 hours * 60 minutes * 60 seconds * 1000 milliseconds = 1 day
-//        return getStartOfDayInMillis() + 24 * 60 * 60 * 1000
-//    }
+                            val note = document.toObject(Note::class.java)
+                            list.add(note)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
 
-    override suspend fun getNotes(): Result<List<Note>> = suspendCoroutine { continuation ->
-
-        FirebaseFirestore.getInstance()
-            .collection(PATH_NOTES)
-            .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val list = mutableListOf<Note>()
-                    for (document in task.result!!) {
-                        Logger.d(document.id + " => " + document.data)
-
-                        val note = document.toObject(Note::class.java)
-                        list.add(note)
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                    continuation.resume(Result.Success(list))
-                } else {
-                    task.exception?.let {
-
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
-                        return@addOnCompleteListener
-                    }
-                    continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                 }
-            }
-    }
+        }
 
     override suspend fun getNotesByDate(year: Int, month: Int, day: Int): Result<List<Note>> =
         suspendCoroutine { continuation ->
 
-            FirebaseFirestore.getInstance()
-                .collection(PATH_NOTES)
-                .whereEqualTo(KEY_YEAR, year)
-                .whereEqualTo(KEY_MONTH, month)
-                .whereEqualTo(KEY_DAY, day)
+            userReference.document().collection(PATH_NOTES)
+//                .whereEqualTo(KEY_YEAR, year)
+//                .whereEqualTo(KEY_MONTH, month)
+//                .whereEqualTo(KEY_DAY, day)
                 .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
@@ -117,13 +92,16 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun getNotesByDateRange(startDate: Long, endDate: Long): Result<List<Note>> =
+    override suspend fun getNotesByDateRange(
+        uid: String,
+        startDate: Long,
+        endDate: Long
+    ): Result<List<Note>> =
         suspendCoroutine { continuation ->
 
-            FirebaseFirestore.getInstance()
-                .collection(PATH_NOTES)
-                .whereGreaterThanOrEqualTo(KEY_CREATED_TIME,startDate)
-                .whereLessThanOrEqualTo(KEY_CREATED_TIME,endDate)
+            userReference.document(uid).collection(PATH_NOTES)
+                .whereGreaterThanOrEqualTo(KEY_CREATED_TIME, startDate)
+                .whereLessThanOrEqualTo(KEY_CREATED_TIME, endDate)
                 .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
@@ -148,10 +126,70 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun writeDownNote(note: Note): Result<Boolean> =
+    override suspend fun getUserProfile(id: String): Result<User> =
         suspendCoroutine { continuation ->
-            val notes = FirebaseFirestore.getInstance().collection(PATH_NOTES)
-            val document = notes.document()
+
+            FirebaseFirestore.getInstance().collection(PATH_USERS).whereEqualTo(KEY_ID, id)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+
+                        val document = task.result!!
+                        if (document.documents.size > 0) {
+                            val user = document.documents.first().toObject(User::class.java)
+                            continuation.resume(Result.Success(user!!))
+                        } else {
+                            continuation.resume(Result.Fail("No User Found"))
+                        }
+//
+//                        val user = document.documents. .toObject(User::class.java)
+//                        Logger.d(document.id + " => " + document.data)
+////                        if(user == null)return@addOnCompleteListener
+//
+//                        continuation.resume(Result.Success(user!!))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun registerUser(user: User, id: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+            val userData = FirebaseFirestore.getInstance().collection(PATH_USERS)
+            val document = userData.document(id)
+
+            user.id = document.id
+
+            document
+                .set(user)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $user")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+
+    override suspend fun writeDownNote(uid: String, note: Note): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            val document = userReference.document(uid).collection(PATH_NOTES).document()
 
             note.id = document.id
 
@@ -175,11 +213,13 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         }
 
     override suspend fun submitAvgMood(
+        uid: String,
         averageMood: AverageMood,
         timeList: String
     ): Result<Boolean> =
         suspendCoroutine { continuation ->
-            val avgMoods = FirebaseFirestore.getInstance().collection(PATH_AVGMOODS)
+            val avgMoods = userReference.document(uid)
+                .collection(PATH_AVGMOODS)
             val document = avgMoods.document(timeList)
 
             averageMood.idTime = document.id
@@ -210,11 +250,10 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         }
 
 
-    override suspend fun deleteNote(note: Note): Result<Boolean> =
+    override suspend fun deleteNote(uid:String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            FirebaseFirestore.getInstance()
-                .collection(PATH_NOTES)
+            userReference.document(uid).collection(PATH_NOTES)
                 .document(note.id)
                 .delete()
                 .addOnSuccessListener {

@@ -14,6 +14,7 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
 import com.danteyu.studio.moodietrail.ext.Format_YYYY_MM_DD_HH_MM_LIST
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -237,28 +238,32 @@ class RecordMoodViewModel(
             weekOFMonthOfNote.value == null || selectedMood.value == null
         ) return
 
-        postNote(
-            Note(
-                createdTime = _dateOfNote.value!!,
-                weekOfMonth = weekOFMonthOfNote.value!!,
-                mood = selectedMood.value!!
+        UserManager.id?.let {
+            postNote(
+                it,
+                Note(
+                    createdTime = _dateOfNote.value!!,
+                    weekOfMonth = weekOFMonthOfNote.value!!,
+                    mood = selectedMood.value!!
+                )
             )
-        )
+        }
     }
 
-    private fun postNote(note: Note) {
+    private fun postNote(uid:String, note: Note) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.writeDownNote(note)
+            val result = moodieTrailRepository.writeDownNote(uid,note)
 
             _writeDownSuccess.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     getNotesResultByDateRange(
+                        uid,
                         getStartTimeOfDate(_dateOfNote.value!!)!!,
                         getEndTimeOfDate(_dateOfNote.value!!)!!
                     )
@@ -287,13 +292,13 @@ class RecordMoodViewModel(
 
     }
 
-    private fun getNotesResultByDateRange(startDate: Long, endDate: Long) {
+    private fun getNotesResultByDateRange(uid: String,startDate: Long, endDate: Long) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.getNotesByDateRange(startDate, endDate)
+            val result = moodieTrailRepository.getNotesByDateRange(uid, startDate, endDate)
 
             _notesByDate.value = when (result) {
                 is Result.Success -> {
@@ -319,7 +324,7 @@ class RecordMoodViewModel(
                     null
                 }
             }
-            postAvgMood(
+            postAvgMood(uid,
                 AverageMood(
                     avgMoodScore = averageMoodScore.value!!,
                     time = getStartTimeOfDate(_dateOfNote.value!!)!!
@@ -332,13 +337,13 @@ class RecordMoodViewModel(
 
     }
 
-    private fun postAvgMood(averageMood: AverageMood, timeList: String) {
+    private fun postAvgMood(uid: String, averageMood: AverageMood, timeList: String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = moodieTrailRepository.submitAvgMood(averageMood, timeList)) {
+            when (val result = moodieTrailRepository.submitAvgMood(uid, averageMood, timeList)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

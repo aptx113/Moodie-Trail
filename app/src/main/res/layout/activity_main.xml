@@ -63,7 +63,7 @@
 
             <TextView
                 android:id="@+id/text_toolbar_date"
-                timeToDisplayDateToolbarFormat="@{viewModel.currentMonth}"
+                app:timeToDisplayDateYMFormat="@{viewModel.currentMonth}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

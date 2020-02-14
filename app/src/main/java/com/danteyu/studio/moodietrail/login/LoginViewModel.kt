@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
@@ -23,12 +24,13 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Created by George Yu on 2020/2/13.
  */
 
-class LoginViewModel(moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
+class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
@@ -93,6 +95,81 @@ class LoginViewModel(moodieTrailRepository: MoodieTrailRepository) : ViewModel()
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+    }
+
+    fun checkUser(uid: String) {
+        getUserProfile(uid)
+
+    }
+
+    private fun getUserProfile(uid: String) {
+        _status.value = LoadApiStatus.LOADING
+
+        coroutineScope.launch {
+
+            when (val result = moodieTrailRepository.getUserProfile(uid)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    if (result.data.id == uid) {
+                        UserManager.id = uid
+                        _user.value = result.data
+                    }
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    registerUserProfile(
+                        User(
+                            name = UserManager.name!!,
+                            picture = UserManager.picture!!,
+                            email = UserManager.mail!!
+                        ), uid
+                    )
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+
+                }
+            }
+        }
+    }
+
+    private fun registerUserProfile(userData: User, id: String) {
+        _status.value = LoadApiStatus.LOADING
+        coroutineScope.launch {
+
+            when (val result = moodieTrailRepository.registerUser(userData, id)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    _user.value = userData
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+
+                }
+            }
+        }
     }
 
     fun navigateToLoginSuccess(user: User) {

@@ -9,6 +9,7 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -69,18 +70,18 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        getNotesResult()
+        UserManager.id?.let { getNotesResult(it) }
 
         Logger.w("calendar.get(Calendar.YEAR) = ${calendar.get(Calendar.YEAR)}")
     }
 
-    private fun getNotesResult() {
+    private fun getNotesResult(uid:String) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.getNotes()
+            val result = moodieTrailRepository.getNotes(uid)
 
             _notes.value = when (result) {
                 is Result.Success -> {
@@ -111,6 +112,6 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun refresh() {
         if (_status.value != LoadApiStatus.LOADING)
-            getNotesResult()
+            UserManager.id?.let { getNotesResult(it) }
     }
 }

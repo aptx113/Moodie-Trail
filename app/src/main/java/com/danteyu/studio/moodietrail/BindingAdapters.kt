@@ -208,7 +208,7 @@ fun bindDisplayFormatWeek(textView: TextView, time: Long?) {
 /**
  * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
  */
-@BindingAdapter("timeToDisplayDateToolbarFormat")
+@BindingAdapter("timeToDisplayDateYMFormat")
 fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
     textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM)
 }

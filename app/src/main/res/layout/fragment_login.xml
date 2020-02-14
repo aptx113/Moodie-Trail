@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
+
         <variable
             name="viewModel"
             type="com.danteyu.studio.moodietrail.login.LoginViewModel" />
@@ -92,20 +96,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_advanced"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
             android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
             android:onClick="@{()->viewModel.loginGoogle()}"
-            android:text="@string/sign_in_with_google"
+            android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/sign_in_with_google : ""}'
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"
             app:layout_constraintStart_toStartOf="@id/button_fb_sign_in"
-            app:layout_constraintTop_toBottomOf="@id/button_fb_sign_in" />
+            app:layout_constraintTop_toBottomOf="@id/button_fb_sign_in"
+            tools:text="@string/sign_in_with_google" />
 
         <ProgressBar
             android:layout_width="@dimen/size_progress"
             android:layout_height="@dimen/size_progress"
             android:elevation="2dp"
             android:theme="@style/ProgressTheme"
-            android:visibility="gone"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/button_google_sign_in"
             app:layout_constraintEnd_toEndOf="@id/button_google_sign_in"
             app:layout_constraintStart_toStartOf="@id/button_google_sign_in"

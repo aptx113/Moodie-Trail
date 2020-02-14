@@ -3,6 +3,7 @@ package com.danteyu.studio.moodietrail.data.source
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
+import com.danteyu.studio.moodietrail.data.User
 
 
 /**
@@ -15,30 +16,39 @@ class DefaultMoodieTrailRepository(
     private val moodieTrailLocalDataSource: MoodieTrailDataSource
 ) : MoodieTrailRepository {
 
-    override suspend fun getNotes(): Result<List<Note>> {
-        return remoteDataSource.getNotes()
+    override suspend fun getNotes(uid:String): Result<List<Note>> {
+        return remoteDataSource.getNotes(uid)
     }
 
     override suspend fun getNotesByDate(year: Int, month: Int, day: Int): Result<List<Note>> {
         return remoteDataSource.getNotesByDate(year, month, day)
     }
 
-    override suspend fun getNotesByDateRange(startDate: Long, endDate: Long): Result<List<Note>> {
-        return remoteDataSource.getNotesByDateRange(startDate, endDate)
+    override suspend fun getNotesByDateRange(uid:String, startDate: Long, endDate: Long): Result<List<Note>> {
+        return remoteDataSource.getNotesByDateRange(uid, startDate, endDate)
     }
 
-    override suspend fun writeDownNote(note: Note): Result<Boolean> {
-        return remoteDataSource.writeDownNote(note)
+    override suspend fun getUserProfile(id: String): Result<User> {
+        return remoteDataSource.getUserProfile(id)
+    }
+
+    override suspend fun registerUser(user: User, id: String): Result<Boolean> {
+        return remoteDataSource.registerUser(user,id)
+    }
+
+    override suspend fun writeDownNote(uid:String, note: Note): Result<Boolean> {
+        return remoteDataSource.writeDownNote(uid, note)
     }
 
     override suspend fun submitAvgMood(
+        uid:String,
         averageMood: AverageMood,
         timeList: String
     ): Result<Boolean> {
-        return remoteDataSource.submitAvgMood(averageMood, timeList)
+        return remoteDataSource.submitAvgMood(uid,averageMood, timeList)
     }
 
-    override suspend fun deleteNote(note: Note): Result<Boolean> {
-        return remoteDataSource.deleteNote(note)
+    override suspend fun deleteNote(uid:String, note: Note): Result<Boolean> {
+        return remoteDataSource.deleteNote(uid, note)
     }
 }

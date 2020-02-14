@@ -4,6 +4,7 @@ import android.content.Context
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
+import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 
 
@@ -14,7 +15,7 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
  */
 class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
 
-    override suspend fun getNotes(): Result<List<Note>> {
+    override suspend fun getNotes(uid:String): Result<List<Note>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -22,19 +23,27 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getNotesByDateRange(startDate: Long, endDate: Long): Result<List<Note>> {
+    override suspend fun getNotesByDateRange(uid:String, startDate: Long, endDate: Long): Result<List<Note>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun writeDownNote(note: Note): Result<Boolean> {
+    override suspend fun getUserProfile(id: String): Result<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun submitAvgMood(averageMood: AverageMood, timeList:String): Result<Boolean> {
+    override suspend fun registerUser(user: User,id: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun deleteNote(note: Note): Result<Boolean> {
+    override suspend fun writeDownNote(uid:String, note: Note): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun submitAvgMood(uid:String, averageMood: AverageMood, timeList:String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun deleteNote(uid:String, note: Note): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
