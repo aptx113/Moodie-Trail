@@ -15,5 +15,7 @@ enum class CurrentFragmentType(val value: String) {
     PROFILE(getString(R.string.profile)),
     RECORDMOOD(""),
     RECORDDETAIL(""),
+    PSYTEST(""),
+    PSYTESTBODY("")
 
 }

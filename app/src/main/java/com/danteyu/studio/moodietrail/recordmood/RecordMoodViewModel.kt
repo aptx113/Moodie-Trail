@@ -347,7 +347,7 @@ class RecordMoodViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    navigateToHome(true)
+                    navigateToHome()
 
                 }
                 is Result.Fail -> {
@@ -401,8 +401,8 @@ class RecordMoodViewModel(
         _showTimePickerDialog.value = false
     }
 
-    fun navigateToHome(needRefresh: Boolean = false) {
-        _navigateToHome.value = needRefresh
+    fun navigateToHome() {
+        _navigateToHome.value = true
     }
 
     fun onHomeNavigated() {

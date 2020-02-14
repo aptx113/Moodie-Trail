@@ -107,6 +107,13 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        viewModel.navigateToPsyTest.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestFragment())
+                viewModel.onPsyTestNavigated()
+            }
+        })
+
         setupToolbar()
         setupBottomNav()
         setupNavController()
@@ -133,6 +140,8 @@ class MainActivity : BaseActivity() {
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
                 R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL
+                R.id.psyTestFragment -> CurrentFragmentType.PSYTEST
+                R.id.psyTestBodyFragment -> CurrentFragmentType.PSYTESTBODY
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -204,7 +213,7 @@ class MainActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     private fun closeFabMenu() {
 
-        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD) {
+        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTEST) {
             binding.fabRecordMood.visibility = View.INVISIBLE
             binding.fabStartTest.visibility = View.INVISIBLE
             binding.textFabRecordMood.alpha = 0.0f

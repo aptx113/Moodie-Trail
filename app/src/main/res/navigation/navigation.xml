@@ -44,6 +44,15 @@
             app:nullable="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/psyTestFragment"
+        android:name="com.danteyu.studio.moodietrail.psytest.PsyTestFragment"
+        android:label="PsyTestFragment"
+        tools:layout="@layout/fragment_psy_test" >
+        <action
+            android:id="@+id/navigate_to_psyTestBodyFragment"
+            app:destination="@id/psyTestBodyFragment" />
+    </fragment>
     <dialog
         android:id="@+id/recordDetailFragment"
         android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailFragment"
@@ -96,7 +105,16 @@
         app:destination="@id/recordDetailFragment" />
 
     <action
+        android:id="@+id/navigate_to_psyTestFragment"
+        app:destination="@id/psyTestFragment" />
+
+    <action
         android:id="@+id/navigate_to_message_dialog"
         app:destination="@id/messageDialog" />
+    <fragment
+        android:id="@+id/psyTestBodyFragment"
+        android:name="com.danteyu.studio.moodietrail.psytest.PsyTestBodyFragment"
+        android:label="fragment_psy_test_body"
+        tools:layout="@layout/fragment_psy_test_body" />
 
 </navigation>

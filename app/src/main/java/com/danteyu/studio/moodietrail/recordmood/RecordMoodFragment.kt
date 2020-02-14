@@ -11,10 +11,8 @@ import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentRecordMoodBinding
@@ -87,13 +85,7 @@ class RecordMoodFragment : Fragment() {
         })
 
         viewModel.navigateToHome.observe(this, Observer {
-            it?.let { needRefresh ->
-                if (needRefresh) {
-
-                    ViewModelProvider(activity!!).get(MainViewModel::class.java).apply {
-                        refresh()
-                    }
-                }
+            it?.let {
                 findNavController().navigate(NavigationDirections.navigateToHomeFragment())
                 (activity as MainActivity).bottomNavView.selectedItemId = R.id.navigation_home
                 viewModel.onHomeNavigated()

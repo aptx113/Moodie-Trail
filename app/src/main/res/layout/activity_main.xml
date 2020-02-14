@@ -27,7 +27,7 @@
             android:layout_height="@dimen/height_toolbar"
             android:background="@color/blue_700"
             android:elevation="@dimen/elevation_all"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN || viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -63,7 +63,6 @@
 
             <TextView
                 android:id="@+id/text_toolbar_date"
-                app:timeToDisplayDateYMFormat="@{viewModel.currentMonth}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -75,6 +74,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:visibility="visible"
+                app:timeToDisplayDateYMFormat="@{viewModel.currentMonth}"
                 tools:text="2020-01"
                 tools:visibility="visible" />
 
@@ -174,6 +174,7 @@
             android:id="@+id/fab_start_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.navigateToPsyTest()}"
             android:src="@drawable/ic_add_test"
             android:visibility="gone"
             app:backgroundTint="@color/blue_700"
@@ -212,7 +213,7 @@
             android:focusable="true"
             android:onClick="@{()->viewModel.onFabPressed()}"
             android:src="@drawable/ic_action_add"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN|| viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY ? View.GONE : View.VISIBLE}"
             app:elevation="@dimen/elevation_fab"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -225,7 +226,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_bottom_nav_view_main"
             android:elevation="@dimen/elevation_all"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN|| viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY ? View.GONE : View.VISIBLE}"
             app:fab_cradle_margin="8dp"
             app:fab_cradle_rounded_corner_radius="32dp"
             app:fab_size="56dp"
