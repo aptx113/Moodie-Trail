@@ -144,6 +144,7 @@ class RecordMoodFragment : Fragment() {
         )
 
         datePickerDialog.datePicker.maxDate = calendar.timeInMillis
+
         viewModel.showDatePickerDialog.observe(this, Observer {
             it?.let {
                 if (it) {

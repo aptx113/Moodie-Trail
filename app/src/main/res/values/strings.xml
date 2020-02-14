@@ -17,7 +17,10 @@
     <string name="sign_in_with_google">使用 Google 帳戶登入</string>
     <string name="sign_in_with_fb">使用 Facebook 帳戶登入</string>
     <string name="slogan">關照你的每一天\nBe care for yourself</string>
+    <string name="login_fail_toast">登入失敗，請稍後再試</string>
 
+    <!-- IMessage Dialog -->
+    <string name="login_success">登入成功</string>
 
     <!-- Record Mood -->
     <string name="record_mood_instruction">你好嗎？</string>

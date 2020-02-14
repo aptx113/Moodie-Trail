@@ -98,9 +98,11 @@ class MainActivity : BaseActivity() {
 
         viewModel.navigateToRecordMood.observe(this, Observer {
             it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToRecordMoodFragment(
-                    Note()
-                ))
+                findNavController(R.id.myNavHostFragment).navigate(
+                    NavigationDirections.navigateToRecordMoodFragment(
+                        Note()
+                    )
+                )
                 viewModel.onRecordMoodNavigated()
             }
         })
@@ -124,7 +126,8 @@ class MainActivity : BaseActivity() {
     private fun setupNavController() {
         findNavController(R.id.myNavHostFragment).addOnDestinationChangedListener { navController: NavController, _: NavDestination, _: Bundle? ->
             viewModel.currentFragmentType.value = when (navController.currentDestination?.id) {
-                R.id.homeFragment -> CurrentFragmentType.NOTE
+                R.id.loginFragment -> CurrentFragmentType.LOGIN
+                R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
                 R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
