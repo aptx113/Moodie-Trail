@@ -23,10 +23,10 @@
         tools:layout="@layout/fragment_statistic" />
 
     <fragment
-        android:id="@+id/testResultFragment"
-        android:name="com.danteyu.studio.moodietrail.testresult.TestResultFragment"
-        android:label="TestResultFragment"
-        tools:layout="@layout/fragment_test_result" />
+        android:id="@+id/psyTestRecordFragment"
+        android:name="com.danteyu.studio.moodietrail.psytestrecord.PsyTestRecordFragment"
+        android:label="PsyTestRecordFragment"
+        tools:layout="@layout/fragment_psy_test_record" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.danteyu.studio.moodietrail.profile.ProfileFragment"
@@ -86,8 +86,8 @@
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <action
-        android:id="@+id/navigate_to_testResultFragment"
-        app:destination="@id/testResultFragment"
+        android:id="@+id/navigate_to_psyTestRecordFragment"
+        app:destination="@id/psyTestRecordFragment"
         app:popUpTo="@id/navigation"
         app:popUpToInclusive="true" />
     <action

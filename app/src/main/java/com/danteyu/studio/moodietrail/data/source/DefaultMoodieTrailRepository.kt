@@ -33,19 +33,19 @@ class DefaultMoodieTrailRepository(
     }
 
     override suspend fun signUpUser(user: User, id: String): Result<Boolean> {
-        return remoteDataSource.registerUser(user,id)
+        return remoteDataSource.signUpUser(user,id)
     }
 
-    override suspend fun writeDownNote(uid:String, note: Note): Result<Boolean> {
-        return remoteDataSource.writeDownNote(uid, note)
+    override suspend fun postNote(uid:String, note: Note): Result<Boolean> {
+        return remoteDataSource.postNote(uid, note)
     }
 
-    override suspend fun submitAvgMood(
+    override suspend fun postAvgMood(
         uid:String,
         averageMood: AverageMood,
         timeList: String
     ): Result<Boolean> {
-        return remoteDataSource.submitAvgMood(uid,averageMood, timeList)
+        return remoteDataSource.postAvgMood(uid,averageMood, timeList)
     }
 
     override suspend fun deleteNote(uid:String, note: Note): Result<Boolean> {

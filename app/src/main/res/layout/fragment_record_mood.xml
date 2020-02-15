@@ -27,7 +27,7 @@
             android:layout_width="@dimen/size_record_mood_close"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_basic"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="37dp"
             android:background="@drawable/ic_close"
             android:backgroundTint="@color/blue_700"
             android:onClick="@{() -> viewModel.leaveRecordMood()}"
@@ -170,7 +170,7 @@
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.54"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.278" />

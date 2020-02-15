@@ -12,7 +12,6 @@ import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
-import com.danteyu.studio.moodietrail.ext.Format_YYYY_MM_DD_HH_MM_LIST
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
@@ -256,7 +255,7 @@ class RecordMoodViewModel(
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.writeDownNote(uid,note)
+            val result = moodieTrailRepository.postNote(uid,note)
 
             _writeDownSuccess.value = when (result) {
                 is Result.Success -> {
@@ -343,7 +342,7 @@ class RecordMoodViewModel(
 
             _status.value = LoadApiStatus.LOADING
 
-            when (val result = moodieTrailRepository.submitAvgMood(uid, averageMood, timeList)) {
+            when (val result = moodieTrailRepository.postAvgMood(uid, averageMood, timeList)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

@@ -159,7 +159,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun registerUser(user: User, id: String): Result<Boolean> =
+    override suspend fun signUpUser(user: User, id: String): Result<Boolean> =
         suspendCoroutine { continuation ->
             val userData = FirebaseFirestore.getInstance().collection(PATH_USERS)
             val document = userData.document(id)
@@ -186,7 +186,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         }
 
 
-    override suspend fun writeDownNote(uid: String, note: Note): Result<Boolean> =
+    override suspend fun postNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
 
             val document = userReference.document(uid).collection(PATH_NOTES).document()
@@ -212,7 +212,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun submitAvgMood(
+    override suspend fun postAvgMood(
         uid: String,
         averageMood: AverageMood,
         timeList: String

@@ -21,15 +21,15 @@ interface MoodieTrailDataSource {
 
     suspend fun getUserProfile(id: String): Result<User>
 
-    suspend fun registerUser(user: User, id: String): Result<Boolean>
+    suspend fun signUpUser(user: User, id: String): Result<Boolean>
 
-    suspend fun writeDownNote(uid: String, note: Note): Result<Boolean>
+    suspend fun postNote(uid: String, note: Note): Result<Boolean>
 
-    suspend fun submitAvgMood(
+    suspend fun postAvgMood(
         uid: String,
         averageMood: AverageMood,
         timeList: String
     ): Result<Boolean>
 
-    suspend fun deleteNote(uid:String, note: Note): Result<Boolean>
+    suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
 }

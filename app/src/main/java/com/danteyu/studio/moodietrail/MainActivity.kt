@@ -52,7 +52,7 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.navigation_test_result -> {
 
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTestResultFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
@@ -136,7 +136,7 @@ class MainActivity : BaseActivity() {
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
-                R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
+                R.id.psyTestRecordFragment -> CurrentFragmentType.PSYTESTRECORD
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
                 R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL

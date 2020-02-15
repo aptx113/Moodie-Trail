@@ -31,15 +31,15 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun registerUser(user: User,id: String): Result<Boolean> {
+    override suspend fun signUpUser(user: User, id: String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun writeDownNote(uid:String, note: Note): Result<Boolean> {
+    override suspend fun postNote(uid:String, note: Note): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun submitAvgMood(uid:String, averageMood: AverageMood, timeList:String): Result<Boolean> {
+    override suspend fun postAvgMood(uid:String, averageMood: AverageMood, timeList:String): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

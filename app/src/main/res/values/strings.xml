@@ -4,7 +4,7 @@
     <!-- General -->
     <string name="note">心情記錄</string>
     <string name="statistic">統計</string>
-    <string name="test_result">測驗結果</string>
+    <string name="psy_test_record">測驗記錄</string>
     <string name="profile">個人</string>
     <string name="internet_not_connected">您尚未連接 Internet</string>
     <string name="you_know_nothing">You know nothing</string>
@@ -70,8 +70,21 @@
 
     <!-- test -->
     <string name="bsrs_5">簡式健康量表</string>
-    <string name="test_instruction">說明：\n\u3000\u3000簡式健康量表(BSRS-5)是由臺大李明濱教授等人所發展，主要在幫助個人快速瞭解自己的身心健康狀態。\n\u3000\u3000本量表所列舉的問題是為協助您瞭解您的身心適應狀況，請您仔細回想在最近一星期中(包括今天)，這些問題使您感到困擾或苦惱的程度，然後圈選一個您認為最能代表您感覺的答案。</string>
+    <string name="test_instruction">說明：\n\u3000\u3000簡式健康量表(BSRS-5)是由臺大李明濱教授等人所發展\uFF0C主要在幫助個人快速瞭解自己的身心健康狀態。\n\u3000\u3000本量表所列舉的問題是為協助您瞭解您的身心適應狀況，請您仔細回想在最近一星期中(包括今天)，這些問題使您感到困擾或苦惱的程度，然後圈選一個您認為最能代表您感覺的答案。</string>
     <string name="test_start">測驗開始</string>
+    <string name="test_body_instruction">\u3000\u3000請您仔細回想在最近一星期中(包括今天)，這些問題使您感到困擾或苦惱的程度，然後選擇一個您認為最能代表您感覺的答案。</string>
+    <string name="never">完全沒有</string>
+    <string name="seldom">輕微</string>
+    <string name="sometimes">中等程度</string>
+    <string name="usually">厲害</string>
+    <string name="always">非常厲害</string>
+    <string name="item_sleep">1.\u0020睡眠困難，譬如難以入睡、易醒或早醒</string>
+    <string name="feel_nervous">2.\u0020感覺緊張不安</string>
+    <string name="angry">3.\u0020覺得容易苦惱或動怒</string>
+    <string name="depression">4.\u0020感覺憂鬰、心情低落</string>
+    <string name="worthless">5.\u0020覺得比不上別人</string>
+    <string name="suicide">附加題\u0020\u0020有自殺的想法</string>
+    <string name="psy_test_result">測驗結果</string>
 
 
 </resources>

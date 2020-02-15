@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,10 +16,468 @@
         android:layout_height="match_parent"
         tools:context=".psytest.PsyTestBodyFragment">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_psy_test_body_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="wrap_content"
+            android:background="@color/blue_700"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/button_test_body_back"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:layout_marginTop="37dp"
+                android:background="@drawable/ic_back"
+                android:onClick="@{() -> viewModel.backToPsyTest()}"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_test_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_toolbar_gone_top"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/droid_sans"
+                android:letterSpacing="0.15"
+                android:text="@string/bsrs_5"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/text_test_body_instruction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_basic"
+            android:layout_marginTop="@dimen/margin_basic"
+            android:fontFamily="@font/droid_sans"
+            android:letterSpacing="0.15"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            app:boldPartialText="@{@string/test_body_instruction}"
+            app:endIndex="@{21}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_psy_test_body_top"
+            app:startIndex="@{8}"
+            tools:text="@string/test_body_instruction" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_advanced"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_test_body_instruction">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_item_sleep_title"
+                    style="@style/psy_test_item_title"
+                    android:text="@string/item_sleep"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/radios_psytest_sleep"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/PsyTestColorTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_item_sleep_title">
+
+                    <RadioButton
+                        android:id="@+id/radio_sleep_never"
+                        style="@style/psy_test_button"
+                        android:tag="0"
+                        android:text="@string/never" />
+
+                    <RadioButton
+                        android:id="@+id/radio_sleep_seldom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/droid_sans"
+                        android:letterSpacing="0.15"
+                        android:tag="1"
+                        android:text="@string/seldom"
+                        android:textSize="@dimen/size_test_item" />
+
+                    <RadioButton
+                        android:id="@+id/radio_sleep_sometimes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/droid_sans"
+                        android:letterSpacing="0.15"
+                        android:tag="2"
+                        android:text="@string/sometimes"
+                        android:textSize="@dimen/size_test_item" />
+
+                    <RadioButton
+                        android:id="@+id/radio_sleep_usually"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/droid_sans"
+                        android:letterSpacing="0.15"
+                        android:tag="3"
+                        android:text="@string/usually"
+                        android:textSize="@dimen/size_test_item" />
+
+                    <RadioButton
+                        android:id="@+id/radio_sleep_always"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/droid_sans"
+                        android:letterSpacing="0.15"
+                        android:tag="4"
+                        android:text="@string/always"
+                        android:textSize="@dimen/size_test_item" />
+
+                </RadioGroup>
+
+                <View
+                    android:id="@+id/view_item_nervous_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_sleep" />
+
+                <TextView
+                    android:id="@+id/text_item_nervous_title"
+                    style="@style/psy_test_item_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/feel_nervous"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_item_nervous_separation" />
+
+                <RadioGroup
+                    android:id="@+id/radios_psytest_nervous"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/PsyTestColorTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_item_nervous_title">
+
+                    <RadioButton
+                        android:id="@+id/radio_nervous_never"
+                        style="@style/psy_test_button"
+                        android:tag="0"
+                        android:text="@string/never" />
+
+                    <RadioButton
+                        android:id="@+id/radio_nervous_seldom"
+                        style="@style/psy_test_button"
+                        android:tag="1"
+                        android:text="@string/seldom" />
+
+                    <RadioButton
+                        android:id="@+id/radio_nervous_sometimes"
+                        style="@style/psy_test_button"
+                        android:tag="2"
+                        android:text="@string/sometimes" />
+
+                    <RadioButton
+                        android:id="@+id/radio_nervous_usually"
+                        style="@style/psy_test_button"
+                        android:tag="3"
+                        android:text="@string/usually" />
+
+                    <RadioButton
+                        android:id="@+id/radio_nervous_always"
+                        style="@style/psy_test_button"
+                        android:fontFamily="@font/droid_sans"
+                        android:tag="4"
+                        android:text="@string/always" />
+
+                </RadioGroup>
+
+                <View
+                    android:id="@+id/view_item_angry_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_nervous" />
+
+                <TextView
+                    android:id="@+id/text_item_angry_title"
+                    style="@style/psy_test_item_title"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/angry"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_item_angry_separation" />
+
+                <RadioGroup
+                    android:id="@+id/radios_psytest_angry"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/PsyTestColorTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_item_angry_title">
+
+                    <RadioButton
+                        android:id="@+id/radio_angry_never"
+                        style="@style/psy_test_button"
+                        android:tag="0"
+                        android:text="@string/never" />
+
+                    <RadioButton
+                        android:id="@+id/radio_angry_seldom"
+                        style="@style/psy_test_button"
+                        android:tag="1"
+                        android:text="@string/seldom" />
+
+                    <RadioButton
+                        android:id="@+id/radio_angry_sometimes"
+                        style="@style/psy_test_button"
+                        android:tag="2"
+                        android:text="@string/sometimes" />
+
+                    <RadioButton
+                        android:id="@+id/radio_angry_usually"
+                        style="@style/psy_test_button"
+                        android:tag="3"
+                        android:text="@string/usually" />
+
+                    <RadioButton
+                        android:id="@+id/radio_angry_always"
+                        style="@style/psy_test_button"
+                        android:tag="4"
+                        android:text="@string/always" />
+
+                </RadioGroup>
+
+                <View
+                    android:id="@+id/view_item_depression_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_angry" />
+
+                <TextView
+                    android:id="@+id/text_item_depression_title"
+                    style="@style/psy_test_item_title"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/depression"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_item_depression_separation" />
+
+                <RadioGroup
+                    android:id="@+id/radios_psytest_depression"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/PsyTestColorTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_item_depression_title">
+
+                    <RadioButton
+                        android:id="@+id/radio_depression_never"
+                        style="@style/psy_test_button"
+                        android:tag="0"
+                        android:text="@string/never" />
+
+                    <RadioButton
+                        android:id="@+id/radio_depression_seldom"
+                        style="@style/psy_test_button"
+                        android:tag="1"
+                        android:text="@string/seldom" />
+
+                    <RadioButton
+                        android:id="@+id/radio_depression_sometimes"
+                        style="@style/psy_test_button"
+                        android:tag="2"
+                        android:text="@string/sometimes" />
+
+                    <RadioButton
+                        android:id="@+id/radio_depression_usually"
+                        style="@style/psy_test_button"
+                        android:tag="3"
+                        android:text="@string/usually" />
+
+                    <RadioButton
+                        android:id="@+id/radio_depression_always"
+                        style="@style/psy_test_button"
+                        android:tag="4"
+                        android:text="@string/always" />
+
+                </RadioGroup>
+                <View
+                    android:id="@+id/view_item_worthless_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_depression" />
+
+                <TextView
+                    android:id="@+id/text_item_worthless_title"
+                    style="@style/psy_test_item_title"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/worthless"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_item_worthless_separation" />
+
+                <RadioGroup
+                    android:id="@+id/radios_psytest_worthless"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/PsyTestColorTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_item_worthless_title">
+
+                    <RadioButton
+                        android:id="@+id/radio_worthless_never"
+                        style="@style/psy_test_button"
+                        android:tag="0"
+                        android:text="@string/never" />
+
+                    <RadioButton
+                        android:id="@+id/radio_worthless_seldom"
+                        style="@style/psy_test_button"
+                        android:tag="1"
+                        android:text="@string/seldom" />
+
+                    <RadioButton
+                        android:id="@+id/radio_worthless_sometimes"
+                        style="@style/psy_test_button"
+                        android:tag="2"
+                        android:text="@string/sometimes" />
+
+                    <RadioButton
+                        android:id="@+id/radio_worthless_usually"
+                        style="@style/psy_test_button"
+                        android:tag="3"
+                        android:text="@string/usually" />
+
+                    <RadioButton
+                        android:id="@+id/radio_worthless_always"
+                        style="@style/psy_test_button"
+                        android:tag="4"
+                        android:text="@string/always" />
+
+                </RadioGroup>
+                <View
+                    android:id="@+id/view_item_suicide_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_worthless" />
+
+                <TextView
+                    android:id="@+id/text_item_suicide_title"
+                    style="@style/psy_test_item_title"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:text="@string/suicide"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_item_suicide_separation" />
+
+                <RadioGroup
+                    android:id="@+id/radios_psytest_suicide"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/PsyTestColorTheme"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_item_suicide_title">
+
+                    <RadioButton
+                        android:id="@+id/radio_suicide_never"
+                        style="@style/psy_test_button"
+                        android:tag="0"
+                        android:text="@string/never" />
+
+                    <RadioButton
+                        android:id="@+id/radio_suicide_seldom"
+                        style="@style/psy_test_button"
+                        android:tag="1"
+                        android:text="@string/seldom" />
+
+                    <RadioButton
+                        android:id="@+id/radio_suicide_sometimes"
+                        style="@style/psy_test_button"
+                        android:tag="2"
+                        android:text="@string/sometimes" />
+
+                    <RadioButton
+                        android:id="@+id/radio_suicide_usually"
+                        style="@style/psy_test_button"
+                        android:tag="3"
+                        android:text="@string/usually" />
+
+                    <RadioButton
+                        android:id="@+id/radio_suicide_always"
+                        style="@style/psy_test_button"
+                        android:tag="4"
+                        android:text="@string/always" />
+
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/button_psy_text_result"
+                    style="@style/RecordDetailButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
+                    android:layout_marginBottom="@dimen/margin_basic"
+                    android:text="@string/psy_test_result"
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_suicide"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

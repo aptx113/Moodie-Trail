@@ -7,12 +7,10 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.home.HomeViewModel
 import com.danteyu.studio.moodietrail.login.LoginViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
-import com.danteyu.studio.moodietrail.psytest.PsyTestFragment
+import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel
 import com.danteyu.studio.moodietrail.psytest.PsyTestViewModel
-import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel
-import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel
 import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
-import com.danteyu.studio.moodietrail.testresult.TestResultViewModel
+import com.danteyu.studio.moodietrail.psytestrecord.PsyTestRecordViewModel
 import java.lang.IllegalArgumentException
 
 
@@ -39,7 +37,7 @@ class ViewModelFactory constructor(
                     moodieTrailRepository
                 )
 
-                isAssignableFrom(TestResultViewModel::class.java) -> TestResultViewModel(
+                isAssignableFrom(PsyTestRecordViewModel::class.java) -> PsyTestRecordViewModel(
                     moodieTrailRepository
                 )
 
@@ -48,6 +46,10 @@ class ViewModelFactory constructor(
                 )
 
                 isAssignableFrom(PsyTestViewModel::class.java) -> PsyTestViewModel(
+                    moodieTrailRepository
+                )
+
+                isAssignableFrom(PsyTestBodyViewModel::class.java) -> PsyTestBodyViewModel(
                     moodieTrailRepository
                 )
 

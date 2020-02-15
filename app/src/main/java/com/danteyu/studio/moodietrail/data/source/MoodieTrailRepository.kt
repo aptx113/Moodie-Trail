@@ -13,19 +13,23 @@ import com.danteyu.studio.moodietrail.data.User
  */
 interface MoodieTrailRepository {
 
-    suspend fun getNotes(uid:String): Result<List<Note>>
+    suspend fun getNotes(uid: String): Result<List<Note>>
 
-    suspend fun getNotesByDate(year:Int, month:Int, day:Int): Result<List<Note>>
+    suspend fun getNotesByDate(year: Int, month: Int, day: Int): Result<List<Note>>
 
-    suspend fun getNotesByDateRange(uid:String, startDate:Long, endDate:Long): Result<List<Note>>
+    suspend fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long): Result<List<Note>>
 
-    suspend fun getUserProfile(id:String):Result<User>
+    suspend fun getUserProfile(id: String): Result<User>
 
-    suspend fun writeDownNote(uid:String, note: Note): Result<Boolean>
+    suspend fun signUpUser(user: User, id: String): Result<Boolean>
 
-    suspend fun signUpUser(user: User, id: String):Result<Boolean>
+    suspend fun postNote(uid: String, note: Note): Result<Boolean>
 
-    suspend fun submitAvgMood(uid:String, averageMood: AverageMood, timeList:String):Result<Boolean>
+    suspend fun postAvgMood(
+        uid: String,
+        averageMood: AverageMood,
+        timeList: String
+    ): Result<Boolean>
 
-    suspend fun deleteNote(uid:String, note: Note): Result<Boolean>
+    suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
 }

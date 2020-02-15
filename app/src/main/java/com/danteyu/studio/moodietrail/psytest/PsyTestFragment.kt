@@ -27,21 +27,21 @@ class PsyTestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentPsyTestBinding.inflate(inflater)
+        val binding = FragmentPsyTestBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner =this
 
-        viewModel.navigateToPsyTestBody.observe(this, Observer {
+        viewModel.navigateToPsyTestBody.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(PsyTestFragmentDirections.navigateToPsyTestBodyFragment())
                 viewModel.onPsyTestBodyNavigated()
             }
         })
 
-        viewModel.leavePsyTest.observe(this, Observer {
+        viewModel.leavePsyTest.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigateUp()
+                findNavController().popBackStack()
                 viewModel.onPsyTestLeft()
             }
         })

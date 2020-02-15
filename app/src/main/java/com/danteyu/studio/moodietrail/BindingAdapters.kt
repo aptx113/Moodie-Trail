@@ -1,5 +1,10 @@
 package com.danteyu.studio.moodietrail
 
+import android.graphics.Typeface.BOLD
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -14,7 +19,9 @@ import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getColor
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
+import java.lang.Appendable
 
 @BindingAdapter("notes")
 fun bindRecyclerViewWithNotes(recyclerView: RecyclerView, notes: List<Note>?) {
@@ -143,14 +150,16 @@ fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int
 @BindingAdapter("moodImage")
 fun ImageView.setMoodImage(item: Note?) {
     item?.let {
-        setImageResource(when (item.mood) {
-            1 -> R.drawable.ic_mood_circle_very_bad_selected
-            2 -> R.drawable.ic_mood_circle_bad_selected
-            3 -> R.drawable.ic_mood_circle_normal_selected
-            4 -> R.drawable.ic_mood_circle_good_selected
-            5 -> R.drawable.ic_mood_circle_very_good_selected
-            else -> R.drawable.ic_placeholder
-        })
+        setImageResource(
+            when (item.mood) {
+                1 -> R.drawable.ic_mood_circle_very_bad_selected
+                2 -> R.drawable.ic_mood_circle_bad_selected
+                3 -> R.drawable.ic_mood_circle_normal_selected
+                4 -> R.drawable.ic_mood_circle_good_selected
+                5 -> R.drawable.ic_mood_circle_very_good_selected
+                else -> R.drawable.ic_placeholder
+            }
+        )
     }
 }
 
@@ -228,6 +237,25 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 fun bindTag(textView: TextView, tag: String?) {
     tag.let {
         textView.text = MoodieTrailApplication.instance.getString(R.string.hash_tag, it)
+    }
+}
+
+@BindingAdapter("boldPartialText", "startIndex", "endIndex")
+fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
+    text?.let {
+        val spannable = SpannableString(text)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.blue_700_Dark)),
+            start,
+            end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannable.setSpan(
+            StyleSpan(BOLD),
+            start, end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        textView.text = spannable
     }
 }
 
