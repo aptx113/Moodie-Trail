@@ -3,7 +3,9 @@ package com.danteyu.studio.moodietrail.ext
 import androidx.fragment.app.Fragment
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.factory.NoteViewModelFactory
+import com.danteyu.studio.moodietrail.factory.PsyTestViewModelFactory
 
 import com.danteyu.studio.moodietrail.factory.ViewModelFactory
 
@@ -23,4 +25,10 @@ fun Fragment.getVmFactory(note: Note): NoteViewModelFactory {
     val repository =
         (requireContext().applicationContext as MoodieTrailApplication).moodieTrailRepository
     return NoteViewModelFactory(repository, note)
+}
+
+fun Fragment.getVmFactory(psyTest: PsyTest): PsyTestViewModelFactory {
+    val repository =
+        (requireContext().applicationContext as MoodieTrailApplication).moodieTrailRepository
+    return PsyTestViewModelFactory(repository, psyTest)
 }

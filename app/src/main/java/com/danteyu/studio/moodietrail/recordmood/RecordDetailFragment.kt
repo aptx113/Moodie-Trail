@@ -56,7 +56,7 @@ class RecordDetailFragment : AppCompatDialogFragment() {
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
 
-        viewModel.navigateToHome.observe(this, Observer {
+        viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToHomeFragment())
                 (activity as MainActivity).bottomNavView.selectedItemId = R.id.navigation_home
@@ -64,14 +64,14 @@ class RecordDetailFragment : AppCompatDialogFragment() {
             }
         })
 
-        viewModel.backToRecordMood.observe(this, Observer {
+        viewModel.backToRecordMood.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigateUp()
                 viewModel.onRecordMoodBacked()
             }
         })
 
-        viewModel.note.observe(this, Observer {
+        viewModel.note.observe(viewLifecycleOwner, Observer {
             Logger.w("note = $it")
         })
 

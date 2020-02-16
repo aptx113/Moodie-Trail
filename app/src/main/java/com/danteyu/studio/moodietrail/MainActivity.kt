@@ -142,6 +142,8 @@ class MainActivity : BaseActivity() {
                 R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL
                 R.id.psyTestFragment -> CurrentFragmentType.PSYTEST
                 R.id.psyTestBodyFragment -> CurrentFragmentType.PSYTESTBODY
+                R.id.psyTestResultFragment -> CurrentFragmentType.PSYTESTRESULT
+                R.id.psyTestRatingFragment -> CurrentFragmentType.PSYTESTRATING
                 else -> viewModel.currentFragmentType.value
             }
         }

@@ -74,6 +74,7 @@
     <!-- Psy Test -->
     <dimen name="size_test_item">16sp</dimen>
     <dimen name="size_toolbar_gone_top">36dp</dimen>
+    <dimen name="size_image_psy_test_rating">60dp</dimen>
 
 
 </resources>

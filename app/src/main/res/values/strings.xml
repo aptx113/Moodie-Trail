@@ -6,6 +6,8 @@
     <string name="statistic">統計</string>
     <string name="psy_test_record">測驗記錄</string>
     <string name="profile">個人</string>
+    <string name="psy_test_result">測驗結果</string>
+    <string name="psy_test_rating">認識心情分級</string>
     <string name="internet_not_connected">您尚未連接 Internet</string>
     <string name="you_know_nothing">You know nothing</string>
     <string name="love_u_3000">Love you 3000</string>
@@ -68,7 +70,7 @@
     <string name="year_month_date">%s-%s-%s</string>
     <string name="hour_minute">%s:%s</string>
 
-    <!-- test -->
+    <!-- PsyTest -->
     <string name="bsrs_5">簡式健康量表</string>
     <string name="test_instruction">說明：\n\u3000\u3000簡式健康量表(BSRS-5)是由臺大李明濱教授等人所發展\uFF0C主要在幫助個人快速瞭解自己的身心健康狀態。\n\u3000\u3000本量表所列舉的問題是為協助您瞭解您的身心適應狀況，請您仔細回想在最近一星期中(包括今天)，這些問題使您感到困擾或苦惱的程度，然後圈選一個您認為最能代表您感覺的答案。</string>
     <string name="test_start">測驗開始</string>
@@ -84,7 +86,24 @@
     <string name="depression">4.\u0020感覺憂鬰、心情低落</string>
     <string name="worthless">5.\u0020覺得比不上別人</string>
     <string name="suicide">附加題\u0020\u0020有自殺的想法</string>
-    <string name="psy_test_result">測驗結果</string>
+    <string name="check_psy_test_result">查看測驗結果</string>
+
+    <!-- PsyTestRating -->
+    <string name="normal_range">落於一般範圍內</string>
+    <string name="light_range">輕度情緒困擾</string>
+    <string name="medium_range">中度情緒困擾</string>
+    <string name="heavy_range">重度情緒困擾</string>
+    <string name="normal_advice">身心適應狀況良好。</string>
+    <string name="light_advice">建議找家人或朋友談談，抒發情緒。</string>
+    <string name="medium_advice">建議尋求抒壓管道或接受心理專業諮詢</string>
+    <string name="heavy_advice">建議諮詢精神科醫師接受進一步評估</string>
+    <string name="normal_score">0–5\u0020分</string>
+    <string name="light_score">6–9\u0020分</string>
+    <string name="medium_score">10–14\u0020分</string>
+    <string name="heavy_score">15\u0020以上</string>
+
+
+
 
 
 </resources>

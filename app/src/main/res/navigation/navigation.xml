@@ -26,7 +26,11 @@
         android:id="@+id/psyTestRecordFragment"
         android:name="com.danteyu.studio.moodietrail.psytestrecord.PsyTestRecordFragment"
         android:label="PsyTestRecordFragment"
-        tools:layout="@layout/fragment_psy_test_record" />
+        tools:layout="@layout/fragment_psy_test_record">
+        <action
+            android:id="@+id/action_psyTestRecordFragment_to_psyTestResultFragment"
+            app:destination="@id/psyTestResultFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.danteyu.studio.moodietrail.profile.ProfileFragment"
@@ -48,11 +52,42 @@
         android:id="@+id/psyTestFragment"
         android:name="com.danteyu.studio.moodietrail.psytest.PsyTestFragment"
         android:label="PsyTestFragment"
-        tools:layout="@layout/fragment_psy_test" >
+        tools:layout="@layout/fragment_psy_test">
         <action
             android:id="@+id/navigate_to_psyTestBodyFragment"
             app:destination="@id/psyTestBodyFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/psyTestBodyFragment"
+        android:name="com.danteyu.studio.moodietrail.psytest.PsyTestBodyFragment"
+        android:label="fragment_psy_test_body"
+        tools:layout="@layout/fragment_psy_test_body">
+        <action
+            android:id="@+id/navigate_to_psyTestResultFragment"
+            app:destination="@id/psyTestResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/psyTestResultFragment"
+        android:name="com.danteyu.studio.moodietrail.psytestresult.PsyTestResultFragment"
+        android:label="PsyTestResultFragment"
+        tools:layout="@layout/fragment_psy_test_result">
+        <argument
+            android:name="psyTestKey"
+            app:argType="com.danteyu.studio.moodietrail.data.PsyTest"
+            app:nullable="false" />
+        <action
+            android:id="@+id/navigate_to_psyTestRatingFragment"
+            app:destination="@id/psyTestRatingFragment" />
+        <action
+            android:id="@+id/action_psyTestResultFragment_to_psyTestFragment"
+            app:destination="@id/psyTestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/psyTestRatingFragment"
+        android:name="com.danteyu.studio.moodietrail.psytestrating.PsyTestRatingFragment"
+        android:label="fragment_psy_test_rating"
+        tools:layout="@layout/fragment_psy_test_rating" />
+
     <dialog
         android:id="@+id/recordDetailFragment"
         android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailFragment"
@@ -111,10 +146,6 @@
     <action
         android:id="@+id/navigate_to_message_dialog"
         app:destination="@id/messageDialog" />
-    <fragment
-        android:id="@+id/psyTestBodyFragment"
-        android:name="com.danteyu.studio.moodietrail.psytest.PsyTestBodyFragment"
-        android:label="fragment_psy_test_body"
-        tools:layout="@layout/fragment_psy_test_body" />
+
 
 </navigation>

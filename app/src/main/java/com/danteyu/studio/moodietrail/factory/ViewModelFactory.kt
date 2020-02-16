@@ -9,6 +9,7 @@ import com.danteyu.studio.moodietrail.login.LoginViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel
 import com.danteyu.studio.moodietrail.psytest.PsyTestViewModel
+import com.danteyu.studio.moodietrail.psytestrating.PsyTestRatingViewModel
 import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
 import com.danteyu.studio.moodietrail.psytestrecord.PsyTestRecordViewModel
 import java.lang.IllegalArgumentException
@@ -50,6 +51,10 @@ class ViewModelFactory constructor(
                 )
 
                 isAssignableFrom(PsyTestBodyViewModel::class.java) -> PsyTestBodyViewModel(
+                    moodieTrailRepository
+                )
+
+                isAssignableFrom(PsyTestRatingViewModel::class.java) -> PsyTestRatingViewModel(
                     moodieTrailRepository
                 )
 
