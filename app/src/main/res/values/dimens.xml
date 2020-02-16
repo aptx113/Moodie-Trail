@@ -10,7 +10,7 @@
 
     <!-- Bottom Navigation -->
     <dimen name="height_bottom_nav_view_main">56dp</dimen>
-    <dimen name="size_bottom_nav_icon">36dp</dimen>
+    <dimen name="size_bottom_nav_icon">32dp</dimen>
 
     <!-- Dialog Padding -->
     <dimen name="dialog_padding">10dp</dimen>
@@ -46,6 +46,7 @@
     <dimen name="text_content_title">16sp</dimen>
     <dimen name="layout_title">20sp</dimen>
     <dimen name="size_progress">24dp</dimen>
+    <dimen name="size_radius">12dp</dimen>
 
     <!-- Logo -->
     <dimen name="width_logo">254dp</dimen>

@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
@@ -170,22 +171,15 @@ fun ImageView.setMoodImage(item: Note?) {
  */
 @BindingAdapter("imageUrlRoundedCorners")
 fun bindImageRadius(imgView: ImageView, imgUrl: String?) {
-
-    val radius =
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.note_image_corner_radius)
     imgUrl?.let {
         val imgUri = it.toUri().buildUpon().build()
         GlideApp.with(imgView.context)
             .load(imgUri)
-            .transform(
-                RoundedCornersTransformation(
-                    radius,
-                    0,
-                    RoundedCornersTransformation.CornerType.TOP
-                )
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
             )
-            .placeholder(R.drawable.ic_placeholder)
-            .error(R.drawable.ic_placeholder)
             .into(imgView)
     }
 }
@@ -240,6 +234,33 @@ fun bindTag(textView: TextView, tag: String?) {
     }
 }
 
+/**
+ * Displays PsyTest Result score to [TextView] by [Int]
+ */
+@BindingAdapter("score")
+fun bindPrice(textView: TextView, score: Int?) {
+    score?.let {
+
+        val text = MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it)
+        val spannable = SpannableString(text)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.blue_700)),
+            5,
+            7,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        spannable.setSpan(
+            StyleSpan(BOLD),
+            5, 7,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        textView.text = spannable
+    }
+}
+
+/**
+ * Display partial text in BOLD and blue
+ */
 @BindingAdapter("boldPartialText", "startIndex", "endIndex")
 fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
     text?.let {

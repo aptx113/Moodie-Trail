@@ -78,9 +78,6 @@
         <action
             android:id="@+id/navigate_to_psyTestRatingFragment"
             app:destination="@id/psyTestRatingFragment" />
-        <action
-            android:id="@+id/action_psyTestResultFragment_to_psyTestFragment"
-            app:destination="@id/psyTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/psyTestRatingFragment"

@@ -1,8 +1,13 @@
 package com.danteyu.studio.moodietrail.home
 
 
+import android.graphics.Outline
+import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +42,19 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
             binding.note = note
             binding.itemPosition = adapterPosition
             binding.itemCount = itemCount
+            val image = binding.imageNote
+            val curveRadius = 25F
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                image.outlineProvider = object :ViewOutlineProvider(){
+
+                    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+                    override fun getOutline(view: View?, outline: Outline?) {
+                        outline?.setRoundRect(0, 0, view!!.width, (view.height+curveRadius).toInt(), curveRadius)
+                    }
+                }
+                image.clipToOutline = true
+            }
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()

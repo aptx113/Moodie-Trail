@@ -48,19 +48,13 @@ class RecordMoodFragment : Fragment() {
     ): View? {
 
         val binding = FragmentRecordMoodBinding.inflate(inflater, container, false)
-        binding.layoutRecordMood.startAnimation(
-            AnimationUtils.loadAnimation(
-                context,
-                R.anim.anim_scale_up
-            )
-        )
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         calendar = viewModel.calendar
 
-        viewModel.writeDownSuccess.observe(this, Observer {
+        viewModel.writeDownSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     true -> activity.showToast(getString(R.string.save_success))
@@ -68,7 +62,7 @@ class RecordMoodFragment : Fragment() {
             }
         })
 
-        viewModel.invalidWrite.observe(this, Observer {
+        viewModel.invalidWrite.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     INVALID_WRITE_MOOD_EMPTY -> {
@@ -84,7 +78,7 @@ class RecordMoodFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToHome.observe(this, Observer {
+        viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToHomeFragment())
                 (activity as MainActivity).bottomNavView.selectedItemId = R.id.navigation_home
@@ -93,21 +87,21 @@ class RecordMoodFragment : Fragment() {
 
         })
 
-        viewModel.navigateToRecordDetail.observe(this, Observer {
+        viewModel.navigateToRecordDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToRecordDetailFragment(it))
                 viewModel.onRecordDetailNavigated()
             }
         })
 
-        viewModel.leaveRecordMood.observe(this, Observer {
+        viewModel.leaveRecordMood.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) findNavController().popBackStack()
                 viewModel.onRecordMoodLeft()
             }
         })
 
-        viewModel.averageMoodScore.observe(this, Observer {
+        viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
         })
 

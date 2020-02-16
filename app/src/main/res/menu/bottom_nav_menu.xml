@@ -15,8 +15,8 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_test_result"
-        android:icon="@drawable/ic_nav_test_result_selector"
+        android:id="@+id/navigation_psy_test_record"
+        android:icon="@drawable/ic_nav_psy_test_record_selector"
         android:title="" />
     <item
         android:id="@+id/navigation_profile"

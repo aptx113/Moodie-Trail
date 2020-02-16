@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestBodyBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 
@@ -32,6 +32,17 @@ class PsyTestBodyFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        viewModel.navigateToPsyTestResult.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    PsyTestBodyFragmentDirections.navigateToPsyTestResultFragment(
+                        PsyTest()
+                    )
+                )
+                viewModel.onPsyTestResultNavigated()
+            }
+        })
 
         viewModel.backToPsyTest.observe(viewLifecycleOwner, Observer {
             it?.let {

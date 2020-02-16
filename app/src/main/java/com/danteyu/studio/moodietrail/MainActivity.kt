@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,7 +51,7 @@ class MainActivity : BaseActivity() {
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToStatisticFragment())
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_test_result -> {
+                R.id.navigation_psy_test_record -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
                     return@OnNavigationItemSelectedListener true
@@ -80,6 +81,8 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.fabRecordMood.setTouchDelegate()
+        binding.fabStartTest.setTouchDelegate()
 
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
