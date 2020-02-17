@@ -13,7 +13,9 @@
     <string name="love_u_3000">Love you 3000</string>
     <string name="record_mood">記錄心情</string>
     <string name="start_test">開始測驗</string>
-    <string name="no_notes">沒有心情紀錄</string>
+
+    <!-- Home -->
+    <string name="no_notes">Hi\u0020現在心情如何？\n點選新增按鈕開始記錄心情吧！</string>
 
     <!-- Login -->
     <string name="sign_in_with_google">使用 Google 帳戶登入</string>
@@ -57,12 +59,12 @@
 
     <!-- SimpleDateFormat -->
     <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
-    <string name="simpledatefromat_yyyy_MM_dd_E">yyyy/MM/dd\nE</string>
+    <string name="simpledatefromat_yyyy_MM_dd_E">yyyy-MM-dd\nE</string>
     <string name="simpledateformat_MM_dd">MM-dd</string>
     <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
     <string name="simpledateformat_HH_mm">HH:mm</string>
-    <string name="simpledateformat_yyyy_MM_dd_HH_mm">yyyy/MM/dd HH:mm</string>
-    <string name="time_list_format">yyyy/MM/dd/HH:mm</string>
+    <string name="simpledateformat_yyyy_MM_dd_E_HH_mm">yyyy-MM-dd E HH:mm</string>
+    <string name="time_list_format">yyyy-MM-dd-HH:mm</string>
 
     <!-- timestamp -->
     <string name="timestamp_dayend">%s 23:59:59.999999999</string>
@@ -90,7 +92,7 @@
 
     <!-- PsyTestResult -->
     <string name="psy_test_result_score">測驗結果\u0020%d\u0020分</string>
-    <string name="suicide_advice">「自殺想法」：評分為2以上（中等程度）時，宜尋求專業諮詢或接受精神科治療。</string>
+    <string name="suicide_advice">「自殺想法」：評分為\u00202\u0020以上（中等程度）時，宜尋求專業諮詢或接受精神科治療。</string>
     <string name="each_item_score">各題分數</string>
 
     <!-- PsyTestRating -->
@@ -109,6 +111,10 @@
     <string name="mental_health_resources">心衛資源</string>
     <string name="psy_test_result_rating">認識心情分級</string>
     <string name="delete_record">刪除心情記錄</string>
+
+    <!-- PsyTestRecord -->
+    <string name="no_psy_test">想更瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
+    <string name="psy_text_result_score_only">%d\u0020分</string>
 
 
 </resources>

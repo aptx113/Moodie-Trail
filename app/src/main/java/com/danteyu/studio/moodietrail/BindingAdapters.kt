@@ -3,8 +3,11 @@ package com.danteyu.studio.moodietrail
 import android.graphics.Typeface.BOLD
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.util.Size
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -169,7 +172,7 @@ fun ImageView.setMoodImage(item: Note?) {
 /**
  * Uses the Glide library to load an image by URL into an [ImageView]
  */
-@BindingAdapter("imageUrlRoundedCorners")
+@BindingAdapter("imageUrl")
 fun bindImageRadius(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         val imgUri = it.toUri().buildUpon().build()
@@ -201,15 +204,23 @@ fun bindDisplayFormatDate(textView: TextView, time: Long?) {
 }
 
 /**
- * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
+ * Displays Time to [TextView] by [FORMAT_HH_MM]
  */
-@BindingAdapter("timeToDisplayDateWithWeekFormat")
-fun bindDisplayFormatWeek(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
+@BindingAdapter("timeToDisplayTimeFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_HH_MM)
 }
 
 /**
  * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
+ */
+@BindingAdapter("timeToDisplayDateWithWeekFormat")
+fun bindDisplayFormatMoodRecord(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
+}
+
+/**
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM]
  */
 @BindingAdapter("timeToDisplayDateYMFormat")
 fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
@@ -217,11 +228,11 @@ fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
 }
 
 /**
- * Displays Time to [TextView] by [FORMAT_HH_MM]
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E_HH_MM]
  */
-@BindingAdapter("timeToDisplayTimeFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_HH_MM)
+@BindingAdapter("timeToDisplayFormatForPsyRecord")
+fun bindDisplayFormatForPsyRecord(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E_HH_MM)
 }
 
 /**
@@ -235,10 +246,10 @@ fun bindTag(textView: TextView, tag: String?) {
 }
 
 /**
- * Displays PsyTest Result score to [TextView] by [Int]
+ * Displays PsyTest Result score to [TextView] by [Int] with prefix
  */
 @BindingAdapter("score")
-fun bindPrice(textView: TextView, score: Int?) {
+fun bindScorePrefix(textView: TextView, score: Int?) {
     score?.let {
 
         val text = MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it)
@@ -254,7 +265,22 @@ fun bindPrice(textView: TextView, score: Int?) {
             5, 7,
             Spannable.SPAN_EXCLUSIVE_INCLUSIVE
         )
+        spannable.setSpan(
+            RelativeSizeSpan(1.125f), 5, 7,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
         textView.text = spannable
+    }
+}
+
+/**
+ * Displays PsyTest Result score to [TextView] by [Int] with suffix
+ */
+@BindingAdapter("scoreWithSuffix")
+fun bindScoreSuffix(textView: TextView, score: Int?) {
+    score?.let {
+        textView.text =
+            MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it)
     }
 }
 

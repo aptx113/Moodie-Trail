@@ -44,7 +44,6 @@
                 android:layout_marginTop="@dimen/size_toolbar_gone_top"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/droid_sans"
-                android:letterSpacing="0.15"
                 android:text="@string/bsrs_5"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -65,7 +64,6 @@
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginTop="@dimen/margin_basic"
             android:fontFamily="@font/droid_sans"
-            android:letterSpacing="0.15"
             android:lineSpacingExtra="3dp"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
@@ -118,7 +116,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
-                        android:letterSpacing="0.15"
                         android:tag="1"
                         android:text="@string/seldom"
                         android:textSize="@dimen/size_test_item" />
@@ -128,7 +125,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
-                        android:letterSpacing="0.15"
                         android:tag="2"
                         android:text="@string/sometimes"
                         android:textSize="@dimen/size_test_item" />
@@ -138,7 +134,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
-                        android:letterSpacing="0.15"
                         android:tag="3"
                         android:text="@string/usually"
                         android:textSize="@dimen/size_test_item" />
@@ -148,7 +143,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
-                        android:letterSpacing="0.15"
                         android:tag="4"
                         android:text="@string/always"
                         android:textSize="@dimen/size_test_item" />
@@ -213,7 +207,6 @@
                     <RadioButton
                         android:id="@+id/radio_nervous_always"
                         style="@style/psy_test_button"
-                        android:fontFamily="@font/droid_sans"
                         android:tag="4"
                         android:text="@string/always" />
 
