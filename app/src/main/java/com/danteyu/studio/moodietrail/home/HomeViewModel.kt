@@ -71,8 +71,6 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("------------------------------------")
 
         UserManager.id?.let { getNotesResult(it) }
-
-        Logger.w("calendar.get(Calendar.YEAR) = ${calendar.get(Calendar.YEAR)}")
     }
 
     private fun getNotesResult(uid:String) {

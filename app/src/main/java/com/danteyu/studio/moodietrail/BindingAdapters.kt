@@ -18,12 +18,15 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
+import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.danteyu.studio.moodietrail.util.Util.getString
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.lang.Appendable
 
@@ -46,7 +49,10 @@ fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
 
                 is TagAdapter -> {
                     when (itemCount) {
-                        0 -> submitList(it)
+                        0 -> {
+                            submitList(it)
+                            notifyDataSetChanged()
+                        }
                         it.size -> notifyDataSetChanged()
                         else -> submitList(it)
                     }
@@ -57,6 +63,18 @@ fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
     recyclerView.smoothScrollToPosition(recyclerView.adapter!!.itemCount)
     Logger.d("bindRecyclerViewWithTags, taga = $tags")
 }
+
+@BindingAdapter("psyTests")
+fun bindRecyclerViewWithPsyTests(recyclerView: RecyclerView, psyTests: List<PsyTest>?) {
+    psyTests?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is PsyTestAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
 
 @BindingAdapter("itemPosition", "itemCount")
 fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int) {
@@ -162,6 +180,34 @@ fun ImageView.setMoodImage(item: Note?) {
                 4 -> R.drawable.ic_mood_circle_good_selected
                 5 -> R.drawable.ic_mood_circle_very_good_selected
                 else -> R.drawable.ic_placeholder
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingImage")
+fun ImageView.setPsyRatingImage(item: PsyTest?) {
+    item?.let {
+        setImageResource(
+            when (item.totalScore) {
+                in 0..5 -> R.drawable.ic_normal_range
+                in 6..9 -> R.drawable.ic_light_range
+                in 10..14 -> R.drawable.ic_medium_range
+                else -> R.drawable.ic_heavy_range
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingText")
+fun bindPsyRatingText(textView: TextView, totalScore: Int?) {
+    totalScore?.let {
+        textView.text = MoodieTrailApplication.instance.getString(
+            when (it) {
+                in 0..5 -> R.string.normal_advice
+                in 6..9 -> R.string.light_advice
+                in 10..14 -> R.string.medium_advice
+                else -> R.string.heavy_advice
             }
         )
     }
@@ -280,7 +326,7 @@ fun bindScorePrefix(textView: TextView, score: Int?) {
 fun bindScoreSuffix(textView: TextView, score: Int?) {
     score?.let {
         textView.text =
-            MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it)
+            MoodieTrailApplication.instance.getString(R.string.psy_text_result_score_only, it)
     }
 }
 

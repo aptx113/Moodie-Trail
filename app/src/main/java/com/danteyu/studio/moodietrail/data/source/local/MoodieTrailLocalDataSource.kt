@@ -1,10 +1,7 @@
 package com.danteyu.studio.moodietrail.data.source.local
 
 import android.content.Context
-import com.danteyu.studio.moodietrail.data.AverageMood
-import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.Result
-import com.danteyu.studio.moodietrail.data.User
+import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 
 
@@ -19,11 +16,11 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getNotesByDate(year: Int, month: Int, day: Int): Result<List<Note>> {
+    override suspend fun getNotesByDateRange(uid:String, startDate: Long, endDate: Long): Result<List<Note>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getNotesByDateRange(uid:String, startDate: Long, endDate: Long): Result<List<Note>> {
+    override suspend fun getPsyTests(uid: String): Result<List<PsyTest>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

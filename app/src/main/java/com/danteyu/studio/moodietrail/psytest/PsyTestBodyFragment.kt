@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestBodyBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 
 /**
  * Created by George Yu on 2020/2/14.
@@ -32,6 +33,7 @@ class PsyTestBodyFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.buttonTestBodyBack.setTouchDelegate()
 
         viewModel.navigateToPsyTestResult.observe(viewLifecycleOwner, Observer {
             it?.let {

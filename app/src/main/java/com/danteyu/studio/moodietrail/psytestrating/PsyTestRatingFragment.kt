@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestRatingBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 
 /**
  * Created by George Yu on 2020/2/16.
@@ -32,6 +33,7 @@ class PsyTestRatingFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.buttonTestRatingBack.setTouchDelegate()
 
         viewModel.backToPsyTestResult.observe(viewLifecycleOwner, Observer {
             it?.let {

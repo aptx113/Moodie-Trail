@@ -8,13 +8,13 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class PsyTest(
-    val id: String = "",
-    val item1: Int = -1,
-    val item2: Int = -1,
-    val item3: Int = -1,
-    val item4: Int = -1,
-    val item5: Int = -1,
-    val item6: Int = -1,
-    val totalScore: Int = -1,
-    val createdTime: Long = -1
+    var id: String = "",
+    var itemSleep: Int = -1,
+    var itemAnxiety: Int = -1,
+    var itemAnger: Int = -1,
+    var itemDepression: Int = -1,
+    var itemInferiority: Int = -1,
+    var itemSuicide: Int = -1,
+    var totalScore: Int = -1,
+    var createdTime: Long = 0
 ) : Parcelable

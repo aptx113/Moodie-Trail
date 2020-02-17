@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 
 /**
  * Created by George Yu on 2020/2/14.
@@ -30,7 +31,8 @@ class PsyTestFragment : Fragment() {
         val binding = FragmentPsyTestBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
-        binding.lifecycleOwner =this
+        binding.lifecycleOwner = this
+        binding.buttonTestClose.setTouchDelegate()
 
         viewModel.navigateToPsyTestBody.observe(viewLifecycleOwner, Observer {
             it?.let {

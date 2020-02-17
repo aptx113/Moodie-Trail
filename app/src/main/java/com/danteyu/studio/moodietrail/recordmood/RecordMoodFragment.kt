@@ -17,6 +17,7 @@ import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentRecordMoodBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.INVALID_WRITE_MOOD_EMPTY
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.POST_NOTE_FAIL
@@ -51,6 +52,7 @@ class RecordMoodFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.buttonRecordMoodClose.setTouchDelegate()
 
         calendar = viewModel.calendar
 

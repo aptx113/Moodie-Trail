@@ -15,6 +15,7 @@ import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -46,6 +47,7 @@ class RecordDetailFragment : AppCompatDialogFragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.buttonRecordDetailBack.setTouchDelegate()
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
