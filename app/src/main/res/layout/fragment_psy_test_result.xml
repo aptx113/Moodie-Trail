@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel" />
@@ -38,7 +40,7 @@
                     android:id="@+id/button_test_result_back"
                     android:layout_width="24dp"
                     android:layout_height="0dp"
-                    android:background="@drawable/ic_back_to_psy_record"
+                    android:background="@drawable/ic_back"
                     android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +100,7 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:score="@{8}"
+                app:score="@{viewModel.psyTest.totalScore}"
                 tools:text="測驗結果 4 分" />
 
             <ImageView
@@ -110,6 +112,7 @@
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/test_test_result_score"
+                app:psyRatingImage="@{viewModel.psyTest}"
                 app:srcCompat="@drawable/ic_light_range" />
 
             <TextView
@@ -118,24 +121,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:fontFamily="@font/droid_sans"
-                android:text="@string/light_score"
                 android:textColor="@color/black_3f3a3a"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/text_suicide_advice"
                 app:layout_constraintEnd_toEndOf="@id/image_light_range"
                 app:layout_constraintStart_toStartOf="@id/image_light_range"
-                app:layout_constraintTop_toBottomOf="@id/image_light_range" />
+                app:layout_constraintTop_toBottomOf="@id/image_light_range"
+                app:psyRatingResultRangeText="@{viewModel.psyTest.totalScore}"
+                tools:text="@string/light_score" />
 
             <TextView
                 android:id="@+id/text_light_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/light_range"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/blue_700"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@id/image_light_range"
-                app:layout_constraintTop_toBottomOf="@id/test_test_result_score" />
+                app:layout_constraintTop_toBottomOf="@id/test_test_result_score"
+                app:psyRatingRangeText="@{viewModel.psyTest.totalScore}"
+                tools:text="@string/light_range" />
 
             <TextView
                 android:layout_width="0dp"
@@ -145,11 +151,12 @@
                 android:fontFamily="@font/droid_sans"
                 android:text="@string/light_advice"
                 android:textColor="@color/black_3f3a3a"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/text_light_range"
-                app:layout_constraintTop_toBottomOf="@id/text_light_range" />
+                app:layout_constraintTop_toBottomOf="@id/text_light_range"
+                app:psyRatingText="@{viewModel.psyTest.totalScore}" />
 
 
             <TextView
@@ -163,6 +170,7 @@
                 android:text="@string/suicide_advice"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="14sp"
+                android:visibility="@{viewModel.psyTest.itemSuicide &gt;= 2 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/test_test_result_score"
@@ -219,6 +227,7 @@
             android:layout_marginBottom="@dimen/margin_basic"
             android:elevation="@dimen/margin_quarter"
             android:text="@string/mental_health_resources"
+            android:visibility="@{viewModel.psyTest.itemSuicide &gt;= 2 || viewModel.psyTest.totalScore &gt;= 10 ? View.VISIBLE : View.GONE }"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_items_score"

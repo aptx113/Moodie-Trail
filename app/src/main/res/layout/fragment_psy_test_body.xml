@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel" />
@@ -101,6 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
+                    android:checkedButton="@={viewModel.selectedSleepRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_item_sleep_title">
@@ -150,7 +155,7 @@
                 </RadioGroup>
 
                 <View
-                    android:id="@+id/view_item_nervous_separation"
+                    android:id="@+id/view_item_anxiety_separation"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="@dimen/margin_basic"
@@ -161,51 +166,52 @@
                     app:layout_constraintTop_toBottomOf="@id/radios_psytest_sleep" />
 
                 <TextView
-                    android:id="@+id/text_item_nervous_title"
+                    android:id="@+id/text_item_anxiety_title"
                     style="@style/psy_test_item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:text="@string/feel_nervous"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view_item_nervous_separation" />
+                    app:layout_constraintTop_toBottomOf="@id/view_item_anxiety_separation" />
 
                 <RadioGroup
-                    android:id="@+id/radios_psytest_nervous"
+                    android:id="@+id/radios_psytest_anxiety"
                     android:layout_width="246dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
+                    android:checkedButton="@={viewModel.selectedAnxietyRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_item_nervous_title">
+                    app:layout_constraintTop_toBottomOf="@id/text_item_anxiety_title">
 
                     <RadioButton
-                        android:id="@+id/radio_nervous_never"
+                        android:id="@+id/radio_anxiety_never"
                         style="@style/psy_test_button"
                         android:tag="0"
                         android:text="@string/never" />
 
                     <RadioButton
-                        android:id="@+id/radio_nervous_seldom"
+                        android:id="@+id/radio_anxiety_seldom"
                         style="@style/psy_test_button"
                         android:tag="1"
                         android:text="@string/seldom" />
 
                     <RadioButton
-                        android:id="@+id/radio_nervous_sometimes"
+                        android:id="@+id/radio_anxiety_sometimes"
                         style="@style/psy_test_button"
                         android:tag="2"
                         android:text="@string/sometimes" />
 
                     <RadioButton
-                        android:id="@+id/radio_nervous_usually"
+                        android:id="@+id/radio_anxiety_usually"
                         style="@style/psy_test_button"
                         android:tag="3"
                         android:text="@string/usually" />
 
                     <RadioButton
-                        android:id="@+id/radio_nervous_always"
+                        android:id="@+id/radio_anxiety_always"
                         style="@style/psy_test_button"
                         android:tag="4"
                         android:text="@string/always" />
@@ -221,7 +227,7 @@
                     android:background="@color/gray_cccccc"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_nervous" />
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_anxiety" />
 
                 <TextView
                     android:id="@+id/text_item_angry_title"
@@ -237,6 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
+                    android:checkedButton="@={viewModel.selectedAngerRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_item_angry_title">
@@ -298,6 +305,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
+                    android:checkedButton="@={viewModel.selectedDepressionRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_item_depression_title">
@@ -335,7 +343,7 @@
                 </RadioGroup>
 
                 <View
-                    android:id="@+id/view_item_worthless_separation"
+                    android:id="@+id/view_item_inferiority_separation"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="@dimen/margin_basic"
@@ -346,49 +354,50 @@
                     app:layout_constraintTop_toBottomOf="@id/radios_psytest_depression" />
 
                 <TextView
-                    android:id="@+id/text_item_worthless_title"
+                    android:id="@+id/text_item_inferiority_title"
                     style="@style/psy_test_item_title"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:text="@string/worthless"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view_item_worthless_separation" />
+                    app:layout_constraintTop_toBottomOf="@id/view_item_inferiority_separation" />
 
                 <RadioGroup
-                    android:id="@+id/radios_psytest_worthless"
+                    android:id="@+id/radios_psytest_inferiority"
                     android:layout_width="246dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
+                    android:checkedButton="@={viewModel.selectedInferiorityRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_item_worthless_title">
+                    app:layout_constraintTop_toBottomOf="@id/text_item_inferiority_title">
 
                     <RadioButton
-                        android:id="@+id/radio_worthless_never"
+                        android:id="@+id/radio_inferiority_never"
                         style="@style/psy_test_button"
                         android:tag="0"
                         android:text="@string/never" />
 
                     <RadioButton
-                        android:id="@+id/radio_worthless_seldom"
+                        android:id="@+id/radio_inferiority_seldom"
                         style="@style/psy_test_button"
                         android:tag="1"
                         android:text="@string/seldom" />
 
                     <RadioButton
-                        android:id="@+id/radio_worthless_sometimes"
+                        android:id="@+id/radio_inferiority_sometimes"
                         style="@style/psy_test_button"
                         android:tag="2"
                         android:text="@string/sometimes" />
 
                     <RadioButton
-                        android:id="@+id/radio_worthless_usually"
+                        android:id="@+id/radio_inferiority_usually"
                         style="@style/psy_test_button"
                         android:tag="3"
                         android:text="@string/usually" />
 
                     <RadioButton
-                        android:id="@+id/radio_worthless_always"
+                        android:id="@+id/radio_inferiority_always"
                         style="@style/psy_test_button"
                         android:tag="4"
                         android:text="@string/always" />
@@ -404,7 +413,7 @@
                     android:background="@color/gray_cccccc"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_worthless" />
+                    app:layout_constraintTop_toBottomOf="@id/radios_psytest_inferiority" />
 
                 <TextView
                     android:id="@+id/text_item_suicide_title"
@@ -420,6 +429,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
+                    android:checkedButton="@={viewModel.selectedSuicideRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_item_suicide_title">
@@ -464,13 +474,26 @@
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:layout_marginBottom="@dimen/margin_basic"
-                    android:onClick="@{() -> viewModel.navigateToPsyTestResult()}"
-                    android:text="@string/check_psy_test_result"
+                    android:onClick="@{() -> viewModel.prepareSubmit()}"
+                    android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/check_psy_test_result : ""}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/radios_psytest_suicide"
                     app:layout_constraintVertical_bias="1.0" />
+
+                <ProgressBar
+                    android:id="@+id/progress_submit_test"
+                    android:layout_width="@dimen/size_progress"
+                    android:layout_height="0dp"
+                    android:theme="@style/ProgressThemeDark"
+                    android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/button_psy_text_result"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/button_psy_text_result"
+                    app:layout_constraintStart_toStartOf="@id/button_psy_text_result"
+                    app:layout_constraintTop_toTopOf="@id/button_psy_text_result"
+                    tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

@@ -8,6 +8,7 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -251,6 +252,31 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
+    override suspend fun postPsyTest(uid: String, psyTest: PsyTest): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            val document = userReference.document(uid).collection(PATH_PSYTESTS).document()
+
+            psyTest.id = document.id
+
+            document
+                .set(psyTest)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $psyTest")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
 
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->

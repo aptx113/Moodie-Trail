@@ -89,11 +89,25 @@
     <string name="worthless">5.\u0020覺得比不上別人</string>
     <string name="suicide">附加題\u0020\u0020有自殺的想法</string>
     <string name="check_psy_test_result">查看測驗結果</string>
+    <string name="psy_test_complete">測驗完成</string>
+    <string name="do_not_forget_to_select_sleep">別忘了填寫第一題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_anxiety">別忘了填寫第二題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_anger">別忘了填寫第三題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_depression">別忘了填寫第四題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_inferiority">別忘了填寫第五題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_suicide">別忘了填寫附加題喔 ^.&#60;</string>
+
 
     <!-- PsyTestResult -->
     <string name="psy_test_result_score">測驗結果\u0020%d\u0020分</string>
     <string name="suicide_advice">「自殺想法」：評分為\u00202\u0020以上（中等程度）時，宜尋求專業諮詢或接受精神科治療。</string>
     <string name="each_item_score">各題分數</string>
+    <string name="insomnia">失眠</string>
+    <string name="anxiety">焦慮</string>
+    <string name="anger">憤怒</string>
+    <string name="major_depression">憂鬱</string>
+    <string name="inferiority">自卑</string>
+    <string name="suicide_thought">自殺</string>
 
     <!-- PsyTestRating -->
     <string name="normal_range">落於一般範圍內</string>

@@ -218,9 +218,15 @@ class MainActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     private fun closeFabMenu() {
 
-        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTEST) {
-            binding.fabRecordMood.visibility = View.INVISIBLE
-            binding.fabStartTest.visibility = View.INVISIBLE
+        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD
+            || viewModel.currentFragmentType.value == CurrentFragmentType.RECORDDETAIL
+            || viewModel.currentFragmentType.value == CurrentFragmentType.LOGIN
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTEST
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTBODY
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRESULT
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRATING ) {
+            binding.fabRecordMood.visibility = View.GONE
+            binding.fabStartTest.visibility = View.GONE
             binding.textFabRecordMood.alpha = 0.0f
             binding.textFabStartTest.alpha = 0.0f
         } else {

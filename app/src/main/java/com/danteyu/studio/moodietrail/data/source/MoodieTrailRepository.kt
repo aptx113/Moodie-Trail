@@ -28,5 +28,7 @@ interface MoodieTrailRepository {
         timeList: String
     ): Result<Boolean>
 
+    suspend fun postPsyTest(uid:String, psyTest: PsyTest):Result<Boolean>
+
     suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
 }

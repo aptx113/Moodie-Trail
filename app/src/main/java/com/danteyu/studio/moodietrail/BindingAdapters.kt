@@ -190,9 +190,9 @@ fun ImageView.setPsyRatingImage(item: PsyTest?) {
     item?.let {
         setImageResource(
             when (item.totalScore) {
-                in 0..5 -> R.drawable.ic_normal_range
-                in 6..9 -> R.drawable.ic_light_range
-                in 10..14 -> R.drawable.ic_medium_range
+                in 0.0..5.0 -> R.drawable.ic_normal_range
+                in 6.0..9.0 -> R.drawable.ic_light_range
+                in 10.0..14.0 -> R.drawable.ic_medium_range
                 else -> R.drawable.ic_heavy_range
             }
         )
@@ -200,14 +200,42 @@ fun ImageView.setPsyRatingImage(item: PsyTest?) {
 }
 
 @BindingAdapter("psyRatingText")
-fun bindPsyRatingText(textView: TextView, totalScore: Int?) {
+fun bindPsyRatingText(textView: TextView, totalScore: Float?) {
     totalScore?.let {
         textView.text = MoodieTrailApplication.instance.getString(
             when (it) {
-                in 0..5 -> R.string.normal_advice
-                in 6..9 -> R.string.light_advice
-                in 10..14 -> R.string.medium_advice
+                in 0.0..5.0 -> R.string.normal_advice
+                in 6.0..9.0 -> R.string.light_advice
+                in 10.0..14.0 -> R.string.medium_advice
                 else -> R.string.heavy_advice
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingRangeText")
+fun bindPsyRatingRangeText(textView: TextView, totalScore: Float?) {
+    totalScore?.let {
+        textView.text = MoodieTrailApplication.instance.getString(
+            when (it) {
+                in 0.0..5.0 -> R.string.normal_range
+                in 6.0..9.0 -> R.string.light_range
+                in 10.0..14.0 -> R.string.medium_range
+                else -> R.string.heavy_range
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingResultRangeText")
+fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
+    totalScore?.let {
+        textView.text = MoodieTrailApplication.instance.getString(
+            when (it) {
+                in 0.0..5.0 -> R.string.normal_score
+                in 6.0..9.0 -> R.string.light_score
+                in 10.0..14.0 -> R.string.medium_score
+                else -> R.string.heavy_score
             }
         )
     }
@@ -292,13 +320,13 @@ fun bindTag(textView: TextView, tag: String?) {
 }
 
 /**
- * Displays PsyTest Result score to [TextView] by [Int] with prefix
+ * Displays PsyTest Result score to [TextView] by [Float] with prefix
  */
 @BindingAdapter("score")
-fun bindScorePrefix(textView: TextView, score: Int?) {
+fun bindScorePrefix(textView: TextView, score: Float?) {
     score?.let {
 
-        val text = MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it)
+        val text = MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it.toInt())
         val spannable = SpannableString(text)
         spannable.setSpan(
             ForegroundColorSpan(getColor(R.color.blue_700)),
@@ -320,13 +348,13 @@ fun bindScorePrefix(textView: TextView, score: Int?) {
 }
 
 /**
- * Displays PsyTest Result score to [TextView] by [Int] with suffix
+ * Displays PsyTest Result score to [TextView] by [Float] with suffix
  */
 @BindingAdapter("scoreWithSuffix")
-fun bindScoreSuffix(textView: TextView, score: Int?) {
+fun bindScoreSuffix(textView: TextView, score: Float?) {
     score?.let {
         textView.text =
-            MoodieTrailApplication.instance.getString(R.string.psy_text_result_score_only, it)
+            MoodieTrailApplication.instance.getString(R.string.psy_text_result_score_only, it.toInt())
     }
 }
 
