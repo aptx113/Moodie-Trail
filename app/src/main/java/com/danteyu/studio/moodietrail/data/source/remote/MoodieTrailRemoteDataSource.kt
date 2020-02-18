@@ -2,14 +2,13 @@ package com.danteyu.studio.moodietrail.data.source.remote
 
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
-import com.danteyu.studio.moodietrail.data.AverageMood
-import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.Result
-import com.danteyu.studio.moodietrail.data.User
+import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 import com.danteyu.studio.moodietrail.util.Logger
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -23,51 +22,27 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
     private const val PATH_USERS = "users"
     private const val PATH_NOTES = "notes"
-    private const val PATH_TESTS = "tests"
+    private const val PATH_PSYTESTS = "psyTests"
     private const val PATH_AVGMOODS = "avgMoods"
     private const val KEY_ID = "id"
     private const val KEY_CREATED_TIME = "createdTime"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_AVGMOOD = "avgMoodScore"
     private const val KEY_TIMELIST = "timeList"
-    //    private val notesReference = FirebaseFirestore.getInstance().collection(PATH_NOTES)
+
     private val userReference = FirebaseFirestore.getInstance().collection(PATH_USERS)
+    private fun getNotesRefFrom(uid: String): CollectionReference {
+        return userReference.document(uid).collection(PATH_NOTES)
+    }
+
+    private fun getPsyTestsRefFrom(uid: String): CollectionReference {
+        return userReference.document(uid).collection(PATH_PSYTESTS)
+    }
 
     override suspend fun getNotes(uid: String): Result<List<Note>> =
         suspendCoroutine { continuation ->
 
             userReference.document(uid).collection(PATH_NOTES)
-                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val list = mutableListOf<Note>()
-                        for (document in task.result!!) {
-                            Logger.d(document.id + " => " + document.data)
-
-                            val note = document.toObject(Note::class.java)
-                            list.add(note)
-                        }
-                        continuation.resume(Result.Success(list))
-                    } else {
-                        task.exception?.let {
-
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
-                        }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
-                    }
-                }
-        }
-
-    override suspend fun getNotesByDate(year: Int, month: Int, day: Int): Result<List<Note>> =
-        suspendCoroutine { continuation ->
-
-            userReference.document().collection(PATH_NOTES)
-//                .whereEqualTo(KEY_YEAR, year)
-//                .whereEqualTo(KEY_MONTH, month)
-//                .whereEqualTo(KEY_DAY, day)
                 .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
@@ -99,7 +74,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     ): Result<List<Note>> =
         suspendCoroutine { continuation ->
 
-            userReference.document(uid).collection(PATH_NOTES)
+            getNotesRefFrom(uid)
                 .whereGreaterThanOrEqualTo(KEY_CREATED_TIME, startDate)
                 .whereLessThanOrEqualTo(KEY_CREATED_TIME, endDate)
                 .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
@@ -112,6 +87,34 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
                             val note = document.toObject(Note::class.java)
                             list.add(note)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun getPsyTests(uid: String): Result<List<PsyTest>> =
+        suspendCoroutine { continuation ->
+
+            getPsyTestsRefFrom(uid)
+                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<PsyTest>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val psyTest = document.toObject(PsyTest::class.java)
+                            list.add(psyTest)
                         }
                         continuation.resume(Result.Success(list))
                     } else {
@@ -159,7 +162,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun registerUser(user: User, id: String): Result<Boolean> =
+    override suspend fun signUpUser(user: User, id: String): Result<Boolean> =
         suspendCoroutine { continuation ->
             val userData = FirebaseFirestore.getInstance().collection(PATH_USERS)
             val document = userData.document(id)
@@ -186,7 +189,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         }
 
 
-    override suspend fun writeDownNote(uid: String, note: Note): Result<Boolean> =
+    override suspend fun postNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
 
             val document = userReference.document(uid).collection(PATH_NOTES).document()
@@ -212,7 +215,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun submitAvgMood(
+    override suspend fun postAvgMood(
         uid: String,
         averageMood: AverageMood,
         timeList: String
@@ -249,8 +252,33 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
+    override suspend fun postPsyTest(uid: String, psyTest: PsyTest): Result<Boolean> =
+        suspendCoroutine { continuation ->
 
-    override suspend fun deleteNote(uid:String, note: Note): Result<Boolean> =
+            val document = userReference.document(uid).collection(PATH_PSYTESTS).document()
+
+            psyTest.id = document.id
+
+            document
+                .set(psyTest)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $psyTest")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
 
             userReference.document(uid).collection(PATH_NOTES)

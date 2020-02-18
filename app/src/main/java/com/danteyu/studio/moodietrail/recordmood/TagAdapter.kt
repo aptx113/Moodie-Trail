@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.databinding.ItemTagBinding
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 
 /**
  * Created by George Yu on 2020/2/7.
@@ -29,6 +30,7 @@ class TagAdapter(private val viewModel: RecordDetailViewModel) :
         fun bind(tag: String) {
             binding.tag = tag
             binding.viewModel = viewModel
+            binding.imageDeleteTag.setTouchDelegate()
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()

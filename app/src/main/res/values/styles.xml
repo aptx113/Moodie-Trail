@@ -36,16 +36,14 @@
 
     <style name="RecordMoodButton" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/blue_700</item>
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/bg_record_mood_button</item>
     </style>
 
     <style name="RecordDetailButton" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/white</item>
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:textSize">18sp</item>
         <item name="android:background">@color/blue_700</item>
     </style>
@@ -53,11 +51,38 @@
     <style name="RecordDetailMoodIcon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">@font/noto_sans</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:maxLines">1</item>
         <item name="android:layout_margin">@dimen/margin_quarter</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
         <item name="android:textSize">13sp</item>
+    </style>
+    <style name="PsyTestColorTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/gray_cccccc</item>
+        <item name="colorControlActivated">@color/black_3f3a3a</item>
+    </style>
+
+    <style name="psy_test_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
+        <item name="android:textSize">@dimen/size_test_item</item>
+    </style>
+
+    <style name="psy_test_item_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_basic</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
+        <item name="android:textColor">@color/blue_700</item>
+        <item name="android:textSize">@dimen/size_test_item</item>
+    </style>
+
+    <style name="PsyTestResultButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/button_record_mood_ripple</item>
     </style>
 </resources>

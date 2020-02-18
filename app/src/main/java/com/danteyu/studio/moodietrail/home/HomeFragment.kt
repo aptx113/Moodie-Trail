@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.MainViewModel
-import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.FragmentHomeBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 
@@ -38,20 +37,20 @@ class HomeFragment : Fragment() {
             viewModel.refresh()
         }
 
-        viewModel.refreshStatus.observe(this, Observer {
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.layoutSwipeRefreshNote.isRefreshing = it
             }
         })
 
-        ViewModelProvider(activity!!).get(MainViewModel::class.java).apply {
-            refresh.observe(this@HomeFragment, Observer {
-                it?.let {
-                    viewModel.refresh()
-                    onRefreshed()
-                }
-            })
-        }
+//        ViewModelProvider(activity!!).get(MainViewModel::class.java).apply {
+//            refresh.observe(viewLifecycleOwner, Observer {
+//                it?.let {
+//                    viewModel.refresh()
+//                    onRefreshed()
+//                }
+//            })
+//        }
 
         return binding.root
     }

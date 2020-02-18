@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,9 +51,9 @@ class MainActivity : BaseActivity() {
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToStatisticFragment())
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_test_result -> {
+                R.id.navigation_psy_test_record -> {
 
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToTestResultFragment())
+                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
@@ -80,6 +81,8 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.fabRecordMood.setTouchDelegate()
+        binding.fabStartTest.setTouchDelegate()
 
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
@@ -107,6 +110,13 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        viewModel.navigateToPsyTest.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestFragment())
+                viewModel.onPsyTestNavigated()
+            }
+        })
+
         setupToolbar()
         setupBottomNav()
         setupNavController()
@@ -129,10 +139,14 @@ class MainActivity : BaseActivity() {
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
-                R.id.testResultFragment -> CurrentFragmentType.TESTRESULT
+                R.id.psyTestRecordFragment -> CurrentFragmentType.PSYTESTRECORD
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
                 R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
                 R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL
+                R.id.psyTestFragment -> CurrentFragmentType.PSYTEST
+                R.id.psyTestBodyFragment -> CurrentFragmentType.PSYTESTBODY
+                R.id.psyTestResultFragment -> CurrentFragmentType.PSYTESTRESULT
+                R.id.psyTestRatingFragment -> CurrentFragmentType.PSYTESTRATING
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -204,9 +218,15 @@ class MainActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     private fun closeFabMenu() {
 
-        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD) {
-            binding.fabRecordMood.visibility = View.INVISIBLE
-            binding.fabStartTest.visibility = View.INVISIBLE
+        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD
+            || viewModel.currentFragmentType.value == CurrentFragmentType.RECORDDETAIL
+            || viewModel.currentFragmentType.value == CurrentFragmentType.LOGIN
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTEST
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTBODY
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRESULT
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRATING ) {
+            binding.fabRecordMood.visibility = View.GONE
+            binding.fabStartTest.visibility = View.GONE
             binding.textFabRecordMood.alpha = 0.0f
             binding.textFabStartTest.alpha = 0.0f
         } else {

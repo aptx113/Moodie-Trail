@@ -38,7 +38,7 @@ fun Long.toDisplayFormat(dateFormat: Int): String {
             FORMAT_YYYY_MM_DD_E -> getString(
                 R.string.simpledatefromat_yyyy_MM_dd_E
             )
-            FORMAT_YYYY_MM_DD_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_HH_mm)
+            FORMAT_YYYY_MM_DD_E_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_E_HH_mm)
             Format_YYYY_MM_DD_HH_MM_LIST -> getString(R.string.time_list_format)
 
             FORMAT_HH_MM -> getString(
@@ -141,5 +141,5 @@ const val FORMAT_YYYY_MM_DD_E: Int = 0x02
 const val FORMAT_YYYY_MM_DD: Int = 0x03
 const val FORMAT_YYYY_MM: Int = 0x04
 const val FORMAT_HH_MM: Int = 0x05
-const val FORMAT_YYYY_MM_DD_HH_MM = 0x06
+const val FORMAT_YYYY_MM_DD_E_HH_MM = 0x06
 const val Format_YYYY_MM_DD_HH_MM_LIST = 0x07

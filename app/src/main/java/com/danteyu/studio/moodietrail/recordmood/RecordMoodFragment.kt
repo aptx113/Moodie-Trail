@@ -11,14 +11,13 @@ import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentRecordMoodBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.INVALID_WRITE_MOOD_EMPTY
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.POST_NOTE_FAIL
@@ -50,19 +49,14 @@ class RecordMoodFragment : Fragment() {
     ): View? {
 
         val binding = FragmentRecordMoodBinding.inflate(inflater, container, false)
-        binding.layoutRecordMood.startAnimation(
-            AnimationUtils.loadAnimation(
-                context,
-                R.anim.anim_scale_up
-            )
-        )
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.buttonRecordMoodClose.setTouchDelegate()
 
         calendar = viewModel.calendar
 
-        viewModel.writeDownSuccess.observe(this, Observer {
+        viewModel.writeDownSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     true -> activity.showToast(getString(R.string.save_success))
@@ -70,7 +64,7 @@ class RecordMoodFragment : Fragment() {
             }
         })
 
-        viewModel.invalidWrite.observe(this, Observer {
+        viewModel.invalidWrite.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
                     INVALID_WRITE_MOOD_EMPTY -> {
@@ -86,14 +80,8 @@ class RecordMoodFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToHome.observe(this, Observer {
-            it?.let { needRefresh ->
-                if (needRefresh) {
-
-                    ViewModelProvider(activity!!).get(MainViewModel::class.java).apply {
-                        refresh()
-                    }
-                }
+        viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
+            it?.let {
                 findNavController().navigate(NavigationDirections.navigateToHomeFragment())
                 (activity as MainActivity).bottomNavView.selectedItemId = R.id.navigation_home
                 viewModel.onHomeNavigated()
@@ -101,21 +89,21 @@ class RecordMoodFragment : Fragment() {
 
         })
 
-        viewModel.navigateToRecordDetail.observe(this, Observer {
+        viewModel.navigateToRecordDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(NavigationDirections.navigateToRecordDetailFragment(it))
                 viewModel.onRecordDetailNavigated()
             }
         })
 
-        viewModel.leaveRecordMood.observe(this, Observer {
+        viewModel.leaveRecordMood.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) findNavController().popBackStack()
                 viewModel.onRecordMoodLeft()
             }
         })
 
-        viewModel.averageMoodScore.observe(this, Observer {
+        viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
         })
 

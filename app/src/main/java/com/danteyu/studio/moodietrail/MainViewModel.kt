@@ -44,6 +44,11 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val navigateToRecordMood: LiveData<Boolean>
         get() = _navigateToRecordMood
 
+    private val _navigateToPsyTest = MutableLiveData<Boolean>()
+
+    val navigateToPsyTest: LiveData<Boolean>
+        get() = _navigateToPsyTest
+
     private val _refresh = MutableLiveData<Boolean>()
 
     val refresh: LiveData<Boolean>
@@ -84,6 +89,15 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun onRecordMoodNavigated() {
         _navigateToRecordMood.value = null
+    }
+
+    fun navigateToPsyTest() {
+        _navigateToPsyTest.value = true
+        _isFabOpen.value = false
+    }
+
+    fun onPsyTestNavigated() {
+        _navigateToPsyTest.value = null
     }
 
     fun refresh() {

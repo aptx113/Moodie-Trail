@@ -1,5 +1,13 @@
 package com.danteyu.studio.moodietrail
 
+import android.graphics.Typeface.BOLD
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
+import android.util.Size
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -8,13 +16,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
+import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.danteyu.studio.moodietrail.util.Util.getString
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
+import java.lang.Appendable
 
 @BindingAdapter("notes")
 fun bindRecyclerViewWithNotes(recyclerView: RecyclerView, notes: List<Note>?) {
@@ -35,7 +49,10 @@ fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
 
                 is TagAdapter -> {
                     when (itemCount) {
-                        0 -> submitList(it)
+                        0 -> {
+                            submitList(it)
+                            notifyDataSetChanged()
+                        }
                         it.size -> notifyDataSetChanged()
                         else -> submitList(it)
                     }
@@ -46,6 +63,18 @@ fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
     recyclerView.smoothScrollToPosition(recyclerView.adapter!!.itemCount)
     Logger.d("bindRecyclerViewWithTags, taga = $tags")
 }
+
+@BindingAdapter("psyTests")
+fun bindRecyclerViewWithPsyTests(recyclerView: RecyclerView, psyTests: List<PsyTest>?) {
+    psyTests?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is PsyTestAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
 
 @BindingAdapter("itemPosition", "itemCount")
 fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int) {
@@ -143,14 +172,72 @@ fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int
 @BindingAdapter("moodImage")
 fun ImageView.setMoodImage(item: Note?) {
     item?.let {
-        setImageResource(when (item.mood) {
-            1 -> R.drawable.ic_mood_circle_very_bad_selected
-            2 -> R.drawable.ic_mood_circle_bad_selected
-            3 -> R.drawable.ic_mood_circle_normal_selected
-            4 -> R.drawable.ic_mood_circle_good_selected
-            5 -> R.drawable.ic_mood_circle_very_good_selected
-            else -> R.drawable.ic_placeholder
-        })
+        setImageResource(
+            when (item.mood) {
+                1 -> R.drawable.ic_mood_circle_very_bad_selected
+                2 -> R.drawable.ic_mood_circle_bad_selected
+                3 -> R.drawable.ic_mood_circle_normal_selected
+                4 -> R.drawable.ic_mood_circle_good_selected
+                5 -> R.drawable.ic_mood_circle_very_good_selected
+                else -> R.drawable.ic_placeholder
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingImage")
+fun ImageView.setPsyRatingImage(item: PsyTest?) {
+    item?.let {
+        setImageResource(
+            when (item.totalScore) {
+                in 0.0..5.0 -> R.drawable.ic_normal_range
+                in 6.0..9.0 -> R.drawable.ic_light_range
+                in 10.0..14.0 -> R.drawable.ic_medium_range
+                else -> R.drawable.ic_heavy_range
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingText")
+fun bindPsyRatingText(textView: TextView, totalScore: Float?) {
+    totalScore?.let {
+        textView.text = MoodieTrailApplication.instance.getString(
+            when (it) {
+                in 0.0..5.0 -> R.string.normal_advice
+                in 6.0..9.0 -> R.string.light_advice
+                in 10.0..14.0 -> R.string.medium_advice
+                else -> R.string.heavy_advice
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingRangeText")
+fun bindPsyRatingRangeText(textView: TextView, totalScore: Float?) {
+    totalScore?.let {
+        textView.text = MoodieTrailApplication.instance.getString(
+            when (it) {
+                in 0.0..5.0 -> R.string.normal_range
+                in 6.0..9.0 -> R.string.light_range
+                in 10.0..14.0 -> R.string.medium_range
+                else -> R.string.heavy_range
+            }
+        )
+    }
+}
+
+@BindingAdapter("psyRatingResultRangeText")
+fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
+    totalScore?.let {
+        textView.text = MoodieTrailApplication.instance.getString(
+            when (it) {
+                in 0.0..5.0 -> R.string.normal_score
+                in 6.0..9.0 -> R.string.light_score
+                in 10.0..14.0 -> R.string.medium_score
+                else -> R.string.heavy_score
+            }
+        )
     }
 }
 
@@ -159,24 +246,17 @@ fun ImageView.setMoodImage(item: Note?) {
 /**
  * Uses the Glide library to load an image by URL into an [ImageView]
  */
-@BindingAdapter("imageUrlRoundedCorners")
+@BindingAdapter("imageUrl")
 fun bindImageRadius(imgView: ImageView, imgUrl: String?) {
-
-    val radius =
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.note_image_corner_radius)
     imgUrl?.let {
         val imgUri = it.toUri().buildUpon().build()
         GlideApp.with(imgView.context)
             .load(imgUri)
-            .transform(
-                RoundedCornersTransformation(
-                    radius,
-                    0,
-                    RoundedCornersTransformation.CornerType.TOP
-                )
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_placeholder)
             )
-            .placeholder(R.drawable.ic_placeholder)
-            .error(R.drawable.ic_placeholder)
             .into(imgView)
     }
 }
@@ -198,15 +278,23 @@ fun bindDisplayFormatDate(textView: TextView, time: Long?) {
 }
 
 /**
- * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
+ * Displays Time to [TextView] by [FORMAT_HH_MM]
  */
-@BindingAdapter("timeToDisplayDateWithWeekFormat")
-fun bindDisplayFormatWeek(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
+@BindingAdapter("timeToDisplayTimeFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_HH_MM)
 }
 
 /**
  * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
+ */
+@BindingAdapter("timeToDisplayDateWithWeekFormat")
+fun bindDisplayFormatMoodRecord(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
+}
+
+/**
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM]
  */
 @BindingAdapter("timeToDisplayDateYMFormat")
 fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
@@ -214,11 +302,11 @@ fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
 }
 
 /**
- * Displays Time to [TextView] by [FORMAT_HH_MM]
+ * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E_HH_MM]
  */
-@BindingAdapter("timeToDisplayTimeFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_HH_MM)
+@BindingAdapter("timeToDisplayFormatForPsyRecord")
+fun bindDisplayFormatForPsyRecord(textView: TextView, time: Long?) {
+    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E_HH_MM)
 }
 
 /**
@@ -228,6 +316,67 @@ fun bindDisplayFormatTime(textView: TextView, time: Long?) {
 fun bindTag(textView: TextView, tag: String?) {
     tag.let {
         textView.text = MoodieTrailApplication.instance.getString(R.string.hash_tag, it)
+    }
+}
+
+/**
+ * Displays PsyTest Result score to [TextView] by [Float] with prefix
+ */
+@BindingAdapter("score")
+fun bindScorePrefix(textView: TextView, score: Float?) {
+    score?.let {
+
+        val text = MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it.toInt())
+        val spannable = SpannableString(text)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.blue_700)),
+            5,
+            7,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        spannable.setSpan(
+            StyleSpan(BOLD),
+            5, 7,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        spannable.setSpan(
+            RelativeSizeSpan(1.125f), 5, 7,
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        textView.text = spannable
+    }
+}
+
+/**
+ * Displays PsyTest Result score to [TextView] by [Float] with suffix
+ */
+@BindingAdapter("scoreWithSuffix")
+fun bindScoreSuffix(textView: TextView, score: Float?) {
+    score?.let {
+        textView.text =
+            MoodieTrailApplication.instance.getString(R.string.psy_text_result_score_only, it.toInt())
+    }
+}
+
+/**
+ * Display partial text in BOLD and blue
+ */
+@BindingAdapter("boldPartialText", "startIndex", "endIndex")
+fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
+    text?.let {
+        val spannable = SpannableString(text)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.blue_700_Dark)),
+            start,
+            end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannable.setSpan(
+            StyleSpan(BOLD),
+            start, end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        textView.text = spannable
     }
 }
 

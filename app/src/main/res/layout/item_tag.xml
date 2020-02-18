@@ -27,7 +27,6 @@
             android:layout_marginVertical="1dp"
             android:layout_marginStart="6dp"
             android:fontFamily="@font/noto_sans"
-            android:letterSpacing="0.15"
             android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_tag"
