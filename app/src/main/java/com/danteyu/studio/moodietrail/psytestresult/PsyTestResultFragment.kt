@@ -134,21 +134,6 @@ class PsyTestResultFragment : Fragment() {
     }
 
     private fun setPsyTestData(psyTestEntries: List<BarEntry>) {
-//        val set = BarDataSet(psyTestEntries, "")
-//        set.setColors(
-//            *intArrayOf(
-//                ContextCompat.getColor(context!!, R.color.normal_range),
-//                ContextCompat.getColor(context!!, R.color.light_range),
-//                ContextCompat.getColor(context!!, R.color.medium_range),
-//                ContextCompat.getColor(context!!,R.color.heavy_range)
-//            )
-//        )
-//
-//        val dataSets: ArrayList<BarDataSet> = ArrayList()
-//        dataSets.add(set)
-//
-//
-//        val data = BarData(xVals, dataSets)
         val barDataSet = BarDataSet(psyTestEntries, "")
 
 //        barDataSet.setColors(

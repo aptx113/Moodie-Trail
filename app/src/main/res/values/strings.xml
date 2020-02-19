@@ -45,7 +45,7 @@
     <string name="emotion_loneliness">孤單</string>
     <string name="emotion_excited">興奮</string>
     <string name="record_detail_save">儲存</string>
-    <string name="hint_write_some_content">那時發生了什麼事…</string>
+    <string name="hint_write_some_content">描述一下可能影響你心情的人事物…\n當時發生了什麼…\n讓你想到了什麼…\n有怎麼樣的感覺…</string>
     <string name="hint_add_tags">添加一些 tags 吧！</string>
     <string name="feeling_headache">頭痛</string>
     <string name="feeling_fatigue">疲倦</string>
@@ -55,6 +55,8 @@
     <string name="feeling_muscle">肌肉酸痛</string>
     <string name="feeling_pain">身體疼痛</string>
     <string name="record_detail_instruction">哪些感覺最符合你的心情？</string>
+    <string name="what_happen">那時發生了什麼事 ？</string>
+    <string name="hash_tags">HashTags</string>
     <string name="hash_tag">#%s</string>
 
     <!-- SimpleDateFormat -->
@@ -129,6 +131,7 @@
     <!-- PsyTestRecord -->
     <string name="no_psy_tests">想瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
     <string name="psy_text_result_score_only">%d\u0020分</string>
+
 
 
 </resources>
