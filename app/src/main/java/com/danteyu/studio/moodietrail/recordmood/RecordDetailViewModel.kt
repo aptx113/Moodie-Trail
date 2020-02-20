@@ -1,9 +1,7 @@
 package com.danteyu.studio.moodietrail.recordmood
 
-import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Rect
-import android.media.ExifInterface
-import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,11 +11,15 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.toDisplayFormat
+import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import java.io.InputStream
+import java.sql.Timestamp
+import java.util.*
 
 /**
  * Created by George Yu on 2020/2/5.
@@ -39,10 +41,44 @@ class RecordDetailViewModel(
 
     val newTag = MutableLiveData<String>()
 
+    private val _dateOfNote = MutableLiveData<Long>()
+
+    val dateOfNote: LiveData<Long>
+        get() = _dateOfNote
+
+    val weekOFMonthOfNote = MutableLiveData<Int>()
+
+    // Handle show DatePickerDialog
+    private val _showDatePickerDialog = MutableLiveData<Boolean>()
+    val showDatePickerDialog: LiveData<Boolean>
+        get() = _showDatePickerDialog
+
+    // Handle show TimePickerDialog
+    private val _showTimePickerDialog = MutableLiveData<Boolean>()
+    val showTimePickerDialog: LiveData<Boolean>
+        get() = _showTimePickerDialog
+
     val noteImage = MutableLiveData<String>()
 
+    private val _selectedImage = MutableLiveData<Bitmap>()
+
+    val selectedImage: LiveData<Bitmap>
+        get() = _selectedImage
+
+    //  Handle show ImageSourceSelector
+    private val _showImageSelector = MutableLiveData<Boolean>()
+
+    val showImageSelector: LiveData<Boolean>
+        get() = _showImageSelector
+
+
+    private val _launchCamera = MutableLiveData<Boolean>()
+
+    val launchCamera: LiveData<Boolean>
+        get() = _launchCamera
 
     private val _showGallery = MutableLiveData<Boolean>()
+
     val showGallery: LiveData<Boolean>
         get() = _showGallery
 
@@ -77,6 +113,20 @@ class RecordDetailViewModel(
         }
     }
 
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
+
+    val calendar: Calendar = Calendar.getInstance()
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private val viewModelJob = Job()
 
@@ -96,6 +146,56 @@ class RecordDetailViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
+
+        initialDateOfNote()
+
+    }
+
+    /**
+     * Function to get Start Time Of Date in timestamp in milliseconds
+     */
+    private fun getStartTimeOfDate(timestamp: Long): Long? {
+
+        val dayStart = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_daybegin,
+                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+            )
+        )
+        return dayStart.time
+    }
+
+    /**
+     * Function to get End Time Of Date in timestamp in milliseconds
+     */
+    private fun getEndTimeOfDate(timestamp: Long): Long? {
+
+        val dayEnd = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_dayend,
+                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+            )
+        )
+        return dayEnd.time
+    }
+
+    private fun initialDateOfNote() {
+
+        _dateOfNote.value = when (_note.value?.createdTime) {
+            0L -> calendar.timeInMillis
+            else -> _note.value?.createdTime
+        }
+
+        weekOFMonthOfNote.value = when (_note.value?.weekOfMonth) {
+            0 -> calendar.get(Calendar.WEEK_OF_MONTH)
+            else -> _note.value?.weekOfMonth
+        }
+    }
+
+    fun updateDateAndTimeOfNote() {
+        _dateOfNote.value = calendar.timeInMillis
+        weekOFMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
+
     }
 
     fun addNoteTag() {
@@ -118,12 +218,32 @@ class RecordDetailViewModel(
         tags.value = tags.value
     }
 
+    fun setImage(bitmap: Bitmap?) {
+        _selectedImage.value = bitmap
+    }
+
+    fun showImageSelector() {
+        _showImageSelector.value = true
+    }
+
+    fun onImageSelectorShowed() {
+        _showImageSelector.value = false
+    }
+
+    fun launchCamera() {
+        _launchCamera.value = true
+    }
+
+    fun onCameraLaunched() {
+        _launchCamera.value = null
+    }
+
     fun showGallery() {
         _showGallery.value = true
     }
 
     fun onGalleryShowed() {
-        _showGallery.value = false
+        _showGallery.value = null
     }
 
     fun navigateToHome() {

@@ -86,4 +86,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/button_record_mood_ripple</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/blue_700_Dark</item>
+    </style>
+    
+
 </resources>

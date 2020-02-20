@@ -54,10 +54,24 @@
     <string name="feeling_menstrual_pain">經痛</string>
     <string name="feeling_muscle">肌肉酸痛</string>
     <string name="feeling_pain">身體疼痛</string>
+    <string name="text_note_permission_message">開啟「設定」，點選「權限」，並允許「儲存空間」和「相機」</string>
+    <string name="text_open_app_setting">開啟「設定」</string>
+    <string name="text_cancel">取消</string>
     <string name="record_detail_instruction">哪些感覺最符合你的心情？</string>
+    <string name="select_image_hint">挑選符合心情的圖片吧 ！</string>
     <string name="what_happen">那時發生了什麼事 ？</string>
     <string name="hash_tags">HashTags</string>
     <string name="hash_tag">#%s</string>
+    <string name="start_camera_camera">Camera</string>
+    <string name="start_camera_jpg">.jpg</string>
+    <string name="start_camera_provider">.provider</string>
+    <string name="add_photo">相片</string>
+    <string name="choose_from_gallery">圖庫</string>
+    <string name="add_photo_title">新增圖片</string>
+    <string name="camera_and_storage_permission">相機和儲存空間權限</string>
+    <string name="permanently_denied_title"><![CDATA[需要允許相機和儲存空間權限才能新增圖片唷^.<]]></string>
+    <string name="went_to_setting">前往設定</string>
+
 
     <!-- SimpleDateFormat -->
     <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
@@ -66,6 +80,7 @@
     <string name="simpledateformat_yyyy_MM">yyyy - MM</string>
     <string name="simpledateformat_HH_mm">HH : mm</string>
     <string name="simpledateformat_yyyy_MM_dd_E_HH_mm">yyyy-MM-dd E HH : mm</string>
+    <string name="simpledateformat_yyyy_MM_dd_HHmmss">yyyy-MM-dd-HHmmss</string>
     <string name="time_list_format">yyyy-MM-dd-HH:mm</string>
 
     <!-- timestamp -->
@@ -131,7 +146,6 @@
     <!-- PsyTestRecord -->
     <string name="no_psy_tests">想瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
     <string name="psy_text_result_score_only">%d\u0020分</string>
-
 
 
 </resources>
