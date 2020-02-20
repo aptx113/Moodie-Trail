@@ -2,6 +2,8 @@ package com.danteyu.studio.moodietrail.recordmood
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,6 +13,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.view.*
+import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
@@ -24,14 +27,9 @@ import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.*
-import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
-import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
@@ -39,26 +37,29 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_image_source_selector.view.*
 import java.io.File
 import java.io.IOException
+import java.util.*
 
 
 /**
  * Created by George Yu on 2020/2/5.
  */
-class RecordDetailFragment : AppCompatDialogFragment() {
+class RecordDetailDialog : AppCompatDialogFragment() {
 
     private val viewModel by viewModels<RecordDetailViewModel> {
         getVmFactory(
-            RecordDetailFragmentArgs.fromBundle(
+            RecordDetailDialogArgs.fromBundle(
                 arguments!!
             ).noteKey
         )
     }
 
     private lateinit var binding: DialogRecordDetailBinding
+    private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
     lateinit var currentPhotoPath: String
+    private lateinit var calendar: Calendar
 
     private val quickPermissionsOption = QuickPermissionsOptions(
-       handleRationale = false ,
+        handleRationale = false,
         permissionsDeniedMethod = { handleRationale() },
         permanentDeniedMethod = { handlePermanentlyDenied(it) }
     )
@@ -75,6 +76,8 @@ class RecordDetailFragment : AppCompatDialogFragment() {
     ): View? {
 
         binding = DialogRecordDetailBinding.inflate(inflater, container, false)
+        calendar = viewModel.calendar
+        imageSourceSelectorDialog = ImageSourceSelectorDialog(viewModel)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -90,6 +93,49 @@ class RecordDetailFragment : AppCompatDialogFragment() {
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
 
+
+        viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
+            Logger.w("averageMood = $it")
+        })
+
+        viewModel.showImageSelector.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                getPermissions()
+                viewModel.onImageSelectorShowed()
+            }
+        })
+
+        viewModel.showGallery.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                showGallery()
+                viewModel.onGalleryShowed()
+            }
+        })
+
+        viewModel.writeDetailSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    true -> activity.showToast(getString(R.string.save_success))
+                }
+            }
+        })
+
+        viewModel.invalidWrite.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+
+                    UPLOAD_IMAGE_FAIL -> {
+                        activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
+                    }
+
+                    POST_NOTE_FAIL -> {
+                        activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
+                    }
+                    else -> {
+                    }
+                }
+            }
+        })
 //        viewModel.showImageSelector.observe(viewLifecycleOwner, Observer {
 //            it?.let {
 //                if (it) {
@@ -119,6 +165,9 @@ class RecordDetailFragment : AppCompatDialogFragment() {
             Logger.w("note = $it")
         })
 
+        setupDatePickerDialog()
+        setupTimePickerDialog()
+
         return binding.root
     }
 
@@ -132,13 +181,14 @@ class RecordDetailFragment : AppCompatDialogFragment() {
             when (requestCode) {
                 IMAGE_FROM_GALLERY -> {
 
-                    val bitmap = data.data?.getBitmap(
+                    val bitmap = data.data!!.getBitmap(
                         binding.imageNoteImage.width,
                         binding.imageNoteImage.height
                     )
                     try {
                         viewModel.setImage(bitmap)
                         binding.imageNoteImage.setImageBitmap(bitmap)
+                        imageSourceSelectorDialog.dismiss()
 
 
                     } catch (e: IOException) {
@@ -169,12 +219,18 @@ class RecordDetailFragment : AppCompatDialogFragment() {
         PERMISSION_READ_EXTERNAL_STORAGE,
         options = quickPermissionsOption
     ) {
-        selectImage()
+        parentFragmentManager?.let { fragmentManager ->
+            if (!imageSourceSelectorDialog.isInLayout) {
+                imageSourceSelectorDialog.show(fragmentManager, "Image Source Selector")
+            }
+        }
+
+//        selectImage()
     }
 
     private fun handleRationale() {
         this.context?.let {
-            AlertDialog.Builder(it,R.style.AlertDialogTheme)
+            AlertDialog.Builder(it, R.style.AlertDialogTheme)
                 .setTitle(getString(R.string.camera_and_storage_permission))
                 .setMessage(getString(R.string.permanently_denied_title))
                 .setIcon(R.drawable.ic_launcher_foreground)
@@ -186,7 +242,7 @@ class RecordDetailFragment : AppCompatDialogFragment() {
 
     private fun handlePermanentlyDenied(req: QuickPermissionsRequest) {
         this.context?.let {
-            AlertDialog.Builder(it,R.style.AlertDialogTheme)
+            AlertDialog.Builder(it, R.style.AlertDialogTheme)
                 .setTitle(getString(R.string.permanently_denied_title))
                 .setMessage(getString(R.string.text_note_permission_message))
                 .setPositiveButton(getString(R.string.went_to_setting)) { _, _ ->
@@ -304,9 +360,9 @@ class RecordDetailFragment : AppCompatDialogFragment() {
 
         //This is the directory in which the file will be created. This is the default location of Camera photos
         val storageDir =
-            context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
-        val timeStamp = viewModel.dateOfNote.value!!.toDisplayFormat(FORMAT_YYYY_MM_DD_HH_MM_SS)
+        val timeStamp = viewModel.dateOfNote.value?.toDisplayFormat(FORMAT_YYYY_MM_DD_HH_MM_SS)
         return File.createTempFile(
             "JPEG_${timeStamp}_",  /* prefix */
             MoodieTrailApplication.instance.getString(R.string.start_camera_jpg), /* suffix */
@@ -393,7 +449,66 @@ class RecordDetailFragment : AppCompatDialogFragment() {
 //                }
 //        }
 //    }
+private fun setupDatePickerDialog() {
 
+    val datePickerListener =
+        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            calendar.set(year, month, dayOfMonth)
+
+            viewModel.updateDateAndTimeOfNote()
+        }
+
+    val datePickerDialog = DatePickerDialog(
+        this.context!!,
+        R.style.DatePicker,
+        datePickerListener,
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH).plus(1),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
+    datePickerDialog.datePicker.maxDate = calendar.timeInMillis
+
+    viewModel.showDatePickerDialog.observe(this, Observer {
+        it?.let {
+            if (it) {
+
+                datePickerDialog.show()
+                viewModel.onDateDialogShowed()
+            }
+        }
+    })
+}
+
+    private fun setupTimePickerDialog() {
+
+        val timePickerListener =
+            TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendar.set(Calendar.MINUTE, minute)
+
+                viewModel.updateDateAndTimeOfNote()
+            }
+
+        val timePickerDialog = TimePickerDialog(
+            this.context,
+            R.style.DatePicker,
+            timePickerListener,
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        )
+
+        viewModel.showTimePickerDialog.observe(this, Observer {
+            it?.let {
+                if (it) {
+
+                    timePickerDialog.show()
+                    viewModel.onTimeDialogShowed()
+                }
+            }
+        })
+    }
 
     companion object {
         private const val PERMISSION_CAMERA = Manifest.permission.CAMERA

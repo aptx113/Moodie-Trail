@@ -5,26 +5,32 @@ import android.graphics.Rect
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD_HH_MM_SS
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.sql.Timestamp
 import java.util.*
 
 /**
  * Created by George Yu on 2020/2/5.
  *
- * The [ViewModel] that is attached to the [RecordDetailFragment].
+ * The [ViewModel] that is attached to the [RecordDetailDialog].
  */
 class RecordDetailViewModel(
     private val moodieTrailRepository: MoodieTrailRepository,
@@ -37,8 +43,29 @@ class RecordDetailViewModel(
     val note: LiveData<Note>
         get() = _note
 
+    private val notesByDate = MutableLiveData<List<Note>>()
+
+    val averageMoodScore: LiveData<Float> = Transformations.map(notesByDate) {
+        var totalMood = 0f
+        var aveMood = 0f
+
+        if (it.count() > 0) {
+            it.forEach { note ->
+                note.mood.let { mood ->
+                    totalMood += note.mood
+                }
+            }
+
+            aveMood = totalMood / it.count()
+        }
+
+        aveMood
+    }
+
+
     val tags = MutableLiveData<MutableList<String>>().apply { value = mutableListOf() }
 
+    //  Handle input tag
     val newTag = MutableLiveData<String>()
 
     private val _dateOfNote = MutableLiveData<Long>()
@@ -60,12 +87,14 @@ class RecordDetailViewModel(
 
     val noteImage = MutableLiveData<String>()
 
+    val noteContent = MutableLiveData<String>()
+
     private val _selectedImage = MutableLiveData<Bitmap>()
 
     val selectedImage: LiveData<Bitmap>
         get() = _selectedImage
 
-    //  Handle show ImageSourceSelector
+    //  Handle show ImageSourceSelectorDialog
     private val _showImageSelector = MutableLiveData<Boolean>()
 
     val showImageSelector: LiveData<Boolean>
@@ -81,6 +110,17 @@ class RecordDetailViewModel(
 
     val showGallery: LiveData<Boolean>
         get() = _showGallery
+
+    // Handle when write down is successful
+    private val _writeDetailSuccess = MutableLiveData<Boolean>()
+
+    val writeDetailSuccess: LiveData<Boolean>
+        get() = _writeDetailSuccess
+
+    private val _invalidWrite = MutableLiveData<Int>()
+
+    val invalidWrite: LiveData<Int>
+        get() = _invalidWrite
 
     // Handle navigate to Home
     private val _navigateToHome = MutableLiveData<Boolean>()
@@ -181,9 +221,9 @@ class RecordDetailViewModel(
 
     private fun initialDateOfNote() {
 
-        _dateOfNote.value = when (_note.value?.createdTime) {
+        _dateOfNote.value = when (_note.value?.date) {
             0L -> calendar.timeInMillis
-            else -> _note.value?.createdTime
+            else -> _note.value?.date
         }
 
         weekOFMonthOfNote.value = when (_note.value?.weekOfMonth) {
@@ -222,12 +262,213 @@ class RecordDetailViewModel(
         _selectedImage.value = bitmap
     }
 
+    fun writeDetailWithImageOptional() {
+
+        UserManager.id?.let {
+            if (_selectedImage.value != null) {
+                uploadNoteImage(it, _selectedImage.value!!, _dateOfNote.value!!, _note.value!!)
+            }else{
+
+                postNote(
+                    it,
+                    Note(
+                        date = _dateOfNote.value!!,
+                        weekOfMonth = weekOFMonthOfNote.value!!,
+                        mood = _note.value!!.mood,
+                        content = _note.value!!.content,
+                        tags = tags.value
+                    )
+                )
+            }
+
+
+        }
+    }
+
+    private fun uploadNoteImage(uid: String, noteImage: Bitmap, date: Long, detailNote: Note) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = moodieTrailRepository.uploadNoteImage(
+                uid, noteImage, date.toDisplayFormat(
+                    FORMAT_YYYY_MM_DD_HH_MM_SS
+                )
+            )
+
+            _note.value?.image = when (result) {
+
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+//                    postNote(uid, detailNote)
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _invalidWrite.value = UPLOAD_IMAGE_FAIL
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+        }
+    }
+
+    private fun postNote(uid: String, note: Note) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = moodieTrailRepository.postNote(uid, note)
+
+            _writeDetailSuccess.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    getNotesResultByDateRange(
+                        uid,
+                        getStartTimeOfDate(_dateOfNote.value!!)!!,
+                        getEndTimeOfDate(_dateOfNote.value!!)!!
+                    )
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _invalidWrite.value = POST_NOTE_FAIL
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+
+        }
+
+    }
+
+    private fun getNotesResultByDateRange(uid: String, startDate: Long, endDate: Long) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = moodieTrailRepository.getNotesByDateRange(uid, startDate, endDate)
+
+            notesByDate.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            postAvgMood(
+                uid,
+                AverageMood(
+                    avgMoodScore = averageMoodScore.value!!,
+                    time = getStartTimeOfDate(_dateOfNote.value!!)!!
+                ), _dateOfNote.value?.toDisplayFormat(
+                    FORMAT_YYYY_MM_DD
+                )!!
+            )
+//            _refreshStatus.value = false
+        }
+
+    }
+
+    private fun postAvgMood(uid: String, averageMood: AverageMood, timeList: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            when (val result = moodieTrailRepository.postAvgMood(uid, averageMood, timeList)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    navigateToHome()
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _invalidWrite.value = RecordMoodViewModel.POST_NOTE_FAIL
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+
+        }
+
+    }
+
+    fun showDatePickerDialog() {
+        _showDatePickerDialog.value = true
+    }
+
+    fun onDateDialogShowed() {
+        _showDatePickerDialog.value = false
+    }
+
+    fun showTimePickerDialog() {
+        _showTimePickerDialog.value = true
+    }
+
+    fun onTimeDialogShowed() {
+        _showTimePickerDialog.value = false
+    }
+
     fun showImageSelector() {
         _showImageSelector.value = true
     }
 
     fun onImageSelectorShowed() {
-        _showImageSelector.value = false
+        _showImageSelector.value = null
     }
 
     fun launchCamera() {
@@ -246,7 +487,7 @@ class RecordDetailViewModel(
         _showGallery.value = null
     }
 
-    fun navigateToHome() {
+    private fun navigateToHome() {
         _navigateToHome.value = true
     }
 
@@ -262,26 +503,10 @@ class RecordDetailViewModel(
         _backToRecordMood.value = null
     }
 
-//    fun getImageRotation(context: Context, uri: Uri): Int {
-//        var stream: InputStream? = null
-//        return try {
-//            stream = context.contentResolver.openInputStream(uri)
-//            val exifInterface = ExifInterface(stream)
-//            val exifOrientation =
-//                exifInterface.getAttributeInt(
-//                    ExifInterface.TAG_ORIENTATION,
-//                    ExifInterface.ORIENTATION_NORMAL
-//                )
-//            when (exifOrientation) {
-//                ExifInterface.ORIENTATION_ROTATE_90 -> 90
-//                ExifInterface.ORIENTATION_ROTATE_180 -> 180
-//                ExifInterface.ORIENTATION_ROTATE_270 -> 270
-//                else -> 0
-//            }
-//        } catch (e: Exception) {
-//            0
-//        } finally {
-//            stream?.close()
-//        }
-//    }
+    companion object {
+
+        const val UPLOAD_IMAGE_FAIL = 0x31
+        const val POST_NOTE_FAIL = 0x32
+
+    }
 }

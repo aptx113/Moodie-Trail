@@ -1,13 +1,22 @@
 package com.danteyu.studio.moodietrail.data.source.remote
 
+import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
+import androidx.core.net.toUri
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getString
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -25,12 +34,14 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val PATH_PSYTESTS = "psyTests"
     private const val PATH_AVGMOODS = "avgMoods"
     private const val KEY_ID = "id"
-    private const val KEY_CREATED_TIME = "createdTime"
+    private const val KEY_DATE = "date"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_AVGMOOD = "avgMoodScore"
     private const val KEY_TIMELIST = "timeList"
 
     private val userReference = FirebaseFirestore.getInstance().collection(PATH_USERS)
+    private val storageReference = FirebaseStorage.getInstance().reference
+
     private fun getNotesRefFrom(uid: String): CollectionReference {
         return userReference.document(uid).collection(PATH_NOTES)
     }
@@ -43,7 +54,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         suspendCoroutine { continuation ->
 
             userReference.document(uid).collection(PATH_NOTES)
-                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .orderBy(KEY_DATE, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -75,9 +86,9 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         suspendCoroutine { continuation ->
 
             getNotesRefFrom(uid)
-                .whereGreaterThanOrEqualTo(KEY_CREATED_TIME, startDate)
-                .whereLessThanOrEqualTo(KEY_CREATED_TIME, endDate)
-                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .whereGreaterThanOrEqualTo(KEY_DATE, startDate)
+                .whereLessThanOrEqualTo(KEY_DATE, endDate)
+                .orderBy(KEY_DATE, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -105,7 +116,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         suspendCoroutine { continuation ->
 
             getPsyTestsRefFrom(uid)
-                .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                .orderBy(KEY_DATE, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -144,12 +155,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                         } else {
                             continuation.resume(Result.Fail("No User Found"))
                         }
-//
-//                        val user = document.documents. .toObject(User::class.java)
-//                        Logger.d(document.id + " => " + document.data)
-////                        if(user == null)return@addOnCompleteListener
-//
-//                        continuation.resume(Result.Success(user!!))
+
                     } else {
                         task.exception?.let {
 
@@ -277,6 +283,53 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                     }
                 }
         }
+
+    override suspend fun uploadNoteImage(
+        uid: String,
+        noteImage: Bitmap,
+        date: String
+    ): Result<String> = suspendCoroutine { continuation ->
+
+        val imageRef = storageReference.child(
+            MoodieTrailApplication.instance.getString(
+                R.string.firebase_storage_reference,
+                uid,
+                date
+            )
+        )
+        val uploadTask = imageRef.putFile(noteImage.toString().toUri())
+
+        uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            return@Continuation imageRef.downloadUrl
+        }).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                Logger.i("downloadUri : $downloadUri")
+
+                continuation.resume(Result.Success(downloadUri.toString()))
+            } else {
+                task.exception?.let {
+
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    continuation.resume(Result.Error(it))
+                    return@addOnCompleteListener
+                }
+                continuation.resume(
+                    Result.Fail(
+                        MoodieTrailApplication.instance.getString(
+                            R.string.you_know_nothing
+                        )
+                    )
+                )
+            }
+        }
+    }
+
 
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->

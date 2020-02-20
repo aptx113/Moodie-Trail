@@ -48,6 +48,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/button_record_detail_back"
+                app:moodDetailImage="@{viewModel.note}"
                 app:srcCompat="@drawable/ic_mood_square_trans_normal" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="@dimen/margin_half"
+                android:onClick="@{() -> viewModel.showDatePickerDialog()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/layout_record_detail_time"
@@ -72,12 +74,13 @@
                     android:focusable="false"
                     android:fontFamily="@font/droid_sans"
                     android:gravity="center"
-                    android:text="2020/02/04"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:timeToDisplayDateFormat="@{viewModel.dateOfNote}"
+                    tools:text="2020/02/04" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -96,11 +99,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginTop="0.5dp"
                 android:layout_marginEnd="@dimen/margin_basic"
+                android:onClick="@{() -> viewModel.showTimePickerDialog()}"
                 app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"
                 app:layout_constraintEnd_toStartOf="@id/layout_record_detail_location"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/layout_record_detail_date">
+                app:layout_constraintStart_toEndOf="@+id/layout_record_detail_date"
+                app:layout_constraintTop_toTopOf="@id/layout_record_detail_date">
 
                 <TextView
                     android:id="@+id/text_record_detail_time"
@@ -110,12 +116,13 @@
                     android:focusable="false"
                     android:fontFamily="@font/droid_sans"
                     android:gravity="center"
-                    android:text="12:42"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:timeToDisplayTimeFormat="@{viewModel.dateOfNote}"
+                    tools:text="12:42" />
 
                 <ImageView
                     android:layout_width="16dp"
@@ -174,9 +181,9 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/margin_quarter"
             android:layout_marginTop="@dimen/margin_advanced"
-            android:scaleType="centerCrop"
             android:background="@drawable/bg_note_image_selector"
             android:onClick="@{()->viewModel.showImageSelector()}"
+            android:scaleType="centerCrop"
             app:imageUrl="@{viewModel.noteImage}"
             app:layout_constraintBottom_toTopOf="@id/edit_record_detail_content"
             app:layout_constraintDimensionRatio="1.78:1"
@@ -247,6 +254,7 @@
             android:hint="@string/hint_write_some_content"
             android:padding="8dp"
             android:scrollbars="vertical"
+            android:text="@={viewModel.note.content}"
             android:textColor="@color/black"
             android:textColorHint="@color/gray_646464"
             android:textSize="16sp"
@@ -338,8 +346,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
-            android:onClick="@{() -> viewModel.navigateToHome()}"
-            android:text="@string/record_detail_save"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
+            android:onClick="@{() -> viewModel.writeDetailWithImageOptional()}"
+            android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/record_detail_save : ""}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -350,7 +359,7 @@
             android:layout_width="@dimen/size_progress"
             android:layout_height="0dp"
             android:theme="@style/ProgressThemeDark"
-            android:visibility="gone"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/button_record_detail_save"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/button_record_detail_save"

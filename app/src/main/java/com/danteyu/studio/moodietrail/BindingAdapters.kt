@@ -185,6 +185,22 @@ fun ImageView.setMoodImage(item: Note?) {
     }
 }
 
+@BindingAdapter("moodDetailImage")
+fun ImageView.setMoodIDetailmage(item: Note?) {
+    item?.let {
+        setImageResource(
+            when (item.mood) {
+                1 -> R.drawable.ic_mood_square_trans_very_bad
+                2 -> R.drawable.ic_mood_square_trans_bad
+                3 -> R.drawable.ic_mood_square_trans_normal
+                4 -> R.drawable.ic_mood_square_trans_good
+                5 -> R.drawable.ic_mood_square_trans_very_good
+                else -> R.drawable.ic_placeholder
+            }
+        )
+    }
+}
+
 @BindingAdapter("psyRatingImage")
 fun ImageView.setPsyRatingImage(item: PsyTest?) {
     item?.let {
