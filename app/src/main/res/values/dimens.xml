@@ -65,7 +65,7 @@
     <!-- Record Mood  -->
     <dimen name="size_record_detail_icon">40dp</dimen>
     <dimen name="size_record_mood_close">36dp</dimen>
-    <dimen name="text_size_tag">13sp</dimen>
+    <dimen name="text_size_tag">14sp</dimen>
     <dimen name="size_record_mood_icon">100dp</dimen>
     <dimen name="space_outside_horizontal_tag_item">0dp</dimen>
     <dimen name="space_inside_horizontal_tag_item">4dp</dimen>

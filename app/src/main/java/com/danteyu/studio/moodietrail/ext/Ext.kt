@@ -1,14 +1,20 @@
 package com.danteyu.studio.moodietrail.ext
 
 import android.app.Activity
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.Rect
 import android.icu.text.SimpleDateFormat
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Bundle
 import android.view.TouchDelegate
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.network.Event
 import com.danteyu.studio.moodietrail.network.NetworkConnectivityListener
@@ -40,6 +46,7 @@ fun Long.toDisplayFormat(dateFormat: Int): String {
             )
             FORMAT_YYYY_MM_DD_E_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_E_HH_mm)
             Format_YYYY_MM_DD_HH_MM_LIST -> getString(R.string.time_list_format)
+            FORMAT_YYYY_MM_DD_HH_MM_SS -> getString(R.string.simpledateformat_yyyy_MM_dd_HHmmss)
 
             FORMAT_HH_MM -> getString(
                 R.string.simpledateformat_HH_mm
@@ -51,10 +58,6 @@ fun Long.toDisplayFormat(dateFormat: Int): String {
     ).format(this)
 
 }
-
-//fun Long.toDisplayFormat(): String {
-//    return SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.TAIWAN).format(this)
-//}
 
 // Increase touch area of the view/button .
 fun View.setTouchDelegate() {
@@ -70,6 +73,82 @@ fun View.setTouchDelegate() {
     }
 }
 
+fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
+    var rotatedDegree = 0
+    var stream = MoodieTrailApplication.instance.contentResolver.openInputStream(this)
+    /** GET IMAGE ORIENTATION */
+    if(stream != null) {
+        val exif = ExifInterface(stream)
+        rotatedDegree = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL).fromExifInterfaceOrientationToDegree()
+        stream.close()
+    }
+    /** GET IMAGE SIZE */
+    stream = MoodieTrailApplication.instance.contentResolver.openInputStream(this)
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeStream(stream, null,options)
+    try {
+        stream?.close()
+    } catch (e: NullPointerException) {
+        e.printStackTrace()
+        return null
+    }
+    // The resulting width and height of the bitmap
+    if(options.outWidth == -1 || options.outHeight == -1) return null
+    var bitmapWidth = options.outWidth.toFloat()
+    var bitmapHeight = options.outHeight.toFloat()
+    if (rotatedDegree == 90) {
+        // Side way -> options.outWidth is actually HEIGHT
+        //          -> options.outHeight is actually WIDTH
+        bitmapWidth = options.outHeight.toFloat()
+        bitmapHeight = options.outWidth.toFloat()
+    }
+    var scale = 1
+    while(true) {
+        if(bitmapWidth / 2 < width || bitmapHeight / 2 < height)
+            break;
+        bitmapWidth /= 2
+        bitmapHeight /= 2
+        scale *= 2
+    }
+    val finalOptions = BitmapFactory.Options()
+    finalOptions.inSampleSize = scale
+    stream = MoodieTrailApplication.instance.contentResolver.openInputStream(this)
+    val bitmap = BitmapFactory.decodeStream(stream, null, finalOptions)
+    try {
+        stream?.close()
+    } catch (e: NullPointerException) {
+        e.printStackTrace()
+        return null
+    }
+    val matrix = Matrix()
+    if (rotatedDegree != 0) {
+        matrix.preRotate(rotatedDegree.toFloat())
+    }
+    var bmpWidth = 0
+    try {
+        if (bitmap == null) {
+            return null
+        }
+        bmpWidth = bitmap.width
+    } catch (e: Exception) {
+        return null
+    }
+    var adjustedBitmap = bitmap
+    if (bmpWidth > 0) {
+        adjustedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+    return adjustedBitmap
+}
+
+fun Int.fromExifInterfaceOrientationToDegree(): Int {
+    return when(this) {
+        ExifInterface.ORIENTATION_ROTATE_90 -> 90
+        ExifInterface.ORIENTATION_ROTATE_180 -> 180
+        ExifInterface.ORIENTATION_ROTATE_270 -> 270
+        else -> 0
+    }
+}
 
 internal object Constants {
     const val ID_KEY = "network.monitoring.previousState"
@@ -143,3 +222,4 @@ const val FORMAT_YYYY_MM: Int = 0x04
 const val FORMAT_HH_MM: Int = 0x05
 const val FORMAT_YYYY_MM_DD_E_HH_MM = 0x06
 const val Format_YYYY_MM_DD_HH_MM_LIST = 0x07
+const val FORMAT_YYYY_MM_DD_HH_MM_SS = 0x08

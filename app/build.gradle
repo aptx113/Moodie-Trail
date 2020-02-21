@@ -120,4 +120,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    // QuickPermission
+    implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1'
+
+    implementation 'com.karumi:dexter:6.0.2'
 }

@@ -184,9 +184,9 @@ class RecordMoodViewModel(
 
     private fun initialDateOfNote() {
 
-        _dateOfNote.value = when (_note.value?.createdTime) {
+        _dateOfNote.value = when (_note.value?.date) {
             0L -> calendar.timeInMillis
-            else -> _note.value?.createdTime
+            else -> _note.value?.date
         }
 
         weekOFMonthOfNote.value = when (_note.value?.weekOfMonth) {
@@ -226,12 +226,12 @@ class RecordMoodViewModel(
 
             else -> when (noteSavedType) {
                 NoteSavedType.DETAIL -> navigateToRecordDetail()
-                NoteSavedType.QUICK -> writeDown()
+                NoteSavedType.QUICK -> writeDownQuickly()
             }
         }
     }
 
-    private fun writeDown() {
+    private fun writeDownQuickly() {
 
         if (dateOfNote.value == null ||
             weekOFMonthOfNote.value == null || selectedMood.value == null
@@ -241,7 +241,7 @@ class RecordMoodViewModel(
             postNote(
                 it,
                 Note(
-                    createdTime = _dateOfNote.value!!,
+                    date = _dateOfNote.value!!,
                     weekOfMonth = weekOFMonthOfNote.value!!,
                     mood = selectedMood.value!!
                 )
@@ -372,7 +372,7 @@ class RecordMoodViewModel(
     private fun navigateToRecordDetail() {
 
         val note = Note(
-            createdTime = _dateOfNote.value!!,
+            date = _dateOfNote.value!!,
             weekOfMonth = weekOFMonthOfNote.value!!,
             mood = selectedMood.value!!
         )
@@ -400,7 +400,7 @@ class RecordMoodViewModel(
         _showTimePickerDialog.value = false
     }
 
-    fun navigateToHome() {
+    private fun navigateToHome() {
         _navigateToHome.value = true
     }
 

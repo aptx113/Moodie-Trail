@@ -44,8 +44,9 @@
     <style name="RecordDetailButton" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">@font/droid_sans</item>
+        <item name="android:letterSpacing">0.15</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:background">@color/blue_700</item>
+        <item name="android:background">@drawable/button_record_mood_ripple</item>
     </style>
 
     <style name="RecordDetailMoodIcon">
@@ -85,4 +86,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/button_record_mood_ripple</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/blue_700_Dark</item>
+    </style>
+    
+
 </resources>

@@ -6,8 +6,10 @@
     <data>
 
         <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
-        <import type="com.danteyu.studio.moodietrail.recordmood.NoteSavedType"/>
-        <import type="com.danteyu.studio.moodietrail.recordmood.Mood"/>
+
+        <import type="com.danteyu.studio.moodietrail.recordmood.NoteSavedType" />
+
+        <import type="com.danteyu.studio.moodietrail.recordmood.Mood" />
 
         <import type="android.view.View" />
 
@@ -249,25 +251,13 @@
             app:layout_constraintEnd_toEndOf="@id/image_mood_very_good"
             app:layout_constraintStart_toStartOf="@id/image_mood_good" />
 
-        <ProgressBar
-            android:id="@+id/progress_record_mood_add_detail"
-            android:layout_width="@dimen/size_progress"
-            android:layout_height="0dp"
-            android:theme="@style/ProgressTheme"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/button_add_detail"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/button_add_detail"
-            app:layout_constraintStart_toStartOf="@id/button_add_detail"
-            app:layout_constraintTop_toTopOf="@id/button_add_detail"
-            tools:visibility="visible" />
-
         <Button
             android:id="@+id/button_quick_save"
             style="@style/RecordMoodButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="64dp"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
             android:onClick="@{() -> viewModel.prepareWriteDown(NoteSavedType.QUICK)}"
             android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/record_mood_quick_save : ""}'
             app:layout_constraintBottom_toBottomOf="parent"

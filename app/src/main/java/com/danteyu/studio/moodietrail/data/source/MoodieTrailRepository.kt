@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail.data.source
 
+import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
 
 
@@ -29,6 +30,8 @@ interface MoodieTrailRepository {
     ): Result<Boolean>
 
     suspend fun postPsyTest(uid:String, psyTest: PsyTest):Result<Boolean>
+
+    suspend fun uploadNoteImage(uid:String, noteImage:Bitmap,date:String):Result<String>
 
     suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
 }

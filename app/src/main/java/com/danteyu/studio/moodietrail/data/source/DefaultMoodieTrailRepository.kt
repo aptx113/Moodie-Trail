@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail.data.source
 
+import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
 
 
@@ -51,6 +52,14 @@ class DefaultMoodieTrailRepository(
 
     override suspend fun postPsyTest(uid: String, psyTest: PsyTest): Result<Boolean> {
         return remoteDataSource.postPsyTest(uid, psyTest)
+    }
+
+    override suspend fun uploadNoteImage(
+        uid: String,
+        noteImage: Bitmap,
+        date: String
+    ): Result<String> {
+        return  remoteDataSource.uploadNoteImage(uid,noteImage,date)
     }
 
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> {

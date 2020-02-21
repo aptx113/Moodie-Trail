@@ -1,6 +1,7 @@
 package com.danteyu.studio.moodietrail.data.source.local
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 
@@ -41,6 +42,14 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
     }
 
     override suspend fun postPsyTest(uid: String, psyTest: PsyTest): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun uploadNoteImage(
+        uid: String,
+        noteImage: Bitmap,
+        date: String
+    ): Result<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
