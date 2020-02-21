@@ -3,10 +3,7 @@ package com.danteyu.studio.moodietrail.recordmood
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
@@ -43,6 +40,11 @@ class RecordDetailViewModel(
     val note: LiveData<Note>
         get() = _note
 
+    private val _noteImage = MutableLiveData<String>()
+
+    val noteImage: LiveData<String>
+        get() = _noteImage
+
     private val notesByDate = MutableLiveData<List<Note>>()
 
     val averageMoodScore: LiveData<Float> = Transformations.map(notesByDate) {
@@ -62,6 +64,23 @@ class RecordDetailViewModel(
         aveMood
     }
 
+//  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
+    val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
+        addSource(_noteImage) {
+            UserManager.id?.let { id ->
+                postNote(
+                    id, Note(
+                        date = _dateOfNote.value!!,
+                        weekOfMonth = weekOFMonthOfNote.value!!,
+                        mood = _note.value!!.mood,
+                        image = _noteImage.value,
+                        content = _note.value!!.content,
+                        tags = tags.value
+                    )
+                )
+            }
+        }
+    }
 
     val tags = MutableLiveData<MutableList<String>>().apply { value = mutableListOf() }
 
@@ -85,10 +104,6 @@ class RecordDetailViewModel(
     val showTimePickerDialog: LiveData<Boolean>
         get() = _showTimePickerDialog
 
-    val noteImage = MutableLiveData<String>()
-
-    val noteContent = MutableLiveData<String>()
-
     private val _selectedImage = MutableLiveData<Bitmap>()
 
     val selectedImage: LiveData<Bitmap>
@@ -99,7 +114,6 @@ class RecordDetailViewModel(
 
     val showImageSelector: LiveData<Boolean>
         get() = _showImageSelector
-
 
     private val _launchCamera = MutableLiveData<Boolean>()
 
@@ -266,9 +280,10 @@ class RecordDetailViewModel(
 
         UserManager.id?.let {
             if (_selectedImage.value != null) {
-                uploadNoteImage(it, _selectedImage.value!!, _dateOfNote.value!!, _note.value!!)
-            }else{
-
+                uploadNoteImage(
+                    it, _selectedImage.value!!, _dateOfNote.value!!
+                )
+            } else {
                 postNote(
                     it,
                     Note(
@@ -280,12 +295,10 @@ class RecordDetailViewModel(
                     )
                 )
             }
-
-
         }
     }
 
-    private fun uploadNoteImage(uid: String, noteImage: Bitmap, date: Long, detailNote: Note) {
+    private fun uploadNoteImage(uid: String, noteImage: Bitmap, date: Long) {
 
         coroutineScope.launch {
 
@@ -297,12 +310,10 @@ class RecordDetailViewModel(
                 )
             )
 
-            _note.value?.image = when (result) {
-
+            _noteImage.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-//                    postNote(uid, detailNote)
                     result.data
                 }
                 is Result.Fail -> {

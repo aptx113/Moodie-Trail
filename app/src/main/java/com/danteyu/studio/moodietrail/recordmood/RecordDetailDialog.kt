@@ -112,6 +112,20 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             }
         })
 
+        viewModel.launchCamera.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                startCamera()
+                viewModel.onCameraLaunched()
+            }
+        })
+
+        viewModel.isUploadImageFinished.observe(viewLifecycleOwner, Observer {
+
+            it?.let {
+                Logger.i("isUploadImageFinished = $it")
+            }
+        })
+
         viewModel.writeDetailSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
@@ -136,15 +150,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 }
             }
         })
-//        viewModel.showImageSelector.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                if (it) {
-//                    getPermissions()
-//                    viewModel.onImageSelectorShowed()
-//                }
-//            }
-//        })
-
 
         viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -176,38 +181,36 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+        if (resultCode == Activity.RESULT_OK && data != null && data.data != null && requestCode == IMAGE_FROM_GALLERY) {
 
-            when (requestCode) {
-                IMAGE_FROM_GALLERY -> {
-
-                    val bitmap = data.data!!.getBitmap(
-                        binding.imageNoteImage.width,
-                        binding.imageNoteImage.height
-                    )
-                    try {
-                        viewModel.setImage(bitmap)
-                        binding.imageNoteImage.setImageBitmap(bitmap)
-                        imageSourceSelectorDialog.dismiss()
+            val bitmap = data.data!!.getBitmap(
+                binding.imageNoteImage.width,
+                binding.imageNoteImage.height
+            )
+            try {
+                viewModel.setImage(bitmap)
+                binding.imageNoteImage.setImageBitmap(bitmap)
+                imageSourceSelectorDialog.dismiss()
 
 
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-                IMAGE_FROM_CAMERA -> {
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        } else if (resultCode == Activity.RESULT_OK && data != null && requestCode == IMAGE_FROM_CAMERA) {
 
-                    val imageBitmap = data.data?.getBitmap(
-                        binding.imageNoteImage.width,
-                        binding.imageNoteImage.height
-                    )
-                    try {
-                        viewModel.setImage(imageBitmap)
-                        binding.imageNoteImage.setImageBitmap(imageBitmap)
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
+            val imageBitmap = filePath?.getBitmap(
+                binding.imageNoteImage.width,
+                binding.imageNoteImage.height
+            )
+            try {
+                viewModel.setImage(imageBitmap)
+                binding.imageNoteImage.setImageBitmap(imageBitmap)
+                imageSourceSelectorDialog.dismiss()
+
+                filePath = null
+
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
     }
@@ -219,7 +222,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         PERMISSION_READ_EXTERNAL_STORAGE,
         options = quickPermissionsOption
     ) {
-        parentFragmentManager?.let { fragmentManager ->
+        parentFragmentManager.let { fragmentManager ->
             if (!imageSourceSelectorDialog.isInLayout) {
                 imageSourceSelectorDialog.show(fragmentManager, "Image Source Selector")
             }
@@ -253,55 +256,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 .setCancelable(true)
                 .show()
         }
-    }
-
-    private fun selectImage() {
-
-        val items = arrayOf<CharSequence>(
-            MoodieTrailApplication.instance.resources.getText(R.string.add_photo)
-            , MoodieTrailApplication.instance.resources.getText(R.string.choose_from_gallery)
-            , MoodieTrailApplication.instance.resources.getText(R.string.text_cancel)
-        )
-
-        val context = this.context
-        val inflater = LayoutInflater.from(context)
-        val customDialog = inflater.inflate(R.layout.dialog_image_source_selector, null)
-        val builder = AlertDialog.Builder(context!!)
-            .setView(customDialog)
-            .setTitle(MoodieTrailApplication.instance.resources.getText(R.string.add_photo_title))
-            .setItems(items) { dialog, item ->
-                if (items[item] == MoodieTrailApplication.instance.resources.getText(R.string.text_cancel)) {
-
-                    dialog.dismiss()
-                } else {
-
-                    chooseCameraOrGallery = items[item].toString()
-                    callCameraOrGallery()
-                }
-            }
-        customDialog.button_camera.setOnClickListener { startCamera() }
-        customDialog.button_photo.setOnClickListener { showGallery() }
-        customDialog.button_cancel.setOnClickListener { }
-        builder.show()
-    }
-
-    private fun callCameraOrGallery() {
-
-        chooseCameraOrGallery?.let {
-
-            when (it) {
-
-                MoodieTrailApplication.instance.resources.getText(R.string.add_photo) -> {
-
-                    startCamera()
-                }
-                MoodieTrailApplication.instance.resources.getText(R.string.choose_from_gallery) -> {
-
-                    showGallery()
-                }
-            }
-        }
-
     }
 
     private fun getWindowManager(context: Context): WindowManager {
@@ -347,6 +301,9 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                                 R.string.start_camera_provider
                             ), it
                         )
+
+                        filePath = photoUri
+
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                         startActivityForResult(takePictureIntent, IMAGE_FROM_CAMERA)
                     }
@@ -372,7 +329,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             currentPhotoPath = absolutePath
         }
     }
-//    private fun getPermissionsByNative() {
+
+    //    private fun getPermissionsByNative() {
 //
 //        val permissions = arrayOf(
 //            PERMISSION_CAMERA,
@@ -449,36 +407,36 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 //                }
 //        }
 //    }
-private fun setupDatePickerDialog() {
+    private fun setupDatePickerDialog() {
 
-    val datePickerListener =
-        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            calendar.set(year, month, dayOfMonth)
+        val datePickerListener =
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                calendar.set(year, month, dayOfMonth)
 
-            viewModel.updateDateAndTimeOfNote()
-        }
-
-    val datePickerDialog = DatePickerDialog(
-        this.context!!,
-        R.style.DatePicker,
-        datePickerListener,
-        calendar.get(Calendar.YEAR),
-        calendar.get(Calendar.MONTH).plus(1),
-        calendar.get(Calendar.DAY_OF_MONTH)
-    )
-
-    datePickerDialog.datePicker.maxDate = calendar.timeInMillis
-
-    viewModel.showDatePickerDialog.observe(this, Observer {
-        it?.let {
-            if (it) {
-
-                datePickerDialog.show()
-                viewModel.onDateDialogShowed()
+                viewModel.updateDateAndTimeOfNote()
             }
-        }
-    })
-}
+
+        val datePickerDialog = DatePickerDialog(
+            this.context!!,
+            R.style.DatePicker,
+            datePickerListener,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH).plus(1),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        datePickerDialog.datePicker.maxDate = calendar.timeInMillis
+
+        viewModel.showDatePickerDialog.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
+
+                    datePickerDialog.show()
+                    viewModel.onDateDialogShowed()
+                }
+            }
+        })
+    }
 
     private fun setupTimePickerDialog() {
 
@@ -499,7 +457,7 @@ private fun setupDatePickerDialog() {
             true
         )
 
-        viewModel.showTimePickerDialog.observe(this, Observer {
+        viewModel.showTimePickerDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
 
@@ -532,6 +490,4 @@ private fun setupDatePickerDialog() {
         private var fileFromCamera: File? = null
         private var isUploadPermissionsGranted = false
     }
-
-
 }

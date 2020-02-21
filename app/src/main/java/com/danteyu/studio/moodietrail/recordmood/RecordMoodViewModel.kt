@@ -400,7 +400,7 @@ class RecordMoodViewModel(
         _showTimePickerDialog.value = false
     }
 
-    fun navigateToHome() {
+    private fun navigateToHome() {
         _navigateToHome.value = true
     }
 

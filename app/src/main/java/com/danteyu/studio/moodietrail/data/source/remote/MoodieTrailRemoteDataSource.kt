@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -297,7 +298,13 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 date
             )
         )
-        val uploadTask = imageRef.putFile(noteImage.toString().toUri())
+
+        val byteArrayOutput = ByteArrayOutputStream()
+
+        noteImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput)
+        val bytes = byteArrayOutput.toByteArray()
+
+        val uploadTask = imageRef.putBytes(bytes)
 
         uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
             if (!task.isSuccessful) {
