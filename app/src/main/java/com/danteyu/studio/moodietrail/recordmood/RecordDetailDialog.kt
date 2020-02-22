@@ -21,12 +21,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
-import com.danteyu.studio.moodietrail.NavigationDirections
-import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
+import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
@@ -35,7 +33,6 @@ import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_image_source_selector.view.*
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -96,6 +93,31 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
 
 
+
+        binding.buttonRecordDetailSave.text =
+            when (viewModel.status.value) {
+
+                LoadApiStatus.LOADING -> ""
+                else -> {
+                    when (viewModel.note.value!!.id) {
+                        "" -> getString(R.string.record_detail_save)
+                        else -> getString(R.string.confirm_edit)
+                    }
+                }
+            }
+
+
+//            if (viewModel.status.value == LoadApiStatus.LOADING) {
+//                " "
+//            } else {
+//
+//                if (viewModel.note.value!!.id != "") {
+//                    getString(R.string.confirm_edit)
+//                } else {
+//                    getString(R.string.record_detail_save)
+//                }
+//            }
+
         viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
         })
@@ -132,6 +154,14 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             it?.let {
                 when (it) {
                     true -> activity.showToast(getString(R.string.save_success))
+                }
+            }
+        })
+
+        viewModel.updateDetailSuccess.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    true -> activity.showToast(getString(R.string.update_success))
                 }
             }
         })
@@ -191,7 +221,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
-                binding.imageNoteImage.setImageBitmap(bitmap)
+
+                GlideApp.with(this).load(data.data).fitCenter().into(binding.imageNoteImage)
                 imageSourceSelectorDialog.dismiss()
 
 
@@ -206,7 +237,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(imageBitmap)
-                binding.imageNoteImage.setImageBitmap(imageBitmap)
+                GlideApp.with(this).load(filePath).fitCenter().into(binding.imageNoteImage)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null
@@ -229,8 +260,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 imageSourceSelectorDialog.show(fragmentManager, "Image Source Selector")
             }
         }
-
-//        selectImage()
     }
 
     private fun handleRationale() {
@@ -415,7 +444,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 calendar.set(year, month, dayOfMonth)
 
-                viewModel.updateDateAndTimeOfNote()
+                viewModel.updateDateOfNote()
             }
 
         val datePickerDialog = DatePickerDialog(
@@ -447,7 +476,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
 
-                viewModel.updateDateAndTimeOfNote()
+                viewModel.updateDateOfNote()
             }
 
         val timePickerDialog = TimePickerDialog(
@@ -481,13 +510,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         //Image request code
         private const val IMAGE_FROM_CAMERA = 0
         private const val IMAGE_FROM_GALLERY = 1
-        private var chooseCameraOrGallery: String? = null
 
         //Uri to store the image uri
         private var filePath: Uri? = null
         //Bitmap to get image from gallery
-        private var bitmap: Bitmap? = null
-        private var displayMetrics: DisplayMetrics? = null
         private var windowManager: WindowManager? = null
         private var fileFromCamera: File? = null
         private var isUploadPermissionsGranted = false

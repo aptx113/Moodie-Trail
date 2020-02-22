@@ -99,12 +99,12 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
         holder.itemView.setOnClickListener {
             onClickListener.onClick(note)
         }
-        holder.itemView.layoutParams.height = getRandomIntInRange(400, 300)
+//        holder.itemView.layoutParams.height = getRandomIntInRange(400, 300)
         holder.bind(note, itemCount)
 
     }
 
-    private fun getRandomIntInRange(max: Int, min: Int): Int {
-        return Random.nextInt(max - min + min) + min
-    }
+//    private fun getRandomIntInRange(max: Int, min: Int): Int {
+//        return Random.nextInt(max - min + min) + min
+//    }
 }

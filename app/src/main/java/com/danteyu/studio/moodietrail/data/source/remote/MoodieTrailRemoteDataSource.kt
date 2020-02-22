@@ -36,6 +36,9 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val PATH_AVGMOODS = "avgMoods"
     private const val KEY_ID = "id"
     private const val KEY_DATE = "date"
+    private const val KEY_CONTENT = "content"
+    private const val KEY_IMAGE = "image"
+    private const val KEY_TAGS ="tags"
     private const val KEY_CREATEDTIME = "createdTime"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_AVGMOOD = "avgMoodScore"
@@ -337,6 +340,42 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
             }
         }
     }
+
+    override suspend fun updateNote(
+        uid: String,
+        editedNote: Note,
+        noteId: String
+    ): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            val document = getNotesRefFrom(uid).document(noteId)
+
+            val editedNoteMap = hashMapOf(
+                KEY_DATE to editedNote.date,
+                KEY_WEEK to editedNote.weekOfMonth,
+                KEY_CONTENT to editedNote.content,
+                KEY_IMAGE to editedNote.image,
+                KEY_TAGS to editedNote.tags
+            )
+
+            document
+                .update(editedNoteMap)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Logger.i("Post: $editedNote")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
 
 
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> =

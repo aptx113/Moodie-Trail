@@ -190,14 +190,14 @@
 
                 <ImageView
                     android:id="@+id/image_note_image"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_quarter"
                     android:layout_marginTop="@dimen/margin_advanced"
                     android:background="@drawable/bg_note_image_selector"
+                    android:cropToPadding="false"
                     android:onClick="@{()->viewModel.showImageSelector()}"
                     android:scaleType="center"
-                    android:cropToPadding="false"
                     app:imageUrl='@{viewModel.note.image == null ? "" : viewModel.note.image}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,7 @@
                     android:id="@+id/layout_photo_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{viewModel.selectedImage != null ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.selectedImage != null || viewModel.note.image != null ? View.GONE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="@id/image_note_image"
                     app:layout_constraintEnd_toEndOf="@id/image_note_image"
                     app:layout_constraintStart_toStartOf="@id/image_note_image"
@@ -327,7 +327,7 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="16dp"
                     android:tint="@color/blue_700"
-                    android:visibility="@{viewModel.tags.size() ==0 ? View.GONE : View.VISIBLE}"
+                    android:visibility="@{viewModel.tags.size() == 0 ? View.GONE : View.VISIBLE}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
@@ -347,7 +347,7 @@
                     app:layout_constraintStart_toEndOf="@id/image_record_detail_tags"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
                     app:layout_constraintVertical_bias="0.0"
-                    app:tags="@{viewModel.tags}"
+                    app:tags="@{viewModel.note.tags.size() == 0 ? viewModel.tags: viewModel.note.tags}"
                     tools:listitem="@layout/item_tag" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -360,8 +360,7 @@
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
-            android:onClick="@{() -> viewModel.writeDetailWithImageOptional()}"
-            android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/record_detail_save : ""}'
+            android:onClick="@{() -> viewModel.writeOrUpdate()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

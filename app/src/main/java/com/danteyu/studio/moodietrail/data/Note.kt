@@ -19,6 +19,6 @@ data class Note(
     var content: String? = null,
     var location: Location? = null,
     var image: String? = null,
-    var tags: List<String>? = null
+    var tags: MutableList<String>? = null
 
 ) : Parcelable

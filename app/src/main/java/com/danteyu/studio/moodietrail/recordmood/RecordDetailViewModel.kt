@@ -64,20 +64,34 @@ class RecordDetailViewModel(
         aveMood
     }
 
-//  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
+    //  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
     val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
         addSource(_noteImage) {
             UserManager.id?.let { id ->
-                postNote(
-                    id, Note(
-                        date = _dateOfNote.value!!,
-                        weekOfMonth = weekOFMonthOfNote.value!!,
-                        mood = _note.value!!.mood,
-                        image = _noteImage.value,
-                        content = _note.value!!.content,
-                        tags = tags.value
+
+                if (_note.value?.id == "") {
+                    postNote(
+                        id, Note(
+                            date = _dateOfNote.value!!,
+                            weekOfMonth = weekOFMonthOfNote.value!!,
+                            mood = _note.value!!.mood,
+                            image = _noteImage.value,
+                            content = _note.value!!.content,
+                            tags = tags.value
+                        )
                     )
-                )
+                } else {
+                    updateNote(
+                        id, Note(
+                            date = _dateOfNote.value!!,
+                            weekOfMonth = weekOFMonthOfNote.value!!,
+                            image = _noteImage.value,
+                            content = _note.value!!.content,
+                            tags = tags.value
+                        ), _note.value!!.id
+                    )
+                }
+
             }
         }
     }
@@ -130,6 +144,11 @@ class RecordDetailViewModel(
 
     val writeDetailSuccess: LiveData<Boolean>
         get() = _writeDetailSuccess
+
+    private val _updateDetailSuccess = MutableLiveData<Boolean>()
+
+    val updateDetailSuccess: LiveData<Boolean>
+        get() = _updateDetailSuccess
 
     private val _invalidWrite = MutableLiveData<Int>()
 
@@ -201,8 +220,15 @@ class RecordDetailViewModel(
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        initialDateOfNote()
+        initializeNote()
+    }
 
+    private fun initializeNote() {
+        _note.value.let {
+            tags.value = it?.tags
+
+        }
+        initializeDateOfNote()
     }
 
     /**
@@ -233,7 +259,7 @@ class RecordDetailViewModel(
         return dayEnd.time
     }
 
-    private fun initialDateOfNote() {
+    private fun initializeDateOfNote() {
 
         _dateOfNote.value = when (_note.value?.date) {
             0L -> calendar.timeInMillis
@@ -246,7 +272,7 @@ class RecordDetailViewModel(
         }
     }
 
-    fun updateDateAndTimeOfNote() {
+    fun updateDateOfNote() {
         _dateOfNote.value = calendar.timeInMillis
         weekOFMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
 
@@ -276,7 +302,19 @@ class RecordDetailViewModel(
         _selectedImage.value = bitmap
     }
 
-    fun writeDetailWithImageOptional() {
+    fun writeOrUpdate() {
+
+        UserManager.id?.let {
+
+            if (_note.value?.id == "") {
+                writeDetailWithImageOptional()
+            } else {
+                updateDetailWithImageOptional()
+            }
+        }
+    }
+
+    private fun writeDetailWithImageOptional() {
 
         UserManager.id?.let {
             if (_selectedImage.value != null) {
@@ -293,6 +331,27 @@ class RecordDetailViewModel(
                         content = _note.value!!.content,
                         tags = tags.value
                     )
+                )
+            }
+        }
+    }
+
+    private fun updateDetailWithImageOptional() {
+
+        UserManager.id?.let {
+            if (_selectedImage.value != null) {
+                uploadNoteImage(
+                    it, _selectedImage.value!!, _dateOfNote.value!!
+                )
+            } else {
+                updateNote(
+                    it, Note(
+                        date = _dateOfNote.value!!,
+                        weekOfMonth = weekOFMonthOfNote.value!!,
+                        content = _note.value!!.content,
+                        image = _note.value!!.image,
+                        tags = tags.value
+                    ), _note.value!!.id
                 )
             }
         }
@@ -458,6 +517,41 @@ class RecordDetailViewModel(
 
     }
 
+    private fun updateNote(uid: String, editedNote: Note, noteId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = moodieTrailRepository.updateNote(uid, editedNote, noteId)
+
+            _updateDetailSuccess.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _invalidWrite.value = POST_NOTE_FAIL
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            navigateToHome()
+        }
+    }
+
     fun showDatePickerDialog() {
         _showDatePickerDialog.value = true
     }
@@ -515,9 +609,7 @@ class RecordDetailViewModel(
     }
 
     companion object {
-
         const val UPLOAD_IMAGE_FAIL = 0x31
         const val POST_NOTE_FAIL = 0x32
-
     }
 }

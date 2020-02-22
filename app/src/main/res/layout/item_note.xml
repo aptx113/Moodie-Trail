@@ -23,17 +23,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_note"
+        itemCount="@{itemCount}"
+        itemPosition="@{itemPosition}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_radius"
-        android:elevation="@dimen/elevation_all"
-        app:itemCount="@{itemCount}"
-        app:itemPosition="@{itemPosition}">
+        android:elevation="@dimen/elevation_all">
 
         <ImageView
             android:id="@+id/image_note"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_placeholder"
             android:visibility="@{note.image == null ? View.GONE : View.VISIBLE}"
@@ -94,8 +94,8 @@
             android:id="@+id/text_note_created_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:layout_marginStart="40dp"
+            android:layout_marginTop="1dp"
             android:ellipsize="end"
             android:fontFamily="@font/droid_sans"
             android:lines="1"

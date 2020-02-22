@@ -33,5 +33,7 @@ interface MoodieTrailRepository {
 
     suspend fun uploadNoteImage(uid:String, noteImage:Bitmap,date:String):Result<String>
 
+    suspend fun updateNote(uid: String, editedNote: Note, noteId: String): Result<Boolean>
+
     suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
 }
