@@ -23,7 +23,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_note"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_radius"
         android:elevation="@dimen/elevation_all"
@@ -38,12 +38,12 @@
             android:src="@drawable/ic_placeholder"
             android:visibility="@{note.image == null ? View.GONE : View.VISIBLE}"
             app:imageUrl="@{note.image}"
-            app:layout_constraintBottom_toTopOf="@id/image_note_created_time"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_placeholder" />
+
 
         <ImageView
             android:id="@+id/image_note_mood"
@@ -57,9 +57,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@id/text_note_created_date"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             app:moodImage="@{note}"
             tools:src="@drawable/ic_mood_circle_very_good_selected" />
-
 
         <ImageView
             android:id="@+id/image_note_created_time"
@@ -133,7 +134,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/margin_quarter"
+                android:layout_marginTop="@dimen/margin_half"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/droid_sans"

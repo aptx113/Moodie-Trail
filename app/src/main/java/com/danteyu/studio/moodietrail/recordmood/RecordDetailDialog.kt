@@ -30,6 +30,7 @@ import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
@@ -57,6 +58,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
     lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val quickPermissionsOption = QuickPermissionsOptions(
         handleRationale = false,

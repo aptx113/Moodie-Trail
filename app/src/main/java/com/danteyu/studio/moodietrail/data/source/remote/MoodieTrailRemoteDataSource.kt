@@ -36,6 +36,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val PATH_AVGMOODS = "avgMoods"
     private const val KEY_ID = "id"
     private const val KEY_DATE = "date"
+    private const val KEY_CREATEDTIME = "createdTime"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_AVGMOOD = "avgMoodScore"
     private const val KEY_TIMELIST = "timeList"
@@ -117,7 +118,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         suspendCoroutine { continuation ->
 
             getPsyTestsRefFrom(uid)
-                .orderBy(KEY_DATE, Query.Direction.DESCENDING)
+                .orderBy(KEY_CREATEDTIME, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

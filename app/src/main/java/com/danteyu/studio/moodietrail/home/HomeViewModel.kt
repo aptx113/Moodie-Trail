@@ -1,9 +1,12 @@
 package com.danteyu.studio.moodietrail.home
 
+import android.graphics.Rect
 import android.icu.util.Calendar
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
@@ -29,6 +32,11 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     val notes: LiveData<List<Note>>
         get() = _notes
+
+    private val _currentMonth = MutableLiveData<Long>()
+
+    val currentMonth: LiveData<Long>
+        get() = _currentMonth
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -70,10 +78,16 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
+        initialDate()
         UserManager.id?.let { getNotesResult(it) }
     }
 
-    private fun getNotesResult(uid:String) {
+    private fun initialDate() {
+
+        _currentMonth.value = calendar.timeInMillis
+    }
+
+    private fun getNotesResult(uid: String) {
 
         coroutineScope.launch {
 
