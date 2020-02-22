@@ -15,7 +15,7 @@
     <string name="start_test">開始測驗</string>
     <string name="firebase_storage_reference">images/users/%s/%s.jpg</string>
     <string name="empty_string"></string>
-
+    <string name="delete_success">刪除成功</string>
 
     <!-- Home -->
     <string name="no_notes">Hi\u0020現在心情如何？\n點選新增按鈕開始記錄心情吧！</string>
@@ -76,6 +76,7 @@
     <string name="went_to_setting">前往設定</string>
     <string name="update_success">修改成功！</string>
     <string name="confirm_edit">確認修改</string>
+    <string name="check_delete_note_message">確定要刪除此筆記錄嗎？</string>
 
     <!-- SimpleDateFormat -->
     <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
@@ -150,6 +151,5 @@
     <!-- PsyTestRecord -->
     <string name="no_psy_tests">想瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
     <string name="psy_text_result_score_only">%d\u0020分</string>
-
 
 </resources>

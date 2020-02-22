@@ -6,12 +6,10 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.view.*
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
@@ -22,10 +20,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.*
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_SUCCESS
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -92,8 +97,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
 
-
-
         binding.buttonRecordDetailSave.text =
             when (viewModel.status.value) {
 
@@ -144,39 +147,44 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         })
 
         viewModel.isUploadImageFinished.observe(viewLifecycleOwner, Observer {
-
             it?.let {
                 Logger.i("isUploadImageFinished = $it")
             }
         })
 
-        viewModel.writeDetailSuccess.observe(viewLifecycleOwner, Observer {
+        viewModel.showDeleteNoteDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
-                when (it) {
-                    true -> activity.showToast(getString(R.string.save_success))
-                }
+                showDeleteEventDialog(it)
+                viewModel.onDeleteNoteDialogShowed()
             }
         })
 
-        viewModel.updateDetailSuccess.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                when (it) {
-                    true -> activity.showToast(getString(R.string.update_success))
-                }
-            }
-        })
-
-        viewModel.invalidWrite.observe(viewLifecycleOwner, Observer {
+        viewModel.noteRelatedCondition.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
 
-                    UPLOAD_IMAGE_FAIL -> {
-                        activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
-                    }
+                    POST_NOTE_SUCCESS -> activity.showToast(getString(R.string.save_success))
 
-                    POST_NOTE_FAIL -> {
-                        activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
-                    }
+                    UPDATE_NOTE_SUCCESS -> activity.showToast(getString(R.string.update_success))
+
+                    DELETE_NOTE_SUCCESS -> activity.showToast(getString(R.string.delete_success))
+
+                    UPLOAD_IMAGE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
+                    POST_NOTE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
+                    UPDATE_NOTE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
+                    DELETE_NOTE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
                     else -> {
                     }
                 }
@@ -497,6 +505,16 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 }
             }
         })
+    }
+
+    private fun showDeleteEventDialog(note: Note) {
+        val builder = AlertDialog.Builder(this.context!!, R.style.Theme_AppCompat_Dialog)
+
+        builder.setTitle(getString(R.string.check_delete_note_message))
+        builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+            UserManager.id?.let { viewModel.deleteNote(it, note) }
+        }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
+        }.show()
     }
 
     companion object {
