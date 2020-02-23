@@ -181,7 +181,7 @@
                 android:layout_marginTop="37dp"
                 android:layout_marginEnd="@dimen/margin_basic"
                 android:onClick="@{() -> viewModel.showDeleteNoteDialog(viewModel.note)}"
-                android:visibility='@{viewModel.note.id == "" ? View.VISIBLE : View.GONE}'
+                android:visibility='@{viewModel.note.id == "" ? View.GONE : View.VISIBLE}'
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -375,10 +375,12 @@
             android:layout_marginBottom="@dimen/margin_basic"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
             android:onClick="@{() -> viewModel.writeOrUpdate()}"
+            app:existOfNote="@{viewModel.note.id}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            app:loadApiStatus="@{viewModel.status}" />
 
         <ProgressBar
             android:id="@+id/progress_record_mood_quick_save"

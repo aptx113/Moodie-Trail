@@ -9,6 +9,7 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Size
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -264,7 +265,7 @@ fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
  * Uses the Glide library to load an image by URL into an [ImageView]
  */
 @BindingAdapter("imageUrl")
-fun bindImageRadius(imgView: ImageView, imgUrl: String?) {
+fun bindImage(imgView: ImageView, imgUrl: String?) {
 
     val imgUri =
         if (imgUrl == "null" || imgUrl == "" || imgUrl == null) PlaceHolder.values().toList().shuffled().first().value.toUri().buildUpon().scheme(
@@ -401,6 +402,21 @@ fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         textView.text = spannable
+    }
+}
+
+@BindingAdapter("loadApiStatus", "existOfNote")
+fun setupTextForButton(button: Button, status: LoadApiStatus?, noteId: String?) {
+    when (status) {
+
+        LoadApiStatus.LOADING -> button.text = ""
+        else ->
+            when (noteId) {
+
+                "" -> button.text = getString(R.string.record_detail_save)
+                else -> button.text = getString(R.string.confirm_edit)
+
+            }
     }
 }
 

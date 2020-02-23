@@ -97,29 +97,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
 
-        binding.buttonRecordDetailSave.text =
-            when (viewModel.status.value) {
-
-                LoadApiStatus.LOADING -> ""
-                else -> {
-                    when (viewModel.note.value!!.id) {
-                        "" -> getString(R.string.record_detail_save)
-                        else -> getString(R.string.confirm_edit)
-                    }
-                }
-            }
-
-
-//            if (viewModel.status.value == LoadApiStatus.LOADING) {
-//                " "
-//            } else {
-//
-//                if (viewModel.note.value!!.id != "") {
-//                    getString(R.string.confirm_edit)
-//                } else {
-//                    getString(R.string.record_detail_save)
-//                }
-//            }
 
         viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
@@ -508,7 +485,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     }
 
     private fun showDeleteEventDialog(note: Note) {
-        val builder = AlertDialog.Builder(this.context!!, R.style.Theme_AppCompat_Dialog)
+        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
 
         builder.setTitle(getString(R.string.check_delete_note_message))
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->

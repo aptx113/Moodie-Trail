@@ -552,6 +552,11 @@ class RecordDetailViewModel(
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    getNotesResultByDateRange(
+                        uid,
+                        getStartTimeOfDate(note.date)!!,
+                        getEndTimeOfDate(note.date)!!
+                    )
                     _noteRelatedCondition.value = DELETE_NOTE_SUCCESS
 
                 }
@@ -570,7 +575,6 @@ class RecordDetailViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            navigateToHome()
         }
     }
 
