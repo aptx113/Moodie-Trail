@@ -6,14 +6,20 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.*
+import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -33,6 +39,8 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
@@ -487,7 +495,16 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     private fun showDeleteEventDialog(note: Note) {
         val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
 
-        builder.setTitle(getString(R.string.check_delete_note_message))
+        val titleText = getString(R.string.check_delete_note_message)
+        val spannable = SpannableString(titleText)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.blue_700)),
+            0,
+            titleText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        builder.setTitle(spannable)
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
             UserManager.id?.let { viewModel.deleteNote(it, note) }
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
