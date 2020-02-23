@@ -6,35 +6,46 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.DisplayMetrics
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.*
+import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
-import com.danteyu.studio.moodietrail.NavigationDirections
-import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.*
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
+import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.network.LoadApiStatus
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_SUCCESS
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_FAIL
+import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.danteyu.studio.moodietrail.util.Util.getDrawable
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_image_source_selector.view.*
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -57,6 +68,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
     lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val quickPermissionsOption = QuickPermissionsOptions(
         handleRationale = false,
@@ -120,31 +132,44 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         })
 
         viewModel.isUploadImageFinished.observe(viewLifecycleOwner, Observer {
-
             it?.let {
                 Logger.i("isUploadImageFinished = $it")
             }
         })
 
-        viewModel.writeDetailSuccess.observe(viewLifecycleOwner, Observer {
+        viewModel.showDeleteNoteDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
-                when (it) {
-                    true -> activity.showToast(getString(R.string.save_success))
-                }
+                showDeleteEventDialog(it)
+                viewModel.onDeleteNoteDialogShowed()
             }
         })
 
-        viewModel.invalidWrite.observe(viewLifecycleOwner, Observer {
+        viewModel.noteRelatedCondition.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
 
-                    UPLOAD_IMAGE_FAIL -> {
-                        activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
-                    }
+                    POST_NOTE_SUCCESS -> activity.showToast(getString(R.string.save_success))
 
-                    POST_NOTE_FAIL -> {
-                        activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
-                    }
+                    UPDATE_NOTE_SUCCESS -> activity.showToast(getString(R.string.update_success))
+
+                    DELETE_NOTE_SUCCESS -> activity.showToast(getString(R.string.delete_success))
+
+                    UPLOAD_IMAGE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
+                    POST_NOTE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
+                    UPDATE_NOTE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
+                    DELETE_NOTE_FAIL -> activity.showToast(
+                        viewModel.error.value ?: getString(R.string.love_u_3000)
+                    )
+
                     else -> {
                     }
                 }
@@ -189,7 +214,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
-                binding.imageNoteImage.setImageBitmap(bitmap)
+
+                GlideApp.with(this).load(data.data).fitCenter().into(binding.imageNoteImage)
                 imageSourceSelectorDialog.dismiss()
 
 
@@ -204,7 +230,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(imageBitmap)
-                binding.imageNoteImage.setImageBitmap(imageBitmap)
+                GlideApp.with(this).load(filePath).fitCenter().into(binding.imageNoteImage)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null
@@ -227,8 +253,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 imageSourceSelectorDialog.show(fragmentManager, "Image Source Selector")
             }
         }
-
-//        selectImage()
     }
 
     private fun handleRationale() {
@@ -413,7 +437,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 calendar.set(year, month, dayOfMonth)
 
-                viewModel.updateDateAndTimeOfNote()
+                viewModel.updateDateOfNote()
             }
 
         val datePickerDialog = DatePickerDialog(
@@ -445,7 +469,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendar.set(Calendar.MINUTE, minute)
 
-                viewModel.updateDateAndTimeOfNote()
+                viewModel.updateDateOfNote()
             }
 
         val timePickerDialog = TimePickerDialog(
@@ -468,6 +492,25 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         })
     }
 
+    private fun showDeleteEventDialog(note: Note) {
+        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
+
+        val titleText = getString(R.string.check_delete_note_message)
+        val spannable = SpannableString(titleText)
+        spannable.setSpan(
+            ForegroundColorSpan(getColor(R.color.blue_700)),
+            0,
+            titleText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        builder.setTitle(spannable)
+        builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+            UserManager.id?.let { viewModel.deleteNote(it, note) }
+        }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
+        }.show()
+    }
+
     companion object {
         private const val PERMISSION_CAMERA = Manifest.permission.CAMERA
         private const val PERMISSION_WRITE_EXTERNAL_STORAGE =
@@ -479,13 +522,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         //Image request code
         private const val IMAGE_FROM_CAMERA = 0
         private const val IMAGE_FROM_GALLERY = 1
-        private var chooseCameraOrGallery: String? = null
 
         //Uri to store the image uri
         private var filePath: Uri? = null
         //Bitmap to get image from gallery
-        private var bitmap: Bitmap? = null
-        private var displayMetrics: DisplayMetrics? = null
         private var windowManager: WindowManager? = null
         private var fileFromCamera: File? = null
         private var isUploadPermissionsGranted = false

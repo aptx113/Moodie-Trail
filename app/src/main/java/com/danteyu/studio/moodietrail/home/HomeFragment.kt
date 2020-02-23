@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.databinding.FragmentHomeBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
@@ -31,7 +32,8 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerNote.adapter = HomeAdapter(HomeAdapter.OnClickListener {})
+        binding.recyclerNote.adapter =
+            HomeAdapter(HomeAdapter.OnClickListener { viewModel.navigateToRecordDetail(it) })
 
         binding.layoutSwipeRefreshNote.setOnRefreshListener {
             viewModel.refresh()
@@ -40,6 +42,15 @@ class HomeFragment : Fragment() {
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.layoutSwipeRefreshNote.isRefreshing = it
+            }
+        })
+
+        viewModel.navigateToRecordDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToRecordDetailFragment(it)
+                )
+                viewModel.onRecordDetailNavigated()
             }
         })
 

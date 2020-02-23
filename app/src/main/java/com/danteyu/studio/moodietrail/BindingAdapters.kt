@@ -9,6 +9,7 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Size
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -18,6 +19,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.PlaceHolder
 import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
@@ -80,16 +82,16 @@ fun bindRecyclerViewWithPsyTests(recyclerView: RecyclerView, psyTests: List<PsyT
 fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int) {
 
     val outsideHorizontal =
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_outside_horizontal_note_item)
+        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_horizontal_note_item)
     val insideHorizontal =
         MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_horizontal_note_item)
     val outsideVertical =
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_outside_vertical_note_item)
+        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_horizontal_note_item)
     val insideVertical =
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_vertical_note_item)
+        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_horizontal_note_item)
 
     val layoutParams = ConstraintLayout.LayoutParams(
-        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+        ConstraintLayout.LayoutParams.MATCH_PARENT,
         ConstraintLayout.LayoutParams.WRAP_CONTENT
     )
 
@@ -263,18 +265,21 @@ fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
  * Uses the Glide library to load an image by URL into an [ImageView]
  */
 @BindingAdapter("imageUrl")
-fun bindImageRadius(imgView: ImageView, imgUrl: String?) {
-    imgUrl?.let {
-        val imgUri = it.toUri().buildUpon().build()
-        GlideApp.with(imgView.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .error(R.drawable.ic_placeholder)
-            )
-            .into(imgView)
-    }
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+
+    val imgUri =
+        if (imgUrl == "null" || imgUrl == "" || imgUrl == null) PlaceHolder.values().toList().shuffled().first().value.toUri().buildUpon().scheme(
+            "https"
+        ).build() else imgUrl.toUri().buildUpon().scheme("https").build()
+    GlideApp.with(imgView.context)
+        .load(imgUri)
+        .apply(
+            RequestOptions()
+                .placeholder(R.drawable.ic_placeholder)
+                .error(R.drawable.ic_placeholder)
+        )
+        .into(imgView)
+
 }
 
 /**
@@ -342,7 +347,8 @@ fun bindTag(textView: TextView, tag: String?) {
 fun bindScorePrefix(textView: TextView, score: Float?) {
     score?.let {
 
-        val text = MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it.toInt())
+        val text =
+            MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it.toInt())
         val spannable = SpannableString(text)
         spannable.setSpan(
             ForegroundColorSpan(getColor(R.color.blue_700)),
@@ -370,7 +376,10 @@ fun bindScorePrefix(textView: TextView, score: Float?) {
 fun bindScoreSuffix(textView: TextView, score: Float?) {
     score?.let {
         textView.text =
-            MoodieTrailApplication.instance.getString(R.string.psy_text_result_score_only, it.toInt())
+            MoodieTrailApplication.instance.getString(
+                R.string.psy_text_result_score_only,
+                it.toInt()
+            )
     }
 }
 
@@ -393,6 +402,21 @@ fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         textView.text = spannable
+    }
+}
+
+@BindingAdapter("loadApiStatus", "existOfNote")
+fun setupTextForButton(button: Button, status: LoadApiStatus?, noteId: String?) {
+    when (status) {
+
+        LoadApiStatus.LOADING -> button.text = ""
+        else ->
+            when (noteId) {
+
+                "" -> button.text = getString(R.string.record_detail_save)
+                else -> button.text = getString(R.string.confirm_edit)
+
+            }
     }
 }
 

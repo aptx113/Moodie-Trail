@@ -15,7 +15,11 @@
         android:id="@+id/homeFragment"
         android:name="com.danteyu.studio.moodietrail.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_recordDetailFragment"
+            app:destination="@id/recordDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/statisticFragment"
         android:name="com.danteyu.studio.moodietrail.statistic.StatisticFragment"

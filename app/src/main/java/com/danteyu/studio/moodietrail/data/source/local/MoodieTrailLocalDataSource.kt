@@ -53,6 +53,14 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun updateNote(
+        uid: String,
+        editedNote: Note,
+        noteId: String
+    ): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun deleteNote(uid:String, note: Note): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

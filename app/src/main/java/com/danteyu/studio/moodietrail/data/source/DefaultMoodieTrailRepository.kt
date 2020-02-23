@@ -59,7 +59,15 @@ class DefaultMoodieTrailRepository(
         noteImage: Bitmap,
         date: String
     ): Result<String> {
-        return  remoteDataSource.uploadNoteImage(uid,noteImage,date)
+        return remoteDataSource.uploadNoteImage(uid, noteImage, date)
+    }
+
+    override suspend fun updateNote(
+        uid: String,
+        editedNote: Note,
+        noteId: String
+    ): Result<Boolean> {
+        return remoteDataSource.updateNote(uid, editedNote, noteId)
     }
 
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> {

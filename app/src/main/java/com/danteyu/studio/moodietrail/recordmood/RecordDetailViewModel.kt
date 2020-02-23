@@ -64,20 +64,34 @@ class RecordDetailViewModel(
         aveMood
     }
 
-//  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
+    //  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
     val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
         addSource(_noteImage) {
             UserManager.id?.let { id ->
-                postNote(
-                    id, Note(
-                        date = _dateOfNote.value!!,
-                        weekOfMonth = weekOFMonthOfNote.value!!,
-                        mood = _note.value!!.mood,
-                        image = _noteImage.value,
-                        content = _note.value!!.content,
-                        tags = tags.value
+
+                if (_note.value?.id == "") {
+                    postNote(
+                        id, Note(
+                            date = _dateOfNote.value!!,
+                            weekOfMonth = weekOFMonthOfNote.value!!,
+                            mood = _note.value!!.mood,
+                            image = _noteImage.value,
+                            content = _note.value!!.content,
+                            tags = tags.value
+                        )
                     )
-                )
+                } else {
+                    updateNote(
+                        id, Note(
+                            date = _dateOfNote.value!!,
+                            weekOfMonth = weekOFMonthOfNote.value!!,
+                            image = _noteImage.value,
+                            content = _note.value!!.content,
+                            tags = tags.value
+                        ), _note.value!!.id
+                    )
+                }
+
             }
         }
     }
@@ -125,16 +139,14 @@ class RecordDetailViewModel(
     val showGallery: LiveData<Boolean>
         get() = _showGallery
 
-    // Handle when write down is successful
-    private val _writeDetailSuccess = MutableLiveData<Boolean>()
+    private val _noteRelatedCondition = MutableLiveData<Int>()
 
-    val writeDetailSuccess: LiveData<Boolean>
-        get() = _writeDetailSuccess
+    val noteRelatedCondition: LiveData<Int>
+        get() = _noteRelatedCondition
 
-    private val _invalidWrite = MutableLiveData<Int>()
-
-    val invalidWrite: LiveData<Int>
-        get() = _invalidWrite
+    private val _showDeleteNoteDialog = MutableLiveData<Note>()
+    val showDeleteNoteDialog: LiveData<Note>
+        get() = _showDeleteNoteDialog
 
     // Handle navigate to Home
     private val _navigateToHome = MutableLiveData<Boolean>()
@@ -201,8 +213,15 @@ class RecordDetailViewModel(
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        initialDateOfNote()
+        initializeNote()
+    }
 
+    private fun initializeNote() {
+        _note.value.let {
+            tags.value = it?.tags
+
+        }
+        initializeDateOfNote()
     }
 
     /**
@@ -233,7 +252,7 @@ class RecordDetailViewModel(
         return dayEnd.time
     }
 
-    private fun initialDateOfNote() {
+    private fun initializeDateOfNote() {
 
         _dateOfNote.value = when (_note.value?.date) {
             0L -> calendar.timeInMillis
@@ -246,7 +265,7 @@ class RecordDetailViewModel(
         }
     }
 
-    fun updateDateAndTimeOfNote() {
+    fun updateDateOfNote() {
         _dateOfNote.value = calendar.timeInMillis
         weekOFMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
 
@@ -276,7 +295,19 @@ class RecordDetailViewModel(
         _selectedImage.value = bitmap
     }
 
-    fun writeDetailWithImageOptional() {
+    fun writeOrUpdate() {
+
+        UserManager.id?.let {
+
+            if (_note.value?.id == "") {
+                writeDetailWithImageOptional()
+            } else {
+                updateDetailWithImageOptional()
+            }
+        }
+    }
+
+    private fun writeDetailWithImageOptional() {
 
         UserManager.id?.let {
             if (_selectedImage.value != null) {
@@ -293,6 +324,27 @@ class RecordDetailViewModel(
                         content = _note.value!!.content,
                         tags = tags.value
                     )
+                )
+            }
+        }
+    }
+
+    private fun updateDetailWithImageOptional() {
+
+        UserManager.id?.let {
+            if (_selectedImage.value != null) {
+                uploadNoteImage(
+                    it, _selectedImage.value!!, _dateOfNote.value!!
+                )
+            } else {
+                updateNote(
+                    it, Note(
+                        date = _dateOfNote.value!!,
+                        weekOfMonth = weekOFMonthOfNote.value!!,
+                        content = _note.value!!.content,
+                        image = _note.value!!.image,
+                        tags = tags.value
+                    ), _note.value!!.id
                 )
             }
         }
@@ -319,7 +371,7 @@ class RecordDetailViewModel(
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    _invalidWrite.value = UPLOAD_IMAGE_FAIL
+                    _noteRelatedCondition.value = UPLOAD_IMAGE_FAIL
                     null
                 }
                 is Result.Error -> {
@@ -345,7 +397,7 @@ class RecordDetailViewModel(
 
             val result = moodieTrailRepository.postNote(uid, note)
 
-            _writeDetailSuccess.value = when (result) {
+            when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
@@ -354,24 +406,22 @@ class RecordDetailViewModel(
                         getStartTimeOfDate(_dateOfNote.value!!)!!,
                         getEndTimeOfDate(_dateOfNote.value!!)!!
                     )
-                    result.data
+                    _noteRelatedCondition.value = POST_NOTE_SUCCESS
+
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    _invalidWrite.value = POST_NOTE_FAIL
-                    null
+                    _noteRelatedCondition.value = POST_NOTE_FAIL
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
                     _status.value = LoadApiStatus.ERROR
-                    null
                 }
             }
 
@@ -441,7 +491,7 @@ class RecordDetailViewModel(
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    _invalidWrite.value = RecordMoodViewModel.POST_NOTE_FAIL
+                    _noteRelatedCondition.value = RecordMoodViewModel.POST_NOTE_FAIL
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
@@ -456,6 +506,76 @@ class RecordDetailViewModel(
 
         }
 
+    }
+
+    private fun updateNote(uid: String, editedNote: Note, noteId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = moodieTrailRepository.updateNote(uid, editedNote, noteId)
+
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    _noteRelatedCondition.value = UPDATE_NOTE_SUCCESS
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _noteRelatedCondition.value = UPDATE_NOTE_FAIL
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+            navigateToHome()
+        }
+    }
+
+    fun deleteNote(uid: String, note: Note) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = moodieTrailRepository.deleteNote(uid, note)
+
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    getNotesResultByDateRange(
+                        uid,
+                        getStartTimeOfDate(note.date)!!,
+                        getEndTimeOfDate(note.date)!!
+                    )
+                    _noteRelatedCondition.value = DELETE_NOTE_SUCCESS
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    _noteRelatedCondition.value = DELETE_NOTE_FAIL
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
     }
 
     fun showDatePickerDialog() {
@@ -498,6 +618,14 @@ class RecordDetailViewModel(
         _showGallery.value = null
     }
 
+    fun showDeleteNoteDialog(note: Note) {
+        _showDeleteNoteDialog.value = note
+    }
+
+    fun onDeleteNoteDialogShowed() {
+        _showDeleteNoteDialog.value = null
+    }
+
     private fun navigateToHome() {
         _navigateToHome.value = true
     }
@@ -515,9 +643,12 @@ class RecordDetailViewModel(
     }
 
     companion object {
-
         const val UPLOAD_IMAGE_FAIL = 0x31
-        const val POST_NOTE_FAIL = 0x32
-
+        const val POST_NOTE_SUCCESS = 0x32
+        const val POST_NOTE_FAIL = 0x33
+        const val UPDATE_NOTE_SUCCESS = 0x34
+        const val UPDATE_NOTE_FAIL = 0x35
+        const val DELETE_NOTE_SUCCESS = 0x36
+        const val DELETE_NOTE_FAIL = 0x37
     }
 }

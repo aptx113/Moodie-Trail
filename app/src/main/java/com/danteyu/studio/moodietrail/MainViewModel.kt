@@ -33,11 +33,6 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val isFabOpen: LiveData<Boolean>
         get() = _isFabOpen
 
-    private val _currentMonth = MutableLiveData<Long>()
-
-    val currentMonth: LiveData<Long>
-        get() = _currentMonth
-
     // Handle navigation to record mood
     private val _navigateToRecordMood = MutableLiveData<Boolean>()
 
@@ -59,7 +54,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        initialDate()
+
     }
 
     fun setupUser(user: User) {
@@ -77,10 +72,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
 
-    private fun initialDate() {
 
-        _currentMonth.value = calendar.timeInMillis
-    }
 
     fun navigateToRecordMood() {
         _navigateToRecordMood.value = true
