@@ -22,7 +22,6 @@
             android:id="@+id/layout_swipe_refresh_psy_test"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="@dimen/margin_half"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +31,9 @@
                 android:id="@+id/recycler_psy_test"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingTop="@dimen/margin_basic"
                 android:orientation="vertical"
+                android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:psyTests="@{viewModel.psyTests}"
                 tools:listitem="@layout/item_psy_test">

@@ -82,9 +82,9 @@
     <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
     <string name="simpledatefromat_yyyy_MM_dd_E">yyyy-MM-dd\nE</string>
     <string name="simpledateformat_MM_dd">MM-dd</string>
-    <string name="simpledateformat_yyyy_MM">yyyy - MM</string>
-    <string name="simpledateformat_HH_mm">HH : mm</string>
-    <string name="simpledateformat_yyyy_MM_dd_E_HH_mm">yyyy-MM-dd E HH : mm</string>
+    <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
+    <string name="simpledateformat_HH_mm">HH:mm</string>
+    <string name="simpledateformat_yyyy_MM_dd_E_HH_mm">yyyy-MM-dd E HH:mm</string>
     <string name="simpledateformat_yyyy_MM_dd_HHmmss">yyyy-MM-dd-HHmmss</string>
     <string name="time_list_format">yyyy-MM-dd-HH:mm</string>
 
@@ -96,9 +96,9 @@
 
     <!-- PsyTest -->
     <string name="bsrs_5">簡式健康量表</string>
-    <string name="test_instruction">說明：\n\u3000\u3000簡式健康量表(BSRS-5)是由臺大李明濱教授等人所發展\uFF0C主要在幫助個人快速瞭解自己的身心健康狀態。\n\u3000\u3000本量表所列舉的問題是為協助您瞭解您的身心適應狀況，請您仔細回想在最近一星期中(包括今天)，這些問題使您感到困擾或苦惱的程度，然後圈選一個您認為最能代表您感覺的答案。</string>
+    <string name="test_instruction">說明：\n\u3000\u3000簡式健康量表（BSRS-5）是由臺大李明濱教授等人所發展\uFF0C主要在幫助個人快速瞭解自己的身心健康狀態。\n\u3000\u3000本量表所列舉的問題是為協助您瞭解您的身心適應狀況，請您仔細回想在最近一星期中（包括今天），這些問題使您感到困擾或苦惱的程度，然後圈選一個您認為最能代表您感覺的答案。</string>
     <string name="test_start">測驗開始</string>
-    <string name="test_body_instruction">\u3000\u3000請您仔細回想在最近一星期中(包括今天)，這些問題使您感到困擾或苦惱的程度，然後選擇一個您認為最能代表您感覺的答案。</string>
+    <string name="test_body_instruction">\u3000\u3000請您仔細回想在最近一星期中（包括今天），這些問題使您感到困擾或苦惱的程度，然後選擇一個您認為最能代表您感覺的答案。</string>
     <string name="never">完全沒有</string>
     <string name="seldom">輕微</string>
     <string name="sometimes">中等程度</string>
@@ -151,5 +151,9 @@
     <!-- PsyTestRecord -->
     <string name="no_psy_tests">想瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
     <string name="psy_text_result_score_only">%d\u0020分</string>
+
+    <!-- Statistic -->
+    <string name="mood">心情</string>
+    <string name="chart_no_data">目前沒有足夠數據繪製圖表 記得記錄心情喔！</string>
 
 </resources>

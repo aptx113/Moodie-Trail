@@ -17,6 +17,8 @@ interface MoodieTrailRepository {
 
     suspend fun getPsyTests(uid: String): Result<List<PsyTest>>
 
+    suspend fun getAvgMoodByDateRange(uid: String, startDate: Long, endDate: Long):Result<List<AverageMood>>
+
     suspend fun getUserProfile(id: String): Result<User>
 
     suspend fun signUpUser(user: User, id: String): Result<Boolean>

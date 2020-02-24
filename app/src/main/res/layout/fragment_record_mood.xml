@@ -122,14 +122,15 @@
         <Button
             android:id="@+id/button_add_detail"
             style="@style/RecordMoodButton"
-            android:layout_width="0dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_advanced"
             android:onClick="@{() -> viewModel.prepareWriteDown(NoteSavedType.DETAIL)}"
             android:text="@string/record_mood_add_detail"
+            android:layout_marginHorizontal="@dimen/margin_advanced"
             app:layout_constraintBottom_toTopOf="@id/button_quick_save"
-            app:layout_constraintEnd_toEndOf="@id/image_mood_very_good"
-            app:layout_constraintStart_toStartOf="@id/image_mood_good" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_quick_save"

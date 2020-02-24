@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.danteyu.studio.moodietrail.statistic.StatisticViewModel" />
@@ -49,10 +53,10 @@
                     android:id="@+id/text_month_no_mood_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="目前沒有足夠數據繪製圖表\n記得記錄心情喔！"
+                    android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/chart_no_data : ""}'
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.avgMoods == null ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
                     app:layout_constraintEnd_toEndOf="@id/line_chart_mood_by_month"
                     app:layout_constraintStart_toStartOf="@id/line_chart_mood_by_month"
@@ -75,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:theme="@style/ProgressTheme"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

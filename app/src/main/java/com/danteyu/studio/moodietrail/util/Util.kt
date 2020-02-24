@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import java.util.*
 
 
 /**
@@ -34,5 +35,9 @@ object Util {
 
     fun getDrawable(resourceId: Int): Drawable? {
         return MoodieTrailApplication.instance.getDrawable(resourceId)
+    }
+
+    fun getCalendar(): Calendar {
+        return MoodieTrailApplication.instance.appContainer.calendar
     }
 }

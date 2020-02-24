@@ -325,7 +325,7 @@ class RecordMoodViewModel(
             }
             postAvgMood(uid,
                 AverageMood(
-                    avgMoodScore = averageMoodScore.value!!,
+                    score = averageMoodScore.value!!,
                     time = getStartTimeOfDate(_dateOfNote.value!!)!!
                 ), _dateOfNote.value?.toDisplayFormat(
                     FORMAT_YYYY_MM_DD

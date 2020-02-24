@@ -73,7 +73,7 @@ class RecordDetailViewModel(
                     postNote(
                         id, Note(
                             date = _dateOfNote.value!!,
-                            weekOfMonth = weekOFMonthOfNote.value!!,
+                            weekOfMonth = weekOfMonthOfNote.value!!,
                             mood = _note.value!!.mood,
                             image = _noteImage.value,
                             content = _note.value!!.content,
@@ -84,7 +84,7 @@ class RecordDetailViewModel(
                     updateNote(
                         id, Note(
                             date = _dateOfNote.value!!,
-                            weekOfMonth = weekOFMonthOfNote.value!!,
+                            weekOfMonth = weekOfMonthOfNote.value!!,
                             image = _noteImage.value,
                             content = _note.value!!.content,
                             tags = tags.value
@@ -106,7 +106,7 @@ class RecordDetailViewModel(
     val dateOfNote: LiveData<Long>
         get() = _dateOfNote
 
-    val weekOFMonthOfNote = MutableLiveData<Int>()
+    val weekOfMonthOfNote = MutableLiveData<Int>()
 
     // Handle show DatePickerDialog
     private val _showDatePickerDialog = MutableLiveData<Boolean>()
@@ -259,7 +259,7 @@ class RecordDetailViewModel(
             else -> _note.value?.date
         }
 
-        weekOFMonthOfNote.value = when (_note.value?.weekOfMonth) {
+        weekOfMonthOfNote.value = when (_note.value?.weekOfMonth) {
             0 -> calendar.get(Calendar.WEEK_OF_MONTH)
             else -> _note.value?.weekOfMonth
         }
@@ -267,7 +267,7 @@ class RecordDetailViewModel(
 
     fun updateDateOfNote() {
         _dateOfNote.value = calendar.timeInMillis
-        weekOFMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
+        weekOfMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
 
     }
 
@@ -319,7 +319,7 @@ class RecordDetailViewModel(
                     it,
                     Note(
                         date = _dateOfNote.value!!,
-                        weekOfMonth = weekOFMonthOfNote.value!!,
+                        weekOfMonth = weekOfMonthOfNote.value!!,
                         mood = _note.value!!.mood,
                         content = _note.value!!.content,
                         tags = tags.value
@@ -340,7 +340,7 @@ class RecordDetailViewModel(
                 updateNote(
                     it, Note(
                         date = _dateOfNote.value!!,
-                        weekOfMonth = weekOFMonthOfNote.value!!,
+                        weekOfMonth = weekOfMonthOfNote.value!!,
                         content = _note.value!!.content,
                         image = _note.value!!.image,
                         tags = tags.value
@@ -464,7 +464,7 @@ class RecordDetailViewModel(
             postAvgMood(
                 uid,
                 AverageMood(
-                    avgMoodScore = averageMoodScore.value!!,
+                    score = averageMoodScore.value!!,
                     time = getStartTimeOfDate(_dateOfNote.value!!)!!
                 ), _dateOfNote.value?.toDisplayFormat(
                     FORMAT_YYYY_MM_DD

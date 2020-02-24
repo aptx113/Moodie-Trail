@@ -34,6 +34,14 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.getUserProfile(id)
     }
 
+    override suspend fun getAvgMoodByDateRange(
+        uid: String,
+        startDate: Long,
+        endDate: Long
+    ): Result<List<AverageMood>> {
+        return remoteDataSource.getAvgMoodByDateRange(uid, startDate, endDate)
+    }
+
     override suspend fun signUpUser(user: User, id: String): Result<Boolean> {
         return remoteDataSource.signUpUser(user, id)
     }

@@ -114,6 +114,7 @@ class PsyTestResultFragment : Fragment() {
         xAxis.let {
             it.position = XAxis.XAxisPosition.BOTTOM
             it.setDrawGridLines(false)
+            it.axisLineWidth = 1f
             it.textSize = 15f
             it.valueFormatter = PsyTestFormatter(viewModel.formatValue())
         }
@@ -125,6 +126,7 @@ class PsyTestResultFragment : Fragment() {
         val yAxisRight = psyTestChart.axisRight
         yAxisRight.let {
             it.textSize = 15f
+            it.axisLineWidth = 1f
             it.setDrawGridLines(false)
             it.granularity = 1.0f
             it.isGranularityEnabled = true

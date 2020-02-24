@@ -257,7 +257,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handleRationale() {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme)
+            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
                 .setTitle(getString(R.string.camera_and_storage_permission))
                 .setMessage(getString(R.string.permanently_denied_title))
                 .setIcon(R.drawable.ic_launcher_foreground)
@@ -269,7 +269,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handlePermanentlyDenied(req: QuickPermissionsRequest) {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme)
+            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
                 .setTitle(getString(R.string.permanently_denied_title))
                 .setMessage(getString(R.string.text_note_permission_message))
                 .setPositiveButton(getString(R.string.went_to_setting)) { _, _ ->
@@ -493,18 +493,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     }
 
     private fun showDeleteEventDialog(note: Note) {
-        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
+        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme_Center)
 
-        val titleText = getString(R.string.check_delete_note_message)
-        val spannable = SpannableString(titleText)
-        spannable.setSpan(
-            ForegroundColorSpan(getColor(R.color.blue_700)),
-            0,
-            titleText.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        builder.setTitle(spannable)
+        builder.setTitle(getString(R.string.check_delete_note_message))
+        builder.setIcon(R.drawable.ic_launcher_foreground)
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
             UserManager.id?.let { viewModel.deleteNote(it, note) }
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->

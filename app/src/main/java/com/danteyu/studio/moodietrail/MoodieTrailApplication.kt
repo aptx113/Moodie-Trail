@@ -3,6 +3,7 @@ package com.danteyu.studio.moodietrail
 import android.app.Application
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.NetworkStateHolder.registerConnectivityBroadcaster
+import com.danteyu.studio.moodietrail.util.AppContainer
 import com.danteyu.studio.moodietrail.util.ServiceLocator
 import java.util.*
 import kotlin.properties.Delegates
@@ -19,6 +20,8 @@ class MoodieTrailApplication : Application() {
     // Depends on the flavor
     val moodieTrailRepository: MoodieTrailRepository
         get() = ServiceLocator.provideRepository(this)
+
+    val appContainer = AppContainer()
 
     companion object {
         var instance: MoodieTrailApplication by Delegates.notNull()
