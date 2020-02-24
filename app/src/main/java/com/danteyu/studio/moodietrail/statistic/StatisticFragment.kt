@@ -11,7 +11,9 @@ import androidx.lifecycle.Observer
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 
@@ -23,8 +25,9 @@ class StatisticFragment : Fragment() {
     val viewModel by viewModels<StatisticViewModel> { getVmFactory() }
 
     private lateinit var binding: FragmentStatisticBinding
-    private lateinit var moodChartByMonth: LineChart
+    private lateinit var moodLineChart: LineChart
     private lateinit var moodLineChartInfoDialog: MoodLineChartInfoDialog
+    private lateinit var moodPieChart: PieChart
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,19 +49,26 @@ class StatisticFragment : Fragment() {
             }
         })
 
+        viewModel.noteEntries.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                displayNoteData(it)
+            }
+        })
+
         viewModel.showLineChartInfo.observe(viewLifecycleOwner, Observer {
             it?.let {
                 showLineChartInfoDialog()
                 viewModel.onLineChartInfoShowed()
             }
         })
+        setupPieChart()
 
         return binding.root
     }
 
     private fun setupAvgMoodChart() {
-        moodChartByMonth = binding.lineChartMood
-        moodChartByMonth.apply {
+        moodLineChart = binding.lineChartMood
+        moodLineChart.apply {
 
             // disable description
             description.isEnabled = false
@@ -79,10 +89,20 @@ class StatisticFragment : Fragment() {
             setNoDataText("")
 
             setPinchZoom(true)
-
         }
+    }
 
-
+    private fun setupPieChart() {
+        moodPieChart = binding.pieChartMood
+        moodPieChart.apply {
+            holeRadius = 20f
+            setNoDataText("")
+            setDrawEntryLabels(false)
+            description.isEnabled = false
+            setTransparentCircleAlpha(0)
+            legend.isEnabled = false
+            invalidate()
+        }
     }
 
     private fun displayAvgMoodData(avgMoodEntries: List<Entry>) {
@@ -107,7 +127,7 @@ class StatisticFragment : Fragment() {
             setDrawValues(false)
         }
         // set X axis
-        val xAxis = moodChartByMonth.xAxis
+        val xAxis = moodLineChart.xAxis
         xAxis.apply {
 
             if (avgMoodEntries.isEmpty()) {
@@ -126,10 +146,10 @@ class StatisticFragment : Fragment() {
         }
 
         // set Y axis
-        val yAxisRight = moodChartByMonth.axisRight
+        val yAxisRight = moodLineChart.axisRight
         yAxisRight.isEnabled = false
 
-        val yAxisLeft = moodChartByMonth.axisLeft
+        val yAxisLeft = moodLineChart.axisLeft
         yAxisLeft.apply {
 
             if (avgMoodEntries.isEmpty()) {
@@ -146,10 +166,33 @@ class StatisticFragment : Fragment() {
 
         }
 
-        moodChartByMonth.data = LineData(dataSet)
-        moodChartByMonth.notifyDataSetChanged()
-        moodChartByMonth.isLogEnabled = true
-        moodChartByMonth.invalidate()
+        moodLineChart.data = LineData(dataSet)
+        moodLineChart.notifyDataSetChanged()
+        moodLineChart.invalidate()
+    }
+
+    private fun displayNoteData(noteEntries: List<PieEntry>) {
+
+        val colors = ArrayList<Int>()
+        val colorTable = listOf(
+            getColor(R.color.mood_very_bad),
+            getColor(R.color.mood_bad),
+            getColor(R.color.mood_normal),
+            getColor(R.color.mood_good),
+            getColor(R.color.mood_very_good)
+        )
+        for (color in colorTable) {
+            colors.add(color)
+        }
+
+        val dataSet = PieDataSet(noteEntries, "")
+        dataSet.colors = colors
+        dataSet.setDrawValues(false)
+
+        moodPieChart.data = PieData(dataSet)
+        moodPieChart.notifyDataSetChanged()
+        moodPieChart.invalidate()
+
     }
 
     private fun showLineChartInfoDialog() {

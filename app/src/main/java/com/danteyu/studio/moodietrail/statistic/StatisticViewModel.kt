@@ -1,26 +1,22 @@
 package com.danteyu.studio.moodietrail.statistic
 
-import android.graphics.Color
-import android.util.SparseArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_DD
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,6 +38,11 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     val avgMoods: LiveData<List<AverageMood>>
         get() = _avgMoods
 
+    private val _notes = MutableLiveData<List<Note>>()
+
+    val notes: LiveData<List<Note>>
+        get() = _notes
+
     private val _showLineChartInfo = MutableLiveData<Boolean>()
 
     val showLineChartInfo: LiveData<Boolean>
@@ -56,6 +57,11 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
 
     val avgMoodEntries: LiveData<List<Entry>>
         get() = _avgMoodEntries
+
+    private val _noteEntries = MutableLiveData<List<PieEntry>>()
+
+    val noteEntries: LiveData<List<PieEntry>>
+        get() = _noteEntries
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -93,6 +99,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
 
         initializeDate()
         getAvgMoods()
+        getNotes()
     }
 
     private fun initializeDate() {
@@ -182,6 +189,47 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         }
     }
 
+    private fun getNotes() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = UserManager.id?.let {
+                moodieTrailRepository.getNotesByDateRange(
+                    it,
+                    getStartDateOfMonth(_currentDate.value!!)!!,
+                    getEndDateOfMonth(_currentDate.value!!)!!
+                )
+            }
+
+            _notes.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            setEntriesForNote(_notes.value!!)
+        }
+    }
+
     private fun setEntriesForAvgMood(avgMoodData: List<AverageMood>) {
 
         val entries = ArrayList<Entry>().apply {
@@ -192,6 +240,28 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
             }
         }
         _avgMoodEntries.value = entries.reversed()
+    }
+
+    private fun setEntriesForNote(noteData: List<Note>) {
+
+        val entries = ArrayList<PieEntry>()
+
+
+        val veryBadMoodNotes = noteData.filter { it.mood == 1 }
+        val badMoodNotes = noteData.filter { it.mood == 2 }
+        val normalNotes = noteData.filter { it.mood == 3 }
+        val goodMoodNotes = noteData.filter { it.mood == 4 }
+        val veryGoodMoodNotes = noteData.filter { it.mood == 5 }
+
+
+        entries.apply {
+            add(PieEntry(veryBadMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(badMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(normalNotes.size.toFloat() / noteData.size))
+            add(PieEntry(goodMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(veryGoodMoodNotes.size.toFloat() / noteData.size))
+        }
+        _noteEntries.value = entries
     }
 
     fun showLineChartInfo() {

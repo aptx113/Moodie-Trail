@@ -54,30 +54,30 @@
             app:layout_constraintVertical_bias="0.2" />
 
         <ImageView
-            android:id="@+id/image_mood_very_bad"
+            android:id="@+id/image_mood_very_good"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
             android:layout_marginTop="72dp"
-            android:background="@drawable/ic_mood_circle_very_bad_selector"
-            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.VERY_BAD)}"
+            android:background="@drawable/ic_mood_circle_very_good_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.VERY_GOOD)}"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/image_mood_bad"
+            app:layout_constraintEnd_toStartOf="@+id/image_mood_good"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_record_mood_instruction" />
 
         <ImageView
-            android:id="@+id/image_mood_bad"
+            android:id="@+id/image_mood_good"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
-            android:background="@drawable/ic_mood_circle_bad_selector"
-            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.BAD)}"
+            android:background="@drawable/ic_mood_circle_good_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.GOOD)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/image_mood_normal"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_mood_very_bad"
-            app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
+            app:layout_constraintStart_toEndOf="@+id/image_mood_very_good"
+            app:layout_constraintTop_toTopOf="@id/image_mood_very_good"
             tools:layout_editor_absoluteY="275dp" />
 
         <ImageView
@@ -89,33 +89,33 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_mood_bad"
-            app:layout_constraintTop_toTopOf="@id/image_mood_very_bad"
+            app:layout_constraintStart_toEndOf="@+id/image_mood_good"
+            app:layout_constraintTop_toTopOf="@id/image_mood_very_good"
             tools:layout_editor_absoluteY="275dp" />
 
         <ImageView
-            android:id="@+id/image_mood_good"
+            android:id="@+id/image_mood_bad"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
-            android:background="@drawable/ic_mood_circle_good_selector"
-            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.GOOD)}"
+            android:background="@drawable/ic_mood_circle_bad_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.BAD)}"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@id/image_mood_bad"
-            app:layout_constraintStart_toEndOf="@id/image_mood_very_bad"
-            app:layout_constraintTop_toBottomOf="@id/image_mood_very_bad"
+            app:layout_constraintEnd_toStartOf="@id/image_mood_good"
+            app:layout_constraintStart_toEndOf="@id/image_mood_very_good"
+            app:layout_constraintTop_toBottomOf="@id/image_mood_very_good"
             tools:layout_editor_absoluteX="213dp"
             tools:layout_editor_absoluteY="385dp" />
 
         <ImageView
-            android:id="@+id/image_mood_very_good"
+            android:id="@+id/image_mood_very_bad"
             android:layout_width="@dimen/size_record_mood_icon"
             android:layout_height="0dp"
-            android:background="@drawable/ic_mood_circle_very_good_selector"
-            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.VERY_GOOD)}"
+            android:background="@drawable/ic_mood_circle_very_bad_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.VERY_BAD)}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@id/image_mood_normal"
-            app:layout_constraintStart_toEndOf="@id/image_mood_bad"
-            app:layout_constraintTop_toTopOf="@id/image_mood_good"
+            app:layout_constraintStart_toEndOf="@id/image_mood_good"
+            app:layout_constraintTop_toTopOf="@id/image_mood_bad"
             tools:layout_editor_absoluteX="100dp"
             tools:layout_editor_absoluteY="385dp" />
 

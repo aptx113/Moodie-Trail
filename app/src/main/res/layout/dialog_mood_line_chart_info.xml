@@ -72,49 +72,49 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/text_very_bad"
+                android:id="@+id/text_very_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_basic"
                 android:layout_marginTop="@dimen/margin_half"
                 android:fontFamily="@font/droid_sans"
-                android:text="1 :"
+                android:text="5 :"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_top" />
 
             <ImageView
-                android:id="@+id/image_very_bad"
+                android:id="@+id/image_very_good"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/text_very_bad"
+                app:layout_constraintBottom_toBottomOf="@id/text_very_good"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@id/text_very_bad"
-                app:layout_constraintTop_toTopOf="@id/text_very_bad"
-                app:srcCompat="@drawable/ic_mood_circle_very_bad_selected" />
+                app:layout_constraintStart_toEndOf="@id/text_very_good"
+                app:layout_constraintTop_toTopOf="@id/text_very_good"
+                app:srcCompat="@drawable/ic_mood_circle_very_good_selected" />
 
             <TextView
-                android:id="@+id/text_bad"
+                android:id="@+id/text_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_basic"
                 android:fontFamily="@font/droid_sans"
-                android:text="2 :"
+                android:text="4 :"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/image_very_bad"
-                app:layout_constraintTop_toTopOf="@id/text_very_bad" />
+                app:layout_constraintStart_toEndOf="@id/image_very_good"
+                app:layout_constraintTop_toTopOf="@id/text_very_good" />
 
             <ImageView
-                android:id="@+id/image_bad"
+                android:id="@+id/image_good"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/text_bad"
+                app:layout_constraintBottom_toBottomOf="@id/text_good"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@id/text_bad"
-                app:layout_constraintTop_toTopOf="@id/text_bad"
-                app:srcCompat="@drawable/ic_mood_circle_bad_selected" />
+                app:layout_constraintStart_toEndOf="@id/text_good"
+                app:layout_constraintTop_toTopOf="@id/text_good"
+                app:srcCompat="@drawable/ic_mood_circle_good_selected" />
 
             <TextView
                 android:id="@+id/text_normal"
@@ -125,8 +125,8 @@
                 android:text="3 :"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/image_bad"
-                app:layout_constraintTop_toTopOf="@id/text_very_bad" />
+                app:layout_constraintStart_toEndOf="@id/image_good"
+                app:layout_constraintTop_toTopOf="@id/text_very_good" />
 
             <ImageView
                 android:id="@+id/image_normal"
@@ -142,51 +142,51 @@
                 app:srcCompat="@drawable/ic_mood_circle_normal_selected" />
 
             <TextView
-                android:id="@+id/text_good"
+                android:id="@+id/text_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="48sp"
                 android:layout_marginTop="@dimen/margin_basic"
                 android:layout_marginBottom="@dimen/margin_half"
                 android:fontFamily="@font/droid_sans"
-                android:text="4 :"
+                android:text="2 :"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_very_bad"
+                app:layout_constraintTop_toBottomOf="@id/text_very_good"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
-                android:id="@+id/image_good"
+                android:id="@+id/image_bad"
                 android:layout_width="40dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/text_good"
+                app:layout_constraintBottom_toBottomOf="@id/text_bad"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@id/text_good"
-                app:layout_constraintTop_toTopOf="@id/text_good"
-                app:srcCompat="@drawable/ic_mood_circle_good_selected" />
+                app:layout_constraintStart_toEndOf="@id/text_bad"
+                app:layout_constraintTop_toTopOf="@id/text_bad"
+                app:srcCompat="@drawable/ic_mood_circle_bad_selected" />
 
             <TextView
-                android:id="@+id/text_very_good"
+                android:id="@+id/text_very_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/droid_sans"
-                android:text="5 :"
+                android:text="1 :"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@id/image_good"
-                app:layout_constraintTop_toTopOf="@id/text_good" />
+                app:layout_constraintStart_toEndOf="@id/image_bad"
+                app:layout_constraintTop_toTopOf="@id/text_bad" />
 
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="@id/text_very_good"
+                app:layout_constraintBottom_toBottomOf="@id/text_very_bad"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toEndOf="@id/text_very_good"
-                app:layout_constraintTop_toTopOf="@id/text_very_good"
-                app:srcCompat="@drawable/ic_mood_circle_very_good_selected" />
+                app:layout_constraintStart_toEndOf="@id/text_very_bad"
+                app:layout_constraintTop_toTopOf="@id/text_very_bad"
+                app:srcCompat="@drawable/ic_mood_circle_very_bad_selected" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

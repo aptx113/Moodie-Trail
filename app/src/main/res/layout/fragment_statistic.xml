@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/noto_sans"
                     android:text="@string/mood_tread_by_month"
                     android:textColor="@color/blue_700"
@@ -55,10 +55,10 @@
                     android:layout_width="20dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/margin_half"
-                    android:onClick="@{() -> viewModel.showLineChartInfo()}"
-                    android:backgroundTint="@color/blue_700"
+                    android:layout_marginTop="1.5dp"
                     android:background="@drawable/ic_info"
-                    app:layout_constraintBottom_toBottomOf="@id/text_month_line_chart_title"
+                    android:backgroundTint="@color/blue_700"
+                    android:onClick="@{() -> viewModel.showLineChartInfo()}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toEndOf="@id/text_month_line_chart_title"
                     app:layout_constraintTop_toTopOf="@id/text_month_line_chart_title" />
@@ -68,11 +68,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_basic"
-                    android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/chart_no_data : ""}'
+                    android:text='@{viewModel.avgMoods != null ? @string/chart_no_data : ""}'
                     android:textAlignment="center"
                     android:textColor="@color/blue_700_Dark"
                     android:textSize="16sp"
-                    android:visibility="@{viewModel.avgMoodEntries == null || viewModel.avgMoodEntries.size() == 0  ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.avgMoods.size() == 0  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/line_chart_mood"
                     app:layout_constraintEnd_toEndOf="@id/line_chart_mood"
                     app:layout_constraintStart_toStartOf="@id/line_chart_mood"
@@ -95,12 +95,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:theme="@style/ProgressTheme"
-                    android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/line_chart_mood"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/line_chart_mood"
+                    app:setupApiStatus="@{viewModel.status}"
                     tools:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:setupApiErrorMessage="@{viewModel.error}"
+                    tools:visibility="gone" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,33 +130,36 @@
                 app:layout_constraintTop_toBottomOf="@id/layout_month">
 
                 <TextView
-                    android:id="@+id/text_line_chart_title_by_day"
+                    android:id="@+id/text_pie_chart_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/noto_sans"
-                    android:text="每日心情趨勢"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/droid_sans"
+                    android:text="@string/mood_ratio_by_month"
+                    android:textColor="@color/blue_700"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/text_no_mood_data_day"
+                    android:id="@+id/text_no_mood_data_for_pie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="目前沒有足夠數據繪製圖表\n記得記錄心情喔！"
+                    android:elevation="1dp"
+                    android:text='@{viewModel.notes != null ? @string/chart_no_data : ""}'
                     android:textAlignment="center"
+                    android:textColor="@color/blue_700_Dark"
                     android:textSize="16sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_day"
-                    app:layout_constraintEnd_toEndOf="@id/line_chart_mood_by_day"
-                    app:layout_constraintStart_toStartOf="@id/line_chart_mood_by_day"
-                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_day"
+                    android:visibility="@{viewModel.notes.size() == 0  ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/pie_chart_mood"
+                    app:layout_constraintEnd_toEndOf="@id/pie_chart_mood"
+                    app:layout_constraintStart_toStartOf="@id/pie_chart_mood"
+                    app:layout_constraintTop_toTopOf="@id/pie_chart_mood"
                     tools:visibility="visible" />
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/line_chart_mood_by_day"
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart_mood"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginHorizontal="@dimen/margin_half"
@@ -155,22 +168,86 @@
                     app:layout_constraintDimensionRatio="1.77:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_line_chart_title_by_day" />
+                    app:layout_constraintTop_toBottomOf="@id/text_pie_chart_title" />
+
+                <ImageView
+                    android:id="@+id/image_very_good"
+                    android:layout_width="60dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/margin_half"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/image_good"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pie_chart_mood"
+                    app:srcCompat="@drawable/ic_mood_circle_very_good_normal" />
+
+                <ImageView
+                    android:id="@+id/image_good"
+                    android:layout_width="60dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/image_normal"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_very_good"
+                    app:layout_constraintTop_toTopOf="@id/image_very_good"
+                    app:srcCompat="@drawable/ic_mood_circle_good_normal" />
+
+                <ImageView
+                    android:id="@+id/image_normal"
+                    android:layout_width="60dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/image_bad"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_good"
+                    app:layout_constraintTop_toTopOf="@id/image_very_good"
+                    app:srcCompat="@drawable/ic_mood_circle_normal_normal" />
+
+                <ImageView
+                    android:id="@+id/image_bad"
+                    android:layout_width="60dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_normal"
+                    app:layout_constraintTop_toTopOf="@id/image_very_good"
+                    app:srcCompat="@drawable/ic_mood_circle_bad_normal" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="60dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_bad"
+                    app:layout_constraintTop_toTopOf="@id/image_very_good"
+                    app:srcCompat="@drawable/ic_mood_circle_very_bad_normal" />
 
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:theme="@style/ProgressTheme"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_day"
+                    app:layout_constraintBottom_toBottomOf="@id/pie_chart_mood"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_day"
+                    app:layout_constraintTop_toTopOf="@id/pie_chart_mood"
+                    app:setupApiStatus="@{viewModel.status}"
                     tools:visibility="visible" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:setupApiErrorMessage="@{viewModel.error}"
+                    tools:visibility="gone" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
