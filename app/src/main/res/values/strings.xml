@@ -156,6 +156,7 @@
 
     <!-- Statistic -->
     <string name="mood">心情</string>
-    <string name="chart_no_data">目前沒有足夠數據繪製圖表 記得記錄心情喔！</string>
+    <string name="chart_no_data">目前沒有足夠數據繪製圖表\n記得記錄心情喔！</string>
+    <string name="mood_score_reference">心情分數參照</string>
 
 </resources>

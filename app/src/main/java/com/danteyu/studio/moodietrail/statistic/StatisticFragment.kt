@@ -95,7 +95,7 @@ class StatisticFragment : Fragment() {
 
         dataSet.apply {
 
-            color = Color.parseColor("#ecb220")
+            color = Color.parseColor("#63a4ff")
             lineWidth = 2f
             circleRadius = 3f
 
@@ -121,14 +121,6 @@ class StatisticFragment : Fragment() {
             setDrawGridLines(false)
             axisLineWidth = 2f
             isGranularityEnabled = true
-//            granularity = 86400000f
-//            axisMinimum = avgMoodEntries.elementAt(0).x
-//            setLabelCount(6,true)
-
-//            it.granularity = 86400f
-//            it.axisMinimum = (viewModel.getThreeMonthsAgoTimestamp() * 0.9995).toFloat()
-//            it.axisMaximum = (viewModel.getNowTimestamp() * 1.0005).toFloat()
-//            valueFormatter = (MyValueFormatter(viewModel.formatValue()))
 
         }
 
@@ -153,35 +145,16 @@ class StatisticFragment : Fragment() {
 
         }
 
-
         moodChartByMonth.data = LineData(dataSet)
         moodChartByMonth.notifyDataSetChanged()
         moodChartByMonth.isLogEnabled = true
         moodChartByMonth.invalidate()
     }
 
-
-    class MyValueFormatter(private val xValsDateLabel: SparseArray<String>) : ValueFormatter() {
-
-        override fun getAxisLabel(value: Float, axis: AxisBase?): String? {
-            if (value.toInt() >= 0 && value.toInt() <= xValsDateLabel.size() - 1) {
-                return xValsDateLabel[value.toInt()]
-            } else {
-                return ("").toString()
-            }
-        }
-    }
-
     class TheValueFormatter : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
 
-
-//            return if (value.toLong() >= 0 ) {
-//                value.toLong().toDisplayFormat(FORMAT_DD)
-//            } else {
-//                ""
-//            }
-            return value.toInt().toString()
+            return value.toInt().toString()+"日"
         }
 
 

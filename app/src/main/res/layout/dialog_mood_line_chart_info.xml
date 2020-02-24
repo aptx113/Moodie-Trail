@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_basic"
+            android:background="@drawable/bg_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/centerGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_top"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_radius_top"
+                android:paddingBottom="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_app_logo"
+                    android:layout_width="30dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_basic"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/text_info_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/droid_sans"
+                    android:text="@string/mood_score_reference"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/image_app_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/image_app_logo"
+                    app:layout_constraintTop_toTopOf="@id/image_app_logo" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/text_very_bad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:layout_marginTop="@dimen/margin_half"
+                android:fontFamily="@font/droid_sans"
+                android:text="1 :"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_top" />
+
+            <ImageView
+                android:id="@+id/image_very_bad"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/text_very_bad"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@id/text_very_bad"
+                app:layout_constraintTop_toTopOf="@id/text_very_bad"
+                app:srcCompat="@drawable/ic_mood_circle_very_bad_selected" />
+
+            <TextView
+                android:id="@+id/text_bad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="2 :"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/image_very_bad"
+                app:layout_constraintTop_toTopOf="@id/text_very_bad" />
+
+            <ImageView
+                android:id="@+id/image_bad"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/text_bad"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@id/text_bad"
+                app:layout_constraintTop_toTopOf="@id/text_bad"
+                app:srcCompat="@drawable/ic_mood_circle_bad_selected" />
+
+            <TextView
+                android:id="@+id/text_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="3 :"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/image_bad"
+                app:layout_constraintTop_toTopOf="@id/text_very_bad" />
+
+            <ImageView
+                android:id="@+id/image_normal"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/margin_half"
+                app:layout_constraintBottom_toBottomOf="@id/text_normal"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/text_normal"
+                app:layout_constraintTop_toTopOf="@id/text_normal"
+                app:srcCompat="@drawable/ic_mood_circle_normal_selected" />
+
+            <TextView
+                android:id="@+id/text_good"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48sp"
+                android:layout_marginTop="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="4 :"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginBottom="@dimen/margin_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_very_bad" />
+
+            <ImageView
+                android:id="@+id/image_good"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/text_good"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@id/text_good"
+                app:layout_constraintTop_toTopOf="@id/text_good"
+                app:srcCompat="@drawable/ic_mood_circle_good_selected" />
+
+            <TextView
+                android:id="@+id/text_very_good"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:fontFamily="@font/droid_sans"
+                android:text="5 :"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/image_good"
+                app:layout_constraintTop_toTopOf="@id/text_good" />
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/text_very_good"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toEndOf="@id/text_very_good"
+                app:layout_constraintTop_toTopOf="@id/text_very_good"
+                app:srcCompat="@drawable/ic_mood_circle_very_good_selected" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
