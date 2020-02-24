@@ -44,10 +44,24 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/noto_sans"
-                    android:text="每月心情趨勢"
+                    android:text="@string/mood_tread_by_month"
+                    android:textColor="@color/blue_700"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_half"
+                    android:onClick="@{() -> viewModel.showLineChartInfo()}"
+                    android:backgroundTint="@color/blue_700"
+                    android:background="@drawable/ic_info"
+                    app:layout_constraintBottom_toBottomOf="@id/text_month_line_chart_title"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toEndOf="@id/text_month_line_chart_title"
+                    app:layout_constraintTop_toTopOf="@id/text_month_line_chart_title" />
 
                 <TextView
                     android:id="@+id/text_month_no_mood_data"
@@ -56,17 +70,17 @@
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/chart_no_data : ""}'
                     android:textAlignment="center"
+                    android:textColor="@color/blue_700_Dark"
                     android:textSize="16sp"
-                    android:textColor="@color/blue_700"
                     android:visibility="@{viewModel.avgMoodEntries == null || viewModel.avgMoodEntries.size() == 0  ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
-                    app:layout_constraintEnd_toEndOf="@id/line_chart_mood_by_month"
-                    app:layout_constraintStart_toStartOf="@id/line_chart_mood_by_month"
-                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood"
+                    app:layout_constraintEnd_toEndOf="@id/line_chart_mood"
+                    app:layout_constraintStart_toStartOf="@id/line_chart_mood"
+                    app:layout_constraintTop_toTopOf="@id/line_chart_mood"
                     tools:visibility="visible" />
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/line_chart_mood_by_month"
+                    android:id="@+id/line_chart_mood"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginHorizontal="@dimen/margin_half"
@@ -82,10 +96,10 @@
                     android:layout_height="wrap_content"
                     android:theme="@style/ProgressTheme"
                     android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintBottom_toBottomOf="@id/line_chart_mood"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/line_chart_mood_by_month"
+                    app:layout_constraintTop_toTopOf="@id/line_chart_mood"
                     tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

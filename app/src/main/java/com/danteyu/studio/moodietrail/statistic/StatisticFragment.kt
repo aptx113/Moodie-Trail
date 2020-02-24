@@ -2,7 +2,6 @@ package com.danteyu.studio.moodietrail.statistic
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
-import com.danteyu.studio.moodietrail.ext.FORMAT_DD
-import com.danteyu.studio.moodietrail.ext.FORMAT_MM_DD
 import com.danteyu.studio.moodietrail.ext.getVmFactory
-import com.danteyu.studio.moodietrail.ext.toDisplayFormat
-import com.danteyu.studio.moodietrail.login.UserManager
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.ValueFormatter
-import kotlin.math.roundToInt
 
 class StatisticFragment : Fragment() {
 
@@ -32,6 +24,7 @@ class StatisticFragment : Fragment() {
 
     private lateinit var binding: FragmentStatisticBinding
     private lateinit var moodChartByMonth: LineChart
+    private lateinit var moodLineChartInfoDialog: MoodLineChartInfoDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +33,7 @@ class StatisticFragment : Fragment() {
     ): View? {
 
         binding = FragmentStatisticBinding.inflate(inflater, container, false)
+        moodLineChartInfoDialog = MoodLineChartInfoDialog()
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -52,11 +46,18 @@ class StatisticFragment : Fragment() {
             }
         })
 
+        viewModel.showLineChartInfo.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                showLineChartInfoDialog()
+                viewModel.onLineChartInfoShowed()
+            }
+        })
+
         return binding.root
     }
 
     private fun setupAvgMoodChart() {
-        moodChartByMonth = binding.lineChartMoodByMonth
+        moodChartByMonth = binding.lineChartMood
         moodChartByMonth.apply {
 
             // disable description
@@ -117,7 +118,7 @@ class StatisticFragment : Fragment() {
             }
             textSize = 11f
             position = XAxis.XAxisPosition.BOTTOM
-            valueFormatter = TheValueFormatter()
+            valueFormatter = LineChartXValueFormatter()
             setDrawGridLines(false)
             axisLineWidth = 2f
             isGranularityEnabled = true
@@ -129,7 +130,7 @@ class StatisticFragment : Fragment() {
         yAxisRight.isEnabled = false
 
         val yAxisLeft = moodChartByMonth.axisLeft
-        yAxisLeft.apply{
+        yAxisLeft.apply {
 
             if (avgMoodEntries.isEmpty()) {
                 setDrawAxisLine(false)
@@ -151,13 +152,12 @@ class StatisticFragment : Fragment() {
         moodChartByMonth.invalidate()
     }
 
-    class TheValueFormatter : ValueFormatter() {
-        override fun getFormattedValue(value: Float): String {
+    private fun showLineChartInfoDialog() {
 
-            return value.toInt().toString()+"日"
+        parentFragmentManager.let { fragmentManager ->
+            if (!moodLineChartInfoDialog.isInLayout) {
+                moodLineChartInfoDialog.show(fragmentManager, "Mood Line Chart Info")
+            }
         }
-
-
     }
-
 }

@@ -42,9 +42,10 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     val avgMoods: LiveData<List<AverageMood>>
         get() = _avgMoods
 
-    val avgMood = Transformations.map(_avgMoods) {
+    private val _showLineChartInfo = MutableLiveData<Boolean>()
 
-    }
+    val showLineChartInfo: LiveData<Boolean>
+        get() = _showLineChartInfo
 
     private val _currentDate = MutableLiveData<Long>()
 
@@ -191,6 +192,14 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
             }
         }
         _avgMoodEntries.value = entries.reversed()
+    }
+
+    fun showLineChartInfo() {
+        _showLineChartInfo.value = true
+    }
+
+    fun onLineChartInfoShowed() {
+        _showLineChartInfo.value = null
     }
 
 }

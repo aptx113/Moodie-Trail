@@ -5,11 +5,16 @@
 
     <data>
 
+        <variable
+            name="dialog"
+            type="com.danteyu.studio.moodietrail.statistic.MoodLineChartInfoDialog" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="@{() -> dialog.dismiss()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_message"
@@ -54,7 +59,7 @@
                     android:id="@+id/text_info_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="26dp"
                     android:fontFamily="@font/droid_sans"
                     android:text="@string/mood_score_reference"
                     android:textColor="@color/white"
@@ -81,7 +86,7 @@
 
             <ImageView
                 android:id="@+id/image_very_bad"
-                android:layout_width="36dp"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_very_bad"
                 app:layout_constraintDimensionRatio="1:1"
@@ -103,7 +108,7 @@
 
             <ImageView
                 android:id="@+id/image_bad"
-                android:layout_width="36dp"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_bad"
                 app:layout_constraintDimensionRatio="1:1"
@@ -125,9 +130,9 @@
 
             <ImageView
                 android:id="@+id/image_normal"
-                android:layout_width="36dp"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/margin_half"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_normal"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,19 +147,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="48sp"
                 android:layout_marginTop="@dimen/margin_basic"
+                android:layout_marginBottom="@dimen/margin_half"
                 android:fontFamily="@font/droid_sans"
                 android:text="4 :"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                android:layout_marginBottom="@dimen/margin_half"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_very_bad" />
+                app:layout_constraintTop_toBottomOf="@id/text_very_bad"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/image_good"
-                android:layout_width="36dp"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_good"
                 app:layout_constraintDimensionRatio="1:1"
@@ -166,7 +171,7 @@
                 android:id="@+id/text_very_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="16dp"
                 android:fontFamily="@font/droid_sans"
                 android:text="5 :"
                 android:textColor="@color/blue_700_Dark"
@@ -175,7 +180,7 @@
                 app:layout_constraintTop_toTopOf="@id/text_good" />
 
             <ImageView
-                android:layout_width="36dp"
+                android:layout_width="40dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_very_good"
                 app:layout_constraintDimensionRatio="1:1"
