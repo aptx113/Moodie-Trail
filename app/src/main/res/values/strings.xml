@@ -72,7 +72,7 @@
     <string name="choose_from_gallery">圖庫</string>
     <string name="add_photo_title">新增圖片</string>
     <string name="camera_and_storage_permission">相機和儲存空間權限</string>
-    <string name="permanently_denied_title"><![CDATA[需要允許相機和儲存空間權限才能新增圖片唷^.<]]></string>
+    <string name="permanently_denied_title"><![CDATA[需要允許權限才能新增圖片唷 ^.<]]></string>
     <string name="went_to_setting">前往設定</string>
     <string name="update_success">修改成功！</string>
     <string name="confirm_edit">確認修改</string>
@@ -82,6 +82,7 @@
     <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
     <string name="simpledatefromat_yyyy_MM_dd_E">yyyy-MM-dd\nE</string>
     <string name="simpledateformat_MM_dd">MM-dd</string>
+    <string name="simpledateformat_dd">dd</string>
     <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
     <string name="simpledateformat_HH_mm">HH:mm</string>
     <string name="simpledateformat_yyyy_MM_dd_E_HH_mm">yyyy-MM-dd E HH:mm</string>
@@ -130,6 +131,7 @@
     <string name="major_depression">憂鬱</string>
     <string name="inferiority">自卑</string>
     <string name="suicide_thought">自殺</string>
+    <string name="check_delete_psy_test_message">確定要刪除此筆測驗記錄嗎？</string>
 
     <!-- PsyTestRating -->
     <string name="normal_range">落於一般範圍內</string>

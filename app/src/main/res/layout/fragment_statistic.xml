@@ -51,12 +51,12 @@
 
                 <TextView
                     android:id="@+id/text_month_no_mood_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="4dp"
+                    android:layout_height="10dp"
                     android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/chart_no_data : ""}'
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:visibility="@{viewModel.avgMoods == null ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.avgMoodEntries == null || viewModel.avgMoodEntries.size() == 0  ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_by_month"
                     app:layout_constraintEnd_toEndOf="@id/line_chart_mood_by_month"
                     app:layout_constraintStart_toStartOf="@id/line_chart_mood_by_month"

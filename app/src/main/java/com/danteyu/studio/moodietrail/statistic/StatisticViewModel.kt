@@ -11,6 +11,7 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ext.FORMAT_DD
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
@@ -82,7 +83,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         viewModelJob.cancel()
     }
 
-    val calendar = Calendar.getInstance()
+    val calendar: Calendar = Calendar.getInstance()
 
     init {
         Logger.i("------------------------------------")
@@ -111,7 +112,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     /**
      * Function to get Start Time Of Date in timestamp in milliseconds
      */
-    fun getStartDateOfMonth(timestamp: Long): Long? {
+    private fun getStartDateOfMonth(timestamp: Long): Long? {
 
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -126,7 +127,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     /**
      * Function to get End Time Of Date in timestamp in milliseconds
      */
-    fun getEndDateOfMonth(timestamp: Long): Long? {
+    private fun getEndDateOfMonth(timestamp: Long): Long? {
 
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -138,7 +139,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         return dayEnd.time
     }
 
-    fun getAvgMoods() {
+    private fun getAvgMoods() {
 
         coroutineScope.launch {
 
@@ -180,47 +181,48 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         }
     }
 
-    fun setEntriesForAvgMood(avgMoodData: List<AverageMood>) {
+    private fun setEntriesForAvgMood(avgMoodData: List<AverageMood>) {
 
         val entries = ArrayList<Entry>().apply {
             avgMoodData.forEach { avgMood ->
 
-                add(Entry(avgMood.time.toFloat(), avgMood.score))
+                add(Entry(avgMood.time.toDisplayFormat(FORMAT_DD).toFloat(), avgMood.score))
+                Logger.i("x = ${avgMood.time.toFloat()}, y = ${avgMood.score}")
             }
         }
-        _avgMoodEntries.value = entries
+        _avgMoodEntries.value = entries.reversed()
     }
 
-    fun data(): LineData {
-
-        val entries = ArrayList<Entry>().apply {
-            add(Entry(1f, 1f))
-            add(Entry(2f, 2f))
-            add(Entry(3f, 4f))
-            add(Entry(4f, 4f))
-            add(Entry(5f, 3f))
-            add(Entry(6f, 3f))
-            add(Entry(7f, 3f))
-        }
-
-
-        val lineDataSet = LineDataSet(entries, "")
-        lineDataSet.run {
-
-            color = Color.BLUE
-            lineWidth = 1f
-            circleRadius = 3f
-
-            setDrawCircleHole(false)
-            setDrawCircles(true)
-            setDrawHorizontalHighlightIndicator(false)
-            setDrawHighlightIndicators(false)
-            setDrawValues(false)
-        }
-
-
-        return LineData(lineDataSet)
-    }
+//    fun data(): LineData {
+//
+//        val entries = ArrayList<Entry>().apply {
+//            add(Entry(1f, 1f))
+//            add(Entry(2f, 2f))
+//            add(Entry(3f, 4f))
+//            add(Entry(4f, 4f))
+//            add(Entry(5f, 3f))
+//            add(Entry(6f, 3f))
+//            add(Entry(7f, 3f))
+//        }
+//
+//
+//        val lineDataSet = LineDataSet(entries, "")
+//        lineDataSet.run {
+//
+//            color = Color.BLUE
+//            lineWidth = 1f
+//            circleRadius = 3f
+//
+//            setDrawCircleHole(false)
+//            setDrawCircles(true)
+//            setDrawHorizontalHighlightIndicator(false)
+//            setDrawHighlightIndicators(false)
+//            setDrawValues(false)
+//        }
+//
+//
+//        return LineData(lineDataSet)
+//    }
 
     fun formatValue(): SparseArray<String> {
 

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
+import com.danteyu.studio.moodietrail.ext.FORMAT_DD
 import com.danteyu.studio.moodietrail.ext.FORMAT_MM_DD
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
+import kotlin.math.roundToInt
 
 class StatisticFragment : Fragment() {
 
@@ -60,10 +62,10 @@ class StatisticFragment : Fragment() {
             // disable description
             description.isEnabled = false
 
-            setExtraOffsets(10f, 10f, 10f, 10f)
+            setExtraOffsets(5f, 10f, 10f, 10f)
 
             // enable scaling and dragging
-            isDragEnabled = false
+            isDragEnabled = true
             setScaleEnabled(false)
 
             // disable grid background
@@ -76,6 +78,7 @@ class StatisticFragment : Fragment() {
             setNoDataText("")
 
             setPinchZoom(true)
+
         }
 
 
@@ -83,8 +86,12 @@ class StatisticFragment : Fragment() {
 
     private fun displayAvgMoodData(avgMoodEntries: List<Entry>) {
 
-        val sortedEntries = avgMoodEntries.sortedBy { it.x }
-        val dataSet = LineDataSet(sortedEntries, getString(R.string.mood))
+//        val sortedEntries = avgMoodEntries.sortedBy { it.x }
+//        for (index in sortedEntries.indices) {
+//            sortedEntries[index].x = index.toFloat()
+//            if (index == sortedEntries.size -1) sortedEntries[index].x = 10f
+//        }
+        val dataSet = LineDataSet(avgMoodEntries, getString(R.string.mood))
 
         dataSet.apply {
 
@@ -101,16 +108,23 @@ class StatisticFragment : Fragment() {
         // set X axis
         val xAxis = moodChartByMonth.xAxis
         xAxis.apply {
-            textSize = 12f
-            setDrawGridLines(false)
-            axisLineWidth = 2f
-            granularity = 86400000f
-            setAvoidFirstLastClipping(true)
-            setCenterAxisLabels(false)
-            labelRotationAngle = 45f
+
+            if (avgMoodEntries.isEmpty()) {
+                setDrawAxisLine(false)
+
+            } else {
+                setDrawAxisLine(true)
+            }
+            textSize = 11f
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = TheValueFormatter()
-//            setLabelCount(7, true)
+            setDrawGridLines(false)
+            axisLineWidth = 2f
+            isGranularityEnabled = true
+//            granularity = 86400000f
+//            axisMinimum = avgMoodEntries.elementAt(0).x
+//            setLabelCount(6,true)
+
 //            it.granularity = 86400f
 //            it.axisMinimum = (viewModel.getThreeMonthsAgoTimestamp() * 0.9995).toFloat()
 //            it.axisMaximum = (viewModel.getNowTimestamp() * 1.0005).toFloat()
@@ -123,8 +137,17 @@ class StatisticFragment : Fragment() {
         yAxisRight.isEnabled = false
 
         val yAxisLeft = moodChartByMonth.axisLeft
-        yAxisLeft.apply {
+        yAxisLeft.apply{
+
+            if (avgMoodEntries.isEmpty()) {
+                setDrawAxisLine(false)
+
+            } else {
+                setDrawAxisLine(true)
+            }
+
             granularity = 1f
+            isGranularityEnabled = true
             axisLineWidth = 1.5f
             textSize = 12f
 
@@ -151,12 +174,17 @@ class StatisticFragment : Fragment() {
 
     class TheValueFormatter : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
-            return value.toLong().toDisplayFormat(FORMAT_MM_DD)
+
+
+//            return if (value.toLong() >= 0 ) {
+//                value.toLong().toDisplayFormat(FORMAT_DD)
+//            } else {
+//                ""
+//            }
+            return value.toInt().toString()
         }
 
-//        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-//            return value.toLong().toDisplayFormat(FORMAT_MM_DD)
-//        }
+
     }
 
 }

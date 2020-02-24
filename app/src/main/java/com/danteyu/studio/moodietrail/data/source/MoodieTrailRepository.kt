@@ -38,4 +38,8 @@ interface MoodieTrailRepository {
     suspend fun updateNote(uid: String, editedNote: Note, noteId: String): Result<Boolean>
 
     suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
+
+    suspend fun deleteAvgMood(uid: String, avgMoodId:String): Result<Boolean>
+
+    suspend fun deletePsyTest(uid: String, psyTest: PsyTest): Result<Boolean>
 }

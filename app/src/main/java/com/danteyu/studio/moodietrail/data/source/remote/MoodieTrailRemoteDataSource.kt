@@ -432,4 +432,36 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                     continuation.resume(Result.Error(it))
                 }
         }
+
+    override suspend fun deleteAvgMood(uid: String, avgMoodId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            userReference.document(uid).collection(PATH_AVGMOODS)
+                .document(avgMoodId)
+                .delete()
+                .addOnSuccessListener {
+                    Logger.i("Delete: $avgMoodId")
+
+                    continuation.resume(Result.Success(true))
+                }.addOnFailureListener {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    continuation.resume(Result.Error(it))
+                }
+        }
+
+    override suspend fun deletePsyTest(uid: String, psyTest: PsyTest): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            userReference.document(uid).collection(PATH_PSYTESTS)
+                .document(psyTest.id)
+                .delete()
+                .addOnSuccessListener {
+                    Logger.i("Delete: $psyTest")
+
+                    continuation.resume(Result.Success(true))
+                }.addOnFailureListener {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    continuation.resume(Result.Error(it))
+                }
+        }
 }

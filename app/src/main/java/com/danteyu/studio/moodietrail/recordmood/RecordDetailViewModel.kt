@@ -9,6 +9,7 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
@@ -461,16 +462,25 @@ class RecordDetailViewModel(
                     null
                 }
             }
-            postAvgMood(
-                uid,
-                AverageMood(
-                    score = averageMoodScore.value!!,
-                    time = getStartTimeOfDate(_dateOfNote.value!!)!!
-                ), _dateOfNote.value?.toDisplayFormat(
-                    FORMAT_YYYY_MM_DD
-                )!!
-            )
-//            _refreshStatus.value = false
+
+            if (averageMoodScore.value == 0f) {
+                deleteAvgMood(
+                    uid, _dateOfNote.value?.toDisplayFormat(
+                        FORMAT_YYYY_MM_DD
+                    )!!
+                )
+
+            } else {
+                postAvgMood(
+                    uid,
+                    AverageMood(
+                        score = averageMoodScore.value!!,
+                        time = getStartTimeOfDate(_dateOfNote.value!!)!!
+                    ), _dateOfNote.value?.toDisplayFormat(
+                        FORMAT_YYYY_MM_DD
+                    )!!
+                )
+            }
         }
 
     }
@@ -564,6 +574,37 @@ class RecordDetailViewModel(
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = DELETE_NOTE_FAIL
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+    private fun deleteAvgMood(uid: String, averageMoodId: String) {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+            val result = moodieTrailRepository.deleteAvgMood(uid, averageMoodId)
+
+            when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    navigateToHome()
+
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()

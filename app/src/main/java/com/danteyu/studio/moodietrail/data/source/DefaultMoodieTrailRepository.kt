@@ -81,4 +81,12 @@ class DefaultMoodieTrailRepository(
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> {
         return remoteDataSource.deleteNote(uid, note)
     }
+
+    override suspend fun deleteAvgMood(uid: String, avgMoodId:String): Result<Boolean> {
+        return remoteDataSource.deleteAvgMood(uid, avgMoodId)
+    }
+
+    override suspend fun deletePsyTest(uid: String, psyTest: PsyTest): Result<Boolean> {
+        return remoteDataSource.deletePsyTest(uid, psyTest)
+    }
 }

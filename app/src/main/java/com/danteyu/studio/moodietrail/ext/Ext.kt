@@ -47,6 +47,7 @@ fun Long.toDisplayFormat(dateFormat: Int): String {
             FORMAT_YYYY_MM_DD_E_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_E_HH_mm)
             Format_YYYY_MM_DD_HH_MM_LIST -> getString(R.string.time_list_format)
             FORMAT_YYYY_MM_DD_HH_MM_SS -> getString(R.string.simpledateformat_yyyy_MM_dd_HHmmss)
+            FORMAT_DD -> getString(R.string.simpledateformat_dd)
 
             FORMAT_HH_MM -> getString(
                 R.string.simpledateformat_HH_mm
@@ -77,16 +78,18 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
     var rotatedDegree = 0
     var stream = MoodieTrailApplication.instance.contentResolver.openInputStream(this)
     /** GET IMAGE ORIENTATION */
-    if(stream != null) {
+    if (stream != null) {
         val exif = ExifInterface(stream)
-        rotatedDegree = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL).fromExifInterfaceOrientationToDegree()
+        rotatedDegree =
+            exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+                .fromExifInterfaceOrientationToDegree()
         stream.close()
     }
     /** GET IMAGE SIZE */
     stream = MoodieTrailApplication.instance.contentResolver.openInputStream(this)
     val options = BitmapFactory.Options()
     options.inJustDecodeBounds = true
-    BitmapFactory.decodeStream(stream, null,options)
+    BitmapFactory.decodeStream(stream, null, options)
     try {
         stream?.close()
     } catch (e: NullPointerException) {
@@ -94,7 +97,7 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
         return null
     }
     // The resulting width and height of the bitmap
-    if(options.outWidth == -1 || options.outHeight == -1) return null
+    if (options.outWidth == -1 || options.outHeight == -1) return null
     var bitmapWidth = options.outWidth.toFloat()
     var bitmapHeight = options.outHeight.toFloat()
     if (rotatedDegree == 90) {
@@ -104,8 +107,8 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
         bitmapHeight = options.outWidth.toFloat()
     }
     var scale = 1
-    while(true) {
-        if(bitmapWidth / 2 < width || bitmapHeight / 2 < height)
+    while (true) {
+        if (bitmapWidth / 2 < width || bitmapHeight / 2 < height)
             break;
         bitmapWidth /= 2
         bitmapHeight /= 2
@@ -136,13 +139,14 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
     }
     var adjustedBitmap = bitmap
     if (bmpWidth > 0) {
-        adjustedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+        adjustedBitmap =
+            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
     return adjustedBitmap
 }
 
 fun Int.fromExifInterfaceOrientationToDegree(): Int {
-    return when(this) {
+    return when (this) {
         ExifInterface.ORIENTATION_ROTATE_90 -> 90
         ExifInterface.ORIENTATION_ROTATE_180 -> 180
         ExifInterface.ORIENTATION_ROTATE_270 -> 270
@@ -223,3 +227,4 @@ const val FORMAT_HH_MM: Int = 0x05
 const val FORMAT_YYYY_MM_DD_E_HH_MM = 0x06
 const val Format_YYYY_MM_DD_HH_MM_LIST = 0x07
 const val FORMAT_YYYY_MM_DD_HH_MM_SS = 0x08
+const val FORMAT_DD = 0x09

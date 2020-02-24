@@ -32,22 +32,20 @@
 
             <ImageView
                 android:id="@+id/image_message_icon"
-                android:layout_width="40dp"
+                android:layout_width="28dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/ic_launcher_foreground"
-                android:backgroundTint="@color/blue_700"
+                android:background="@drawable/ic_logo_option"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_launcher_foreground" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_message_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="44dp"
                 android:fontFamily="@font/droid_sans"
                 android:maxLines="2"
                 android:text='@string/add_photo_title'
@@ -61,16 +59,18 @@
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_half"
                 android:background="@color/blue_700_Light"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_message_icon" />
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="24dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="@dimen/margin_basic"
                 android:tint="@color/blue_700"
+                android:layout_marginBottom="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/button_camera"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="@id/button_camera"
@@ -93,17 +93,18 @@
             <View
                 android:id="@+id/camera_separator"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:background="@color/blue_700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_camera" />
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="24dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="@dimen/margin_basic"
                 android:tint="@color/blue_700"
+                android:layout_marginBottom="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/button_photo"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="@id/button_photo"
@@ -133,9 +134,9 @@
                 app:layout_constraintTop_toBottomOf="@id/button_photo" />
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="13dp"
+                android:layout_marginStart="19dp"
                 android:tint="@color/blue_700"
                 app:layout_constraintBottom_toBottomOf="@id/button_cancel"
                 app:layout_constraintDimensionRatio="1:1"

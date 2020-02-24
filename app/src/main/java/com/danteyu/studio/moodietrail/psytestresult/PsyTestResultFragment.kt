@@ -6,6 +6,7 @@ import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,9 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainActivity
 import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestResultBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.setTouchDelegate
+import com.danteyu.studio.moodietrail.ext.showToast
+import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel.Companion.DELETE_PSY_TEST_FAIL
+import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel.Companion.DELETE_PSY_TEST_SUCCESS
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -61,6 +67,25 @@ class PsyTestResultFragment : Fragment() {
         viewModel.psyTestEntries.observe(viewLifecycleOwner, Observer {
             it?.let {
                 setPsyTestData(it)
+            }
+        })
+
+        viewModel.showDeletePsyTestDialog.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                showDeletePsyTestDialog(it)
+                viewModel.onDeletePsyTestDialogShowed()
+            }
+        })
+
+        viewModel.psyTestRelatedCondition.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+
+                    DELETE_PSY_TEST_SUCCESS -> activity.showToast(getString(R.string.delete_success))
+                    DELETE_PSY_TEST_FAIL -> viewModel.error.value ?: getString(R.string.love_u_3000)
+                    else -> {
+                    }
+                }
             }
         })
 
@@ -163,11 +188,22 @@ class PsyTestResultFragment : Fragment() {
     class PsyTestFormatter(private val xValsDateLabel: SparseArray<String>) : ValueFormatter() {
 
         override fun getAxisLabel(value: Float, axis: AxisBase?): String? {
-            if (value.toInt() >= 0) {
-                return xValsDateLabel[value.toInt()]
+            return if (value.toInt() >= 0) {
+                xValsDateLabel[value.toInt()]
             } else {
-                return ("").toString()
+                ("").toString()
             }
         }
+    }
+
+    private fun showDeletePsyTestDialog(psyTest: PsyTest) {
+        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme_Center)
+
+        builder.setTitle(getString(R.string.check_delete_psy_test_message))
+        builder.setIcon(R.drawable.ic_launcher_foreground)
+        builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+            UserManager.id?.let { viewModel.deletePsyTest(it, psyTest) }
+        }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
+        }.show()
     }
 }
