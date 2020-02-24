@@ -72,6 +72,7 @@
             android:id="@+id/layout_swipe_refresh_note"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_half"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +85,8 @@
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/margin_half"
-                android:paddingVertical="@dimen/margin_basic"
+                android:paddingTop="@dimen/margin_half"
+                android:paddingBottom="@dimen/margin_basic"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:notes="@{viewModel.notes}"
                 app:spanCount="2">

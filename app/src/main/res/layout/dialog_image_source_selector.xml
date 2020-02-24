@@ -30,47 +30,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:id="@+id/layout_top"
+               android:layout_width="match_parent"
+               android:background="@drawable/bg_dialog_radius_top"
+               android:layout_height="wrap_content"
+               android:paddingBottom="@dimen/margin_basic"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent">
             <ImageView
                 android:id="@+id/image_message_icon"
-                android:layout_width="40dp"
+                android:layout_width="32dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/ic_launcher_foreground"
-                android:backgroundTint="@color/blue_700"
+                android:background="@mipmap/ic_launcher"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_launcher_foreground" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_message_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="44dp"
                 android:fontFamily="@font/droid_sans"
                 android:maxLines="2"
                 android:text='@string/add_photo_title'
-                android:textColor="@color/black_3f3a3a"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@id/image_message_icon"
                 app:layout_constraintStart_toEndOf="@id/image_message_icon"
                 app:layout_constraintTop_toTopOf="@id/image_message_icon" />
-
-            <View
-                android:id="@+id/separator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/blue_700_Light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_message_icon" />
+           </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="24dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="20dp"
                 android:tint="@color/blue_700"
+                android:layout_marginBottom="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/button_camera"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="@id/button_camera"
@@ -88,22 +88,23 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/separator" />
+                app:layout_constraintTop_toBottomOf="@id/layout_top" />
 
             <View
                 android:id="@+id/camera_separator"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:background="@color/blue_700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_camera" />
 
             <ImageView
-                android:layout_width="30dp"
+                android:layout_width="24dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="20dp"
                 android:tint="@color/blue_700"
+                android:layout_marginBottom="3dp"
                 app:layout_constraintBottom_toBottomOf="@id/button_photo"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="@id/button_photo"
@@ -126,16 +127,16 @@
             <View
                 android:id="@+id/photo_separator"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:background="@color/blue_700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_photo" />
 
             <ImageView
-                android:layout_width="20dp"
+                android:layout_width="18dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="13dp"
+                android:layout_marginStart="23dp"
                 android:tint="@color/blue_700"
                 app:layout_constraintBottom_toBottomOf="@id/button_cancel"
                 app:layout_constraintDimensionRatio="1:1"

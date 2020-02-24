@@ -6,16 +6,12 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.*
-import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
@@ -30,7 +26,6 @@ import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.login.UserManager
-import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
@@ -39,8 +34,6 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
-import com.danteyu.studio.moodietrail.util.Util.getColor
-import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
@@ -139,7 +132,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         viewModel.showDeleteNoteDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
-                showDeleteEventDialog(it)
+                showDeleteNoteDialog(it)
                 viewModel.onDeleteNoteDialogShowed()
             }
         })
@@ -257,10 +250,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handleRationale() {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme)
+            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
                 .setTitle(getString(R.string.camera_and_storage_permission))
                 .setMessage(getString(R.string.permanently_denied_title))
-                .setIcon(R.drawable.ic_launcher_foreground)
+                .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton(android.R.string.ok) { _, _ -> }
                 .setCancelable(true)
                 .show()
@@ -269,14 +262,14 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handlePermanentlyDenied(req: QuickPermissionsRequest) {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme)
+            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
                 .setTitle(getString(R.string.permanently_denied_title))
                 .setMessage(getString(R.string.text_note_permission_message))
                 .setPositiveButton(getString(R.string.went_to_setting)) { _, _ ->
                     req.openAppSettings()
                 }
                 .setNegativeButton(getString(R.string.text_cancel)) { _, _ -> }
-                .setIcon(R.drawable.ic_launcher_foreground)
+                .setIcon(R.mipmap.ic_launcher)
                 .setCancelable(true)
                 .show()
         }
@@ -354,7 +347,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
     }
 
-    //    private fun getPermissionsByNative() {
+//        private fun getPermissionsByNative() {
 //
 //        val permissions = arrayOf(
 //            PERMISSION_CAMERA,
@@ -492,19 +485,11 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         })
     }
 
-    private fun showDeleteEventDialog(note: Note) {
-        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
+    private fun showDeleteNoteDialog(note: Note) {
+        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme_Center)
 
-        val titleText = getString(R.string.check_delete_note_message)
-        val spannable = SpannableString(titleText)
-        spannable.setSpan(
-            ForegroundColorSpan(getColor(R.color.blue_700)),
-            0,
-            titleText.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        builder.setTitle(spannable)
+        builder.setTitle(getString(R.string.check_delete_note_message))
+        builder.setIcon(R.mipmap.ic_launcher)
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
             UserManager.id?.let { viewModel.deleteNote(it, note) }
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->

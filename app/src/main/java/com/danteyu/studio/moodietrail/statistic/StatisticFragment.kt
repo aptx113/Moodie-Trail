@@ -1,28 +1,21 @@
 package com.danteyu.studio.moodietrail.statistic
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
-import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 class StatisticFragment : Fragment() {
 
@@ -32,7 +25,9 @@ class StatisticFragment : Fragment() {
     val viewModel by viewModels<StatisticViewModel> { getVmFactory() }
 
     private lateinit var binding: FragmentStatisticBinding
-    private lateinit var moodChartByMonth: LineChart
+    private lateinit var moodLineChart: LineChart
+    private lateinit var moodLineChartInfoDialog: MoodLineChartInfoDialog
+    private lateinit var moodPieChart: PieChart
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,135 +36,171 @@ class StatisticFragment : Fragment() {
     ): View? {
 
         binding = FragmentStatisticBinding.inflate(inflater, container, false)
+        moodLineChartInfoDialog = MoodLineChartInfoDialog()
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.averageMood.observe(this, Observer {
+        setupAvgMoodChart()
 
-            Logger.w("$it")
+        viewModel.avgMoodEntries.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                displayAvgMoodData(it)
+            }
         })
 
+        viewModel.noteEntries.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                displayNoteData(it)
+            }
+        })
 
-        setupMoodChartByMonth()
+        viewModel.showLineChartInfo.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                showLineChartInfoDialog()
+                viewModel.onLineChartInfoShowed()
+            }
+        })
+        setupPieChart()
 
         return binding.root
     }
 
-    private fun setupMoodChartByMonth() {
-        moodChartByMonth = binding.lineChartMoodByMonth
-
-        moodChartByMonth.let {
-
-            // set data
-            it.data = viewModel.data()
+    private fun setupAvgMoodChart() {
+        moodLineChart = binding.lineChartMood
+        moodLineChart.apply {
 
             // disable description
-            it.description.isEnabled = false
+            description.isEnabled = false
 
-            it.setExtraOffsets(10f, 10f, 10f, 10f)
+            setExtraOffsets(5f, 10f, 10f, 10f)
 
             // enable scaling and dragging
-            it.isDragEnabled = false
-            it.setScaleEnabled(false)
+            isDragEnabled = true
+            setScaleEnabled(false)
 
             // disable grid background
-            it.setDrawGridBackground(false)
+            setDrawGridBackground(false)
 
             // disable legend
-            it.legend.isEnabled = false
+            legend.isEnabled = false
 
             // disable data text
-            it.setNoDataText("")
+            setNoDataText("")
 
-            it.setPinchZoom(true)
+            setPinchZoom(true)
         }
+    }
 
+    private fun setupPieChart() {
+        moodPieChart = binding.pieChartMood
+        moodPieChart.apply {
+            holeRadius = 20f
+            setNoDataText("")
+            setDrawEntryLabels(false)
+            description.isEnabled = false
+            setTransparentCircleAlpha(0)
+            legend.isEnabled = false
+            invalidate()
+        }
+    }
 
+    private fun displayAvgMoodData(avgMoodEntries: List<Entry>) {
 
+//        val sortedEntries = avgMoodEntries.sortedBy { it.x }
+//        for (index in sortedEntries.indices) {
+//            sortedEntries[index].x = index.toFloat()
+//            if (index == sortedEntries.size -1) sortedEntries[index].x = 10f
+//        }
+        val dataSet = LineDataSet(avgMoodEntries, getString(R.string.mood))
+
+        dataSet.apply {
+
+            color = Color.parseColor("#63a4ff")
+            lineWidth = 2f
+            circleRadius = 3f
+
+            setDrawCircleHole(false)
+            setDrawCircles(true)
+            setDrawHorizontalHighlightIndicator(false)
+            setDrawHighlightIndicators(false)
+            setDrawValues(false)
+        }
         // set X axis
-        val xAxis = moodChartByMonth.xAxis
-        xAxis.let {
-            it.textSize = 10f
-            it.setDrawAxisLine(true)
-            it.setDrawGridLines(false)
-            it.setDrawLabels(true)
-            it.position = XAxis.XAxisPosition.BOTTOM
-            it.setLabelCount(7,true)
-//            it.granularity = 86400f
-//            it.axisMinimum = (viewModel.getThreeMonthsAgoTimestamp() * 0.9995).toFloat()
-//            it.axisMaximum = (viewModel.getNowTimestamp() * 1.0005).toFloat()
-            it.valueFormatter = (MyValueFormatter(viewModel.formatValue()))
+        val xAxis = moodLineChart.xAxis
+        xAxis.apply {
+
+            if (avgMoodEntries.isEmpty()) {
+                setDrawAxisLine(false)
+
+            } else {
+                setDrawAxisLine(true)
+            }
+            textSize = 11f
+            position = XAxis.XAxisPosition.BOTTOM
+            valueFormatter = LineChartXValueFormatter()
+            setDrawGridLines(false)
+            axisLineWidth = 2f
+            isGranularityEnabled = true
+
         }
 
         // set Y axis
-        val yAxisRight = moodChartByMonth.axisRight
+        val yAxisRight = moodLineChart.axisRight
         yAxisRight.isEnabled = false
 
-        val yAxisLeft = moodChartByMonth.axisLeft
-        yAxisLeft.let {
-            it.isEnabled = true
-            it.axisMaximum = 5.0f
-            it.axisMinimum = 1.0f
-            it.setLabelCount(5,true)
+        val yAxisLeft = moodLineChart.axisLeft
+        yAxisLeft.apply {
+
+            if (avgMoodEntries.isEmpty()) {
+                setDrawAxisLine(false)
+
+            } else {
+                setDrawAxisLine(true)
+            }
+
+            granularity = 1f
+            isGranularityEnabled = true
+            axisLineWidth = 1.5f
+            textSize = 12f
 
         }
 
-        moodChartByMonth.invalidate()
+        moodLineChart.data = LineData(dataSet)
+        moodLineChart.notifyDataSetChanged()
+        moodLineChart.invalidate()
+    }
 
+    private fun displayNoteData(noteEntries: List<PieEntry>) {
+
+        val colors = ArrayList<Int>()
+        val colorTable = listOf(
+            getColor(R.color.mood_very_bad),
+            getColor(R.color.mood_bad),
+            getColor(R.color.mood_normal),
+            getColor(R.color.mood_good),
+            getColor(R.color.mood_very_good)
+        )
+        for (color in colorTable) {
+            colors.add(color)
+        }
+
+        val dataSet = PieDataSet(noteEntries, "")
+        dataSet.colors = colors
+        dataSet.setDrawValues(false)
+
+        moodPieChart.data = PieData(dataSet)
+        moodPieChart.notifyDataSetChanged()
+        moodPieChart.invalidate()
 
     }
 
-    class MyValueFormatter(private val xValsDateLabel: SparseArray<String>) : ValueFormatter() {
-        override fun getFormattedValue(value: Float): String {
-            return super.getFormattedValue(value)
-        }
+    private fun showLineChartInfoDialog() {
 
-        override fun getAxisLabel(value: Float, axis: AxisBase?): String? {
-            if (value.toInt() >= 0 && value.toInt() <= xValsDateLabel.size() - 1) {
-                return xValsDateLabel[value.toInt()]
-            } else {
-                return ("").toString()
+        parentFragmentManager.let { fragmentManager ->
+            if (!moodLineChartInfoDialog.isInLayout) {
+                moodLineChartInfoDialog.show(fragmentManager, "Mood Line Chart Info")
             }
         }
     }
-
-//    private fun setupBarChartData() {
-//        // create BarEntry for Bar Group
-//        val bargroup = ArrayList<BarEntry>()
-//        bargroup.add(BarEntry(0f, 30f, "0"))
-//        bargroup.add(BarEntry(1f, 2f, "1"))
-//        bargroup.add(BarEntry(2f, 4f, "2"))
-//        bargroup.add(BarEntry(3f, 6f, "3"))
-//        bargroup.add(BarEntry(4f, 8f, "4"))
-//        bargroup.add(BarEntry(5f, 10f, "5"))
-//        bargroup.add(BarEntry(6f, 22f, "6"))
-//        bargroup.add(BarEntry(7f, 12.5f, "7"))
-//        bargroup.add(BarEntry(8f, 22f, "8"))
-//        bargroup.add(BarEntry(9f, 32f, "9"))
-//        bargroup.add(BarEntry(10f, 54f, "10"))
-//        bargroup.add(BarEntry(11f, 28f, "11"))
-//
-//        // creating dataset for Bar Group
-//        val barDataSet = BarDataSet(bargroup, "")
-//
-//        barDataSet.color = getColor(R.color.colorAccent)
-//
-//        val data = BarData(barDataSet)
-//
-//        binding.lineChartMoodByDay.run {
-//            setData(data)
-//        }
-//        barChart.
-//        barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        barChart.xAxis.labelCount = 11
-//        barChart.xAxis.enableGridDashedLine(5f, 5f, 0f)
-//        barChart.axisRight.enableGridDashedLine(5f, 5f, 0f)
-//        barChart.axisLeft.enableGridDashedLine(5f, 5f, 0f)
-//        barChart.description.isEnabled = false
-//        barChart.animateY(1000)
-//        barChart.legend.isEnabled = false
-//        barChart.setPinchZoom(true)
-//        barChart.data.setDrawValues(false)
-//    }
 }

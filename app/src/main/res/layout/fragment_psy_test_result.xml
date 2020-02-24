@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
+
         <import type="android.view.View" />
 
         <variable
@@ -225,7 +227,6 @@
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginTop="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
-            android:elevation="@dimen/margin_quarter"
             android:text="@string/mental_health_resources"
             android:visibility="@{viewModel.psyTest.itemSuicide &gt;= 2 || viewModel.psyTest.totalScore &gt;= 10 ? View.VISIBLE : View.GONE }"
             app:layout_constraintEnd_toEndOf="parent"
@@ -241,7 +242,6 @@
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginTop="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
-            android:elevation="@dimen/margin_quarter"
             android:onClick="@{() -> viewModel.navigateToPsyTestRating()}"
             android:text="@string/psy_test_result_rating"
             app:layout_constraintEnd_toEndOf="parent"
@@ -257,12 +257,25 @@
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginTop="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
-            android:elevation="@dimen/margin_quarter"
-            android:text="@string/delete_record"
+            android:onClick="@{() -> viewModel.showDeletePsyTestDialog(viewModel.psyTest)}"
+            android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/delete_record : ""}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_psy_test_result_rating"
             app:layout_constraintVertical_bias="1.0" />
+
+        <ProgressBar
+            android:id="@+id/progress_psy_test_delete"
+            android:layout_width="@dimen/size_progress"
+            android:layout_height="0dp"
+            android:theme="@style/ProgressThemeDark"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/button_delete"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/button_delete"
+            app:layout_constraintStart_toStartOf="@id/button_delete"
+            app:layout_constraintTop_toTopOf="@id/button_delete"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

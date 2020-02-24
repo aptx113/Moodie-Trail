@@ -38,10 +38,11 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val KEY_DATE = "date"
     private const val KEY_CONTENT = "content"
     private const val KEY_IMAGE = "image"
-    private const val KEY_TAGS ="tags"
+    private const val KEY_TAGS = "tags"
     private const val KEY_CREATEDTIME = "createdTime"
     private const val KEY_WEEK = "weekOfMonth"
-    private const val KEY_AVGMOOD = "avgMoodScore"
+    private const val KEY_TIME = "time"
+    private const val KEY_SCORE = "score"
     private const val KEY_TIMELIST = "timeList"
 
     private val userReference = FirebaseFirestore.getInstance().collection(PATH_USERS)
@@ -53,6 +54,10 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
     private fun getPsyTestsRefFrom(uid: String): CollectionReference {
         return userReference.document(uid).collection(PATH_PSYTESTS)
+    }
+
+    private fun getAvgMoodRefFrom(uid: String): CollectionReference {
+        return userReference.document(uid).collection(PATH_AVGMOODS)
     }
 
     override suspend fun getNotes(uid: String): Result<List<Note>> =
@@ -131,6 +136,40 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
                             val psyTest = document.toObject(PsyTest::class.java)
                             list.add(psyTest)
+                        }
+                        continuation.resume(Result.Success(list))
+                    } else {
+                        task.exception?.let {
+
+                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+        }
+
+    override suspend fun getAvgMoodByDateRange(
+        uid: String,
+        startDate: Long,
+        endDate: Long
+    ): Result<List<AverageMood>> =
+        suspendCoroutine { continuation ->
+
+            getAvgMoodRefFrom(uid)
+                .whereGreaterThanOrEqualTo(KEY_TIME, startDate)
+                .whereLessThanOrEqualTo(KEY_TIME, endDate)
+                .orderBy(KEY_TIME, Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val list = mutableListOf<AverageMood>()
+                        for (document in task.result!!) {
+                            Logger.d(document.id + " => " + document.data)
+
+                            val averageMood = document.toObject(AverageMood::class.java)
+                            list.add(averageMood)
                         }
                         continuation.resume(Result.Success(list))
                     } else {
@@ -386,6 +425,38 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 .delete()
                 .addOnSuccessListener {
                     Logger.i("Delete: $note")
+
+                    continuation.resume(Result.Success(true))
+                }.addOnFailureListener {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    continuation.resume(Result.Error(it))
+                }
+        }
+
+    override suspend fun deleteAvgMood(uid: String, avgMoodId: String): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            userReference.document(uid).collection(PATH_AVGMOODS)
+                .document(avgMoodId)
+                .delete()
+                .addOnSuccessListener {
+                    Logger.i("Delete: $avgMoodId")
+
+                    continuation.resume(Result.Success(true))
+                }.addOnFailureListener {
+                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                    continuation.resume(Result.Error(it))
+                }
+        }
+
+    override suspend fun deletePsyTest(uid: String, psyTest: PsyTest): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            userReference.document(uid).collection(PATH_PSYTESTS)
+                .document(psyTest.id)
+                .delete()
+                .addOnSuccessListener {
+                    Logger.i("Delete: $psyTest")
 
                     continuation.resume(Result.Success(true))
                 }.addOnFailureListener {

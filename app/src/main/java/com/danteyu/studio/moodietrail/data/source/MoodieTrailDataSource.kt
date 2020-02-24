@@ -17,6 +17,12 @@ interface MoodieTrailDataSource {
 
     suspend fun getPsyTests(uid: String): Result<List<PsyTest>>
 
+    suspend fun getAvgMoodByDateRange(
+        uid: String,
+        startDate: Long,
+        endDate: Long
+    ): Result<List<AverageMood>>
+
     suspend fun getUserProfile(id: String): Result<User>
 
     suspend fun signUpUser(user: User, id: String): Result<Boolean>
@@ -36,4 +42,8 @@ interface MoodieTrailDataSource {
     suspend fun updateNote(uid: String, editedNote: Note, noteId: String): Result<Boolean>
 
     suspend fun deleteNote(uid: String, note: Note): Result<Boolean>
+
+    suspend fun deleteAvgMood(uid: String, avgMoodId: String): Result<Boolean>
+
+    suspend fun deletePsyTest(uid: String, psyTest: PsyTest): Result<Boolean>
 }

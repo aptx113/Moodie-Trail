@@ -1,30 +1,29 @@
 package com.danteyu.studio.moodietrail.statistic
 
-import android.graphics.Color
-import android.util.SparseArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
+import com.danteyu.studio.moodietrail.ext.FORMAT_DD
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 /**
@@ -34,34 +33,35 @@ import kotlin.collections.HashMap
  */
 class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
+    private val _avgMoods = MutableLiveData<List<AverageMood>>()
+
+    val avgMoods: LiveData<List<AverageMood>>
+        get() = _avgMoods
+
     private val _notes = MutableLiveData<List<Note>>()
 
     val notes: LiveData<List<Note>>
         get() = _notes
 
+    private val _showLineChartInfo = MutableLiveData<Boolean>()
 
-    val averageMood: LiveData<Float> = Transformations.map(_notes) {
-        var totalMood = 0f
-        var aveMood = 0f
+    val showLineChartInfo: LiveData<Boolean>
+        get() = _showLineChartInfo
 
-        if (it.count() > 0) {
-            it.forEach { note ->
-                note.mood.let { mood ->
-                    totalMood += note.mood
-                }
-            }
+    private val _currentDate = MutableLiveData<Long>()
 
-            aveMood = totalMood / it.count()
-        }
-
-        aveMood
-    }
-
-
-    private val _currentDate = MutableLiveData<Date>()
-
-    val currentDate: LiveData<Date>
+    val currentDate: LiveData<Long>
         get() = _currentDate
+
+    private val _avgMoodEntries = MutableLiveData<List<Entry>>()
+
+    val avgMoodEntries: LiveData<List<Entry>>
+        get() = _avgMoodEntries
+
+    private val _noteEntries = MutableLiveData<List<PieEntry>>()
+
+    val noteEntries: LiveData<List<PieEntry>>
+        get() = _noteEntries
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -90,100 +90,186 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         viewModelJob.cancel()
     }
 
-
-    val calendar = Calendar.getInstance()
+    val calendar: Calendar = Calendar.getInstance()
 
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-//        getNotesResult()
-
+        initializeDate()
+        getAvgMoods()
+        getNotes()
     }
 
-//    private fun getNotesResult() {
-//
-//        coroutineScope.launch {
-//
-//            _status.value = LoadApiStatus.LOADING
-//
-//            val result = moodieTrailRepository.getNotes()
-//
-//            _notes.value = when (result) {
-//                is Result.Success -> {
-//                    _error.value = null
-//                    _status.value = LoadApiStatus.DONE
-//                    result.data
-//                }
-//                is Result.Fail -> {
-//                    _error.value = result.error
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                is Result.Error -> {
-//                    _error.value = result.exception.toString()
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//                else -> {
-//                    _error.value =
-//                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-//                    _status.value = LoadApiStatus.ERROR
-//                    null
-//                }
-//            }
-//        }
-//    }
+    private fun initializeDate() {
 
-    fun data(): LineData {
+        _currentDate.value = calendar.timeInMillis
+    }
+
+    private fun getThisMonthLastDate(): Int {
+
+        calendar.timeInMillis = currentDate.value!!
+        calendar.add(Calendar.MONTH, 0)
+        calendar.set(
+            Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        )
+        return calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
+    /**
+     * Function to get Start Time Of Date in timestamp in milliseconds
+     */
+    private fun getStartDateOfMonth(timestamp: Long): Long? {
+
+        val dayStart = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_daybegin,
+                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-01"
+            )
+        )
+        Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-01")
+        return dayStart.time
+    }
+
+    /**
+     * Function to get End Time Of Date in timestamp in milliseconds
+     */
+    private fun getEndDateOfMonth(timestamp: Long): Long? {
+
+        val dayEnd = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_dayend,
+                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
+            )
+        )
+        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
+        return dayEnd.time
+    }
+
+    private fun getAvgMoods() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = UserManager.id?.let {
+                moodieTrailRepository.getAvgMoodByDateRange(
+                    it,
+                    getStartDateOfMonth(_currentDate.value!!)!!,
+                    getEndDateOfMonth(_currentDate.value!!)!!
+                )
+            }
+
+            _avgMoods.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+
+            setEntriesForAvgMood(_avgMoods.value!!)
+        }
+    }
+
+    private fun getNotes() {
+
+        coroutineScope.launch {
+
+            _status.value = LoadApiStatus.LOADING
+
+            val result = UserManager.id?.let {
+                moodieTrailRepository.getNotesByDateRange(
+                    it,
+                    getStartDateOfMonth(_currentDate.value!!)!!,
+                    getEndDateOfMonth(_currentDate.value!!)!!
+                )
+            }
+
+            _notes.value = when (result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = LoadApiStatus.DONE
+                    result.data
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+                else -> {
+                    _error.value =
+                        MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
+                    _status.value = LoadApiStatus.ERROR
+                    null
+                }
+            }
+            setEntriesForNote(_notes.value!!)
+        }
+    }
+
+    private fun setEntriesForAvgMood(avgMoodData: List<AverageMood>) {
 
         val entries = ArrayList<Entry>().apply {
-            add(Entry(1f, 1f))
-            add(Entry(2f, 2f))
-            add(Entry(3f, 4f))
-            add(Entry(4f, 4f))
-            add(Entry(5f, 3f))
-            add(Entry(6f, 3f))
-            add(Entry(7f, 3f))
+            avgMoodData.forEach { avgMood ->
+
+                add(Entry(avgMood.time.toDisplayFormat(FORMAT_DD).toFloat(), avgMood.score))
+                Logger.i("x = ${avgMood.time.toFloat()}, y = ${avgMood.score}")
+            }
         }
-
-
-        val lineDataSet = LineDataSet(entries, "")
-            lineDataSet.run {
-
-            color = Color.BLUE
-            lineWidth = 1f
-            circleRadius = 3f
-
-            setDrawCircleHole(false)
-            setDrawCircles(true)
-            setDrawHorizontalHighlightIndicator(false)
-            setDrawHighlightIndicators(false)
-            setDrawValues(false)
-        }
-
-
-        return LineData(lineDataSet)
+        _avgMoodEntries.value = entries.reversed()
     }
 
-    fun formatValue():SparseArray<String>{
+    private fun setEntriesForNote(noteData: List<Note>) {
 
-        val timeList =calendar.timeInMillis.toDisplayFormat(FORMAT_YYYY_MM_DD).split("-")
+        val entries = ArrayList<PieEntry>()
 
-        val day = timeList[2].toInt()
-        val dayOfMonth = SparseArray<String>()
-        dayOfMonth.run {
-            put(1,"${day-3}")
-            put(2,"${day-2}")
-            put(3,"${day-1}")
-            put(4,"$day")
-            put(5,"${day+1}")
-            put(6,"${day+2}")
-            put(7,"${day+3}")
+
+        val veryBadMoodNotes = noteData.filter { it.mood == 1 }
+        val badMoodNotes = noteData.filter { it.mood == 2 }
+        val normalNotes = noteData.filter { it.mood == 3 }
+        val goodMoodNotes = noteData.filter { it.mood == 4 }
+        val veryGoodMoodNotes = noteData.filter { it.mood == 5 }
+
+
+        entries.apply {
+            add(PieEntry(veryBadMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(badMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(normalNotes.size.toFloat() / noteData.size))
+            add(PieEntry(goodMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(veryGoodMoodNotes.size.toFloat() / noteData.size))
         }
-        return dayOfMonth
+        _noteEntries.value = entries
     }
 
+    fun showLineChartInfo() {
+        _showLineChartInfo.value = true
+    }
+
+    fun onLineChartInfoShowed() {
+        _showLineChartInfo.value = null
+    }
 
 }
