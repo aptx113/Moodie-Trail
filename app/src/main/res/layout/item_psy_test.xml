@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="psyTest"
+            type="com.danteyu.studio.moodietrail.data.PsyTest" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_basic"
+        android:layout_marginVertical="6dp"
+        android:background="@drawable/bg_radius"
+        android:elevation="@dimen/elevation_all">
+
+        <ImageView
+            android:id="@+id/image_light_range"
+            android:layout_width="@dimen/size_image_psy_test_rating"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/margin_half"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:psyRatingImage="@{psyTest}" />
+
+        <TextView
+            android:id="@+id/text_psy_test_result_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/droid_sans"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/text_suicide_advice"
+            app:layout_constraintEnd_toEndOf="@id/image_light_range"
+            app:layout_constraintStart_toStartOf="@id/image_light_range"
+            app:layout_constraintTop_toBottomOf="@id/image_light_range"
+            app:scoreWithSuffix="@{psyTest.totalScore}"
+            tools:text="12 分" />
+
+        <TextView
+            android:id="@+id/text_test_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="@dimen/margin_half"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/image_light_range"
+            app:layout_constraintTop_toTopOf="parent"
+            app:timeToDisplayFormatForPsyRecord="@{psyTest.createdTime}"
+            tools:text="2020/02/17 週一 09:39" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginEnd="@dimen/margin_half"
+            android:fontFamily="@font/droid_sans"
+            android:textColor="@color/blue_700"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/text_test_date"
+            app:layout_constraintTop_toBottomOf="@+id/text_test_date"
+            app:psyRatingText="@{psyTest.totalScore}"
+            tools:text="@string/light_advice" />
+
+
+        <TextView
+            android:id="@+id/text_suicide_advice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_half"
+            android:layout_marginEnd="@dimen/margin_half"
+            android:layout_marginBottom="@dimen/margin_half"
+            android:fontFamily="@font/droid_sans"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/suicide_advice"
+            android:textColor="@color/blue_700_Dark"
+            android:textSize="14sp"
+            android:visibility="@{psyTest.itemSuicide &gt;= 2 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_psy_test_result_score"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

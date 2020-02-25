@@ -1,18 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <import type="com.danteyu.studio.moodietrail.util.CurrentFragmentType" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_toolbar"
+            android:background="@color/blue_700"
+            android:elevation="@dimen/elevation_all"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN || viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.GONE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/text_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="@{viewModel.currentFragmentType.value}"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="148dp"
+                tools:layout_editor_absoluteY="27dp"
+                tools:text="Moodie"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/image_toolbar_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/margin_basic"
+                android:background="@drawable/ic_nav_emergency_call"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/image_toolbar_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/margin_basic"
+                android:background="@drawable/ic_search"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <fragment
+            android:id="@+id/myNavHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:navGraph="@navigation/navigation" />
+
+        <ImageView
+            android:id="@+id/fabShadow"
+            style="@style/FabShadow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="5dp"
+            android:onClick="@{()->viewModel.onFabPressed()}"
+            android:visibility="@{viewModel.isFabOpen()== false ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toolbar"
+            app:srcCompat="@color/translucent_40"
+            tools:visibility="gone" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_record_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.navigateToRecordMood()}"
+            android:src="@drawable/ic_record_mood"
+            android:visibility="invisible"
+            app:backgroundTint="@color/blue_700"
+            app:elevation="@dimen/elevation_fab_option"
+            app:fabCustomSize="45dp"
+            app:layout_constraintBottom_toBottomOf="@id/fab"
+            app:layout_constraintEnd_toEndOf="@id/fab"
+            app:layout_constraintStart_toStartOf="@id/fab"
+            app:layout_constraintTop_toTopOf="@id/fab"
+            app:maxImageSize="24dp" />
+
+        <TextView
+            android:id="@+id/text_fab_record_mood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:elevation="@dimen/elevation_fab_option"
+            android:fontFamily="@font/droid_sans"
+            android:text="@string/record_mood"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_content"
+            app:layout_constraintBottom_toBottomOf="@id/fab"
+            app:layout_constraintEnd_toEndOf="@id/fab"
+            app:layout_constraintStart_toStartOf="@id/fab"
+            app:layout_constraintTop_toTopOf="@id/fab" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_start_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.navigateToPsyTest()}"
+            android:src="@drawable/ic_add_test"
+            android:visibility="invisible"
+            app:backgroundTint="@color/blue_700"
+            app:elevation="@dimen/elevation_fab_option"
+            app:fabCustomSize="45dp"
+            app:layout_constraintBottom_toBottomOf="@id/fab"
+            app:layout_constraintEnd_toEndOf="@id/fab"
+            app:layout_constraintStart_toStartOf="@id/fab"
+            app:layout_constraintTop_toTopOf="@id/fab"
+            app:maxImageSize="24dp" />
+
+        <TextView
+            android:id="@+id/text_fab_start_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:elevation="@dimen/elevation_fab_option"
+            android:fontFamily="@font/droid_sans"
+            android:text="@string/start_test"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_content"
+            app:layout_constraintBottom_toBottomOf="@id/fab"
+            app:layout_constraintEnd_toEndOf="@id/fab"
+            app:layout_constraintStart_toStartOf="@id/fab"
+            app:layout_constraintTop_toTopOf="@id/fab" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:alpha="1.0"
+            android:backgroundTint="@color/blue_700"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{()->viewModel.onFabPressed()}"
+            android:src="@drawable/ic_action_add"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN|| viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.GONE : View.VISIBLE}"
+            app:elevation="@dimen/elevation_fab"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:maxImageSize="40dp"
+            app:rippleColor="@color/blue_700" />
+
+        <com.danteyu.studio.moodietrail.component.FabBottomNavigationView
+            android:id="@+id/bottomNavView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_bottom_nav_view_main"
+            android:elevation="@dimen/elevation_all"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN|| viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.GONE : View.VISIBLE}"
+            app:fab_cradle_margin="8dp"
+            app:fab_cradle_rounded_corner_radius="32dp"
+            app:fab_size="56dp"
+            app:itemIconSize="@dimen/size_bottom_nav_icon"
+            app:itemIconTint="@drawable/bottom_nav_item_selector"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

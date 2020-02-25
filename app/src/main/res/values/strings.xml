@@ -1,3 +1,168 @@
 <resources>
-    <string name="app_name">Moodie-Trail</string>
+    <string name="app_name">Moodie Trail</string>
+
+    <!-- General -->
+    <string name="note">心情記錄</string>
+    <string name="statistic">統計</string>
+    <string name="psy_test_record">測驗記錄</string>
+    <string name="profile">個人</string>
+    <string name="psy_test_result">測驗結果</string>
+    <string name="psy_test_rating">認識心情分級</string>
+    <string name="internet_not_connected">您尚未連接 Internet</string>
+    <string name="you_know_nothing">You know nothing</string>
+    <string name="love_u_3000">Love you 3000</string>
+    <string name="record_mood">記錄心情</string>
+    <string name="start_test">開始測驗</string>
+    <string name="firebase_storage_reference">images/users/%s/%s.jpg</string>
+    <string name="delete_success">刪除成功</string>
+
+    <!-- Home -->
+    <string name="no_notes">Hi\u0020現在心情如何？\n點選新增按鈕開始記錄心情吧！</string>
+
+    <!-- Login -->
+    <string name="sign_in_with_google">使用 Google 登入</string>
+    <string name="sign_in_with_fb">使用 Facebook 登入</string>
+    <string name="slogan">關照你的每一天\nBe care for yourself</string>
+    <string name="login_fail_toast">登入失敗，請稍後再試</string>
+
+    <!-- IMessage Dialog -->
+    <string name="login_success">登入成功</string>
+
+    <!-- Record Mood -->
+    <string name="record_mood_instruction">你好嗎？</string>
+    <string name="record_mood_quick_save">快速儲存</string>
+    <string name="record_mood_add_detail">添加細節</string>
+    <string name="select_a_mood">請選擇一個心情</string>
+    <string name="save_success">新增成功！</string>
+
+    <!-- Record Detail Mood -->
+    <string name="emotion_happy">快樂</string>
+    <string name="emotion_sad">難過</string>
+    <string name="emotion_fear">害怕</string>
+    <string name="emotion_surprise">驚訝</string>
+    <string name="emotion_angry">生氣</string>
+    <string name="emotion_satisfied">滿足</string>
+    <string name="emotion_disgust">噁心</string>
+    <string name="emotion_anxious">焦慮</string>
+    <string name="emotion_loneliness">孤單</string>
+    <string name="emotion_excited">興奮</string>
+    <string name="record_detail_save">儲存</string>
+    <string name="hint_write_some_content">描述一下可能影響你心情的人事物…\n當時發生了什麼…\n讓你想到了什麼…\n有怎麼樣的感覺…</string>
+    <string name="hint_add_tags">來添加 tag 吧！</string>
+    <string name="feeling_headache">頭痛</string>
+    <string name="feeling_fatigue">疲倦</string>
+    <string name="feeling_dizziness">頭暈</string>
+    <string name="feeling_joint">關節痛</string>
+    <string name="feeling_menstrual_pain">經痛</string>
+    <string name="feeling_muscle">肌肉酸痛</string>
+    <string name="feeling_pain">身體疼痛</string>
+    <string name="text_note_permission_message">開啟「設定」，點選「權限」，並允許「儲存空間」和「相機」</string>
+    <string name="text_open_app_setting">開啟「設定」</string>
+    <string name="text_cancel">取消</string>
+    <string name="record_detail_instruction">哪些感覺最符合你的心情？</string>
+    <string name="select_image_hint">挑選符合心情的圖片吧 ！</string>
+    <string name="what_happen">那時發生了什麼事 ？</string>
+    <string name="hash_tags">Tag</string>
+    <string name="hash_tag">#%s</string>
+    <string name="start_camera_camera">Camera</string>
+    <string name="start_camera_jpg">.jpg</string>
+    <string name="start_camera_provider">.provider</string>
+    <string name="add_photo">相片</string>
+    <string name="choose_from_gallery">圖庫</string>
+    <string name="add_photo_title">新增圖片</string>
+    <string name="camera_and_storage_permission">相機和儲存空間權限</string>
+    <string name="permanently_denied_title"><![CDATA[需要允許權限才能新增圖片唷 ^.<]]></string>
+    <string name="went_to_setting">前往設定</string>
+    <string name="update_success">修改成功！</string>
+    <string name="confirm_edit">確認修改</string>
+    <string name="check_delete_note_message">確定要刪除此筆記錄嗎？</string>
+
+    <!-- SimpleDateFormat -->
+    <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>
+    <string name="simpledatefromat_yyyy_MM_dd_E">yyyy-MM-dd\nE</string>
+    <string name="simpledateformat_MM_dd">MM-dd</string>
+    <string name="simpledateformat_dd">dd</string>
+    <string name="simpledateformat_yyyy_MM">yyyy-MM</string>
+    <string name="simpledateformat_HH_mm">HH:mm</string>
+    <string name="simpledateformat_yyyy_MM_dd_E_HH_mm">yyyy-MM-dd E HH:mm</string>
+    <string name="simpledateformat_yyyy_MM_dd_HHmmss">yyyy-MM-dd-HHmmss</string>
+    <string name="time_list_format">yyyy-MM-dd-HH:mm</string>
+
+    <!-- timestamp -->
+    <string name="timestamp_dayend">%s 23:59:59.999999999</string>
+    <string name="timestamp_daybegin">%s 00:00:00.000000000</string>
+    <string name="year_month_date">%s-%s-%s</string>
+    <string name="hour_minute">%s:%s</string>
+
+    <!-- PsyTest -->
+    <string name="bsrs_5">簡式健康量表</string>
+    <string name="test_instruction">說明：\n\u3000\u3000簡式健康量表（BSRS-5）是由臺大李明濱教授等人所發展\uFF0C主要在幫助個人快速瞭解自己的身心健康狀態。\n\u3000\u3000本量表所列舉的問題是為協助您瞭解您的身心適應狀況，請您仔細回想在最近一星期中（包括今天），這些問題使您感到困擾或苦惱的程度，然後圈選一個您認為最能代表您感覺的答案。</string>
+    <string name="test_start">測驗開始</string>
+    <string name="test_body_instruction">\u3000\u3000請您仔細回想在最近一星期中（包括今天），這些問題使您感到困擾或苦惱的程度，然後選擇一個您認為最能代表您感覺的答案。</string>
+    <string name="never">完全沒有</string>
+    <string name="seldom">輕微</string>
+    <string name="sometimes">中等程度</string>
+    <string name="usually">厲害</string>
+    <string name="always">非常厲害</string>
+    <string name="item_sleep">1.\u0020睡眠困難，譬如難以入睡、易醒或早醒</string>
+    <string name="feel_nervous">2.\u0020感覺緊張不安</string>
+    <string name="angry">3.\u0020覺得容易苦惱或動怒</string>
+    <string name="depression">4.\u0020感覺憂鬰、心情低落</string>
+    <string name="worthless">5.\u0020覺得比不上別人</string>
+    <string name="suicide">附加題\u0020\u0020有自殺的想法</string>
+    <string name="check_psy_test_result">查看測驗結果</string>
+    <string name="psy_test_complete">測驗完成</string>
+    <string name="do_not_forget_to_select_sleep">別忘了填寫第一題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_anxiety">別忘了填寫第二題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_anger">別忘了填寫第三題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_depression">別忘了填寫第四題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_inferiority">別忘了填寫第五題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_suicide">別忘了填寫附加題喔 ^.&#60;</string>
+
+
+    <!-- PsyTestResult -->
+    <string name="psy_test_result_score">測驗結果\u0020%d\u0020分</string>
+    <string name="suicide_advice">「自殺想法」：評分為\u00202\u0020以上（中等程度）時，宜尋求專業諮詢或接受精神科治療。</string>
+    <string name="each_item_score">各題分數</string>
+    <string name="insomnia">失眠</string>
+    <string name="anxiety">焦慮</string>
+    <string name="anger">憤怒</string>
+    <string name="major_depression">憂鬱</string>
+    <string name="inferiority">自卑</string>
+    <string name="suicide_thought">自殺</string>
+    <string name="check_delete_psy_test_message">確定要刪除此筆測驗記錄嗎？</string>
+
+    <!-- PsyTestRating -->
+    <string name="normal_range">落於一般範圍內</string>
+    <string name="light_range">輕度情緒困擾</string>
+    <string name="medium_range">中度情緒困擾</string>
+    <string name="heavy_range">重度情緒困擾</string>
+    <string name="normal_advice">身心適應狀況良好。</string>
+    <string name="light_advice">建議找家人或朋友談談，抒發情緒。</string>
+    <string name="medium_advice">建議尋求抒壓管道或接受心理專業諮詢。</string>
+    <string name="heavy_advice">建議諮詢精神科醫師接受進一步評估。</string>
+    <string name="normal_score">0–5\u0020分</string>
+    <string name="light_score">6–9\u0020分</string>
+    <string name="medium_score">10–14\u0020分</string>
+    <string name="heavy_score">15\u0020以上</string>
+    <string name="mental_health_resources">心衛資源</string>
+    <string name="psy_test_result_rating">認識心情分級</string>
+    <string name="delete_record">刪除心情記錄</string>
+
+    <!-- PsyTestRecord -->
+    <string name="no_psy_tests">想瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
+    <string name="psy_text_result_score_only">%d\u0020分</string>
+
+    <!-- Statistic -->
+    <string name="mood">心情</string>
+    <string name="chart_no_data">目前沒有足夠數據繪製圖表\n記得記錄心情喔！</string>
+    <string name="mood_score_reference">心情分數參照</string>
+    <string name="mood_tread_by_month">每月心情趨勢</string>
+    <string name="mood_ratio_by_month">每月心情比例</string>
+
+    <!-- Profile -->
+    <string name="profile_default_information">記得每天記錄心情唷</string>
+    <string name="week_report">每週報告</string>
+    <string name="notification">提醒</string>
+
 </resources>

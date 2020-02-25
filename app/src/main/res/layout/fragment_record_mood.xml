@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
+
+        <import type="com.danteyu.studio.moodietrail.recordmood.NoteSavedType" />
+
+        <import type="com.danteyu.studio.moodietrail.recordmood.Mood" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_record_mood"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/button_record_mood_close"
+            android:layout_width="@dimen/size_record_mood_close"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_basic"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/ic_close"
+            android:backgroundTint="@color/blue_700"
+            android:onClick="@{() -> viewModel.leaveRecordMood()}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/text_record_mood_instruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/droid_sans"
+            android:text="@string/record_mood_instruction"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <ImageView
+            android:id="@+id/image_mood_very_good"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            android:layout_marginTop="72dp"
+            android:background="@drawable/ic_mood_circle_very_good_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.VERY_GOOD)}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/image_mood_good"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_record_mood_instruction" />
+
+        <ImageView
+            android:id="@+id/image_mood_good"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_good_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.GOOD)}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/image_mood_normal"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/image_mood_very_good"
+            app:layout_constraintTop_toTopOf="@id/image_mood_very_good"
+            tools:layout_editor_absoluteY="275dp" />
+
+        <ImageView
+            android:id="@+id/image_mood_normal"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_normal_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.NORMAL) }"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/image_mood_good"
+            app:layout_constraintTop_toTopOf="@id/image_mood_very_good"
+            tools:layout_editor_absoluteY="275dp" />
+
+        <ImageView
+            android:id="@+id/image_mood_bad"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_bad_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.BAD)}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/image_mood_good"
+            app:layout_constraintStart_toEndOf="@id/image_mood_very_good"
+            app:layout_constraintTop_toBottomOf="@id/image_mood_very_good"
+            tools:layout_editor_absoluteX="213dp"
+            tools:layout_editor_absoluteY="385dp" />
+
+        <ImageView
+            android:id="@+id/image_mood_very_bad"
+            android:layout_width="@dimen/size_record_mood_icon"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_mood_circle_very_bad_selector"
+            android:onClick="@{(view) -> viewModel.selectMood(view, Mood.VERY_BAD)}"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/image_mood_normal"
+            app:layout_constraintStart_toEndOf="@id/image_mood_good"
+            app:layout_constraintTop_toTopOf="@id/image_mood_bad"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="385dp" />
+
+        <Button
+            android:id="@+id/button_add_detail"
+            style="@style/RecordMoodButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_advanced"
+            android:onClick="@{() -> viewModel.prepareWriteDown(NoteSavedType.DETAIL)}"
+            android:text="@string/record_mood_add_detail"
+            android:layout_marginHorizontal="@dimen/margin_advanced"
+            app:layout_constraintBottom_toTopOf="@id/button_quick_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_quick_save"
+            style="@style/RecordMoodButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="88dp"
+            android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
+            android:onClick="@{() -> viewModel.prepareWriteDown(NoteSavedType.QUICK)}"
+            android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/record_mood_quick_save : ""}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/button_add_detail"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@id/button_add_detail" />
+
+        <ProgressBar
+            android:id="@+id/progress_record_mood_quick_save"
+            android:layout_width="@dimen/size_progress"
+            android:layout_height="0dp"
+            android:theme="@style/ProgressTheme"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/button_quick_save"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/button_quick_save"
+            app:layout_constraintStart_toStartOf="@id/button_quick_save"
+            app:layout_constraintTop_toTopOf="@id/button_quick_save"
+            tools:visibility="visible" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--android:id="@+id/layout_record_detail_date"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="12dp"-->
+<!--android:layout_marginBottom="@dimen/margin_half"-->
+<!--android:onClick="@{() -> viewModel.showDatePickerDialog()}"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintEnd_toStartOf="@+id/layout_record_detail_time"-->
+<!--app:layout_constraintHorizontal_bias="1.0"-->
+<!--app:layout_constraintHorizontal_chainStyle="packed"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toBottomOf="@id/button_record_mood_close">-->
+
+<!--<TextView-->
+<!--    android:id="@+id/text_record_detail_date"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:background="@null"-->
+<!--    android:focusable="false"-->
+<!--    android:fontFamily="@font/droid_sans"-->
+<!--    android:gravity="center"-->
+<!--    android:textColor="@color/blue_700"-->
+<!--    android:textSize="16sp"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent"-->
+<!--    app:timeToDisplayDateFormat="@{viewModel.dateOfNote}"-->
+<!--    tools:text="2020/02/04" />-->
+
+<!--<ImageView-->
+<!--    android:layout_width="20dp"-->
+<!--    android:layout_height="0dp"-->
+<!--    android:tint="@color/blue_700"-->
+<!--    app:layout_constraintBottom_toBottomOf="@id/text_record_detail_date"-->
+<!--    app:layout_constraintDimensionRatio="1:1"-->
+<!--    app:layout_constraintStart_toEndOf="@id/text_record_detail_date"-->
+<!--    app:layout_constraintTop_toTopOf="@id/text_record_detail_date"-->
+<!--    app:layout_constraintVertical_bias="0.75"-->
+<!--    app:srcCompat="@drawable/ic_expand_more" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--android:id="@+id/layout_record_detail_time"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginStart="@dimen/margin_half"-->
+<!--android:layout_marginEnd="@dimen/margin_basic"-->
+<!--android:onClick="@{() -> viewModel.showTimePickerDialog()}"-->
+<!--app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"-->
+<!--app:layout_constraintEnd_toStartOf="@id/layout_record_detail_location"-->
+<!--app:layout_constraintHorizontal_bias="0.5"-->
+<!--app:layout_constraintStart_toEndOf="@+id/layout_record_detail_date">-->
+
+<!--<TextView-->
+<!--    android:id="@+id/text_record_detail_time"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:background="@null"-->
+<!--    android:focusable="false"-->
+<!--    android:fontFamily="@font/droid_sans"-->
+<!--    android:gravity="center"-->
+<!--    android:textColor="@color/blue_700"-->
+<!--    android:textSize="14sp"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent"-->
+<!--    app:timeToDisplayTimeFormat="@{viewModel.dateOfNote}"-->
+<!--    tools:text="12:42" />-->
+
+<!--<ImageView-->
+<!--    android:layout_width="16dp"-->
+<!--    android:layout_height="0dp"-->
+<!--    android:tint="@color/blue_700"-->
+<!--    app:layout_constraintBottom_toBottomOf="@id/text_record_detail_time"-->
+<!--    app:layout_constraintDimensionRatio="1:1"-->
+<!--    app:layout_constraintStart_toEndOf="@id/text_record_detail_time"-->
+<!--    app:layout_constraintTop_toTopOf="@id/text_record_detail_time"-->
+<!--    app:layout_constraintVertical_bias="0.75"-->
+<!--    app:srcCompat="@drawable/ic_expand_more" />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--android:id="@+id/layout_record_detail_location"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginEnd="@dimen/margin_basic"-->
+<!--app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintHorizontal_bias="1.0"-->
+<!--app:layout_constraintStart_toEndOf="@id/layout_record_detail_time">-->
+
+<!--<ImageView-->
+<!--    android:id="@+id/image_record_detail_location"-->
+<!--    android:layout_width="15dp"-->
+<!--    android:layout_height="0dp"-->
+<!--    android:tint="@color/blue_700"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintDimensionRatio="1:1"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent"-->
+<!--    app:srcCompat="@drawable/ic_note_location" />-->
+
+<!--<TextView-->
+<!--    android:id="@+id/text_record_detail_location"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginStart="@dimen/margin_quarter"-->
+<!--    android:fontFamily="@font/droid_sans"-->
+<!--    android:gravity="center"-->
+<!--    android:text="台北市信義區"-->
+<!--    android:textColor="@color/blue_700"-->
+<!--    android:textSize="12sp"-->
+<!--    app:layout_constraintBottom_toBottomOf="@id/image_record_detail_location"-->
+<!--    app:layout_constraintStart_toEndOf="@id/image_record_detail_location"-->
+<!--    app:layout_constraintTop_toTopOf="@id/image_record_detail_location" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
