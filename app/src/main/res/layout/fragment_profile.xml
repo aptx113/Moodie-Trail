@@ -1,14 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.profile.ProfileViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_f0f0f0"
+        android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_profile_header"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_profile_header"
+            android:background="@color/blue_700_Light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_profile_avatar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/ic_nav_profile_normal"
+                android:outlineProvider="@{viewModel.outlineProvider}"
+                android:scaleType="centerCrop"
+                app:imageUrl='@{viewModel.userPic}'
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_profile_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="1"
+                android:padding="@dimen/elevation_all"
+                android:text="@{viewModel.userName}"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/text_profile_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="loading" />
+
+            <TextView
+                android:id="@+id/text_profile_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/droid_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:text="@string/profile_default_information"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_half"
+            android:background="@color/white"
+            android:paddingVertical="@dimen/margin_basic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_profile_header">
+
+            <ImageView
+                android:id="@+id/image_report"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:tint="@color/blue_700"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_report" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="@string/week_report"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/image_report"
+                app:layout_constraintStart_toEndOf="@id/image_report"
+                app:layout_constraintTop_toTopOf="@id/image_report" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_mental_resource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_half"
+            android:background="@color/white"
+            android:paddingVertical="@dimen/margin_basic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_report">
+
+            <ImageView
+                android:id="@+id/image_mental_resource"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:tint="@color/blue_700"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_mental_resource" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="@string/mental_health_resources"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/image_mental_resource"
+                app:layout_constraintStart_toEndOf="@id/image_mental_resource"
+                app:layout_constraintTop_toTopOf="@id/image_mental_resource" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_half"
+            android:background="@color/white"
+            android:paddingVertical="@dimen/margin_basic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_mental_resource">
+
+            <ImageView
+                android:id="@+id/image_notification"
+                android:layout_width="24dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:tint="@color/blue_700"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_notification" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:fontFamily="@font/droid_sans"
+                android:text="@string/notification"
+                android:textColor="@color/blue_700_Dark"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/image_notification"
+                app:layout_constraintStart_toEndOf="@id/image_notification"
+                app:layout_constraintTop_toTopOf="@id/image_notification" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -98,7 +98,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
 
-
         viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
         })

@@ -9,11 +9,9 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Size
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +26,7 @@ import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.danteyu.studio.moodietrail.util.Util.getString
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.lang.Appendable
@@ -63,7 +62,7 @@ fun bindRecyclerViewWithTags(recyclerView: RecyclerView, tags: List<String>?) {
         }
     }
     recyclerView.smoothScrollToPosition(recyclerView.adapter!!.itemCount)
-    Logger.d("bindRecyclerViewWithTags, taga = $tags")
+    Logger.d("bindRecyclerViewWithTags, tags = $tags")
 }
 
 @BindingAdapter("psyTests")
@@ -188,7 +187,7 @@ fun ImageView.setMoodImage(item: Note?) {
 }
 
 @BindingAdapter("moodDetailImage")
-fun ImageView.setMoodIDetailmage(item: Note?) {
+fun ImageView.setMoodIDetailImage(item: Note?) {
     item?.let {
         setImageResource(
             when (item.mood) {
@@ -213,6 +212,74 @@ fun ImageView.setPsyRatingImage(item: PsyTest?) {
                 in 10.0..14.0 -> R.drawable.ic_medium_range
                 else -> R.drawable.ic_heavy_range
             }
+        )
+    }
+}
+
+@BindingAdapter("layoutMoodColor")
+fun bindMoodColorForLayout(constraintLayout: ConstraintLayout, mood: Int?) {
+    mood?.let {
+        constraintLayout.background = getDrawable(
+            when (it) {
+                1 -> R.color.mood_very_bad
+                2 -> R.color.mood_bad
+                3 -> R.color.mood_normal
+                4 -> R.color.mood_good
+                5 -> R.color.mood_very_good
+                else -> R.color.blue_700
+            }
+        )
+    }
+}
+
+@BindingAdapter("buttonMoodColor")
+fun bindMoodColorForButton(button: Button, mood: Int?) {
+    mood?.let {
+        button.background = getDrawable(
+            when (it) {
+                1 -> R.color.mood_very_bad
+                2 -> R.color.mood_bad
+                3 -> R.color.mood_normal
+                4 -> R.color.mood_good
+                5 -> R.color.mood_very_good
+                else -> R.color.blue_700
+            }
+        )
+    }
+}
+
+@BindingAdapter("imageMoodColor")
+fun bindMoodColorForImage(imageView: ImageView, mood: Int?) {
+    mood?.let {
+        imageView.setColorFilter(
+            getColor(
+                when (it) {
+                    1 -> R.color.mood_very_bad
+                    2 -> R.color.mood_bad
+                    3 -> R.color.mood_normal
+                    4 -> R.color.mood_good
+                    5 -> R.color.mood_very_good
+                    else -> R.color.blue_700
+                }
+            )
+        )
+    }
+}
+
+@BindingAdapter("imageButtonMoodColor")
+fun bindMoodColorForImageButton(imageButton: ImageButton, mood: Int?) {
+    mood?.let {
+        imageButton.setColorFilter(
+            getColor(
+                when (it) {
+                    1 -> R.color.mood_very_bad
+                    2 -> R.color.mood_bad
+                    3 -> R.color.mood_normal
+                    4 -> R.color.mood_good
+                    5 -> R.color.mood_very_good
+                    else -> R.color.blue_700
+                }
+            )
         )
     }
 }

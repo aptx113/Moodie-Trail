@@ -12,10 +12,12 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.PercentFormatter
 
 class StatisticFragment : Fragment() {
 
@@ -77,7 +79,6 @@ class StatisticFragment : Fragment() {
 
             // enable scaling and dragging
             isDragEnabled = true
-            setScaleEnabled(false)
 
             // disable grid background
             setDrawGridBackground(false)
@@ -96,10 +97,14 @@ class StatisticFragment : Fragment() {
         moodPieChart = binding.pieChartMood
         moodPieChart.apply {
             holeRadius = 20f
+
+            setExtraOffsets(0f,8.5f,0f,5f)
             setNoDataText("")
-            setDrawEntryLabels(false)
+            animateY(1000, Easing.EaseInCubic)
             description.isEnabled = false
-            setTransparentCircleAlpha(0)
+            setUsePercentValues(true)
+            transparentCircleRadius = 40f
+            setTransparentCircleAlpha(50)
             legend.isEnabled = false
             invalidate()
         }
@@ -186,8 +191,22 @@ class StatisticFragment : Fragment() {
         }
 
         val dataSet = PieDataSet(noteEntries, "")
+
         dataSet.colors = colors
-        dataSet.setDrawValues(false)
+        dataSet.apply {
+
+            valueTextSize = 12f
+            valueLinePart1OffsetPercentage = 110f
+            valueLinePart1Length = 1f
+            valueLinePart2Length = 0.8f
+            valueFormatter = PieChartValueFormatter()
+            isUsingSliceColorAsValueLineColor = true
+            valueLineWidth = 1f
+            xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            sliceSpace = 2f
+        }
+
 
         moodPieChart.data = PieData(dataSet)
         moodPieChart.notifyDataSetChanged()

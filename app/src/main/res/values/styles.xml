@@ -137,4 +137,16 @@
         <item name="rippleColor">@color/blue_700_Light</item>
     </style>
 
+    <style name="GoogleCustom" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@color/google_red</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FacebookCustom" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@color/fb_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

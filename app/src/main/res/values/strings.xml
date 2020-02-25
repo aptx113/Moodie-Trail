@@ -14,15 +14,14 @@
     <string name="record_mood">記錄心情</string>
     <string name="start_test">開始測驗</string>
     <string name="firebase_storage_reference">images/users/%s/%s.jpg</string>
-    <string name="empty_string"></string>
     <string name="delete_success">刪除成功</string>
 
     <!-- Home -->
     <string name="no_notes">Hi\u0020現在心情如何？\n點選新增按鈕開始記錄心情吧！</string>
 
     <!-- Login -->
-    <string name="sign_in_with_google">使用 Google 帳戶登入</string>
-    <string name="sign_in_with_fb">使用 Facebook 帳戶登入</string>
+    <string name="sign_in_with_google">使用 Google 登入</string>
+    <string name="sign_in_with_fb">使用 Facebook 登入</string>
     <string name="slogan">關照你的每一天\nBe care for yourself</string>
     <string name="login_fail_toast">登入失敗，請稍後再試</string>
 
@@ -49,7 +48,7 @@
     <string name="emotion_excited">興奮</string>
     <string name="record_detail_save">儲存</string>
     <string name="hint_write_some_content">描述一下可能影響你心情的人事物…\n當時發生了什麼…\n讓你想到了什麼…\n有怎麼樣的感覺…</string>
-    <string name="hint_add_tags">添加一些 tags 吧！</string>
+    <string name="hint_add_tags">來添加 tag 吧！</string>
     <string name="feeling_headache">頭痛</string>
     <string name="feeling_fatigue">疲倦</string>
     <string name="feeling_dizziness">頭暈</string>
@@ -63,7 +62,7 @@
     <string name="record_detail_instruction">哪些感覺最符合你的心情？</string>
     <string name="select_image_hint">挑選符合心情的圖片吧 ！</string>
     <string name="what_happen">那時發生了什麼事 ？</string>
-    <string name="hash_tags">HashTags</string>
+    <string name="hash_tags">Tag</string>
     <string name="hash_tag">#%s</string>
     <string name="start_camera_camera">Camera</string>
     <string name="start_camera_jpg">.jpg</string>
@@ -160,5 +159,10 @@
     <string name="mood_score_reference">心情分數參照</string>
     <string name="mood_tread_by_month">每月心情趨勢</string>
     <string name="mood_ratio_by_month">每月心情比例</string>
+
+    <!-- Profile -->
+    <string name="profile_default_information">記得每天記錄心情唷</string>
+    <string name="week_report">每週報告</string>
+    <string name="notification">提醒</string>
 
 </resources>

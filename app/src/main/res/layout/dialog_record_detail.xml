@@ -22,7 +22,7 @@
             android:id="@+id/layout_record_detail_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue_700"
+            app:layoutMoodColor="@{viewModel.note.mood}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -43,6 +43,7 @@
                 android:id="@+id/image_record_detail_mood"
                 android:layout_width="60dp"
                 android:layout_height="0dp"
+                android:layout_marginBottom="26dp"
                 app:layout_constraintBottom_toBottomOf="@id/button_record_detail_back"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -323,26 +324,27 @@
 
                 <ImageButton
                     android:id="@+id/button_record_detail_add_tags"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="24dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/margin_basic"
-                    android:background="@drawable/ic_action_add"
-                    android:backgroundTint="@color/blue_700"
                     android:onClick="@{() -> viewModel.addNoteTag()}"
+                    app:imageButtonMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintBottom_toBottomOf="@id/edit_record_detail_tag"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/edit_record_detail_tag"
-                    app:layout_constraintTop_toTopOf="@id/edit_record_detail_tag" />
+                    app:layout_constraintTop_toTopOf="@id/edit_record_detail_tag"
+                    app:srcCompat="@drawable/ic_action_add" />
 
                 <ImageView
                     android:id="@+id/image_record_detail_tags"
                     android:layout_width="20dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="16dp"
-                    android:tint="@color/blue_700"
                     android:visibility="@{viewModel.tags.size() == 0 ? View.GONE : View.VISIBLE}"
+                    app:imageMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
@@ -376,6 +378,7 @@
             android:layout_marginBottom="@dimen/margin_basic"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
             android:onClick="@{() -> viewModel.writeOrUpdate()}"
+            app:buttonMoodColor="@{viewModel.note.mood}"
             app:existOfNote="@{viewModel.note.id}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

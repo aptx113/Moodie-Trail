@@ -65,12 +65,14 @@
 
         <Button
             android:id="@+id/button_fb_sign_in"
-            style="@style/FirebaseUI.Button.AccountChooser.FacebookButton"
+            style="@style/FacebookCustom"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="64dp"
             android:layout_marginTop="50dp"
             android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
+            android:paddingStart="13dp"
+            android:drawablePadding="13.636dp"
             android:text="@string/sign_in_with_fb"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,13 +93,16 @@
 
         <Button
             android:id="@+id/button_google_sign_in"
-            style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
+            style="@style/GoogleCustom"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_advanced"
             android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
             android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
+            android:drawableTint="@color/white"
             android:onClick="@{()->viewModel.loginGoogle()}"
+            android:paddingStart="12dp"
+            android:drawablePadding="-10dp"
             android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/sign_in_with_google : ""}'
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"

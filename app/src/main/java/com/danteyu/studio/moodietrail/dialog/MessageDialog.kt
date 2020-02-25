@@ -54,7 +54,7 @@ class MessageDialog : AppCompatDialogFragment() {
     private fun init() {
         when (messageType) {
             MessageType.LOGIN_SUCCESS -> {
-                iconRes = MoodieTrailApplication.instance.getDrawable(R.drawable.ic_success)
+                iconRes = MoodieTrailApplication.instance.getDrawable(R.mipmap.ic_launcher)
                 message = getString(R.string.login_success)
             }
 

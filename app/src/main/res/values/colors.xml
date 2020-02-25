@@ -3,6 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="google_red">#Db4437</color>
+    <color name="fb_blue">#3b5998</color>
 
     <color name="transparent">#00000000</color>
     <color name="translucent">#80000000</color>

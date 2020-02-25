@@ -218,8 +218,11 @@ class RecordDetailViewModel(
     }
 
     private fun initializeNote() {
-        _note.value.let {
-            tags.value = it?.tags
+        _note.value.let { it ->
+            it?.tags?.let { list ->
+                tags.value = list
+            }
+
 
         }
         initializeDateOfNote()
@@ -276,9 +279,8 @@ class RecordDetailViewModel(
 
         newTag.value?.let {
             tags.value?.add(it)
-
         }
-        Logger.d("addNoteTags, tag = ${newTag.value}")
+//        Logger.d("addNoteTags, tag = ${newTag.value}")
         tags.value = tags.value
         newTag.value = ""
         Logger.d("addNoteTags, tags = ${tags.value}")

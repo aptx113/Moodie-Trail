@@ -23,6 +23,7 @@ import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.I
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.POST_NOTE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_record_mood.*
 import java.util.*
 
 /**

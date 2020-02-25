@@ -200,7 +200,7 @@ class PsyTestResultFragment : Fragment() {
         val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_psy_test_message))
-        builder.setIcon(R.drawable.ic_launcher_foreground)
+        builder.setIcon(R.mipmap.ic_launcher)
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
             UserManager.id?.let { viewModel.deletePsyTest(it, psyTest) }
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
