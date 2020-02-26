@@ -269,11 +269,11 @@ class MainActivity : BaseActivity() {
 
     }
 
-    override fun onBackPressed() {
-        if (viewModel.isFabOpen.value!!) {
-            closeFabMenu()
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (viewModel.isFabOpen.value!!) {
+//            closeFabMenu()
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 }

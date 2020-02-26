@@ -28,7 +28,6 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.danteyu.studio.moodietrail.util.Util.getString
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.lang.Appendable
 
 @BindingAdapter("notes")
@@ -338,6 +337,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         if (imgUrl == "null" || imgUrl == "" || imgUrl == null) PlaceHolder.values().toList().shuffled().first().value.toUri().buildUpon().scheme(
             "https"
         ).build() else imgUrl.toUri().buildUpon().scheme("https").build()
+
     GlideApp.with(imgView.context)
         .load(imgUri)
         .apply(
