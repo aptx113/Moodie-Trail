@@ -16,6 +16,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
+import com.danteyu.studio.moodietrail.dialog.MessageDialog
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
@@ -35,6 +36,7 @@ class MainActivity : BaseActivity() {
     private val viewModel by viewModels<MainViewModel> { getVmFactory() }
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var messageDialog: MessageDialog
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -84,6 +86,8 @@ class MainActivity : BaseActivity() {
         binding.fabRecordMood.setTouchDelegate()
         binding.fabStartTest.setTouchDelegate()
 
+        messageDialog = MessageDialog()
+
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
             Logger.i("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -114,6 +118,23 @@ class MainActivity : BaseActivity() {
             it?.let {
                 findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestFragment())
                 viewModel.onPsyTestNavigated()
+            }
+        })
+
+        viewModel.navigateToLoginSuccess.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(
+                    NavigationDirections.navigateToMessageDialog(MessageDialog.MessageType.LOGIN_SUCCESS)
+                )
+
+//                supportFragmentManager.let { fragmentManager ->
+//                    if (!messageDialog.isInLayout) {
+//                        messageDialog.show(fragmentManager, "Image Source Selector").MessageType.LOGIN_SUCCESS
+//                    }
+//                }
+
+                viewModel.onLoginSuccessNavigated()
+
             }
         })
 
@@ -197,7 +218,7 @@ class MainActivity : BaseActivity() {
         binding.apply {
 
             fabRecordMood.visibility = View.VISIBLE
-            fabStartTest.visibility = View.VISIBLE
+            fabStartTest.show()
 
             fab.animate().rotation(135.0f)
             fabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
@@ -239,12 +260,10 @@ class MainActivity : BaseActivity() {
             fab.animate().rotation(0.0f)
             fabRecordMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
+
             textFabRecordMood.animate().alpha(0.0f).duration = 300
-//            textFabAddMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
-//                .translationX(resources.getDimension(R.dimen.standard_0)).duration = 1
             textFabStartTest.animate().alpha(0.0f).duration = 300
-//            textFabAddTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
-//                .translationX(resources.getDimension(R.dimen.standard_0)).duration = 1
+
             fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
             fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
@@ -256,7 +275,7 @@ class MainActivity : BaseActivity() {
                             binding.apply {
 
                                 fabRecordMood.visibility = View.GONE
-                                fabStartTest.visibility = View.GONE
+                                fabStartTest.hide()
 
                             }
                         }

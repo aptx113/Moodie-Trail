@@ -255,11 +255,11 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
 
 
         entries.apply {
-            add(PieEntry(veryBadMoodNotes.size.toFloat() / noteData.size))
-            add(PieEntry(badMoodNotes.size.toFloat() / noteData.size))
-            add(PieEntry(normalNotes.size.toFloat() / noteData.size))
-            add(PieEntry(goodMoodNotes.size.toFloat() / noteData.size))
-            add(PieEntry(veryGoodMoodNotes.size.toFloat() / noteData.size))
+            add(PieEntry(veryBadMoodNotes.size.toFloat()))
+            add(PieEntry(badMoodNotes.size.toFloat()))
+            add(PieEntry(normalNotes.size.toFloat()))
+            add(PieEntry(goodMoodNotes.size.toFloat() ))
+            add(PieEntry(veryGoodMoodNotes.size.toFloat()))
         }
         _noteEntries.value = entries
     }

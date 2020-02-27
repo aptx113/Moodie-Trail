@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.navigateToPsyTest()}"
             android:src="@drawable/ic_add_test"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:backgroundTint="@color/blue_700"
             app:elevation="@dimen/elevation_fab_option"
             app:fabCustomSize="45dp"

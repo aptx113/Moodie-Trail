@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import java.util.*
@@ -27,11 +28,21 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
+    // Handle navigation to login success
+    private val _navigateToLoginSuccess = MutableLiveData<User>()
+
+    val navigateToLoginSuccess: LiveData<User>
+        get() = _navigateToLoginSuccess
+
     //Handle Fab open and close
     private val _isFabOpen = MutableLiveData<Boolean>()
 
     val isFabOpen: LiveData<Boolean>
         get() = _isFabOpen
+
+    // check user login status
+    val isLoggedIn
+        get() = UserManager.isLoggedIn
 
     // Handle navigation to record mood
     private val _navigateToRecordMood = MutableLiveData<Boolean>()
@@ -72,8 +83,6 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
 
-
-
     fun navigateToRecordMood() {
         _navigateToRecordMood.value = true
         _isFabOpen.value = false
@@ -90,6 +99,14 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun onPsyTestNavigated() {
         _navigateToPsyTest.value = null
+    }
+
+    fun navigateToLoginSuccess(user: User) {
+        _navigateToLoginSuccess.value = user
+    }
+
+    fun onLoginSuccessNavigated() {
+        _navigateToLoginSuccess.value = null
     }
 
     fun refresh() {
