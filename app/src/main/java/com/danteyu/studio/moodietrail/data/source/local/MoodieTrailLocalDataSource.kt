@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
+import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 
 /**
@@ -42,6 +44,14 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
     }
 
     override suspend fun signUpUser(user: User, id: String): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun handleFacebookAccessToken(token: AccessToken): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

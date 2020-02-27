@@ -207,7 +207,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             try {
                 viewModel.setImage(bitmap)
 
-                GlideApp.with(this).load(data.data).fitCenter().into(binding.imageNoteImage)
+                GlideApp.with(this).load(data.data).into(binding.imageNoteImage)
                 imageSourceSelectorDialog.dismiss()
 
 
@@ -222,7 +222,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(imageBitmap)
-                GlideApp.with(this).load(filePath).fitCenter().into(binding.imageNoteImage)
+                GlideApp.with(this).load(filePath).into(binding.imageNoteImage)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null

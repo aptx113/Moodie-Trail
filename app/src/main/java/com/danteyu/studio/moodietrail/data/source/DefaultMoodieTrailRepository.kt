@@ -2,6 +2,8 @@ package com.danteyu.studio.moodietrail.data.source
 
 import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
+import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 
 /**
@@ -46,6 +48,14 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.signUpUser(user, id)
     }
 
+    override suspend fun handleFacebookAccessToken(token: AccessToken): Result<Boolean> {
+        return remoteDataSource.handleFacebookAccessToken(token)
+    }
+
+    override suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount): Result<Boolean> {
+        return remoteDataSource.firebaseAuthWithGoogle(acct)
+    }
+
     override suspend fun postNote(uid: String, note: Note): Result<Boolean> {
         return remoteDataSource.postNote(uid, note)
     }
@@ -82,7 +92,7 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.deleteNote(uid, note)
     }
 
-    override suspend fun deleteAvgMood(uid: String, avgMoodId:String): Result<Boolean> {
+    override suspend fun deleteAvgMood(uid: String, avgMoodId: String): Result<Boolean> {
         return remoteDataSource.deleteAvgMood(uid, avgMoodId)
     }
 

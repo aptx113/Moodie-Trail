@@ -14,27 +14,21 @@ import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentLoginBinding
-import com.danteyu.studio.moodietrail.dialog.MessageDialog
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.login.LoginViewModel.Companion.RC_SIGN_IN
 import com.danteyu.studio.moodietrail.util.Logger
-import com.facebook.AccessToken
+import com.danteyu.studio.moodietrail.util.Util.getGoogleSignInClient
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginFragment : Fragment() {
 
     val viewModel by viewModels<LoginViewModel> { getVmFactory() }
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var currentUser: FirebaseUser
+//    private lateinit var auth: FirebaseAuth
+//    private lateinit var currentUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +38,7 @@ class LoginFragment : Fragment() {
 
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        auth = FirebaseAuth.getInstance()
+//        auth = FirebaseAuth.getInstance()
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -79,27 +73,17 @@ class LoginFragment : Fragment() {
             })
 
             viewModel.user.observe(viewLifecycleOwner, Observer {
-                if (it != null) {
-                    findNavController().navigate(
-                        NavigationDirections.navigateToMessageDialog(
-                            MessageDialog.MessageType.LOGIN_SUCCESS
-                        )
-                    )
+                it?.let {
+                    mainViewModel.setupUser(it)
                 }
-
             })
 
-//            viewModel.navigateToLoginSuccess.observe(this, Observer {
-//                it?.let {
-//                    viewModel.navigateToLoginSuccess(it)
-//                    findNavController().navigate(
-//                        NavigationDirections.navigateToMessageDialog(
-//                            MessageDialog.MessageType.LOGIN_SUCCESS
-//                        )
-//                    )
-//                    viewModel.onLoginSuccessNavigated()
-//                }
-//            })
+            viewModel.navigateToLoginSuccess.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                  mainViewModel.navigateToLoginSuccess(it)
+
+                }
+            })
 
         }
         return binding.root
@@ -107,7 +91,7 @@ class LoginFragment : Fragment() {
 
     private fun signInGoogle() {
 
-        val signInIntent = viewModel.getGoogleSignInClient().signInIntent
+        val signInIntent = getGoogleSignInClient().signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
 
     }
@@ -127,10 +111,12 @@ class LoginFragment : Fragment() {
                 UserManager.picture = account.photoUrl.toString()
                 UserManager.mail = account.email
 
-                firebaseAuthWithGoogle(account)
+                viewModel.firebaseAuthWithGoogle(account)
                 Logger.i("ServerAuthCode =${account.serverAuthCode} account.id =${account.id}")
 
             } catch (e: ApiException) {
+                viewModel.cancelLoginGoogle()
+                activity.showToast(getString(R.string.login_fail_toast))
 
                 Logger.w("Google sign in failed, ApiException = $e")
 
@@ -141,49 +127,27 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Logger.d("firebaseAuthWithGoogle:" + acct.id!!)
-
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-
-                if (task.isSuccessful) {
-
-                    Logger.d("signInWithCredential:success")
-                    val user = auth.currentUser
-                    user?.let {
-                        UserManager.id = it.uid
-                        viewModel.checkUser(it.uid)
-                    }
-
-                } else {
-                    activity.showToast(getString(R.string.login_fail_toast))
-
-                    Logger.w("signInWithCredential:failure ${task.exception} error_code =${task.exception}")
-                }
-            }
-    }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Logger.d("handleFacebookAccessToken:${token.token}")
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-                    user?.let {
-                        UserManager.id = it.uid
-                        viewModel.checkUser(it.uid)
-                    }
-                } else {
-                    // If sign in fails, display a message to the user.
-                    activity.showToast(getString(R.string.login_fail_toast))
-                }
-            }
-    }
-
-
+//    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+//        Logger.d("firebaseAuthWithGoogle:" + acct.id!!)
+//
+//        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+//        auth.signInWithCredential(credential)
+//            .addOnCompleteListener { task ->
+//
+//                if (task.isSuccessful) {
+//
+//                    Logger.d("signInWithCredential:success")
+//                    val user = auth.currentUser
+//                    user?.let {
+//                        UserManager.id = it.uid
+//                        viewModel.checkUser(it.uid)
+//                    }
+//
+//                } else {
+//                    activity.showToast(getString(R.string.login_fail_toast))
+//
+//                    Logger.w("signInWithCredential:failure ${task.exception} error_code =${task.exception}")
+//                }
+//            }
+//    }
 }

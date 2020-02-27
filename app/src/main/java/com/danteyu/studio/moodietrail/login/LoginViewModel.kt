@@ -11,16 +11,12 @@ import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
-import com.danteyu.studio.moodietrail.util.Util
 import com.danteyu.studio.moodietrail.util.Util.getAuth
 import com.danteyu.studio.moodietrail.util.Util.getString
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FacebookAuthProvider
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -104,20 +100,6 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
 
     }
 
-    fun getGoogleSignInClient(): GoogleSignInClient {
-        _statusForGoogle.value = LoadApiStatus.LOADING
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(Util.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        val googleSignInClient = GoogleSignIn.getClient(MoodieTrailApplication.instance, gso)
-
-        _statusForGoogle.value = LoadApiStatus.DONE
-        return googleSignInClient
-    }
-
     fun checkUser(uid: String) {
         getUserProfile(uid)
 
@@ -126,7 +108,6 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
     // Check whether user had registered, if not than call sign up
     private fun getUserProfile(uid: String) {
         _status.value = LoadApiStatus.LOADING
-        _statusForGoogle.value = LoadApiStatus.LOADING
 
         coroutineScope.launch {
 
@@ -134,19 +115,17 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
-                    _statusForGoogle.value = LoadApiStatus.DONE
-                    _statusForFb.value = LoadApiStatus.DONE
 
                     if (result.data.id == uid) {
                         UserManager.id = uid
                         _user.value = result.data
+                        _navigateToLoginSuccess.value = user.value
                     }
                 }
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    _statusForGoogle.value = LoadApiStatus.ERROR
-                    _statusForFb.value = LoadApiStatus.ERROR
+
                     signUpUserProfile(
                         User(
                             name = UserManager.name!!,
@@ -158,16 +137,12 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
-                    _statusForGoogle.value = LoadApiStatus.ERROR
-                    _statusForFb.value = LoadApiStatus.ERROR
 
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
                     _status.value = LoadApiStatus.ERROR
-                    _statusForGoogle.value = LoadApiStatus.ERROR
-                    _statusForFb.value = LoadApiStatus.ERROR
 
                 }
             }
@@ -175,7 +150,6 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
     }
 
     private fun signUpUserProfile(userData: User, id: String) {
-        _statusForGoogle.value = LoadApiStatus.LOADING
         _status.value = LoadApiStatus.LOADING
 
         coroutineScope.launch {
@@ -183,32 +157,90 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
             when (val result = moodieTrailRepository.signUpUser(userData, id)) {
                 is Result.Success -> {
                     _error.value = null
-                    _statusForGoogle.value = LoadApiStatus.DONE
-                    _statusForFb.value = LoadApiStatus.DONE
                     _status.value = LoadApiStatus.DONE
                     _user.value = userData
+                    _navigateToLoginSuccess.value = user.value
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _statusForGoogle.value = LoadApiStatus.ERROR
-                    _statusForFb.value = LoadApiStatus.ERROR
                     _status.value = LoadApiStatus.ERROR
 
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _statusForGoogle.value = LoadApiStatus.ERROR
-                    _statusForFb.value = LoadApiStatus.ERROR
                     _status.value = LoadApiStatus.ERROR
 
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _statusForGoogle.value = LoadApiStatus.ERROR
-                    _statusForFb.value = LoadApiStatus.ERROR
                     _status.value = LoadApiStatus.ERROR
 
+                }
+            }
+        }
+    }
+
+    fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+
+        coroutineScope.launch {
+
+            _statusForGoogle.value = LoadApiStatus.LOADING
+
+            when (val result = moodieTrailRepository.firebaseAuthWithGoogle(acct)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _statusForGoogle.value = LoadApiStatus.DONE
+                    val user = getAuth().currentUser
+                    user?.let {
+                        UserManager.id = it.uid
+                        checkUser(it.uid)
+                    }
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _statusForGoogle.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _statusForGoogle.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = getString(R.string.you_know_nothing)
+                    _statusForGoogle.value = LoadApiStatus.ERROR
+                }
+            }
+        }
+
+    }
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+
+        coroutineScope.launch {
+
+            _statusForFb.value = LoadApiStatus.LOADING
+
+            when (val result = moodieTrailRepository.handleFacebookAccessToken(token)) {
+                is Result.Success -> {
+                    _error.value = null
+                    _statusForFb.value = LoadApiStatus.DONE
+                    val user = getAuth().currentUser
+                    user?.let {
+                        UserManager.id = it.uid
+                        checkUser(it.uid)
+                    }
+                }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _statusForFb.value = LoadApiStatus.ERROR
+                }
+                is Result.Error -> {
+                    _error.value = result.exception.toString()
+                    _statusForFb.value = LoadApiStatus.ERROR
+                }
+                else -> {
+                    _error.value = getString(R.string.you_know_nothing)
+                    _statusForFb.value = LoadApiStatus.ERROR
                 }
             }
         }
@@ -276,38 +308,13 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
         loginFacebook()
     }
 
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Logger.d("handleFacebookAccessToken:${token.token}")
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        getAuth().signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = getAuth().currentUser
-                    user?.let {
-                        UserManager.id = it.uid
-                        checkUser(it.uid)
-                    }
-                } else {
-                    // If sign in fails, display a message to the user.
-                    MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
-                    Logger.w("Authentication failed. signInWithCredential:failure: ${task.exception}")
-                }
-            }
-    }
-
-
-    fun navigateToLoginSuccess(user: User) {
-        _navigateToLoginSuccess.value = user
-    }
-
-    fun onLoginSuccessNavigated() {
-        _navigateToLoginSuccess.value = null
+    fun cancelLoginGoogle() {
+        _statusForGoogle.value = LoadApiStatus.ERROR
     }
 
     fun loginGoogle() {
         _loginGoogle.value = true
+        _statusForGoogle.value = LoadApiStatus.LOADING
     }
 
     fun onLoginGoogleCompleted() {
