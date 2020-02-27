@@ -21,6 +21,29 @@
         android:background="@color/white">
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/translucent_80"
+            android:elevation="1dp"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:theme="@style/ProgressThemeDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiStatus="@{viewModel.status}"
+            tools:visibility="visible" />
+
+        <ImageView
             android:id="@+id/image_app_logo"
             android:layout_width="120dp"
             android:layout_height="0dp"
@@ -70,10 +93,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="64dp"
             android:layout_marginTop="50dp"
+            android:clickable="@{viewModel.statusForFb == LoadApiStatus.LOADING ? false : true}"
             android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
-            android:paddingStart="13dp"
             android:drawablePadding="13.636dp"
-            android:text="@string/sign_in_with_fb"
+            android:onClick="@{() -> viewModel.login()}"
+            android:paddingStart="13dp"
+            android:text='@{viewModel.statusForFb != LoadApiStatus.LOADING ? @string/sign_in_with_fb : ""}'
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,12 +109,12 @@
             android:layout_height="@dimen/size_progress"
             android:elevation="2dp"
             android:theme="@style/ProgressThemeDark"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/button_fb_sign_in"
             app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"
             app:layout_constraintStart_toStartOf="@id/button_fb_sign_in"
             app:layout_constraintTop_toTopOf="@id/button_fb_sign_in"
-            tools:visibility="visible" />
+            app:setupApiStatus="@{viewModel.statusForFb}"
+            tools:visibility="gone" />
 
         <Button
             android:id="@+id/button_google_sign_in"
@@ -97,13 +122,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_advanced"
-            android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
+            android:clickable="@{viewModel.statusForGoogle == LoadApiStatus.LOADING ? false : true}"
             android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
+            android:drawablePadding="-10dp"
             android:drawableTint="@color/white"
             android:onClick="@{()->viewModel.loginGoogle()}"
             android:paddingStart="12dp"
-            android:drawablePadding="-10dp"
-            android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/sign_in_with_google : ""}'
+            android:text='@{viewModel.statusForGoogle != LoadApiStatus.LOADING ? @string/sign_in_with_google : ""}'
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@id/button_fb_sign_in"
             app:layout_constraintStart_toStartOf="@id/button_fb_sign_in"
@@ -113,9 +138,8 @@
         <ProgressBar
             android:layout_width="@dimen/size_progress"
             android:layout_height="@dimen/size_progress"
-            android:elevation="2dp"
-            android:theme="@style/ProgressTheme"
-            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            android:theme="@style/ProgressThemeDark"
+            android:visibility="@{viewModel.statusForGoogle == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/button_google_sign_in"
             app:layout_constraintEnd_toEndOf="@id/button_google_sign_in"
             app:layout_constraintStart_toStartOf="@id/button_google_sign_in"

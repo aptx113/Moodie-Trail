@@ -1,10 +1,12 @@
 package com.danteyu.studio.moodietrail
 
 import android.app.Application
+import android.content.Context
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.NetworkStateHolder.registerConnectivityBroadcaster
 import com.danteyu.studio.moodietrail.util.AppContainer
 import com.danteyu.studio.moodietrail.util.ServiceLocator
+import com.google.firebase.FirebaseApp
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -21,7 +23,7 @@ class MoodieTrailApplication : Application() {
     val moodieTrailRepository: MoodieTrailRepository
         get() = ServiceLocator.provideRepository(this)
 
-    val appContainer = AppContainer()
+    lateinit var appContainer: AppContainer
 
     companion object {
         var instance: MoodieTrailApplication by Delegates.notNull()
@@ -31,5 +33,8 @@ class MoodieTrailApplication : Application() {
         super.onCreate()
         instance = this
         registerConnectivityBroadcaster()
+
+        FirebaseApp.initializeApp(instance)
+        appContainer = AppContainer()
     }
 }

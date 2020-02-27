@@ -197,7 +197,7 @@ class MainActivity : BaseActivity() {
         binding.apply {
 
             fabRecordMood.visibility = View.VISIBLE
-            fabStartTest.visibility = View.VISIBLE
+            fabStartTest.show()
 
             fab.animate().rotation(135.0f)
             fabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
@@ -239,12 +239,10 @@ class MainActivity : BaseActivity() {
             fab.animate().rotation(0.0f)
             fabRecordMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
+
             textFabRecordMood.animate().alpha(0.0f).duration = 300
-//            textFabAddMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
-//                .translationX(resources.getDimension(R.dimen.standard_0)).duration = 1
             textFabStartTest.animate().alpha(0.0f).duration = 300
-//            textFabAddTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
-//                .translationX(resources.getDimension(R.dimen.standard_0)).duration = 1
+
             fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
             fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
@@ -256,7 +254,7 @@ class MainActivity : BaseActivity() {
                             binding.apply {
 
                                 fabRecordMood.visibility = View.GONE
-                                fabStartTest.visibility = View.GONE
+                                fabStartTest.hide()
 
                             }
                         }

@@ -20,8 +20,10 @@
     <string name="no_notes">Hi\u0020現在心情如何？\n點選新增按鈕開始記錄心情吧！</string>
 
     <!-- Login -->
-    <string name="sign_in_with_google">使用 Google 登入</string>
-    <string name="sign_in_with_fb">使用 Facebook 登入</string>
+    <string name="sign_in_with_google">Google 登入</string>
+    <string name="sign_in_with_fb">Facebook 登入</string>
+    <string name="facebook_app_id">175938063856476</string>
+    <string name="fb_login_protocol_scheme">fb175938063856476</string>
     <string name="slogan">關照你的每一天\nBe care for yourself</string>
     <string name="login_fail_toast">登入失敗，請稍後再試</string>
 
