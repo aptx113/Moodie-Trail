@@ -44,6 +44,12 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val navigateToRecordDetail: LiveData<Note>
         get() = _navigateToRecordDetail
 
+    // Handle navigation to record mood
+    private val _navigateToRecordMood = MutableLiveData<Boolean>()
+
+    val navigateToRecordMood: LiveData<Boolean>
+        get() = _navigateToRecordMood
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -139,6 +145,14 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun onRecordDetailNavigated() {
         _navigateToRecordDetail.value = null
+    }
+
+    fun navigateToRecordMood() {
+        _navigateToRecordMood.value = true
+    }
+
+    fun onRecordMoodNavigated() {
+        _navigateToRecordMood.value = null
     }
 
     fun refresh() {

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestRecordBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 
@@ -47,6 +48,15 @@ class PsyTestRecordFragment : Fragment() {
                     )
                 )
                 viewModel.onPsyTestResultNavigated()
+            }
+        })
+
+        viewModel.navigateToPsyTest.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    NavigationDirections.navigateToPsyTestFragment()
+                )
+                viewModel.onPsyTestNavigated()
             }
         })
 

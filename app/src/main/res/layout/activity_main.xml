@@ -66,7 +66,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_basic"
                 android:background="@drawable/ic_search"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -89,9 +89,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:elevation="5dp"
+            android:visibility="gone"
             android:onClick="@{()->viewModel.onFabPressed()}"
-            android:visibility="@{viewModel.isFabOpen()== false ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/toolbar"

@@ -74,8 +74,6 @@ class RecordMoodViewModel(
 
     val selectedMood = MutableLiveData<Int>()
 
-    val selectedMoodIcon = MutableLiveData<Mood>()
-
     // Handle show DatePickerDialog
     private val _showDatePickerDialog = MutableLiveData<Boolean>()
     val showDatePickerDialog: LiveData<Boolean>

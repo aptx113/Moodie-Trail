@@ -240,7 +240,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         PERMISSION_READ_EXTERNAL_STORAGE,
         options = quickPermissionsOption
     ) {
-        parentFragmentManager.let { fragmentManager ->
+        childFragmentManager.let { fragmentManager ->
             if (!imageSourceSelectorDialog.isInLayout) {
                 imageSourceSelectorDialog.show(fragmentManager, "Image Source Selector")
             }

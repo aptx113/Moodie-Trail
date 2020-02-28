@@ -31,9 +31,9 @@
                 android:id="@+id/recycler_psy_test"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="@dimen/margin_basic"
-                android:orientation="vertical"
                 android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_basic"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:psyTests="@{viewModel.psyTests}"
                 tools:listitem="@layout/item_psy_test">
@@ -44,6 +44,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.navigateToPsyTest()}"
             android:visibility="@{viewModel.psyTests.size == 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

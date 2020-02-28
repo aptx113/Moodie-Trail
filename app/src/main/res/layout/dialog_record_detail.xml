@@ -376,7 +376,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
-            android:clickable="@{viewModel.status == LoadApiStatus.LOADING ? false : true}"
+            android:clickable="@{viewModel.statusForPost == LoadApiStatus.LOADING ? false : true}"
             android:onClick="@{() -> viewModel.writeOrUpdate()}"
             app:buttonMoodColor="@{viewModel.note.mood}"
             app:existOfNote="@{viewModel.note.id}"
@@ -384,20 +384,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:loadApiStatus="@{viewModel.status}" />
+            app:loadApiStatus="@{viewModel.statusForPost}" />
 
         <ProgressBar
             android:id="@+id/progress_record_mood_quick_save"
             android:layout_width="@dimen/size_progress"
             android:layout_height="0dp"
             android:theme="@style/ProgressThemeDark"
-            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.statusForPost == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/button_record_detail_save"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/button_record_detail_save"
             app:layout_constraintStart_toStartOf="@id/button_record_detail_save"
             app:layout_constraintTop_toTopOf="@id/button_record_detail_save"
             tools:visibility="visible" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/ProgressTheme"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setupApiStatus="@{viewModel.status}"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/translucent_40"
+            android:elevation="1dp"
+            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

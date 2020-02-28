@@ -180,6 +180,11 @@ class RecordDetailViewModel(
         }
     }
 
+    private val _statusForPost = MutableLiveData<LoadApiStatus>()
+
+    val statusForPost: LiveData<LoadApiStatus>
+        get() = _statusForPost
+
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -357,7 +362,7 @@ class RecordDetailViewModel(
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
+            _statusForPost.value = LoadApiStatus.LOADING
 
             val result = moodieTrailRepository.uploadNoteImage(
                 uid, noteImage, date.toDisplayFormat(
@@ -368,24 +373,24 @@ class RecordDetailViewModel(
             _noteImage.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    _statusForPost.value = LoadApiStatus.DONE
                     result.data
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = UPLOAD_IMAGE_FAIL
                     null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     null
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     null
                 }
             }
@@ -396,14 +401,14 @@ class RecordDetailViewModel(
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
+            _statusForPost.value = LoadApiStatus.LOADING
 
             val result = moodieTrailRepository.postNote(uid, note)
 
             when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    _statusForPost.value = LoadApiStatus.DONE
                     getNotesResultByDateRange(
                         uid,
                         getStartTimeOfDate(_dateOfNote.value!!)!!,
@@ -414,17 +419,17 @@ class RecordDetailViewModel(
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = POST_NOTE_FAIL
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
             }
 
@@ -524,29 +529,29 @@ class RecordDetailViewModel(
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
+            _statusForPost.value = LoadApiStatus.LOADING
             val result = moodieTrailRepository.updateNote(uid, editedNote, noteId)
 
             when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    _statusForPost.value = LoadApiStatus.DONE
                     _noteRelatedCondition.value = UPDATE_NOTE_SUCCESS
 
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = UPDATE_NOTE_FAIL
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
             }
             navigateToHome()

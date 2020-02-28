@@ -83,6 +83,10 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
 
+    fun changeFabStatus(){
+        _isFabOpen.value = false
+    }
+
     fun navigateToRecordMood() {
         _navigateToRecordMood.value = true
         _isFabOpen.value = false
