@@ -90,13 +90,17 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.imageNoteImage.clipToOutline = true
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER ) {
                 viewModel.addNoteTag()
                 true
             } else false
         }
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
+
+        viewModel.newTag.observe(viewLifecycleOwner, Observer {
+            Logger.w("newTag = $it")
+        })
 
         viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
@@ -346,7 +350,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
     }
 
-//        private fun getPermissionsByNative() {
+    //        private fun getPermissionsByNative() {
 //
 //        val permissions = arrayOf(
 //            PERMISSION_CAMERA,

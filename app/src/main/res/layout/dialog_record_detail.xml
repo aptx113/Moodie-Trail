@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="@dimen/margin_half"
+                android:clickable='@{viewModel.note.id == "" ? true : false}'
                 android:onClick="@{() -> viewModel.showDatePickerDialog()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +103,7 @@
                 android:layout_marginStart="@dimen/margin_half"
                 android:layout_marginTop="0.5dp"
                 android:layout_marginEnd="@dimen/margin_basic"
+                android:clickable='@{viewModel.note.id == "" ? true : false}'
                 android:onClick="@{() -> viewModel.showTimePickerDialog()}"
                 app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"
                 app:layout_constraintEnd_toStartOf="@id/layout_record_detail_location"
@@ -214,11 +216,11 @@
                     android:cropToPadding="false"
                     android:onClick="@{()->viewModel.showImageSelector()}"
                     android:scaleType="center"
-                    app:imageUrl='@{viewModel.note.image == null ? "" : viewModel.note.image}'
+                    app:imageUrl='@{viewModel.note.image}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@color/transparent" />
+                    app:srcCompat="@drawable/ic_placeholder_2" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_photo_hint"
@@ -235,6 +237,7 @@
                         android:id="@+id/image_photo_hint"
                         android:layout_width="70dp"
                         android:layout_height="0dp"
+                        app:imagePickerMoodColor="@{viewModel.note.mood}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -254,7 +257,8 @@
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="@id/image_photo_hint"
                         app:layout_constraintStart_toStartOf="@id/image_photo_hint"
-                        app:layout_constraintTop_toBottomOf="@id/image_photo_hint" />
+                        app:layout_constraintTop_toBottomOf="@id/image_photo_hint"
+                        app:textMoodColor="@{viewModel.note.mood}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -265,10 +269,10 @@
                     android:layout_marginTop="@dimen/margin_advanced"
                     android:fontFamily="@font/droid_sans"
                     android:text="@string/what_happen"
-                    android:textColor="@color/blue_700_Dark"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image_note_image" />
+                    app:layout_constraintTop_toBottomOf="@id/image_note_image"
+                    app:textMoodColor="@{viewModel.note.mood}" />
 
                 <EditText
                     android:id="@+id/edit_record_detail_content"
@@ -284,7 +288,7 @@
                     android:scrollbars="vertical"
                     android:text="@={viewModel.note.content}"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/gray_646464"
+                    android:textColorHint="@color/gray_888888"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/text_content_title"
@@ -300,7 +304,8 @@
                     android:textColor="@color/blue_700_Dark"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@id/text_content_title"
-                    app:layout_constraintTop_toBottomOf="@id/edit_record_detail_content" />
+                    app:layout_constraintTop_toBottomOf="@id/edit_record_detail_content"
+                    app:textMoodColor="@{viewModel.note.mood}" />
 
                 <EditText
                     android:id="@+id/edit_record_detail_tag"
@@ -315,7 +320,7 @@
                     android:padding="6dp"
                     android:text="@={viewModel.newTag}"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/gray_646464"
+                    android:textColorHint="@color/gray_888888"
                     android:textSize="@dimen/text_size_tag"
                     app:layout_constraintEnd_toStartOf="@id/button_record_detail_add_tags"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -328,6 +333,7 @@
                     android:layout_width="24dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/margin_basic"
+                    android:clickable='@{!viewModel.newTag.isEmpty ? true : false }'
                     android:onClick="@{() -> viewModel.addNoteTag()}"
                     app:imageButtonMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintBottom_toBottomOf="@id/edit_record_detail_tag"
@@ -336,6 +342,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/edit_record_detail_tag"
                     app:layout_constraintTop_toTopOf="@id/edit_record_detail_tag"
+                    app:newTag="@{viewModel.newTag}"
                     app:srcCompat="@drawable/ic_action_add" />
 
                 <ImageView
@@ -402,8 +409,8 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/ProgressTheme"
             android:elevation="1dp"
+            android:theme="@style/ProgressTheme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -420,7 +427,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

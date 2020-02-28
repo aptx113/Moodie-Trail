@@ -13,22 +13,10 @@ import com.danteyu.studio.moodietrail.util.Logger
 class PsyTestRatingViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
     ViewModel() {
 
-    private val _backToPsyTestResult = MutableLiveData<Boolean>()
-
-    val backToPsyTestResult: LiveData<Boolean>
-        get() = _backToPsyTestResult
-
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
     }
 
-    fun backToPsyTestResult() {
-        _backToPsyTestResult.value = true
-    }
-
-    fun onPsyTestResultBacked() {
-        _backToPsyTestResult.value = null
-    }
 }

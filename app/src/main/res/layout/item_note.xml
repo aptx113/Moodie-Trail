@@ -35,7 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder"
             android:visibility="@{note.image == null ? View.GONE : View.VISIBLE}"
             app:imageUrl="@{note.image}"
             app:layout_constraintDimensionRatio="1:1"

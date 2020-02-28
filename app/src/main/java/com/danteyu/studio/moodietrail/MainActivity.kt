@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.dialog.MessageDialog
@@ -97,6 +98,8 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         binding.fabRecordMood.setTouchDelegate()
         binding.fabStartTest.setTouchDelegate()
+        binding.buttonTestBodyBack.setTouchDelegate()
+        binding.buttonTestResultBack.setTouchDelegate()
 
         messageDialog = MessageDialog()
 
@@ -147,6 +150,22 @@ class MainActivity : BaseActivity() {
 
                 viewModel.onLoginSuccessNavigated()
 
+            }
+        })
+
+        viewModel.backToPsyTest.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigateUp()
+                viewModel.onPsyTestBacked()
+            }
+        })
+
+        viewModel.navigateToPsyTestRecord.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
+                binding.bottomNavView.selectedItemId =
+                    R.id.navigation_psy_test_record
+                viewModel.onPsyTestRecordNavigated()
             }
         })
 

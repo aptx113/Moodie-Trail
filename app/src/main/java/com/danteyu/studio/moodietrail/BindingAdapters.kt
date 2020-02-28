@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.PlaceHolder
@@ -232,6 +233,25 @@ fun bindMoodColorForLayout(constraintLayout: ConstraintLayout, mood: Int?) {
     }
 }
 
+@BindingAdapter("textMoodColor")
+fun bindMoodColorForText(textView: TextView, mood: Int?) {
+    mood?.let {
+        textView.setTextColor(
+            getColor(
+                when (it) {
+                    1 -> R.color.mood_very_bad_Dark
+                    2 -> R.color.mood_bad_Dark
+                    3 -> R.color.mood_normal_Dark
+                    4 -> R.color.mood_good_Dark
+                    5 -> R.color.mood_very_good_Dark
+                    else -> R.color.blue_700_Dark
+                }
+            )
+
+        )
+    }
+}
+
 @BindingAdapter("buttonMoodColor")
 fun bindMoodColorForButton(button: Button, mood: Int?) {
     mood?.let {
@@ -244,6 +264,44 @@ fun bindMoodColorForButton(button: Button, mood: Int?) {
                 5 -> R.color.mood_very_good
                 else -> R.color.blue_700
             }
+        )
+    }
+}
+
+@BindingAdapter("placeholderMoodColor")
+fun bindMoodColorForPlaceholder(imageView: ImageView, mood: Int?) {
+    mood?.let {
+        imageView.setBackgroundColor(
+            getColor(
+                when (it) {
+                    1 -> R.color.mood_very_bad_Light
+                    2 -> R.color.mood_bad_Light
+                    3 -> R.color.mood_normal_Light
+                    4 -> R.color.mood_good_Light
+                    5 -> R.color.mood_very_good_Light
+                    else -> R.color.blue_700_Light
+                }
+            )
+        )
+
+
+    }
+}
+
+@BindingAdapter("imagePickerMoodColor")
+fun bindMoodColorForImagePicker(imageView: ImageView, mood: Int?) {
+    mood?.let {
+        imageView.setColorFilter(
+            getColor(
+                when (it) {
+                    1 -> R.color.mood_very_bad_Light
+                    2 -> R.color.mood_bad_Light
+                    3 -> R.color.mood_normal_Light
+                    4 -> R.color.mood_good_Light
+                    5 -> R.color.mood_very_good_Light
+                    else -> R.color.blue_700_Light
+                }
+            )
         )
     }
 }
@@ -266,21 +324,25 @@ fun bindMoodColorForImage(imageView: ImageView, mood: Int?) {
     }
 }
 
-@BindingAdapter("imageButtonMoodColor")
-fun bindMoodColorForImageButton(imageButton: ImageButton, mood: Int?) {
+@BindingAdapter("imageButtonMoodColor", "newTag")
+fun bindMoodColorForImageButton(imageButton: ImageButton, mood: Int?, newTag: String?) {
     mood?.let {
-        imageButton.setColorFilter(
-            getColor(
-                when (it) {
-                    1 -> R.color.mood_very_bad
-                    2 -> R.color.mood_bad
-                    3 -> R.color.mood_normal
-                    4 -> R.color.mood_good
-                    5 -> R.color.mood_very_good
-                    else -> R.color.blue_700
-                }
+        if (newTag.isNullOrEmpty()) {
+            imageButton.setColorFilter(getColor(R.color.gray_999999))
+        } else {
+            imageButton.setColorFilter(
+                getColor(
+                    when (it) {
+                        1 -> R.color.mood_very_bad
+                        2 -> R.color.mood_bad
+                        3 -> R.color.mood_normal
+                        4 -> R.color.mood_good
+                        5 -> R.color.mood_very_good
+                        else -> R.color.blue_700
+                    }
+                )
             )
-        )
+        }
     }
 }
 
@@ -334,19 +396,17 @@ fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
 
-    val imgUri =
-        if (imgUrl == "null" || imgUrl == "" || imgUrl == null) PlaceHolder.values().toList().shuffled().first().value.toUri().buildUpon().scheme(
-            "https"
-        ).build() else imgUrl.toUri().buildUpon().scheme("https").build()
-    GlideApp.with(imgView.context)
-        .load(imgUri)
-        .apply(
-            RequestOptions()
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_placeholder)
-        )
-        .into(imgView)
-
+    imgUrl?.let {
+        val imgUri = it.toUri().buildUpon().build()
+        GlideApp.with(imgView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.mipmap.ic_launcher)
+            )
+            .into(imgView)
+    }
 }
 
 /**
@@ -472,6 +532,9 @@ fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
     }
 }
 
+/**
+ * Determine text display on [RecordDetailDialog]'s button base on [LoadApiStatus] and whether it is existed [Note]
+ */
 @BindingAdapter("loadApiStatus", "existOfNote")
 fun setupTextForButton(button: Button, status: LoadApiStatus?, noteId: String?) {
     when (status) {
@@ -494,7 +557,7 @@ fun setupTextForButton(button: Button, status: LoadApiStatus?, noteId: String?) 
 fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
     when (status) {
         LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
-       else -> view.visibility = View.GONE
+        else -> view.visibility = View.GONE
     }
 }
 

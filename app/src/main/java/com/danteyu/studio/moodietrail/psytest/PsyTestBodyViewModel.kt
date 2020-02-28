@@ -111,11 +111,6 @@ class PsyTestBodyViewModel(private val moodieTrailRepository: MoodieTrailReposit
     val navigateToPsyTestResult: LiveData<PsyTest>
         get() = _navigateToPsyTestResult
 
-    private val _backToPsyTest = MutableLiveData<Boolean>()
-
-    val backToPsyTest: LiveData<Boolean>
-        get() = _backToPsyTest
-
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
 
@@ -219,14 +214,6 @@ class PsyTestBodyViewModel(private val moodieTrailRepository: MoodieTrailReposit
 
     fun onPsyTestResultNavigated() {
         _navigateToPsyTestResult.value = null
-    }
-
-    fun backToPsyTest() {
-        _backToPsyTest.value = true
-    }
-
-    fun onPsyTestBacked() {
-        _backToPsyTest.value = null
     }
 
     companion object {

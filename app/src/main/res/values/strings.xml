@@ -148,7 +148,6 @@
     <string name="medium_score">10–14\u0020分</string>
     <string name="heavy_score">15\u0020以上</string>
     <string name="mental_health_resources">心衛資源</string>
-    <string name="psy_test_result_rating">認識心情分級</string>
     <string name="delete_record">刪除心情記錄</string>
 
     <!-- PsyTestRecord -->

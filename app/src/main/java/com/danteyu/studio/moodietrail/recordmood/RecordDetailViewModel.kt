@@ -281,14 +281,17 @@ class RecordDetailViewModel(
     }
 
     fun addNoteTag() {
-
-        newTag.value?.let {
-            tags.value?.add(it)
-        }
+//        if (newTag.value != "") {
+            newTag.value?.let {
+                tags.value?.add(it)
+            }
 //        Logger.d("addNoteTags, tag = ${newTag.value}")
-        tags.value = tags.value
-        newTag.value = ""
-        Logger.d("addNoteTags, tags = ${tags.value}")
+            tags.value = tags.value
+            newTag.value = ""
+            Logger.d("addNoteTags, tags = ${tags.value}")
+//        }else{
+//            return
+
     }
 
     fun removeNoteTag(tag: String) {

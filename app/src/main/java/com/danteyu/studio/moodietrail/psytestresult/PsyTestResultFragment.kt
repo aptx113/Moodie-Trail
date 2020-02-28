@@ -77,7 +77,6 @@ class PsyTestResultFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonTestResultBack.setTouchDelegate()
 
         setupPsyTestChart()
 

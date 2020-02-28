@@ -43,7 +43,7 @@ class PsyTestBodyFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonTestBodyBack.setTouchDelegate()
+//        binding.buttonTestBodyBack.setTouchDelegate()
 
         viewModel.submitSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -97,13 +97,6 @@ class PsyTestBodyFragment : Fragment() {
                     )
                 )
                 viewModel.onPsyTestResultNavigated()
-            }
-        })
-
-        viewModel.backToPsyTest.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                findNavController().navigateUp()
-                viewModel.onPsyTestBacked()
             }
         })
 
