@@ -6,6 +6,7 @@ import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,6 +50,22 @@ class PsyTestResultFragment : Fragment() {
     }
     private lateinit var binding: FragmentPsyTestResultBinding
     private lateinit var psyTestChart: BarChart
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // This callback will only be called when Fragment is at least Started.
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+
+            // Handle the back button event
+            findNavController().navigate(NavigationDirections.navigateToPsyTestRecordFragment())
+            (activity as MainActivity).bottomNavView.selectedItemId =
+                R.id.navigation_psy_test_record
+
+        }
+
+        // The callback can be enabled or disabled here or in the lambda
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

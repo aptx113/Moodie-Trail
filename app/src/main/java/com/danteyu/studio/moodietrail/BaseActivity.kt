@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
  */
 open class BaseActivity : AppCompatActivity(), CoroutineScope {
 
-    val job = Job()
+    private val job = Job()
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -42,17 +42,20 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
 
                     window?.let {
-                        val displayCutout: DisplayCutout? = it.decorView.rootWindowInsets.displayCutout
-                        Logger.d("displayCutout?.safeInsetTop=${displayCutout?.safeInsetTop}")
-                        Logger.d("displayCutout?.safeInsetBottom=${displayCutout?.safeInsetBottom}")
-                        Logger.d("displayCutout?.safeInsetLeft=${displayCutout?.safeInsetLeft}")
-                        Logger.d("displayCutout?.safeInsetRight=${displayCutout?.safeInsetRight}")
+                        it.decorView.rootWindowInsets?.let { windowInsect ->
+                            val displayCutout: DisplayCutout? = windowInsect.displayCutout
+                            Logger.d("displayCutout?.safeInsetTop=${displayCutout?.safeInsetTop}")
+                            Logger.d("displayCutout?.safeInsetBottom=${displayCutout?.safeInsetBottom}")
+                            Logger.d("displayCutout?.safeInsetLeft=${displayCutout?.safeInsetLeft}")
+                            Logger.d("displayCutout?.safeInsetRight=${displayCutout?.safeInsetRight}")
 
-                        val rects: List<Rect>? = displayCutout?.boundingRects
-                        Logger.d("rects?.size=${rects?.size}")
-                        Logger.d("rects=$rects")
+                            val rects: List<Rect>? = displayCutout?.boundingRects
+                            Logger.d("rects?.size=${rects?.size}")
+                            Logger.d("rects=$rects")
 
-                        displayCutout?.safeInsetTop ?: 0
+                            displayCutout?.safeInsetTop ?: 0
+
+                        } ?: 0
                     } ?: 0
                 }
                 else -> 0
@@ -73,6 +76,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = Color.TRANSPARENT // calculateStatusColor(Color.WHITE, (int) alphaValue)
+        window.statusBarColor =
+            Color.TRANSPARENT // calculateStatusColor(Color.WHITE, (int) alphaValue)
     }
 }
