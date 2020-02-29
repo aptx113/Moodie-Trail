@@ -9,7 +9,6 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
@@ -41,7 +40,7 @@ class RecordDetailViewModel(
     val note: LiveData<Note>
         get() = _note
 
-    val _noteImage = MutableLiveData<String>()
+    val noteImage = MutableLiveData<String>()
 
     private val notesByDate = MutableLiveData<List<Note>>()
 
@@ -64,7 +63,7 @@ class RecordDetailViewModel(
 
     //  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
     val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
-        addSource(_noteImage) {
+        addSource(noteImage) {
             UserManager.id?.let { id ->
 
                 if (_note.value?.id == "") {
@@ -73,7 +72,7 @@ class RecordDetailViewModel(
                             date = _dateOfNote.value!!,
                             weekOfMonth = weekOfMonthOfNote.value!!,
                             mood = _note.value!!.mood,
-                            image = _noteImage.value,
+                            image = noteImage.value,
                             content = _note.value!!.content,
                             tags = tags.value
                         )
@@ -83,7 +82,7 @@ class RecordDetailViewModel(
                         id, Note(
                             date = _dateOfNote.value!!,
                             weekOfMonth = weekOfMonthOfNote.value!!,
-                            image = _noteImage.value,
+                            image = noteImage.value,
                             content = _note.value!!.content,
                             tags = tags.value
                         ), _note.value!!.id
@@ -278,16 +277,15 @@ class RecordDetailViewModel(
     }
 
     fun addNoteTag() {
-//        if (newTag.value != "") {
-            newTag.value?.let {
-                tags.value?.add(it)
-            }
-//        Logger.d("addNoteTags, tag = ${newTag.value}")
-            tags.value = tags.value
-            newTag.value = ""
-            Logger.d("addNoteTags, tags = ${tags.value}")
-//        }else{
-//            return
+
+        newTag.value?.let {
+            tags.value?.add(it)
+        }
+
+        tags.value = tags.value
+        newTag.value = ""
+        Logger.d("addNoteTags, tags = ${tags.value}")
+
 
     }
 
@@ -301,6 +299,11 @@ class RecordDetailViewModel(
 
     fun setImage(bitmap: Bitmap?) {
         _selectedImage.value = bitmap
+    }
+
+    fun removeImage() {
+        _selectedImage.value = null
+        _note.value?.image = null
     }
 
     fun writeOrUpdate() {
@@ -370,7 +373,7 @@ class RecordDetailViewModel(
                 )
             )
 
-            _noteImage.value = when (result) {
+            this@RecordDetailViewModel.noteImage.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
                     _statusForPost.value = LoadApiStatus.DONE

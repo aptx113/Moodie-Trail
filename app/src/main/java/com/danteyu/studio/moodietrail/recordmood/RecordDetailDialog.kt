@@ -213,6 +213,13 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
+//                GlideApp.with(this)
+//                    .load(viewModel.selectedImage.value)
+//                    .apply(
+//                        RequestOptions()
+//                            .error(R.mipmap.ic_launcher)
+//                    )
+//                    .into(binding.imageNoteImage)
                 binding.imageNoteImage.setImageBitmap(bitmap)
                 imageSourceSelectorDialog.dismiss()
 
