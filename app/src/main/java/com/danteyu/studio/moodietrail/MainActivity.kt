@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.dialog.MessageDialog
@@ -22,6 +23,7 @@ import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.launch
 
 
@@ -46,21 +48,33 @@ class MainActivity : BaseActivity() {
                         R.id
                             .myNavHostFragment
                     ).navigate(NavigationDirections.navigateToHomeFragment())
+                    if (viewModel.isFabOpen.value == true) {
+                        viewModel.changeFabStatus()
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_statistic -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToStatisticFragment())
+                    if (viewModel.isFabOpen.value == true) {
+                        viewModel.changeFabStatus()
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_psy_test_record -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
+                    if (viewModel.isFabOpen.value == true) {
+                        viewModel.changeFabStatus()
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
+                    if (viewModel.isFabOpen.value == true) {
+                        viewModel.changeFabStatus()
+                    }
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -85,6 +99,8 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
         binding.fabRecordMood.setTouchDelegate()
         binding.fabStartTest.setTouchDelegate()
+        binding.buttonTestBodyBack.setTouchDelegate()
+        binding.buttonTestResultBack.setTouchDelegate()
 
         messageDialog = MessageDialog()
 
@@ -134,7 +150,31 @@ class MainActivity : BaseActivity() {
 //                }
 
                 viewModel.onLoginSuccessNavigated()
+                viewModel.navigateToHome()
 
+            }
+        })
+
+        viewModel.navigateToHome.observe(this, Observer {
+            it?.let {
+                binding.bottomNavView.selectedItemId = R.id.navigation_home
+                viewModel.onHomeNavigated()
+            }
+        })
+
+        viewModel.backToPsyTest.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigateUp()
+                viewModel.onPsyTestBacked()
+            }
+        })
+
+        viewModel.navigateToPsyTestRecord.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
+                binding.bottomNavView.selectedItemId =
+                    R.id.navigation_psy_test_record
+                viewModel.onPsyTestRecordNavigated()
             }
         })
 
@@ -219,6 +259,7 @@ class MainActivity : BaseActivity() {
 
             fabRecordMood.visibility = View.VISIBLE
             fabStartTest.show()
+            fabShadow.visibility = View.VISIBLE
 
             fab.animate().rotation(135.0f)
             fabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
@@ -245,18 +286,21 @@ class MainActivity : BaseActivity() {
             || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTEST
             || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTBODY
             || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRESULT
-            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRATING ) {
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTESTRATING
+        ) {
             binding.fabRecordMood.visibility = View.GONE
             binding.fabStartTest.visibility = View.GONE
+            binding.fabShadow.visibility = View.GONE
             binding.textFabRecordMood.alpha = 0.0f
             binding.textFabStartTest.alpha = 0.0f
-        } else {
-            binding.textFabRecordMood.alpha = 1.0f
-            binding.textFabStartTest.alpha = 1.0f
         }
+//        } else {
+//            binding.textFabRecordMood.alpha = 1.0f
+//            binding.textFabStartTest.alpha = 1.0f
+//        }
 
         binding.apply {
-
+            fabShadow.visibility = View.GONE
             fab.animate().rotation(0.0f)
             fabRecordMood.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
@@ -268,31 +312,31 @@ class MainActivity : BaseActivity() {
                 .translationX(resources.getDimension(R.dimen.standard_0))
             fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
-                .setListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(animator: Animator) {}
-                    override fun onAnimationEnd(animator: Animator) {
-                        if (!viewModel?.isFabOpen?.value!!) {
-                            binding.apply {
-
-                                fabRecordMood.visibility = View.GONE
-                                fabStartTest.hide()
-
-                            }
-                        }
-                    }
-
-                    override fun onAnimationCancel(animator: Animator) {}
-                    override fun onAnimationRepeat(animator: Animator) {}
-                })
+//                .setListener(object : Animator.AnimatorListener {
+//                    override fun onAnimationStart(animator: Animator) {}
+//                    override fun onAnimationEnd(animator: Animator) {
+//                        if (!viewModel?.isFabOpen?.value!!) {
+//                            binding.apply {
+//
+//                                fabRecordMood.visibility = View.GONE
+//                                fabStartTest.hide()
+//
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onAnimationCancel(animator: Animator) {}
+//                    override fun onAnimationRepeat(animator: Animator) {}
+//                })
         }
 
     }
 
-    override fun onBackPressed() {
-        if (viewModel.isFabOpen.value!!) {
-            closeFabMenu()
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (viewModel.isFabOpen.value!!) {
+//            closeFabMenu()
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 }

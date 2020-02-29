@@ -20,63 +20,6 @@
         android:layout_height="match_parent"
         android:background="@color/gray_f0f0f0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_psy_test_result_top"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_toolbar"
-            android:background="@color/blue_700"
-            android:elevation="@dimen/elevation_all"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_basic"
-                app:layout_constraintBottom_toBottomOf="@id/text_psy_test_result_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/text_psy_test_result_title">
-
-                <ImageButton
-                    android:id="@+id/button_test_result_back"
-                    android:layout_width="24dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/ic_back"
-                    android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/droid_sans"
-                    android:text="返回測驗記錄"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@id/button_test_result_back"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/text_psy_test_result_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_toolbar_gone_top"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/droid_sans"
-                android:text="@string/psy_test_result"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_result_rating"
@@ -88,7 +31,7 @@
             android:elevation="@dimen/elevation_all"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_psy_test_result_top"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="218dp">
 
             <TextView
@@ -243,7 +186,7 @@
             android:layout_marginTop="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
             android:onClick="@{() -> viewModel.navigateToPsyTestRating()}"
-            android:text="@string/psy_test_result_rating"
+            android:text="@string/psy_test_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_mental_health_resource"
@@ -279,3 +222,43 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--android:id="@+id/layout_psy_test_result_top"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/height_toolbar"-->
+    <!--android:background="@color/blue_700"-->
+    <!--android:elevation="@dimen/elevation_all"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent">-->
+
+
+    <!--<ImageButton-->
+    <!--    android:id="@+id/button_test_result_back"-->
+    <!--    android:layout_width="24dp"-->
+    <!--    android:layout_height="0dp"-->
+    <!--    android:background="@drawable/ic_back"-->
+    <!--    android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"-->
+    <!--    app:layout_constraintDimensionRatio="1:1"-->
+    <!--    app:layout_constraintStart_toStartOf="parent"-->
+    <!--    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--<TextView-->
+    <!--    android:id="@+id/text_psy_test_result_title"-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_marginTop="@dimen/size_toolbar_gone_top"-->
+    <!--    android:layout_marginBottom="20dp"-->
+    <!--    android:fontFamily="@font/droid_sans"-->
+    <!--    android:text="@string/psy_test_result"-->
+    <!--    android:textColor="@color/white"-->
+    <!--    android:textSize="20sp"-->
+    <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--    app:layout_constraintStart_toStartOf="parent"-->
+    <!--    app:layout_constraintTop_toTopOf="parent"-->
+    <!--    app:layout_constraintVertical_bias="1.0" />-->
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

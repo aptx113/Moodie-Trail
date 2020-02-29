@@ -38,6 +38,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -97,6 +98,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
+
+        viewModel.newTag.observe(viewLifecycleOwner, Observer {
+            Logger.w("newTag = $it")
+        })
 
         viewModel.averageMoodScore.observe(viewLifecycleOwner, Observer {
             Logger.w("averageMood = $it")
@@ -206,8 +211,14 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
-
-                GlideApp.with(this).load(data.data).into(binding.imageNoteImage)
+//                GlideApp.with(this)
+//                    .load(viewModel.selectedImage.value)
+//                    .apply(
+//                        RequestOptions()
+//                            .error(R.mipmap.ic_launcher)
+//                    )
+//                    .into(binding.imageNoteImage)
+                binding.imageNoteImage.setImageBitmap(bitmap)
                 imageSourceSelectorDialog.dismiss()
 
 
@@ -222,7 +233,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(imageBitmap)
-                GlideApp.with(this).load(filePath).into(binding.imageNoteImage)
+                binding.imageNoteImage.setImageBitmap(imageBitmap)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null
@@ -240,7 +251,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         PERMISSION_READ_EXTERNAL_STORAGE,
         options = quickPermissionsOption
     ) {
-        parentFragmentManager.let { fragmentManager ->
+        childFragmentManager.let { fragmentManager ->
             if (!imageSourceSelectorDialog.isInLayout) {
                 imageSourceSelectorDialog.show(fragmentManager, "Image Source Selector")
             }
@@ -346,7 +357,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
     }
 
-//        private fun getPermissionsByNative() {
+    //        private fun getPermissionsByNative() {
 //
 //        val permissions = arrayOf(
 //            PERMISSION_CAMERA,

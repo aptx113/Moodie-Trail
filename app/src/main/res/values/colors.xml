@@ -54,6 +54,11 @@
     <color name="mood_normal_Light">#76c6c7</color>
     <color name="mood_bad_Light">#8ab2ca</color>
     <color name="mood_very_bad_Light">#aaaaaa</color>
+    <color name="mood_very_good_Dark">#be8e1a</color>
+    <color name="mood_good_Dark">#3a9253</color>
+    <color name="mood_normal_Dark">#349292</color>
+    <color name="mood_bad_Dark">#497993</color>
+    <color name="mood_very_bad_Dark">#727172</color>
 
     <!-- Psy Test -->
     <color name="normal_range">#4ab768</color>

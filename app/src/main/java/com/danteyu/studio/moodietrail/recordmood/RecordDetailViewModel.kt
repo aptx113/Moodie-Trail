@@ -9,7 +9,6 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
@@ -41,10 +40,7 @@ class RecordDetailViewModel(
     val note: LiveData<Note>
         get() = _note
 
-    private val _noteImage = MutableLiveData<String>()
-
-    val noteImage: LiveData<String>
-        get() = _noteImage
+    val noteImage = MutableLiveData<String>()
 
     private val notesByDate = MutableLiveData<List<Note>>()
 
@@ -67,7 +63,7 @@ class RecordDetailViewModel(
 
     //  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
     val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
-        addSource(_noteImage) {
+        addSource(noteImage) {
             UserManager.id?.let { id ->
 
                 if (_note.value?.id == "") {
@@ -76,7 +72,7 @@ class RecordDetailViewModel(
                             date = _dateOfNote.value!!,
                             weekOfMonth = weekOfMonthOfNote.value!!,
                             mood = _note.value!!.mood,
-                            image = _noteImage.value,
+                            image = noteImage.value,
                             content = _note.value!!.content,
                             tags = tags.value
                         )
@@ -86,7 +82,7 @@ class RecordDetailViewModel(
                         id, Note(
                             date = _dateOfNote.value!!,
                             weekOfMonth = weekOfMonthOfNote.value!!,
-                            image = _noteImage.value,
+                            image = noteImage.value,
                             content = _note.value!!.content,
                             tags = tags.value
                         ), _note.value!!.id
@@ -179,6 +175,11 @@ class RecordDetailViewModel(
             }
         }
     }
+
+    private val _statusForPost = MutableLiveData<LoadApiStatus>()
+
+    val statusForPost: LiveData<LoadApiStatus>
+        get() = _statusForPost
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -280,10 +281,12 @@ class RecordDetailViewModel(
         newTag.value?.let {
             tags.value?.add(it)
         }
-//        Logger.d("addNoteTags, tag = ${newTag.value}")
+
         tags.value = tags.value
         newTag.value = ""
         Logger.d("addNoteTags, tags = ${tags.value}")
+
+
     }
 
     fun removeNoteTag(tag: String) {
@@ -296,6 +299,11 @@ class RecordDetailViewModel(
 
     fun setImage(bitmap: Bitmap?) {
         _selectedImage.value = bitmap
+    }
+
+    fun removeImage() {
+        _selectedImage.value = null
+        _note.value?.image = null
     }
 
     fun writeOrUpdate() {
@@ -357,7 +365,7 @@ class RecordDetailViewModel(
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
+            _statusForPost.value = LoadApiStatus.LOADING
 
             val result = moodieTrailRepository.uploadNoteImage(
                 uid, noteImage, date.toDisplayFormat(
@@ -365,27 +373,27 @@ class RecordDetailViewModel(
                 )
             )
 
-            _noteImage.value = when (result) {
+            this@RecordDetailViewModel.noteImage.value = when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    _statusForPost.value = LoadApiStatus.DONE
                     result.data
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = UPLOAD_IMAGE_FAIL
                     null
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     null
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     null
                 }
             }
@@ -396,14 +404,14 @@ class RecordDetailViewModel(
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
+            _statusForPost.value = LoadApiStatus.LOADING
 
             val result = moodieTrailRepository.postNote(uid, note)
 
             when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    _statusForPost.value = LoadApiStatus.DONE
                     getNotesResultByDateRange(
                         uid,
                         getStartTimeOfDate(_dateOfNote.value!!)!!,
@@ -414,17 +422,17 @@ class RecordDetailViewModel(
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = POST_NOTE_FAIL
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
             }
 
@@ -524,29 +532,29 @@ class RecordDetailViewModel(
 
         coroutineScope.launch {
 
-            _status.value = LoadApiStatus.LOADING
+            _statusForPost.value = LoadApiStatus.LOADING
             val result = moodieTrailRepository.updateNote(uid, editedNote, noteId)
 
             when (result) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = LoadApiStatus.DONE
+                    _statusForPost.value = LoadApiStatus.DONE
                     _noteRelatedCondition.value = UPDATE_NOTE_SUCCESS
 
                 }
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                     _noteRelatedCondition.value = UPDATE_NOTE_FAIL
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
                 else -> {
                     _error.value =
                         MoodieTrailApplication.instance.getString(R.string.you_know_nothing)
-                    _status.value = LoadApiStatus.ERROR
+                    _statusForPost.value = LoadApiStatus.ERROR
                 }
             }
             navigateToHome()

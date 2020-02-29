@@ -16,10 +16,6 @@ class DefaultMoodieTrailRepository(
     private val moodieTrailLocalDataSource: MoodieTrailDataSource
 ) : MoodieTrailRepository {
 
-    override suspend fun getNotes(uid: String): Result<List<Note>> {
-        return remoteDataSource.getNotes(uid)
-    }
-
     override suspend fun getNotesByDateRange(
         uid: String,
         startDate: Long,

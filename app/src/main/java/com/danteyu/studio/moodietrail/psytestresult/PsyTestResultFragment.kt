@@ -6,6 +6,7 @@ import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel.Companion.DELETE_PSY_TEST_FAIL
 import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel.Companion.DELETE_PSY_TEST_SUCCESS
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -50,6 +52,22 @@ class PsyTestResultFragment : Fragment() {
     private lateinit var binding: FragmentPsyTestResultBinding
     private lateinit var psyTestChart: BarChart
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // This callback will only be called when Fragment is at least Started.
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+
+            // Handle the back button event
+            findNavController().navigate(NavigationDirections.navigateToPsyTestRecordFragment())
+            (activity as MainActivity).bottomNavView.selectedItemId =
+                R.id.navigation_psy_test_record
+
+        }
+
+        // The callback can be enabled or disabled here or in the lambda
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,7 +78,6 @@ class PsyTestResultFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonTestResultBack.setTouchDelegate()
 
         setupPsyTestChart()
 
@@ -122,6 +139,7 @@ class PsyTestResultFragment : Fragment() {
             // enable scaling and dragging
             it.isDragEnabled = false
             it.setScaleEnabled(false)
+            it.setPinchZoom(true)
 
             // disable grid background
             it.setDrawGridBackground(false)
@@ -132,7 +150,8 @@ class PsyTestResultFragment : Fragment() {
             // disable data text
             it.setNoDataText("")
 
-            it.setPinchZoom(true)
+            it.animateY(1000, Easing.EaseInCubic)
+
         }
         // set X axis
         val xAxis = psyTestChart.xAxis

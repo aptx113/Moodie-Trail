@@ -110,6 +110,9 @@
             android:name="messageTypeKey"
             app:argType="com.danteyu.studio.moodietrail.dialog.MessageDialog$MessageType"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_messageDialog_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </dialog>
     <action
         android:id="@+id/navigate_to_profileFragment"

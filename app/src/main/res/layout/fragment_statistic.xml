@@ -232,7 +232,7 @@
 
                     <ImageView
                         android:id="@+id/image_very_good"
-                        android:layout_width="60dp"
+                        android:layout_width="54dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/margin_half"
                         app:layout_constraintDimensionRatio="1:1"
@@ -243,9 +243,26 @@
                         app:layout_constraintTop_toBottomOf="@id/pie_chart_mood"
                         app:srcCompat="@drawable/ic_mood_circle_very_good_normal" />
 
+                    <TextView
+                        android:id="@+id/text_badge_very_good"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="@dimen/margin_half"
+                        android:background="@drawable/bg_badge_very_good"
+                        android:gravity="center"
+                        android:minWidth="20dp"
+                        android:paddingHorizontal="@dimen/margin_quarter"
+                        android:text="@{String.valueOf(viewModel.veryGoodCountInNotes)}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="@{viewModel.veryGoodCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="@id/image_very_good"
+                        app:layout_constraintTop_toTopOf="@id/image_very_good" />
+
                     <ImageView
                         android:id="@+id/image_good"
-                        android:layout_width="60dp"
+                        android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toStartOf="@+id/image_normal"
@@ -254,9 +271,26 @@
                         app:layout_constraintTop_toTopOf="@id/image_very_good"
                         app:srcCompat="@drawable/ic_mood_circle_good_normal" />
 
+                    <TextView
+                        android:id="@+id/text_badge_good"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="@dimen/margin_half"
+                        android:background="@drawable/bg_badge_good"
+                        android:gravity="center"
+                        android:minWidth="20dp"
+                        android:paddingHorizontal="@dimen/margin_quarter"
+                        android:text="@{String.valueOf(viewModel.goodCountInNotes)}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="@{viewModel.goodCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="@id/image_good"
+                        app:layout_constraintTop_toTopOf="@id/image_good" />
+
                     <ImageView
                         android:id="@+id/image_normal"
-                        android:layout_width="60dp"
+                        android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toStartOf="@+id/image_bad"
@@ -265,20 +299,54 @@
                         app:layout_constraintTop_toTopOf="@id/image_very_good"
                         app:srcCompat="@drawable/ic_mood_circle_normal_normal" />
 
+                    <TextView
+                        android:id="@+id/text_badge_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="@dimen/margin_half"
+                        android:background="@drawable/bg_badge_normal"
+                        android:gravity="center"
+                        android:minWidth="20dp"
+                        android:paddingHorizontal="@dimen/margin_quarter"
+                        android:text="@{String.valueOf(viewModel.normalCountInNotes)}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="@{viewModel.normalCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="@id/image_normal"
+                        app:layout_constraintTop_toTopOf="@id/image_normal" />
+
                     <ImageView
                         android:id="@+id/image_bad"
-                        android:layout_width="60dp"
+                        android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView"
+                        app:layout_constraintEnd_toStartOf="@+id/image_very_bad"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/image_normal"
                         app:layout_constraintTop_toTopOf="@id/image_very_good"
                         app:srcCompat="@drawable/ic_mood_circle_bad_normal" />
 
+                    <TextView
+                        android:id="@+id/text_badge_bad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="@dimen/margin_half"
+                        android:background="@drawable/bg_badge_bad"
+                        android:gravity="center"
+                        android:minWidth="20dp"
+                        android:paddingHorizontal="@dimen/margin_quarter"
+                        android:text="@{String.valueOf(viewModel.badCountInNotes)}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="@{viewModel.badCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="@id/image_bad"
+                        app:layout_constraintTop_toTopOf="@id/image_bad" />
+
                     <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="60dp"
+                        android:id="@+id/image_very_bad"
+                        android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -286,6 +354,23 @@
                         app:layout_constraintStart_toEndOf="@+id/image_bad"
                         app:layout_constraintTop_toTopOf="@id/image_very_good"
                         app:srcCompat="@drawable/ic_mood_circle_very_bad_normal" />
+
+                    <TextView
+                        android:id="@+id/text_badge_very_bad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="@dimen/margin_half"
+                        android:background="@drawable/bg_badge_very_bad"
+                        android:gravity="center"
+                        android:minWidth="20dp"
+                        android:paddingHorizontal="@dimen/margin_quarter"
+                        android:text="@{String.valueOf(viewModel.veryBadCountInNotes)}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:visibility="@{viewModel.veryBadCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="@id/image_very_bad"
+                        app:layout_constraintTop_toTopOf="@id/image_very_bad" />
 
                     <ProgressBar
                         android:layout_width="wrap_content"

@@ -33,17 +33,7 @@ class PsyTestRecordViewModel(private val moodieTrailRepository: MoodieTrailRepos
     val psyTests: LiveData<List<PsyTest>>
         get() = _psyTests
 
-    // status: The internal MutableLiveData that stores the status of the most recent request
-    private val _status = MutableLiveData<LoadApiStatus>()
 
-    val status: LiveData<LoadApiStatus>
-        get() = _status
-
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
-        get() = _error
 
     // status for the loading notes
     private val _refreshStatus = MutableLiveData<Boolean>()
@@ -55,6 +45,23 @@ class PsyTestRecordViewModel(private val moodieTrailRepository: MoodieTrailRepos
 
     val navigateToPsyTestResult: LiveData<PsyTest>
         get() = _navigateToPsyTestResult
+
+    private val _navigateToPsyTest = MutableLiveData<Boolean>()
+
+    val navigateToPsyTest: LiveData<Boolean>
+        get() = _navigateToPsyTest
+
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -114,16 +121,24 @@ class PsyTestRecordViewModel(private val moodieTrailRepository: MoodieTrailRepos
         }
     }
 
-    fun refresh() {
-        if (_status.value != LoadApiStatus.LOADING)
-            UserManager.id?.let { getPsyTestsResult(it) }
-    }
-
     fun navigateToPsyTestResult(psyTest: PsyTest) {
         _navigateToPsyTestResult.value = psyTest
     }
 
     fun onPsyTestResultNavigated() {
         _navigateToPsyTestResult.value = null
+    }
+
+    fun navigateToPsyTest() {
+        _navigateToPsyTest.value = true
+    }
+
+    fun onPsyTestNavigated() {
+        _navigateToPsyTest.value = null
+    }
+
+    fun refresh() {
+        if (_status.value != LoadApiStatus.LOADING)
+            UserManager.id?.let { getPsyTestsResult(it) }
     }
 }
