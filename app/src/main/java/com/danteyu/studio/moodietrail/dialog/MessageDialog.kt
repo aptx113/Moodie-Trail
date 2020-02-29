@@ -89,11 +89,11 @@ class MessageDialog : AppCompatDialogFragment() {
             }
     }
 
-    override fun dismiss() {
-        super.dismiss()
-
-        if (messageType == MessageType.LOGIN_SUCCESS) {
-            findNavController().navigate(NavigationDirections.navigateToHomeFragment())
-        }
-    }
+//    override fun dismiss() {
+//        super.dismiss()
+//
+//        if (messageType == MessageType.LOGIN_SUCCESS) {
+//            findNavController().navigate(MessageDialogDirections.actionMessageDialogToHomeFragment())
+//        }
+//    }
 }

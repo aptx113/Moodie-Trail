@@ -2,6 +2,9 @@ package com.danteyu.studio.moodietrail.data.source
 
 import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
+import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.AuthResult
 
 
 /**
@@ -10,8 +13,6 @@ import com.danteyu.studio.moodietrail.data.*
  * Main entry point for accessing Stylish sources.
  */
 interface MoodieTrailDataSource {
-
-    suspend fun getNotes(uid: String): Result<List<Note>>
 
     suspend fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long): Result<List<Note>>
 
@@ -26,6 +27,10 @@ interface MoodieTrailDataSource {
     suspend fun getUserProfile(id: String): Result<User>
 
     suspend fun signUpUser(user: User, id: String): Result<Boolean>
+
+    suspend fun handleFacebookAccessToken(token: AccessToken):Result<Boolean>
+
+    suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount):Result<Boolean>
 
     suspend fun postNote(uid: String, note: Note): Result<Boolean>
 

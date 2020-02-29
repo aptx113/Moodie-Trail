@@ -8,10 +8,18 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
+import com.danteyu.studio.moodietrail.ext.showToast
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getAuth
 import com.danteyu.studio.moodietrail.util.Util.getString
+import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -59,34 +67,6 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private fun getAvgMoodRefFrom(uid: String): CollectionReference {
         return userReference.document(uid).collection(PATH_AVGMOODS)
     }
-
-    override suspend fun getNotes(uid: String): Result<List<Note>> =
-        suspendCoroutine { continuation ->
-
-            userReference.document(uid).collection(PATH_NOTES)
-                .orderBy(KEY_DATE, Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val list = mutableListOf<Note>()
-                        for (document in task.result!!) {
-                            Logger.d(document.id + " => " + document.data)
-
-                            val note = document.toObject(Note::class.java)
-                            list.add(note)
-                        }
-                        continuation.resume(Result.Success(list))
-                    } else {
-                        task.exception?.let {
-
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
-                        }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
-                    }
-                }
-        }
 
     override suspend fun getNotesByDateRange(
         uid: String,
@@ -238,6 +218,62 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
+    override suspend fun handleFacebookAccessToken(token: AccessToken): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+            Logger.d("handleFacebookAccessToken:${token.token}")
+
+            val credential = FacebookAuthProvider.getCredential(token.token)
+            getAuth().signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
+                            Logger.w("[${this::class.simpleName}] Authentication failed. signInWithCredential:failure: ${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+        }
+
+    override suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount): Result<Boolean> =
+        suspendCoroutine { continuation ->
+
+
+            Logger.d("firebaseAuthWithGoogle:" + acct.id!!)
+
+            val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+            getAuth().signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+
+                    if (task.isSuccessful) {
+
+                        Logger.d("signInWithCredential:success")
+
+                        continuation.resume(Result.Success(true))
+                    } else {
+                        task.exception?.let {
+
+                            MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
+                            Logger.w("[${this::class.simpleName}] signInWithCredential:failure: ${it.message} error_code =${it.message}")
+                            continuation.resume(Result.Error(it))
+                            return@addOnCompleteListener
+                        }
+                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
+                    }
+                }
+
+
+        }
 
     override suspend fun postNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->

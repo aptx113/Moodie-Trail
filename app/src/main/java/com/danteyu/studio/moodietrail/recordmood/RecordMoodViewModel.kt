@@ -9,6 +9,7 @@ import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.AverageMood
+import com.danteyu.studio.moodietrail.data.Mood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
@@ -73,8 +74,6 @@ class RecordMoodViewModel(
     val selectedIcon = MutableLiveData<View>()
 
     val selectedMood = MutableLiveData<Int>()
-
-    val selectedMoodIcon = MutableLiveData<Mood>()
 
     // Handle show DatePickerDialog
     private val _showDatePickerDialog = MutableLiveData<Boolean>()

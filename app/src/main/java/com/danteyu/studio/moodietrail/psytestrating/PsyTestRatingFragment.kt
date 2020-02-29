@@ -33,14 +33,6 @@ class PsyTestRatingFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonTestRatingBack.setTouchDelegate()
-
-        viewModel.backToPsyTestResult.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                findNavController().navigateUp()
-                viewModel.onPsyTestResultBacked()
-            }
-        })
 
         return binding.root
     }

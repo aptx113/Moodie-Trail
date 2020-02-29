@@ -13,13 +13,17 @@ import com.danteyu.studio.moodietrail.component.GridSpacingItemDecoration
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM
+import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 
 
 /**
@@ -43,6 +47,12 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     val navigateToRecordDetail: LiveData<Note>
         get() = _navigateToRecordDetail
+
+    // Handle navigation to record mood
+    private val _navigateToRecordMood = MutableLiveData<Boolean>()
+
+    val navigateToRecordMood: LiveData<Boolean>
+        get() = _navigateToRecordMood
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -90,7 +100,13 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("------------------------------------")
 
         initialDate()
-        UserManager.id?.let { getNotesResult(it) }
+        UserManager.id?.let {
+            getNotesByDateRange(
+                it,
+                getStartDateOfMonth(_currentMonth.value!!)!!,
+                getEndDateOfMonth(_currentMonth.value!!)!!
+            )
+        }
     }
 
     private fun initialDate() {
@@ -98,13 +114,38 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _currentMonth.value = calendar.timeInMillis
     }
 
-    private fun getNotesResult(uid: String) {
+    private fun getThisMonthLastDate(): Int {
 
+        calendar.timeInMillis = currentMonth.value!!
+        calendar.add(java.util.Calendar.MONTH, 0)
+        calendar.set(
+            java.util.Calendar.DAY_OF_MONTH,
+            calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
+        )
+        return calendar.get(java.util.Calendar.DAY_OF_MONTH)
+    }
+
+    /**
+     * Function to get End Time Of Date in timestamp in milliseconds
+     */
+    private fun getEndDateOfMonth(timestamp: Long): Long? {
+
+        val dayEnd = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_dayend,
+                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
+            )
+        )
+        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
+        return dayEnd.time
+    }
+
+    private fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.getNotes(uid)
+            val result = moodieTrailRepository.getNotesByDateRange(uid, startDate, endDate)
 
             _notes.value = when (result) {
                 is Result.Success -> {
@@ -141,8 +182,22 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _navigateToRecordDetail.value = null
     }
 
+    fun navigateToRecordMood() {
+        _navigateToRecordMood.value = true
+    }
+
+    fun onRecordMoodNavigated() {
+        _navigateToRecordMood.value = null
+    }
+
     fun refresh() {
         if (_status.value != LoadApiStatus.LOADING)
-            UserManager.id?.let { getNotesResult(it) }
+            UserManager.id?.let {
+                getNotesByDateRange(
+                    it,
+                    getStartDateOfMonth(_currentMonth.value!!)!!,
+                    getEndDateOfMonth(_currentMonth.value!!)!!
+                )
+            }
     }
 }

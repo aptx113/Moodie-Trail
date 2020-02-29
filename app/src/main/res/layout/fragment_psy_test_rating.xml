@@ -15,46 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_psy_test_rating_top"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_toolbar"
-            android:background="@color/blue_700"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/button_test_rating_back"
-                android:layout_width="24dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_basic"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/ic_back"
-                android:onClick="@{() -> viewModel.backToPsyTestResult()}"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/text_psy_test_rating_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_toolbar_gone_top"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/droid_sans"
-                android:text="@string/psy_test_rating"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_normal"
@@ -64,7 +25,7 @@
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_psy_test_rating_top"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="218dp">
 
             <ImageView
@@ -290,3 +251,44 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--android:id="@+id/layout_psy_test_rating_top"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="@dimen/height_toolbar"-->
+<!--android:background="@color/blue_700"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toTopOf="parent">-->
+
+<!--<ImageButton-->
+<!--    android:id="@+id/button_test_rating_back"-->
+<!--    android:layout_width="24dp"-->
+<!--    android:layout_height="0dp"-->
+<!--    android:layout_marginStart="@dimen/margin_basic"-->
+<!--    android:layout_marginTop="32dp"-->
+<!--    android:background="@drawable/ic_back"-->
+<!--    android:onClick="@{() -> viewModel.backToPsyTestResult()}"-->
+<!--    app:layout_constraintDimensionRatio="1:1"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--<TextView-->
+<!--    android:id="@+id/text_psy_test_rating_title"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginTop="@dimen/size_toolbar_gone_top"-->
+<!--    android:layout_marginBottom="20dp"-->
+<!--    android:fontFamily="@font/droid_sans"-->
+<!--    android:text="@string/psy_test_rating"-->
+<!--    android:textColor="@color/white"-->
+<!--    android:textSize="20sp"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintHorizontal_bias="0.498"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toTopOf="parent"-->
+<!--    app:layout_constraintVertical_bias="1.0" />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

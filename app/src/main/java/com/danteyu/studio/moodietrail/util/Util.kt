@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 
@@ -37,7 +39,15 @@ object Util {
         return MoodieTrailApplication.instance.getDrawable(resourceId)
     }
 
-    fun getCalendar(): Calendar {
-        return MoodieTrailApplication.instance.appContainer.calendar
+    fun getAuth(): FirebaseAuth {
+        return MoodieTrailApplication.instance.appContainer.auth
+    }
+
+    fun getGoogleSignInClient(): GoogleSignInClient {
+        return MoodieTrailApplication.instance.appContainer.googleSignInClient
+    }
+
+    fun getStartDateOfMonth(timestamp: Long): Long? {
+        return MoodieTrailApplication.instance.appContainer.getStartDateOfMonth(timestamp)
     }
 }

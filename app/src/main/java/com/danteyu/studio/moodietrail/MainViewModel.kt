@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.data.User
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import java.util.*
@@ -27,11 +28,26 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     // Record current fragment to support data binding
     val currentFragmentType = MutableLiveData<CurrentFragmentType>()
 
+    // Handle navigation to login success
+    private val _navigateToLoginSuccess = MutableLiveData<User>()
+
+    val navigateToLoginSuccess: LiveData<User>
+        get() = _navigateToLoginSuccess
+
+    private val _navigateToHome = MutableLiveData<Boolean>()
+
+    val navigateToHome: LiveData<Boolean>
+        get() = _navigateToHome
+
     //Handle Fab open and close
     private val _isFabOpen = MutableLiveData<Boolean>()
 
     val isFabOpen: LiveData<Boolean>
         get() = _isFabOpen
+
+    // check user login status
+    val isLoggedIn
+        get() = UserManager.isLoggedIn
 
     // Handle navigation to record mood
     private val _navigateToRecordMood = MutableLiveData<Boolean>()
@@ -43,6 +59,16 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     val navigateToPsyTest: LiveData<Boolean>
         get() = _navigateToPsyTest
+
+    private val _backToPsyTest = MutableLiveData<Boolean>()
+
+    val backToPsyTest: LiveData<Boolean>
+        get() = _backToPsyTest
+
+    private val _navigateToPsyTestRecord = MutableLiveData<Boolean>()
+
+    val navigateToPsyTestRecord: LiveData<Boolean>
+        get() = _navigateToPsyTestRecord
 
     private val _refresh = MutableLiveData<Boolean>()
 
@@ -72,7 +98,9 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
 
-
+    fun changeFabStatus() {
+        _isFabOpen.value = false
+    }
 
     fun navigateToRecordMood() {
         _navigateToRecordMood.value = true
@@ -90,6 +118,38 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun onPsyTestNavigated() {
         _navigateToPsyTest.value = null
+    }
+
+    fun navigateToLoginSuccess(user: User) {
+        _navigateToLoginSuccess.value = user
+    }
+
+    fun onLoginSuccessNavigated() {
+        _navigateToLoginSuccess.value = null
+    }
+
+    fun navigateToHome() {
+        _navigateToHome.value = true
+    }
+
+    fun onHomeNavigated() {
+        _navigateToHome.value = null
+    }
+
+    fun backToPsyTest() {
+        _backToPsyTest.value = true
+    }
+
+    fun onPsyTestBacked() {
+        _backToPsyTest.value = null
+    }
+
+    fun navigateToPsyTestRecord() {
+        _navigateToPsyTestRecord.value = true
+    }
+
+    fun onPsyTestRecordNavigated() {
+        _navigateToPsyTestRecord.value = null
     }
 
     fun refresh() {

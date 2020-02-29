@@ -27,25 +27,43 @@
             android:layout_height="@dimen/height_toolbar"
             android:background="@color/blue_700"
             android:elevation="@dimen/elevation_all"
-            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN || viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN || viewModel.currentFragmentType == CurrentFragmentType.PSYTEST ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/button_test_body_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/margin_basic"
+                android:background="@drawable/ic_back"
+                android:onClick="@{() -> viewModel.backToPsyTest()}"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.VISIBLE : View.GONE}"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/button_test_result_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"
+                android:layout_gravity="start"
+                android:background="@drawable/ic_back"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT ? View.VISIBLE : View.GONE}"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/text_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_basic"
                 android:fontFamily="@font/droid_sans"
                 android:text="@{viewModel.currentFragmentType.value}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:visibility="visible"
-                tools:layout_editor_absoluteX="148dp"
-                tools:layout_editor_absoluteY="27dp"
                 tools:text="Moodie"
                 tools:visibility="visible" />
 
@@ -56,7 +74,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_basic"
                 android:background="@drawable/ic_nav_emergency_call"
-                android:visibility="visible"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.GONE : View.VISIBLE}"
                 tools:visibility="visible" />
 
             <ImageView
@@ -66,7 +84,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_basic"
                 android:background="@drawable/ic_search"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -90,8 +108,8 @@
             android:layout_height="0dp"
             android:elevation="5dp"
             android:onClick="@{()->viewModel.onFabPressed()}"
-            android:visibility="@{viewModel.isFabOpen()== false ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@id/bottomNavView"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/toolbar"
@@ -136,7 +154,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.navigateToPsyTest()}"
             android:src="@drawable/ic_add_test"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:backgroundTint="@color/blue_700"
             app:elevation="@dimen/elevation_fab_option"
             app:fabCustomSize="45dp"

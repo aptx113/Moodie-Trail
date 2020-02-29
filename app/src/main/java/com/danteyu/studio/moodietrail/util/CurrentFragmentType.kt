@@ -16,8 +16,8 @@ enum class CurrentFragmentType(val value: String) {
     RECORDMOOD(""),
     RECORDDETAIL(""),
     PSYTEST(""),
-    PSYTESTBODY(""),
-    PSYTESTRESULT(""),
-    PSYTESTRATING("")
+    PSYTESTBODY(getString(R.string.bsrs_5)),
+    PSYTESTRESULT(getString(R.string.psy_test_result)),
+    PSYTESTRATING(getString(R.string.psy_test_rating))
 
 }

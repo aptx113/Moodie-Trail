@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -42,7 +43,7 @@ class PsyTestBodyFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonTestBodyBack.setTouchDelegate()
+//        binding.buttonTestBodyBack.setTouchDelegate()
 
         viewModel.submitSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -96,13 +97,6 @@ class PsyTestBodyFragment : Fragment() {
                     )
                 )
                 viewModel.onPsyTestResultNavigated()
-            }
-        })
-
-        viewModel.backToPsyTest.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                findNavController().navigateUp()
-                viewModel.onPsyTestBacked()
             }
         })
 

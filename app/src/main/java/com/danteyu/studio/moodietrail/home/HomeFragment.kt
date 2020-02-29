@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainViewModel
+import com.danteyu.studio.moodietrail.NavigationDirections
+import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.FragmentHomeBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 
@@ -51,6 +53,15 @@ class HomeFragment : Fragment() {
                     HomeFragmentDirections.actionHomeFragmentToRecordDetailFragment(it)
                 )
                 viewModel.onRecordDetailNavigated()
+            }
+        })
+
+        viewModel.navigateToRecordMood.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(
+                    NavigationDirections.navigateToRecordMoodFragment(Note())
+                )
+                viewModel.onRecordMoodNavigated()
             }
         })
 
