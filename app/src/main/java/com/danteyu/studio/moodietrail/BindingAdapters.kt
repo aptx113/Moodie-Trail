@@ -3,19 +3,15 @@ package com.danteyu.studio.moodietrail
 import android.graphics.Typeface.BOLD
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.util.Size
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.PlaceHolder
@@ -24,13 +20,12 @@ import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
 import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
+import com.danteyu.studio.moodietrail.data.Mood
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.danteyu.studio.moodietrail.util.Util.getString
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
-import java.lang.Appendable
 
 @BindingAdapter("notes")
 fun bindRecyclerViewWithNotes(recyclerView: RecyclerView, notes: List<Note>?) {
@@ -395,7 +390,6 @@ fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
  */
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
-
     imgUrl?.let {
         val imgUri = it.toUri().buildUpon().build()
         GlideApp.with(imgView.context)
@@ -403,10 +397,37 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .apply(
                 RequestOptions()
                     .placeholder(R.drawable.ic_placeholder)
-                    .error(R.mipmap.ic_launcher)
+                    .error(R.drawable.ic_placeholder)
             )
             .into(imgView)
     }
+}
+
+@BindingAdapter("imageUrlByMood", "mood")
+fun bindImageByMood(imgView: ImageView, imgUrl: String?, mood: Int?) {
+
+    val imgUri = if (imgUrl == "null" || imgUrl == "" || imgUrl == null) {
+        when (mood) {
+            Mood.VERY_BAD.value -> PlaceHolder.VERY_BAD.value
+            Mood.BAD.value -> PlaceHolder.BAD.value
+            Mood.NORMAL.value -> PlaceHolder.NORMAL.value
+            Mood.GOOD.value -> PlaceHolder.GOOD.value
+            Mood.VERY_GOOD.value -> PlaceHolder.VERY_GOOD.value
+            else -> ""
+        }.toUri().buildUpon().scheme("https")
+            .build()
+    } else {
+        imgUrl.toUri().buildUpon().scheme("https").build()
+    }
+
+    GlideApp.with(imgView.context)
+        .load(imgUri)
+        .apply(
+            RequestOptions()
+                .error(R.mipmap.ic_launcher)
+        )
+        .into(imgView)
+
 }
 
 /**

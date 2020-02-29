@@ -76,7 +76,7 @@ class StatisticFragment : Fragment() {
             description.isEnabled = false
 
             setExtraOffsets(5f, 10f, 10f, 10f)
-
+            animateX(1500, Easing.EaseInBounce)
             // enable scaling and dragging
             isDragEnabled = true
 
@@ -85,11 +85,13 @@ class StatisticFragment : Fragment() {
 
             // disable legend
             legend.isEnabled = false
+            setScaleEnabled(false)
+            setTouchEnabled(true)
 
             // disable data text
             setNoDataText("")
 
-            setPinchZoom(true)
+            setPinchZoom(false)
         }
     }
 
@@ -98,7 +100,7 @@ class StatisticFragment : Fragment() {
         moodPieChart.apply {
             holeRadius = 20f
 
-            setExtraOffsets(0f,8.5f,0f,5f)
+            setExtraOffsets(0f, 8.5f, 0f, 5f)
             setNoDataText("")
             animateY(1000, Easing.EaseInCubic)
             description.isEnabled = false

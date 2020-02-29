@@ -215,12 +215,12 @@
                     android:background="@drawable/bg_note_image_selector"
                     android:cropToPadding="false"
                     android:onClick="@{()->viewModel.showImageSelector()}"
-                    android:scaleType="center"
-                    app:imageUrl='@{viewModel.note.image}'
+                    app:imageUrlByMood='@{viewModel.note.image == null ? "" : viewModel.note.image}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_placeholder_2" />
+                    app:mood="@{viewModel.note.mood}"
+                    app:srcCompat="@color/transparent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_photo_hint"

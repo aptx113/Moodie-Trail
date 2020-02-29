@@ -41,10 +41,7 @@ class RecordDetailViewModel(
     val note: LiveData<Note>
         get() = _note
 
-    private val _noteImage = MutableLiveData<String>()
-
-    val noteImage: LiveData<String>
-        get() = _noteImage
+    val _noteImage = MutableLiveData<String>()
 
     private val notesByDate = MutableLiveData<List<Note>>()
 

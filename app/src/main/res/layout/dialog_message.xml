@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="dialog"
             type="com.danteyu.studio.moodietrail.dialog.MessageDialog" />
@@ -38,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_launcher_foreground"/>
+                tools:background="@drawable/ic_launcher_foreground" />
 
             <TextView
                 android:id="@+id/text_message_content"
@@ -46,19 +48,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:fontFamily="@font/droid_sans"
+                android:gravity="center"
                 android:maxLines="2"
-                android:textColor="@color/white"
-                android:textSize="15sp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:gravity="center"
                 android:text='@{dialog.message ?? ""}'
+                android:textColor="@color/white"
+                android:textSize="15sp"
                 android:visibility='@{dialog.message != null ? View.VISIBLE : View. GONE}'
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:visibility="gone"
-                tools:text=""/>
+                tools:text=""
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,7 +90,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.imageNoteImage.clipToOutline = true
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER ) {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 viewModel.addNoteTag()
                 true
             } else false
@@ -210,8 +210,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
-
-                GlideApp.with(this).load(data.data).into(binding.imageNoteImage)
+                binding.imageNoteImage.setImageBitmap(bitmap)
                 imageSourceSelectorDialog.dismiss()
 
 
@@ -226,7 +225,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(imageBitmap)
-                GlideApp.with(this).load(filePath).into(binding.imageNoteImage)
+                binding.imageNoteImage.setImageBitmap(imageBitmap)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null

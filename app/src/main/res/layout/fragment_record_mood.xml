@@ -9,7 +9,7 @@
 
         <import type="com.danteyu.studio.moodietrail.recordmood.NoteSavedType" />
 
-        <import type="com.danteyu.studio.moodietrail.recordmood.Mood" />
+        <import type="com.danteyu.studio.moodietrail.data.Mood" />
 
         <import type="android.view.View" />
 

@@ -33,8 +33,9 @@
         <ImageView
             android:id="@+id/image_note"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_placeholder"
             android:visibility="@{note.image == null ? View.GONE : View.VISIBLE}"
             app:imageUrl="@{note.image}"
             app:layout_constraintDimensionRatio="1:1"

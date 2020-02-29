@@ -46,4 +46,8 @@ object Util {
     fun getGoogleSignInClient(): GoogleSignInClient {
         return MoodieTrailApplication.instance.appContainer.googleSignInClient
     }
+
+    fun getStartDateOfMonth(timestamp: Long): Long? {
+        return MoodieTrailApplication.instance.appContainer.getStartDateOfMonth(timestamp)
+    }
 }

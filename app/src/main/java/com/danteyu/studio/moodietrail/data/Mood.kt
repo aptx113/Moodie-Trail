@@ -1,10 +1,10 @@
-package com.danteyu.studio.moodietrail.recordmood
+package com.danteyu.studio.moodietrail.data
 
 /**
  * Created by George Yu on 2020/2/6.
  */
 
-enum class Mood(value:Int) {
+enum class Mood(val value:Int) {
     VERY_BAD(1),
     BAD(2),
     NORMAL(3),
