@@ -18,6 +18,7 @@ import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -99,7 +100,13 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("------------------------------------")
 
         initialDate()
-        UserManager.id?.let { getNotesResult(it) }
+        UserManager.id?.let {
+            getNotesByDateRange(
+                it,
+                getStartDateOfMonth(_currentMonth.value!!)!!,
+                getEndDateOfMonth(_currentMonth.value!!)!!
+            )
+        }
     }
 
     private fun initialDate() {
@@ -112,7 +119,8 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         calendar.timeInMillis = currentMonth.value!!
         calendar.add(java.util.Calendar.MONTH, 0)
         calendar.set(
-            java.util.Calendar.DAY_OF_MONTH, calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
+            java.util.Calendar.DAY_OF_MONTH,
+            calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
         )
         return calendar.get(java.util.Calendar.DAY_OF_MONTH)
     }
@@ -132,13 +140,12 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         return dayEnd.time
     }
 
-    private fun getNotesResult(uid: String) {
-
+    private fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long) {
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.getNotes(uid)
+            val result = moodieTrailRepository.getNotesByDateRange(uid, startDate, endDate)
 
             _notes.value = when (result) {
                 is Result.Success -> {
@@ -185,6 +192,12 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     fun refresh() {
         if (_status.value != LoadApiStatus.LOADING)
-            UserManager.id?.let { getNotesResult(it) }
+            UserManager.id?.let {
+                getNotesByDateRange(
+                    it,
+                    getStartDateOfMonth(_currentMonth.value!!)!!,
+                    getEndDateOfMonth(_currentMonth.value!!)!!
+                )
+            }
     }
 }

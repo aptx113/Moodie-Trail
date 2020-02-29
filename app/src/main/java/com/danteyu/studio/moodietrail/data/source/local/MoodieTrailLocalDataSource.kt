@@ -15,10 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
  */
 class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
 
-    override suspend fun getNotes(uid: String): Result<List<Note>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override suspend fun getNotesByDateRange(
         uid: String,
         startDate: Long,

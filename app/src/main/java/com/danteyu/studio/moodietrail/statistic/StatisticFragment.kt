@@ -17,7 +17,6 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.PercentFormatter
 
 class StatisticFragment : Fragment() {
 
@@ -43,7 +42,7 @@ class StatisticFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        setupAvgMoodChart()
+
 
         viewModel.avgMoodEntries.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -63,6 +62,7 @@ class StatisticFragment : Fragment() {
                 viewModel.onLineChartInfoShowed()
             }
         })
+        setupAvgMoodChart()
         setupPieChart()
 
         return binding.root

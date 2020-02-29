@@ -212,7 +212,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
-                    android:background="@drawable/bg_note_image_selector"
                     android:cropToPadding="false"
                     android:onClick="@{()->viewModel.showImageSelector()}"
                     app:imageUrlByMood='@{viewModel.note.image == null ? "" : viewModel.note.image}'

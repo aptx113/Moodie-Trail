@@ -2,6 +2,7 @@ package com.danteyu.studio.moodietrail.statistic
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
@@ -42,6 +43,27 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
 
     val notes: LiveData<List<Note>>
         get() = _notes
+
+    val veryBadCountInNotes: LiveData<Int> = Transformations.map(notes) {
+        it.filter { note -> note.mood == 1 }.size
+    }
+
+    val badCountInNotes: LiveData<Int> = Transformations.map(notes) {
+        it.filter { note -> note.mood == 2 }.size
+    }
+
+    val normalCountInNotes: LiveData<Int> = Transformations.map(notes) {
+        it.filter { note -> note.mood == 3 }.size
+    }
+
+    val goodCountInNotes: LiveData<Int> = Transformations.map(notes) {
+        it.filter { note -> note.mood == 4 }.size
+    }
+
+
+    val veryGoodCountInNotes: LiveData<Int> = Transformations.map(notes) {
+        it.filter { note -> note.mood == 5 }.size
+    }
 
     private val _showLineChartInfo = MutableLiveData<Boolean>()
 
@@ -258,7 +280,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
             add(PieEntry(veryBadMoodNotes.size.toFloat()))
             add(PieEntry(badMoodNotes.size.toFloat()))
             add(PieEntry(normalNotes.size.toFloat()))
-            add(PieEntry(goodMoodNotes.size.toFloat() ))
+            add(PieEntry(goodMoodNotes.size.toFloat()))
             add(PieEntry(veryGoodMoodNotes.size.toFloat()))
         }
         _noteEntries.value = entries

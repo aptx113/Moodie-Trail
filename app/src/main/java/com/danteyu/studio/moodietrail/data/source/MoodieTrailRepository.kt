@@ -13,8 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
  */
 interface MoodieTrailRepository {
 
-    suspend fun getNotes(uid: String): Result<List<Note>>
-
     suspend fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long): Result<List<Note>>
 
     suspend fun getPsyTests(uid: String): Result<List<PsyTest>>

@@ -14,8 +14,6 @@ import com.google.firebase.auth.AuthResult
  */
 interface MoodieTrailDataSource {
 
-    suspend fun getNotes(uid: String): Result<List<Note>>
-
     suspend fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long): Result<List<Note>>
 
     suspend fun getPsyTests(uid: String): Result<List<PsyTest>>
