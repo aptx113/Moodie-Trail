@@ -79,6 +79,10 @@ class PsyTestResultFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        binding.buttonMentalHealthResource.setOnClickListener {
+            activity.showToast("Coming Soon")
+        }
+
         setupPsyTestChart()
 
         viewModel.psyTestEntries.observe(viewLifecycleOwner, Observer {

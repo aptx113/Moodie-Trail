@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.danteyu.studio.moodietrail.databinding.FragmentProfileBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.showToast
 
 class ProfileFragment : Fragment() {
 
@@ -22,6 +23,18 @@ class ProfileFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.layoutMentalResource.setOnClickListener {
+            activity.showToast("Coming Soon")
+        }
+
+        binding.layoutNotification.setOnClickListener {
+            activity.showToast("Coming Soon")
+        }
+
+        binding.layoutReport.setOnClickListener {
+            activity.showToast("Coming Soon")
+        }
 
         return binding.root
     }

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
+import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
@@ -42,7 +43,13 @@ class StatisticFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.imageToolbarNext.setOnClickListener{
+            activity.showToast("Coming Soon")
+        }
 
+        binding.imageToolbarLast.setOnClickListener{
+            activity.showToast("Coming Soon")
+        }
 
         viewModel.avgMoodEntries.observe(viewLifecycleOwner, Observer {
             it?.let {

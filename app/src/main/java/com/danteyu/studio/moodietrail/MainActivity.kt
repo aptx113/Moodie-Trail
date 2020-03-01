@@ -20,6 +20,7 @@ import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.dialog.MessageDialog
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.setTouchDelegate
+import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -101,6 +102,10 @@ class MainActivity : BaseActivity() {
         binding.fabStartTest.setTouchDelegate()
         binding.buttonTestBodyBack.setTouchDelegate()
         binding.buttonTestResultBack.setTouchDelegate()
+
+        binding.imageToolbarCall.setOnClickListener {
+            showToast("Coming Soon")
+        }
 
         messageDialog = MessageDialog()
 
