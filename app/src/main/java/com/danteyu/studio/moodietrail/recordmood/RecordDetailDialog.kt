@@ -21,6 +21,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
@@ -212,12 +214,21 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             try {
                 viewModel.setImage(bitmap)
 //                GlideApp.with(this)
-//                    .load(viewModel.selectedImage.value)
+//                    .load(data.data)
+//                    .transform(
+//                        RoundedCorners(
+//                            MoodieTrailApplication.instance.resources.getDimensionPixelSize(
+//                                R.dimen.margin_half
+//                            )
+//                        )
+//                    )
 //                    .apply(
 //                        RequestOptions()
+//                            .placeholder(R.drawable.ic_placeholder_record_detail)
 //                            .error(R.mipmap.ic_launcher)
 //                    )
 //                    .into(binding.imageNoteImage)
+
                 binding.imageNoteImage.setImageBitmap(bitmap)
                 imageSourceSelectorDialog.dismiss()
 

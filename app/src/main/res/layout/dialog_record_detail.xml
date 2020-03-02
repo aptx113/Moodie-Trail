@@ -213,6 +213,7 @@
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:cropToPadding="false"
+                    android:scaleType="center"
                     android:onClick="@{()->viewModel.showImageSelector()}"
                     app:imageUrlByMood='@{viewModel.note.image == null ? "" : viewModel.note.image}'
                     app:layout_constraintEnd_toEndOf="parent"

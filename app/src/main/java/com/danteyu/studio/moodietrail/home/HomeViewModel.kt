@@ -126,7 +126,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     }
 
     /**
-     * Function to get End Time Of Date in timestamp in milliseconds
+     * Function to get End Time Of this Month in timestamp in milliseconds
      */
     private fun getEndDateOfMonth(timestamp: Long): Long? {
 
@@ -175,6 +175,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     }
 
     fun navigateToRecordDetail(note: Note) {
+        if (_navigateToRecordDetail.value != null) return
         _navigateToRecordDetail.value = note
     }
 

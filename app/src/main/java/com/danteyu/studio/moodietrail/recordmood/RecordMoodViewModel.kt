@@ -156,9 +156,9 @@ class RecordMoodViewModel(
 //    val date = MutableLiveData<Date>()
 
     /**
-     * Function to get Start Time Of Date in timestamp in milliseconds
+     * Function to get Start Time Of Day in timestamp in milliseconds
      */
-    private fun getStartTimeOfDate(timestamp: Long): Long? {
+    private fun getStartTimeOfDay(timestamp: Long): Long? {
 
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -170,9 +170,9 @@ class RecordMoodViewModel(
     }
 
     /**
-     * Function to get End Time Of Date in timestamp in milliseconds
+     * Function to get End Time Of Day in timestamp in milliseconds
      */
-    private fun getEndTimeOfDate(timestamp: Long): Long? {
+    private fun getEndTimeOfDay(timestamp: Long): Long? {
 
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -264,8 +264,8 @@ class RecordMoodViewModel(
                     _status.value = LoadApiStatus.DONE
                     getNotesResultByDateRange(
                         uid,
-                        getStartTimeOfDate(_dateOfNote.value!!)!!,
-                        getEndTimeOfDate(_dateOfNote.value!!)!!
+                        getStartTimeOfDay(_dateOfNote.value!!)!!,
+                        getEndTimeOfDay(_dateOfNote.value!!)!!
                     )
                     result.data
                 }
@@ -327,7 +327,7 @@ class RecordMoodViewModel(
             postAvgMood(uid,
                 AverageMood(
                     score = averageMoodScore.value!!,
-                    time = getStartTimeOfDate(_dateOfNote.value!!)!!
+                    time = getStartTimeOfDay(_dateOfNote.value!!)!!
                 ), _dateOfNote.value?.toDisplayFormat(
                     FORMAT_YYYY_MM_DD
                 )!!

@@ -165,5 +165,10 @@
     <string name="profile_default_information">記得每天記錄心情唷</string>
     <string name="week_report">每週報告</string>
     <string name="notification">提醒</string>
+    <string name="default_notification_channel_id">MoodieTrail</string>
+    <string name="remind_record_mood">提醒記錄心情</string>
+    <string name="remind_note_notification_title">好的開始是成功的一半</string>
+    <string name="how_do_you_feel_today">今天心情如何？</string>
+    <string name="today_notes_size">今天已記錄 %d 則心情，繼續保持記錄心情的習慣唷！</string>
 
 </resources>

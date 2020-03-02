@@ -230,7 +230,7 @@ class RecordDetailViewModel(
     }
 
     /**
-     * Function to get Start Time Of Date in timestamp in milliseconds
+     * Function to get Start Time Of Day in timestamp in milliseconds
      */
     private fun getStartTimeOfDate(timestamp: Long): Long? {
 
@@ -244,7 +244,7 @@ class RecordDetailViewModel(
     }
 
     /**
-     * Function to get End Time Of Date in timestamp in milliseconds
+     * Function to get End Time Of Day in timestamp in milliseconds
      */
     private fun getEndTimeOfDate(timestamp: Long): Long? {
 

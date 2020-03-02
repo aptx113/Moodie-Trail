@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
         viewModel.navigateToRecordDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToRecordDetailFragment(it)
+                    NavigationDirections.navigateToRecordDetailFragment(it)
                 )
                 viewModel.onRecordDetailNavigated()
             }

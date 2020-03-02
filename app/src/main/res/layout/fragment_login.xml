@@ -53,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:srcCompat="@drawable/ic_logo_option" />
+            app:srcCompat="@drawable/ic_moodie_trail" />
 
         <TextView
             android:id="@+id/text_app_name"

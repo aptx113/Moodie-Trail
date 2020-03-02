@@ -2,6 +2,10 @@ package com.danteyu.studio.moodietrail
 
 import android.animation.Animator
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -26,6 +30,7 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 /**
@@ -40,6 +45,9 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var messageDialog: MessageDialog
+
+    private var alarmManager: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -186,6 +194,33 @@ class MainActivity : BaseActivity() {
         setupToolbar()
         setupBottomNav()
         setupNavController()
+
+        val notificationKey = "title"
+        val notificationIntentValue = "activity_app"
+
+        alarmManager =
+            MoodieTrailApplication.instance.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmIntent =
+            Intent(MoodieTrailApplication.instance, AlarmReceiver::class.java).let { intent ->
+                intent.putExtra(notificationKey, notificationIntentValue)
+                PendingIntent.getBroadcast(MoodieTrailApplication.instance, 0, intent, 0)
+            }
+
+        // Set the alarm to start at 12:30 p.m.
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 30)
+        }
+
+        // setRepeating() lets you specify a precise custom interval--in this case,
+        // 1 day
+        alarmManager?.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            1000 * 60 * 60 * 24,
+            alarmIntent
+        )
 
     }
 

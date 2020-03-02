@@ -140,7 +140,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     }
 
     /**
-     * Function to get Start Time Of Date in timestamp in milliseconds
+     * Function to get Start Time Of this Month in timestamp in milliseconds
      */
     private fun getStartDateOfMonth(timestamp: Long): Long? {
 
@@ -155,7 +155,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     }
 
     /**
-     * Function to get End Time Of Date in timestamp in milliseconds
+     * Function to get End Time Of this Month in timestamp in milliseconds
      */
     private fun getEndDateOfMonth(timestamp: Long): Long? {
 
