@@ -10,13 +10,16 @@ import android.os.AsyncTask
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavDeepLinkBuilder
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.FORMAT_HH_MM
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.recordmood.RecordMoodFragmentArgs
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getCalendar
 import com.danteyu.studio.moodietrail.util.Util.getColor
@@ -47,7 +50,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         intent.extras?.let {
 
-            if (it.get(receiveTitle) == receiveTag && getCalendar().timeInMillis.toDisplayFormat(
+            if (it.get(receiveTitle) == receiveTag
+                && getCalendar().timeInMillis.toDisplayFormat(
                     FORMAT_HH_MM
                 ).split(":")[0] == "12"
             ) {
@@ -63,8 +67,16 @@ class AlarmReceiver : BroadcastReceiver() {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 
+
+        val bundle = bundleOf("noteKey" to Note())
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(MoodieTrailApplication.instance, 0, intent, 0)
+        val pendingIntentFragment =
+            NavDeepLinkBuilder(MoodieTrailApplication.instance).setComponentName(MainActivity::class.java)
+                .setGraph(R.navigation.navigation).setDestination(R.id.recordMoodFragment)
+                .setArguments( bundle)
+                .createPendingIntent()
+
         val notificationId = 0
 
         val builder = NotificationCompat.Builder(MoodieTrailApplication.instance, CHANNEL_ID)
@@ -78,7 +90,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 NotificationCompat.BigTextStyle()
                     .bigText(textContent)
             )
-            .setContentIntent(pendingIntent)
+            .setContentIntent(pendingIntentFragment)
             .setAutoCancel(true)
             .setColor(getColor(R.color.blue_700))
 

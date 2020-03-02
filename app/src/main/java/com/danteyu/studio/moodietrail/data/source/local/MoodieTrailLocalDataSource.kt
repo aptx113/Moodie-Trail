@@ -35,7 +35,7 @@ class MoodieTrailLocalDataSource(val context: Context) : MoodieTrailDataSource {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getUserProfile(id: String): Result<User> {
+    override suspend fun getUserProfile(uid: String): Result<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

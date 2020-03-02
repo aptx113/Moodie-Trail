@@ -110,7 +110,7 @@ object UserManager {
             }
         }
 
-    var mail: String? = null
+    var email: String? = null
         get() = prefs.getString(USER_MAIL, "")
         set(value) {
             field = when (value) {

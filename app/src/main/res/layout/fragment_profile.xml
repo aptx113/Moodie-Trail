@@ -50,7 +50,8 @@
                 android:layout_marginEnd="@dimen/margin_basic"
                 android:fontFamily="@font/droid_sans"
                 android:letterSpacing="0.15"
-                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:focusable="true"
                 android:padding="@dimen/elevation_all"
                 android:text="@{viewModel.userName}"
                 android:textColor="@color/white"
@@ -61,7 +62,8 @@
                 app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="loading" />
+                tools:text="loading"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/text_profile_info"

@@ -19,7 +19,7 @@ interface MoodieTrailRepository {
 
     suspend fun getAvgMoodByDateRange(uid: String, startDate: Long, endDate: Long):Result<List<AverageMood>>
 
-    suspend fun getUserProfile(id: String): Result<User>
+    suspend fun getUserProfile(uid: String): Result<User>
 
     suspend fun signUpUser(user: User, id: String): Result<Boolean>
 
