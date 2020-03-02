@@ -109,7 +109,7 @@ class LoginFragment : Fragment() {
                 UserManager.userToken = account!!.idToken
                 UserManager.name = account.displayName
                 UserManager.picture = account.photoUrl.toString()
-                UserManager.mail = account.email
+                UserManager.email = account.email
 
                 viewModel.firebaseAuthWithGoogle(account)
                 Logger.i("ServerAuthCode =${account.serverAuthCode} account.id =${account.id}")

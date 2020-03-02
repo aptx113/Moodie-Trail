@@ -83,7 +83,7 @@ class StatisticFragment : Fragment() {
             description.isEnabled = false
 
             setExtraOffsets(5f, 10f, 10f, 10f)
-            animateX(1500, Easing.EaseInBounce)
+            animateX(1000, Easing.EaseInBack)
             // enable scaling and dragging
             isDragEnabled = true
 

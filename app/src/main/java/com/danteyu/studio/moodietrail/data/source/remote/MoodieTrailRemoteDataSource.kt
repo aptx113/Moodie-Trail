@@ -43,6 +43,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val PATH_PSYTESTS = "psyTests"
     private const val PATH_AVGMOODS = "avgMoods"
     private const val KEY_ID = "id"
+    private const val KEY_EMAIL ="email"
     private const val KEY_DATE = "date"
     private const val KEY_CONTENT = "content"
     private const val KEY_IMAGE = "image"
@@ -164,10 +165,10 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                 }
         }
 
-    override suspend fun getUserProfile(id: String): Result<User> =
+    override suspend fun getUserProfile(uid: String): Result<User> =
         suspendCoroutine { continuation ->
 
-            FirebaseFirestore.getInstance().collection(PATH_USERS).whereEqualTo(KEY_ID, id)
+            FirebaseFirestore.getInstance().collection(PATH_USERS).whereEqualTo(KEY_ID, uid)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

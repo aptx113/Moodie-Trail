@@ -13,6 +13,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.PlaceHolder
@@ -27,7 +28,6 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.danteyu.studio.moodietrail.util.Util.getString
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 @BindingAdapter("notes")
 fun bindRecyclerViewWithNotes(recyclerView: RecyclerView, notes: List<Note>?) {
@@ -425,15 +425,15 @@ fun bindImageByMood(imgView: ImageView, imgUrl: String?, mood: Int?) {
     GlideApp.with(imgView.context)
         .load(imgUri)
         .transform(
-            CenterInside(),
-            RoundedCornersTransformation(
+            RoundedCorners(
                 MoodieTrailApplication.instance.resources.getDimensionPixelSize(
                     R.dimen.margin_half
-                ), 0
+                )
             )
         )
         .apply(
             RequestOptions()
+                .placeholder(R.drawable.ic_placeholder_record_detail)
                 .error(R.mipmap.ic_launcher)
         )
         .into(imgView)

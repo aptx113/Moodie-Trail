@@ -145,6 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_basic"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/layout_record_detail_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -213,6 +214,7 @@
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:cropToPadding="false"
+                    android:scaleType="center"
                     android:onClick="@{()->viewModel.showImageSelector()}"
                     app:imageUrlByMood='@{viewModel.note.image == null ? "" : viewModel.note.image}'
                     app:layout_constraintEnd_toEndOf="parent"

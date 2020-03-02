@@ -130,7 +130,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                         User(
                             name = UserManager.name!!,
                             picture = UserManager.picture!!,
-                            email = UserManager.mail!!
+                            email = UserManager.email!!
                         ), uid
                     )
                 }
@@ -268,7 +268,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
 //                            handleFacebookAccessToken(loginResult.accessToken)
                             UserManager.userToken = `object`.getLong("id").toString()
                             UserManager.name = `object`.getString("name")
-                            UserManager.mail = `object`.getString("email")
+                            UserManager.email = `object`.getString("email")
                             Profile.getCurrentProfile()?.let {
                                 UserManager.picture = it.getProfilePictureUri(300, 300).toString()
                             }

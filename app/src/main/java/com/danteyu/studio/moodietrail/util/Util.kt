@@ -39,6 +39,10 @@ object Util {
         return MoodieTrailApplication.instance.getDrawable(resourceId)
     }
 
+    fun getCalendar(): Calendar {
+        return MoodieTrailApplication.instance.appContainer.calendar
+    }
+
     fun getAuth(): FirebaseAuth {
         return MoodieTrailApplication.instance.appContainer.auth
     }
@@ -49,5 +53,13 @@ object Util {
 
     fun getStartDateOfMonth(timestamp: Long): Long? {
         return MoodieTrailApplication.instance.appContainer.getStartDateOfMonth(timestamp)
+    }
+
+    fun getStartTimeOfDay(timestamp: Long): Long? {
+        return MoodieTrailApplication.instance.appContainer.getStartTimeOfDay(timestamp)
+    }
+
+    fun getEndTimeOfDay(timestamp: Long): Long? {
+        return MoodieTrailApplication.instance.appContainer.getEndTimeOfDay(timestamp)
     }
 }
