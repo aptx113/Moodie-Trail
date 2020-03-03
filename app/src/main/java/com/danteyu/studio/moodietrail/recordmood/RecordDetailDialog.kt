@@ -6,7 +6,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -15,14 +14,11 @@ import android.view.*
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
@@ -40,7 +36,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -93,7 +88,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.imageNoteImage.clipToOutline = true
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "") {
                 viewModel.addNoteTag()
                 true
             } else false
@@ -368,83 +363,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
     }
 
-    //        private fun getPermissionsByNative() {
-//
-//        val permissions = arrayOf(
-//            PERMISSION_CAMERA,
-//            PERMISSION_READ_EXTERNAL_STORAGE,
-//            PERMISSION_WRITE_EXTERNAL_STORAGE
-//        )
-//        if (ContextCompat.checkSelfPermission(
-//                MoodieTrailApplication.instance,
-//                PERMISSION_CAMERA
-//            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-//                MoodieTrailApplication.instance,
-//                PERMISSION_WRITE_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-//                MoodieTrailApplication.instance,
-//                PERMISSION_READ_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            if (shouldShowRequestPermissionRationale(
-//                    PERMISSION_CAMERA
-//                ) || shouldShowRequestPermissionRationale(
-//                    PERMISSION_READ_EXTERNAL_STORAGE
-//                ) || shouldShowRequestPermissionRationale(
-//                    PERMISSION_WRITE_EXTERNAL_STORAGE
-//                )
-//            ) {
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//                AlertDialog.Builder(context!!)
-//                    .setMessage("需要允許相機和儲存空間權限才能新增圖片唷^.<")
-//                    .setPositiveButton("前往設定") { _, _ ->
-//                        requestPermissions(
-//
-//                            permissions,
-//                            SELECT_PHOTO_PERMISSION_REQUEST_CODE
-//                        )
-//                    }
-//                    .setNegativeButton("取消") { _, _ -> }
-//                    .show()
-//            } else {
-//                requestPermissions(
-//                    permissions,
-//                    SELECT_PHOTO_PERMISSION_REQUEST_CODE
-//                )
-//            }
-//        }
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//
-////        isUploadPermissionsGranted = false
-//
-//        when (requestCode) {
-//
-//            SELECT_PHOTO_PERMISSION_REQUEST_CODE ->
-//
-//                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-//                    && grantResults[1] == PackageManager.PERMISSION_GRANTED
-//                    && grantResults[2] == PackageManager.PERMISSION_GRANTED
-//                ) {
-////                    isUploadPermissionsGranted = true
-//                    try {
-//                        showGallery()
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                    }
-//                } else {
-////                    isUploadPermissionsGranted = false
-//                    return
-//                }
-//        }
-//    }
     private fun setupDatePickerDialog() {
 
         val datePickerListener =
@@ -523,7 +441,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         private const val PERMISSION_READ_EXTERNAL_STORAGE =
             Manifest.permission.READ_EXTERNAL_STORAGE
-        private const val SELECT_PHOTO_PERMISSION_REQUEST_CODE = 1234
 
         //Image request code
         private const val IMAGE_FROM_CAMERA = 0
@@ -534,6 +451,5 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         //Bitmap to get image from gallery
         private var windowManager: WindowManager? = null
         private var fileFromCamera: File? = null
-        private var isUploadPermissionsGranted = false
     }
 }

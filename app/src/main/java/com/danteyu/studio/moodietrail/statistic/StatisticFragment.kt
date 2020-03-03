@@ -121,11 +121,6 @@ class StatisticFragment : Fragment() {
 
     private fun displayAvgMoodData(avgMoodEntries: List<Entry>) {
 
-//        val sortedEntries = avgMoodEntries.sortedBy { it.x }
-//        for (index in sortedEntries.indices) {
-//            sortedEntries[index].x = index.toFloat()
-//            if (index == sortedEntries.size -1) sortedEntries[index].x = 10f
-//        }
         val dataSet = LineDataSet(avgMoodEntries, getString(R.string.mood))
 
         dataSet.apply {
@@ -215,7 +210,6 @@ class StatisticFragment : Fragment() {
             yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
             sliceSpace = 2f
         }
-
 
         moodPieChart.data = PieData(dataSet)
         moodPieChart.notifyDataSetChanged()

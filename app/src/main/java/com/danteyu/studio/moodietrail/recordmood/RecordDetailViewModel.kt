@@ -223,8 +223,6 @@ class RecordDetailViewModel(
             it?.tags?.let { list ->
                 tags.value = list
             }
-
-
         }
         initializeDateOfNote()
     }
@@ -273,11 +271,9 @@ class RecordDetailViewModel(
     fun updateDateOfNote() {
         _dateOfNote.value = calendar.timeInMillis
         weekOfMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
-
     }
 
     fun addNoteTag() {
-
         newTag.value?.let {
             tags.value?.add(it)
         }
@@ -285,7 +281,6 @@ class RecordDetailViewModel(
         tags.value = tags.value
         newTag.value = ""
         Logger.d("addNoteTags, tags = ${tags.value}")
-
 
     }
 
@@ -435,9 +430,7 @@ class RecordDetailViewModel(
                     _statusForPost.value = LoadApiStatus.ERROR
                 }
             }
-
         }
-
     }
 
     private fun getNotesResultByDateRange(uid: String, startDate: Long, endDate: Long) {

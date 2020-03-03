@@ -75,16 +75,6 @@ class RecordMoodViewModel(
 
     val selectedMood = MutableLiveData<Int>()
 
-    // Handle show DatePickerDialog
-    private val _showDatePickerDialog = MutableLiveData<Boolean>()
-    val showDatePickerDialog: LiveData<Boolean>
-        get() = _showDatePickerDialog
-
-    // Handle show TimePickerDialog
-    private val _showTimePickerDialog = MutableLiveData<Boolean>()
-    val showTimePickerDialog: LiveData<Boolean>
-        get() = _showTimePickerDialog
-
     // Handle the error for write
     private val _invalidWrite = MutableLiveData<Int>()
 
@@ -332,7 +322,6 @@ class RecordMoodViewModel(
                     FORMAT_YYYY_MM_DD
                 )!!
             )
-//            _refreshStatus.value = false
         }
 
     }
@@ -383,22 +372,6 @@ class RecordMoodViewModel(
 
     fun onRecordDetailNavigated() {
         _navigateToRecordDetail.value = null
-    }
-
-    fun showDatePickerDialog() {
-        _showDatePickerDialog.value = true
-    }
-
-    fun onDateDialogShowed() {
-        _showDatePickerDialog.value = false
-    }
-
-    fun showTimePickerDialog() {
-        _showTimePickerDialog.value = true
-    }
-
-    fun onTimeDialogShowed() {
-        _showTimePickerDialog.value = false
     }
 
     private fun navigateToHome() {

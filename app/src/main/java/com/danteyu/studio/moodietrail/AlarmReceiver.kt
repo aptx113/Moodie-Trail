@@ -71,7 +71,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val bundle = bundleOf("noteKey" to Note())
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(MoodieTrailApplication.instance, 0, intent, 0)
-        val pendingIntentFragment =
+        val pendingIntentForNavToFragment =
             NavDeepLinkBuilder(MoodieTrailApplication.instance).setComponentName(MainActivity::class.java)
                 .setGraph(R.navigation.navigation).setDestination(R.id.recordMoodFragment)
                 .setArguments( bundle)
@@ -90,7 +90,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 NotificationCompat.BigTextStyle()
                     .bigText(textContent)
             )
-            .setContentIntent(pendingIntentFragment)
+            .setContentIntent(pendingIntentForNavToFragment)
             .setAutoCancel(true)
             .setColor(getColor(R.color.blue_700))
 
@@ -172,7 +172,6 @@ class AlarmReceiver : BroadcastReceiver() {
             createNotificationChannel()
         }
     }
-
 
     private class Task(
         private val pendingResult: PendingResult, private val intent: Intent

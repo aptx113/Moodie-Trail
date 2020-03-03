@@ -1,13 +1,9 @@
 package com.danteyu.studio.moodietrail.recordmood
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,7 +19,6 @@ import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.I
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel.Companion.POST_NOTE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_record_mood.*
 import java.util.*
 
 /**
@@ -108,70 +103,6 @@ class RecordMoodFragment : Fragment() {
             Logger.w("averageMood = $it")
         })
 
-        setupDatePickerDialog()
-        setupTimePickerDialog()
-
         return binding.root
-    }
-
-    private fun setupDatePickerDialog() {
-
-        val datePickerListener =
-            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                calendar.set(year, month, dayOfMonth)
-
-                viewModel.updateDateAndTimeOfNote()
-            }
-
-        val datePickerDialog = DatePickerDialog(
-            this.context!!,
-            R.style.DatePicker,
-            datePickerListener,
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH).plus(1),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-
-        datePickerDialog.datePicker.maxDate = calendar.timeInMillis
-
-        viewModel.showDatePickerDialog.observe(this, Observer {
-            it?.let {
-                if (it) {
-
-                    datePickerDialog.show()
-                    viewModel.onDateDialogShowed()
-                }
-            }
-        })
-    }
-
-    private fun setupTimePickerDialog() {
-
-        val timePickerListener =
-            TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                calendar.set(Calendar.MINUTE, minute)
-
-                viewModel.updateDateAndTimeOfNote()
-            }
-
-        val timePickerDialog = TimePickerDialog(
-            this.context,
-            R.style.DatePicker,
-            timePickerListener,
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE),
-            true
-        )
-
-        viewModel.showTimePickerDialog.observe(this, Observer {
-            it?.let {
-                if (it) {
-
-                    timePickerDialog.show()
-                    viewModel.onTimeDialogShowed()
-                }
-            }
-        })
     }
 }
