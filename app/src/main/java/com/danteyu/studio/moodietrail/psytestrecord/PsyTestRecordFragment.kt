@@ -27,16 +27,16 @@ class PsyTestRecordFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.recyclerPsyTest.adapter =
+        binding.recyclerPsyTestPsyTestRecord.adapter =
             PsyTestAdapter(PsyTestAdapter.OnClickListener { viewModel.navigateToPsyTestResult(it) })
 
-        binding.layoutSwipeRefreshPsyTest.setOnRefreshListener {
+        binding.layoutSwipeRefreshPsyTestRecord.setOnRefreshListener {
             viewModel.refresh()
         }
 
         viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.layoutSwipeRefreshPsyTest.isRefreshing = it
+                binding.layoutSwipeRefreshPsyTestRecord.isRefreshing = it
             }
         })
 

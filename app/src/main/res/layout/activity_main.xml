@@ -48,9 +48,9 @@
                 android:id="@+id/button_test_result_back"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"
                 android:layout_gravity="start"
                 android:background="@drawable/ic_back"
+                android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"
                 android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT ? View.VISIBLE : View.GONE}"
                 tools:visibility="visible" />
 
@@ -192,6 +192,7 @@
             android:onClick="@{()->viewModel.onFabPressed()}"
             android:src="@drawable/ic_action_add"
             android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.RECORDMOOD || viewModel.currentFragmentType == CurrentFragmentType.RECORDDETAIL || viewModel.currentFragmentType == CurrentFragmentType.LOGIN|| viewModel.currentFragmentType == CurrentFragmentType.PSYTEST|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTBODY || viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRESULT|| viewModel.currentFragmentType == CurrentFragmentType.PSYTESTRATING ? View.GONE : View.VISIBLE}"
+            app:borderWidth="0dp"
             app:elevation="@dimen/elevation_fab"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

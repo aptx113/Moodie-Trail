@@ -121,17 +121,16 @@
     <string name="do_not_forget_to_select_inferiority">別忘了填寫第五題喔 ^.&#60;</string>
     <string name="do_not_forget_to_select_suicide">別忘了填寫附加題喔 ^.&#60;</string>
 
-
     <!-- PsyTestResult -->
     <string name="psy_test_result_score">測驗結果\u0020%d\u0020分</string>
     <string name="suicide_advice">「自殺想法」：評分為\u00202\u0020以上（中等程度）時，宜尋求專業諮詢或接受精神科治療。</string>
     <string name="each_item_score">各題分數</string>
-    <string name="insomnia">失眠</string>
-    <string name="anxiety">焦慮</string>
-    <string name="anger">憤怒</string>
-    <string name="major_depression">憂鬱</string>
-    <string name="inferiority">自卑</string>
-    <string name="suicide_thought">自殺</string>
+    <string name="insomnia">失眠情形</string>
+    <string name="anxiety">焦慮傾向</string>
+    <string name="anger">憤怒傾向</string>
+    <string name="major_depression">憂鬱傾向</string>
+    <string name="inferiority">自卑傾向</string>
+    <string name="suicide_thought">自殺想法</string>
     <string name="check_delete_psy_test_message">確定要刪除此筆測驗記錄嗎？</string>
 
     <!-- PsyTestRating -->
@@ -170,5 +169,12 @@
     <string name="remind_note_notification_title">好的開始是成功的一半</string>
     <string name="how_do_you_feel_today">今天心情如何？</string>
     <string name="today_notes_size">今天已記錄 %d 則心情，繼續保持記錄心情的習慣唷！</string>
+
+    <!-- MoodLineChartInfoDialog -->
+    <string name="score_very_good">5 :</string>
+    <string name="score_good">4 :</string>
+    <string name="score_normal">3 :</string>
+    <string name="score_bad">2 :</string>
+    <string name="score_very_bad">1 :</string>
 
 </resources>

@@ -18,7 +18,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_normal"
+            android:id="@+id/layout_normal_psy_test_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -29,7 +29,7 @@
             tools:layout_editor_absoluteY="218dp">
 
             <ImageView
-                android:id="@+id/image_normal_range"
+                android:id="@+id/image_normal_range_psy_test_rating"
                 android:layout_width="@dimen/size_image_psy_test_rating"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
@@ -44,12 +44,12 @@
                 android:text="@string/normal_score"
                 android:textSize="14sp"
                 android:textColor="@color/black_3f3a3a"
-                app:layout_constraintEnd_toEndOf="@id/image_normal_range"
-                app:layout_constraintStart_toStartOf="@id/image_normal_range"
-                app:layout_constraintTop_toBottomOf="@id/image_normal_range" />
+                app:layout_constraintEnd_toEndOf="@id/image_normal_range_psy_test_rating"
+                app:layout_constraintStart_toStartOf="@id/image_normal_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/image_normal_range_psy_test_rating" />
 
             <TextView
-                android:id="@+id/text_normal_range"
+                android:id="@+id/text_normal_range_psy_test_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -57,7 +57,7 @@
                 android:text="@string/normal_range"
                 android:textColor="@color/blue_700"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/image_normal_range"
+                app:layout_constraintStart_toEndOf="@id/image_normal_range_psy_test_rating"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -68,24 +68,24 @@
                 android:text="@string/normal_advice"
                 android:textSize="14sp"
                 android:textColor="@color/black_3f3a3a"
-                app:layout_constraintStart_toStartOf="@id/text_normal_range"
-                app:layout_constraintTop_toBottomOf="@id/text_normal_range" />
+                app:layout_constraintStart_toStartOf="@id/text_normal_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/text_normal_range_psy_test_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_light"
+            android:id="@+id/layout_light_psy_test_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_normal"
+            app:layout_constraintTop_toBottomOf="@id/layout_normal_psy_test_rating"
             tools:layout_editor_absoluteY="218dp">
 
             <ImageView
-                android:id="@+id/image_light_range"
+                android:id="@+id/image_light_range_psy_test_rating"
                 android:layout_width="@dimen/size_image_psy_test_rating"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
@@ -100,12 +100,12 @@
                 android:text="@string/light_score"
                 android:textSize="14sp"
                 android:textColor="@color/black_3f3a3a"
-                app:layout_constraintEnd_toEndOf="@id/image_light_range"
-                app:layout_constraintStart_toStartOf="@id/image_light_range"
-                app:layout_constraintTop_toBottomOf="@id/image_light_range" />
+                app:layout_constraintEnd_toEndOf="@id/image_light_range_psy_test_rating"
+                app:layout_constraintStart_toStartOf="@id/image_light_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/image_light_range_psy_test_rating" />
 
             <TextView
-                android:id="@+id/text_light_range"
+                android:id="@+id/text_light_range_psy_test_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -113,7 +113,7 @@
                 android:text="@string/light_range"
                 android:textColor="@color/blue_700"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/image_light_range"
+                app:layout_constraintStart_toEndOf="@id/image_light_range_psy_test_rating"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -126,24 +126,24 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/text_light_range"
-                app:layout_constraintTop_toBottomOf="@id/text_light_range" />
+                app:layout_constraintStart_toStartOf="@id/text_light_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/text_light_range_psy_test_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_medium"
+            android:id="@+id/layout_medium_psy_test_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_light"
+            app:layout_constraintTop_toBottomOf="@id/layout_light_psy_test_rating"
             tools:layout_editor_absoluteY="218dp">
 
             <ImageView
-                android:id="@+id/image_medium_range"
+                android:id="@+id/image_medium_range_psy_test_rating"
                 android:layout_width="@dimen/size_image_psy_test_rating"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
@@ -158,12 +158,12 @@
                 android:text="@string/medium_score"
                 android:textSize="14sp"
                 android:textColor="@color/black_3f3a3a"
-                app:layout_constraintEnd_toEndOf="@id/image_medium_range"
-                app:layout_constraintStart_toStartOf="@id/image_medium_range"
-                app:layout_constraintTop_toBottomOf="@id/image_medium_range" />
+                app:layout_constraintEnd_toEndOf="@id/image_medium_range_psy_test_rating"
+                app:layout_constraintStart_toStartOf="@id/image_medium_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/image_medium_range_psy_test_rating" />
 
             <TextView
-                android:id="@+id/text_medium_range"
+                android:id="@+id/text_medium_range_psy_test_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -171,7 +171,7 @@
                 android:text="@string/medium_range"
                 android:textColor="@color/blue_700"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/image_medium_range"
+                app:layout_constraintStart_toEndOf="@id/image_medium_range_psy_test_rating"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -185,24 +185,24 @@
                 android:textColor="@color/black_3f3a3a"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/text_medium_range"
-                app:layout_constraintTop_toBottomOf="@id/text_medium_range" />
+                app:layout_constraintStart_toStartOf="@id/text_medium_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/text_medium_range_psy_test_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_heavy"
+            android:id="@+id/layout_heavy_psy_test_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginTop="@dimen/margin_advanced"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_medium"
+            app:layout_constraintTop_toBottomOf="@id/layout_medium_psy_test_rating"
             tools:layout_editor_absoluteY="218dp">
 
             <ImageView
-                android:id="@+id/image_heavy_range"
+                android:id="@+id/image_heavy_range_psy_test_rating"
                 android:layout_width="@dimen/size_image_psy_test_rating"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
@@ -217,12 +217,12 @@
                 android:text="@string/heavy_score"
                 android:textSize="14sp"
                 android:textColor="@color/black_3f3a3a"
-                app:layout_constraintEnd_toEndOf="@id/image_heavy_range"
-                app:layout_constraintStart_toStartOf="@id/image_heavy_range"
-                app:layout_constraintTop_toBottomOf="@id/image_heavy_range" />
+                app:layout_constraintEnd_toEndOf="@id/image_heavy_range_psy_test_rating"
+                app:layout_constraintStart_toStartOf="@id/image_heavy_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/image_heavy_range_psy_test_rating" />
 
             <TextView
-                android:id="@+id/text_heavy_range"
+                android:id="@+id/text_heavy_range_psy_test_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -230,7 +230,7 @@
                 android:text="@string/heavy_range"
                 android:textColor="@color/blue_700"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/image_heavy_range"
+                app:layout_constraintStart_toEndOf="@id/image_heavy_range_psy_test_rating"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -244,8 +244,8 @@
                 android:textColor="@color/black_3f3a3a"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/text_heavy_range"
-                app:layout_constraintTop_toBottomOf="@id/text_heavy_range" />
+                app:layout_constraintStart_toStartOf="@id/text_heavy_range_psy_test_rating"
+                app:layout_constraintTop_toBottomOf="@id/text_heavy_range_psy_test_rating" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

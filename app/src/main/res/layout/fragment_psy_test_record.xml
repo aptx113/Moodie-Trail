@@ -19,7 +19,7 @@
         android:background="@color/gray_f0f0f0">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/layout_swipe_refresh_psy_test"
+            android:id="@+id/layout_swipe_refresh_psy_test_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_psy_test"
+                android:id="@+id/recycler_psy_test_psy_test_record"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -53,7 +53,7 @@
             app:layout_constraintVertical_bias="0.45">
 
             <ImageView
-                android:id="@+id/image_no_psy_tests"
+                android:id="@+id/image_no_psy_tests_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tint="@color/blue_700_Light"
@@ -64,7 +64,7 @@
                 app:srcCompat='@drawable/ic_no_psy_tests' />
 
             <TextView
-                android:id="@+id/text_no_psy_tests"
+                android:id="@+id/text_no_psy_tests_record"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -77,7 +77,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_no_psy_tests" />
+                app:layout_constraintTop_toBottomOf="@id/image_no_psy_tests_record" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

@@ -427,7 +427,7 @@
                 </RadioGroup>
 
                 <Button
-                    android:id="@+id/button_psy_text_result"
+                    android:id="@+id/button_psy_text_body"
                     style="@style/RecordDetailButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -449,11 +449,11 @@
                     android:layout_height="0dp"
                     android:theme="@style/ProgressThemeDark"
                     android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@id/button_psy_text_result"
+                    app:layout_constraintBottom_toBottomOf="@id/button_psy_text_body"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="@id/button_psy_text_result"
-                    app:layout_constraintStart_toStartOf="@id/button_psy_text_result"
-                    app:layout_constraintTop_toTopOf="@id/button_psy_text_result"
+                    app:layout_constraintEnd_toEndOf="@id/button_psy_text_body"
+                    app:layout_constraintStart_toStartOf="@id/button_psy_text_body"
+                    app:layout_constraintTop_toTopOf="@id/button_psy_text_body"
                     tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

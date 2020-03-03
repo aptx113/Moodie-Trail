@@ -48,7 +48,7 @@ class MessageDialog : AppCompatDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Handler().postDelayed({ this.dismiss() }, 2000)
+        Handler().postDelayed({ this.dismiss() }, DELAY_MILLIS)
     }
 
     private fun init() {
@@ -89,11 +89,9 @@ class MessageDialog : AppCompatDialogFragment() {
             }
     }
 
-//    override fun dismiss() {
-//        super.dismiss()
-//
-//        if (messageType == MessageType.LOGIN_SUCCESS) {
-//            findNavController().navigate(MessageDialogDirections.actionMessageDialogToHomeFragment())
-//        }
-//    }
+    companion object {
+
+        private const val DELAY_MILLIS = 2000L
+
+    }
 }

@@ -12,17 +12,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.PlaceHolder
+import com.danteyu.studio.moodietrail.util.PlaceHolder
 import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
 import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
-import com.danteyu.studio.moodietrail.data.Mood
+import com.danteyu.studio.moodietrail.util.Mood
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getColor
@@ -254,11 +253,11 @@ fun bindMoodColorForButton(button: Button, mood: Int?) {
     mood?.let {
         button.background = getDrawable(
             when (it) {
-                1 -> R.color.mood_very_bad
-                2 -> R.color.mood_bad
-                3 -> R.color.mood_normal
-                4 -> R.color.mood_good
-                5 -> R.color.mood_very_good
+                1 -> R.drawable.button_record_detail_ripple_very_bad
+                2 -> R.drawable.button_record_detail_ripple_bad
+                3 -> R.drawable.button_record_detail_ripple_normal
+                4 -> R.drawable.button_record_detail_ripple_good
+                5 -> R.drawable.button_record_detail_ripple_very_good
                 else -> R.color.blue_700
             }
         )
@@ -324,7 +323,7 @@ fun bindMoodColorForImage(imageView: ImageView, mood: Int?) {
 @BindingAdapter("imageButtonMoodColor", "newTag")
 fun bindMoodColorForImageButton(imageButton: ImageButton, mood: Int?, newTag: String?) {
     mood?.let {
-        if (newTag.isNullOrEmpty()) {
+        if (newTag == "" || newTag == null) {
             imageButton.setColorFilter(getColor(R.color.gray_999999))
         } else {
             imageButton.setColorFilter(

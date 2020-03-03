@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.data
+package com.danteyu.studio.moodietrail.util
 
 /**
  * Created by George Yu on 2020/2/21.

@@ -20,7 +20,7 @@
         android:onClick="@{() -> dialog.dismiss()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_message"
+            android:id="@+id/layout_image_source_selector"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="72dp"
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
            <androidx.constraintlayout.widget.ConstraintLayout
-               android:id="@+id/layout_top"
+               android:id="@+id/layout_top_image_source_selector"
                android:layout_width="match_parent"
                android:background="@drawable/bg_dialog_radius_top"
                android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintEnd_toEndOf="parent">
             <ImageView
-                android:id="@+id/image_message_icon"
+                android:id="@+id/image_icon_image_source_selector"
                 android:layout_width="32dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_message_content"
+                android:id="@+id/text_title_image_source_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="44dp"
@@ -60,9 +60,9 @@
                 android:text='@string/add_photo_title'
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@id/image_message_icon"
-                app:layout_constraintStart_toEndOf="@id/image_message_icon"
-                app:layout_constraintTop_toTopOf="@id/image_message_icon" />
+                app:layout_constraintBottom_toBottomOf="@id/image_icon_image_source_selector"
+                app:layout_constraintStart_toEndOf="@id/image_icon_image_source_selector"
+                app:layout_constraintTop_toTopOf="@id/image_icon_image_source_selector" />
            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
@@ -71,14 +71,14 @@
                 android:layout_marginStart="20dp"
                 android:tint="@color/blue_700"
                 android:layout_marginBottom="3dp"
-                app:layout_constraintBottom_toBottomOf="@id/button_camera"
+                app:layout_constraintBottom_toBottomOf="@id/button_camera_image_source_selector"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="@id/button_camera"
-                app:layout_constraintTop_toTopOf="@id/button_camera"
+                app:layout_constraintStart_toStartOf="@id/button_camera_image_source_selector"
+                app:layout_constraintTop_toTopOf="@id/button_camera_image_source_selector"
                 app:srcCompat="@drawable/ic_camera" />
 
             <Button
-                android:id="@+id/button_camera"
+                android:id="@+id/button_camera_image_source_selector"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_top" />
+                app:layout_constraintTop_toBottomOf="@id/layout_top_image_source_selector" />
 
             <View
                 android:id="@+id/camera_separator"
@@ -97,7 +97,7 @@
                 android:background="@color/blue_700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/button_camera" />
+                app:layout_constraintTop_toBottomOf="@id/button_camera_image_source_selector" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -105,14 +105,14 @@
                 android:layout_marginStart="20dp"
                 android:tint="@color/blue_700"
                 android:layout_marginBottom="3dp"
-                app:layout_constraintBottom_toBottomOf="@id/button_photo"
+                app:layout_constraintBottom_toBottomOf="@id/button_photo_image_source_selector"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="@id/button_photo"
-                app:layout_constraintTop_toTopOf="@id/button_photo"
+                app:layout_constraintStart_toStartOf="@id/button_photo_image_source_selector"
+                app:layout_constraintTop_toTopOf="@id/button_photo_image_source_selector"
                 app:srcCompat="@drawable/ic_photo" />
 
             <Button
-                android:id="@+id/button_photo"
+                android:id="@+id/button_photo_image_source_selector"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,21 +131,21 @@
                 android:background="@color/blue_700"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/button_photo" />
+                app:layout_constraintTop_toBottomOf="@id/button_photo_image_source_selector" />
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="23dp"
                 android:tint="@color/blue_700"
-                app:layout_constraintBottom_toBottomOf="@id/button_cancel"
+                app:layout_constraintBottom_toBottomOf="@id/button_cancel_image_source_selector"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="@id/button_cancel"
-                app:layout_constraintTop_toTopOf="@id/button_cancel"
+                app:layout_constraintStart_toStartOf="@id/button_cancel_image_source_selector"
+                app:layout_constraintTop_toTopOf="@id/button_cancel_image_source_selector"
                 app:srcCompat="@drawable/ic_cancel" />
 
             <Button
-                android:id="@+id/button_cancel"
+                android:id="@+id/button_cancel_image_source_selector"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

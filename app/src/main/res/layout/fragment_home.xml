@@ -19,7 +19,7 @@
         android:background="@color/gray_f0f0f0">
 
         <ImageView
-            android:id="@+id/image_toolbar_last"
+            android:id="@+id/image_last_month_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_half"
@@ -27,14 +27,14 @@
             android:src="@drawable/ic_toolbar_back"
             android:tint="@color/blue_700_Dark"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/text_toolbar_date"
+            app:layout_constraintEnd_toStartOf="@+id/text_date_home"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/text_toolbar_date"
+            android:id="@+id/text_date_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -44,16 +44,16 @@
             android:textColor="@color/blue_700_Dark"
             android:textSize="16sp"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/image_toolbar_next"
+            app:layout_constraintEnd_toStartOf="@+id/image_next_home"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_toolbar_last"
+            app:layout_constraintStart_toEndOf="@+id/image_last_month_home"
             app:layout_constraintTop_toTopOf="parent"
             app:timeToDisplayDateYMFormat="@{viewModel.currentMonth}"
             tools:text="2020-01"
             tools:visibility="visible" />
 
         <ImageView
-            android:id="@+id/image_toolbar_next"
+            android:id="@+id/image_next_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,7 +64,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/text_toolbar_date"
+            app:layout_constraintStart_toEndOf="@+id/text_date_home"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
@@ -76,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_toolbar_date">
+            app:layout_constraintTop_toBottomOf="@id/text_date_home">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_note"
@@ -85,7 +85,7 @@
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/margin_half"
-                android:paddingTop="@dimen/margin_half"
+                android:paddingTop="@dimen/margin_quarter"
                 android:paddingBottom="@dimen/margin_basic"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:notes="@{viewModel.notes}"

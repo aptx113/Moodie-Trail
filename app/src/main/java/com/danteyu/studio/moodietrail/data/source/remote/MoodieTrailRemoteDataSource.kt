@@ -43,7 +43,6 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val PATH_PSYTESTS = "psyTests"
     private const val PATH_AVGMOODS = "avgMoods"
     private const val KEY_ID = "id"
-    private const val KEY_EMAIL ="email"
     private const val KEY_DATE = "date"
     private const val KEY_CONTENT = "content"
     private const val KEY_IMAGE = "image"
@@ -51,8 +50,6 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val KEY_CREATEDTIME = "createdTime"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_TIME = "time"
-    private const val KEY_SCORE = "score"
-    private const val KEY_TIMELIST = "timeList"
 
     private val userReference = FirebaseFirestore.getInstance().collection(PATH_USERS)
     private val storageReference = FirebaseStorage.getInstance().reference

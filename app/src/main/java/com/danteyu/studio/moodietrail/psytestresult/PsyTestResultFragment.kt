@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainActivity
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.PsyTest
@@ -79,7 +80,7 @@ class PsyTestResultFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.buttonMentalHealthResource.setOnClickListener {
+        binding.buttonMentalHealthResourcePsyTestResult.setOnClickListener {
             activity.showToast("Coming Soon")
         }
 
@@ -132,13 +133,13 @@ class PsyTestResultFragment : Fragment() {
     }
 
     private fun setupPsyTestChart() {
-        psyTestChart = binding.barChartItemsScore
+        psyTestChart = binding.barChartItemsScorePsyTestResult
         psyTestChart.let {
 
             // disable description
             it.description.isEnabled = false
 
-            it.setExtraOffsets(5f, 10f, 10f, 10f)
+            it.setExtraOffsets(2f, 10f, 10f, 10f)
 
             // enable scaling and dragging
             it.isDragEnabled = false
@@ -186,15 +187,9 @@ class PsyTestResultFragment : Fragment() {
     private fun setPsyTestData(psyTestEntries: List<BarEntry>) {
         val barDataSet = BarDataSet(psyTestEntries, "")
 
-//        barDataSet.setColors(
-//            intArrayOf(
-//                R.color.normal_range, R.color.light_range, R.color.medium_range,
-//                R.color.heavy_range
-//            ), context
-//        )
         barDataSet.run {
             color = when (viewModel.psyTest.value!!.totalScore) {
-                in 0.0..5.0 -> Color.parseColor("#4ab768")
+                in 0.0..5.0 -> MoodieTrailApplication.instance.getColor(R.color.normal_range)
                 in 6.0..9.0 -> Color.parseColor("#ffa000")
                 in 10.0..14.0 -> Color.parseColor("#d32f2f")
                 else -> Color.parseColor("#b71c1c")

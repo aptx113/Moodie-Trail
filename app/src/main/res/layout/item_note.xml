@@ -173,7 +173,6 @@
             android:visibility="invisible"
             android:fontFamily="@font/droid_sans"
             android:maxLines="1"
-            android:text="台灣台北市信義區"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/image_note_location"
             app:layout_constraintEnd_toEndOf="parent"

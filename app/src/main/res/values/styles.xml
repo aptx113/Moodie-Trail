@@ -27,7 +27,7 @@
     </style>
 
     <style name="MessageDialog">
-        <item name="android:windowBackground">@color/translucent_80</item>
+        <item name="android:windowBackground">@color/translucent_40</item>
     </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.Light.Dialog">

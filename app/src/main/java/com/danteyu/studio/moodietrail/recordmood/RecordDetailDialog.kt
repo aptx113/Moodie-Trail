@@ -85,7 +85,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.buttonRecordDetailBack.setTouchDelegate()
-        binding.imageNoteImage.clipToOutline = true
+        binding.imageNoteImageRecordDetail.clipToOutline = true
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "") {
@@ -203,8 +203,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         if (resultCode == Activity.RESULT_OK && data != null && data.data != null && requestCode == IMAGE_FROM_GALLERY) {
 
             val bitmap = data.data!!.getBitmap(
-                binding.imageNoteImage.width,
-                binding.imageNoteImage.height
+                binding.imageNoteImageRecordDetail.width,
+                binding.imageNoteImageRecordDetail.height
             )
             try {
                 viewModel.setImage(bitmap)
@@ -224,7 +224,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 //                    )
 //                    .into(binding.imageNoteImage)
 
-                binding.imageNoteImage.setImageBitmap(bitmap)
+                binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
                 imageSourceSelectorDialog.dismiss()
 
 
@@ -234,12 +234,12 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         } else if (resultCode == Activity.RESULT_OK && data != null && requestCode == IMAGE_FROM_CAMERA) {
 
             val imageBitmap = filePath?.getBitmap(
-                binding.imageNoteImage.width,
-                binding.imageNoteImage.height
+                binding.imageNoteImageRecordDetail.width,
+                binding.imageNoteImageRecordDetail.height
             )
             try {
                 viewModel.setImage(imageBitmap)
-                binding.imageNoteImage.setImageBitmap(imageBitmap)
+                binding.imageNoteImageRecordDetail.setImageBitmap(imageBitmap)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null

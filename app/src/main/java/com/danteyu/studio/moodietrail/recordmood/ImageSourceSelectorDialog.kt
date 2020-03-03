@@ -32,9 +32,9 @@ class ImageSourceSelectorDialog(private val viewModel: RecordDetailViewModel) :
         binding.lifecycleOwner = this
         binding.dialog = this
 
-        binding.buttonCamera.setOnClickListener { viewModel.launchCamera() }
-        binding.buttonPhoto.setOnClickListener { viewModel.showGallery() }
-        binding.buttonCancel.setOnClickListener { dismiss() }
+        binding.buttonCameraImageSourceSelector.setOnClickListener { viewModel.launchCamera() }
+        binding.buttonPhotoImageSourceSelector.setOnClickListener { viewModel.showGallery() }
+        binding.buttonCancelImageSourceSelector.setOnClickListener { dismiss() }
 
         return binding.root
     }

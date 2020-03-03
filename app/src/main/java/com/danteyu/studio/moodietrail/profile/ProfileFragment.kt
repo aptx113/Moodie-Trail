@@ -1,6 +1,7 @@
 package com.danteyu.studio.moodietrail.profile
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,15 +25,21 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.layoutMentalResource.setOnClickListener {
+        binding.textProfileName.apply {
+            isSingleLine = true
+            ellipsize = TextUtils.TruncateAt.MARQUEE
+            isSelected = true
+        }
+
+        binding.layoutMentalResourceProfile.setOnClickListener {
             activity.showToast("Coming Soon")
         }
 
-        binding.layoutNotification.setOnClickListener {
+        binding.layoutNotificationProfile.setOnClickListener {
             activity.showToast("Coming Soon")
         }
 
-        binding.layoutReport.setOnClickListener {
+        binding.layoutReportProfile.setOnClickListener {
             activity.showToast("Coming Soon")
         }
 
