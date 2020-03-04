@@ -77,5 +77,7 @@
     <dimen name="size_toolbar_gone_top">36dp</dimen>
     <dimen name="size_image_psy_test_rating">60dp</dimen>
 
+    <!-- MoodLineChartInfoDialog -->
+    <dimen name="size_image_line_chart_info">40dp</dimen>
 
 </resources>

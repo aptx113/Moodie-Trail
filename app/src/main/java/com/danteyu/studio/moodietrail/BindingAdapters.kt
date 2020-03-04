@@ -1,11 +1,5 @@
 package com.danteyu.studio.moodietrail
 
-import android.graphics.Typeface.BOLD
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,14 +11,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.util.PlaceHolder
 import com.danteyu.studio.moodietrail.data.PsyTest
-import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
 import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.util.Mood
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
-import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.danteyu.studio.moodietrail.util.Util.getString
@@ -230,24 +222,7 @@ fun bindMoodColorForLayout(constraintLayout: ConstraintLayout, mood: Int?) {
     }
 }
 
-@BindingAdapter("textMoodColor")
-fun bindMoodColorForText(textView: TextView, mood: Int?) {
-    mood?.let {
-        textView.setTextColor(
-            getColor(
-                when (it) {
-                    1 -> R.color.mood_very_bad_Dark
-                    2 -> R.color.mood_bad_Dark
-                    3 -> R.color.mood_normal_Dark
-                    4 -> R.color.mood_good_Dark
-                    5 -> R.color.mood_very_good_Dark
-                    else -> R.color.blue_700_Dark
-                }
-            )
 
-        )
-    }
-}
 
 @BindingAdapter("buttonMoodColor")
 fun bindMoodColorForButton(button: Button, mood: Int?) {
@@ -343,48 +318,6 @@ fun bindMoodColorForImageButton(imageButton: ImageButton, mood: Int?, newTag: St
     }
 }
 
-@BindingAdapter("psyRatingText")
-fun bindPsyRatingText(textView: TextView, totalScore: Float?) {
-    totalScore?.let {
-        textView.text = MoodieTrailApplication.instance.getString(
-            when (it) {
-                in 0.0..5.0 -> R.string.normal_advice
-                in 6.0..9.0 -> R.string.light_advice
-                in 10.0..14.0 -> R.string.medium_advice
-                else -> R.string.heavy_advice
-            }
-        )
-    }
-}
-
-@BindingAdapter("psyRatingRangeText")
-fun bindPsyRatingRangeText(textView: TextView, totalScore: Float?) {
-    totalScore?.let {
-        textView.text = MoodieTrailApplication.instance.getString(
-            when (it) {
-                in 0.0..5.0 -> R.string.normal_range
-                in 6.0..9.0 -> R.string.light_range
-                in 10.0..14.0 -> R.string.medium_range
-                else -> R.string.heavy_range
-            }
-        )
-    }
-}
-
-@BindingAdapter("psyRatingResultRangeText")
-fun bindPsyRatingResultRangeText(textView: TextView, totalScore: Float?) {
-    totalScore?.let {
-        textView.text = MoodieTrailApplication.instance.getString(
-            when (it) {
-                in 0.0..5.0 -> R.string.normal_score
-                in 6.0..9.0 -> R.string.light_score
-                in 10.0..14.0 -> R.string.medium_score
-                else -> R.string.heavy_score
-            }
-        )
-    }
-}
-
 //General
 
 /**
@@ -437,7 +370,6 @@ fun bindImageByMood(imgView: ImageView, imgUrl: String?, mood: Int?) {
                 .error(R.mipmap.ic_launcher)
         )
         .into(imgView)
-
 }
 
 /**
@@ -446,86 +378,6 @@ fun bindImageByMood(imgView: ImageView, imgUrl: String?, mood: Int?) {
 @BindingAdapter("addDecoration")
 fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?) {
     decoration?.let { recyclerView.addItemDecoration(it) }
-}
-
-@BindingAdapter("timeToDisplayFormat", "timeFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?, timeFormat: TimeFormat) {
-    textView.text = time?.toDisplayFormat(timeFormat)
-}
-
-/**
- * Displays tag to [TextView] by prefix #
- */
-@BindingAdapter("hashTag")
-fun bindTag(textView: TextView, tag: String?) {
-    tag.let {
-        textView.text = MoodieTrailApplication.instance.getString(R.string.hash_tag, it)
-    }
-}
-
-/**
- * Displays PsyTest Result score to [TextView] by [Float] with prefix
- */
-@BindingAdapter("score")
-fun bindScorePrefix(textView: TextView, score: Float?) {
-    score?.let {
-
-        val text =
-            MoodieTrailApplication.instance.getString(R.string.psy_test_result_score, it.toInt())
-        val spannable = SpannableString(text)
-        spannable.setSpan(
-            ForegroundColorSpan(getColor(R.color.blue_700)),
-            5,
-            7,
-            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-        )
-        spannable.setSpan(
-            StyleSpan(BOLD),
-            5, 7,
-            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-        )
-        spannable.setSpan(
-            RelativeSizeSpan(1.125f), 5, 7,
-            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
-        )
-        textView.text = spannable
-    }
-}
-
-/**
- * Displays PsyTest Result score to [TextView] by [Float] with suffix
- */
-@BindingAdapter("scoreWithSuffix")
-fun bindScoreSuffix(textView: TextView, score: Float?) {
-    score?.let {
-        textView.text =
-            MoodieTrailApplication.instance.getString(
-                R.string.psy_text_result_score_only,
-                it.toInt()
-            )
-    }
-}
-
-/**
- * Display partial text in BOLD and blue
- */
-@BindingAdapter("boldPartialText", "startIndex", "endIndex")
-fun bindTextSpan(textView: TextView, text: String?, start: Int, end: Int) {
-    text?.let {
-        val spannable = SpannableString(text)
-        spannable.setSpan(
-            ForegroundColorSpan(getColor(R.color.blue_700_Dark)),
-            start,
-            end,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        spannable.setSpan(
-            StyleSpan(BOLD),
-            start, end,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        textView.text = spannable
-    }
 }
 
 /**
@@ -554,22 +406,6 @@ fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
     when (status) {
         LoadApiStatus.LOADING -> view.visibility = View.VISIBLE
         else -> view.visibility = View.GONE
-    }
-}
-
-/**
- * According to [message] to decide the visibility of [ProgressBar]
- */
-@BindingAdapter("setupApiErrorMessage")
-fun bindApiErrorMessage(view: TextView, message: String?) {
-    when (message) {
-        null, "" -> {
-            view.visibility = View.GONE
-        }
-        else -> {
-            view.text = message
-            view.visibility = View.VISIBLE
-        }
     }
 }
 

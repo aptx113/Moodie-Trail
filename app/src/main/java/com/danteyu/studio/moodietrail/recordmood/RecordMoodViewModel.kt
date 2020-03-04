@@ -12,7 +12,6 @@ import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.util.Mood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus

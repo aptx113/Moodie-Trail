@@ -72,8 +72,8 @@
                 app:layout_constraintEnd_toEndOf="@id/image_rating_range_psy_test_result"
                 app:layout_constraintStart_toStartOf="@id/image_rating_range_psy_test_result"
                 app:layout_constraintTop_toBottomOf="@id/image_rating_range_psy_test_result"
-                app:psyRatingResultRangeText="@{viewModel.psyTest.totalScore}"
-                tools:text="@string/light_score" />
+                app:psyResultScoreRange="@{viewModel.psyTest.totalScore}"
+                tools:text="@string/light_score_range" />
 
             <TextView
                 android:id="@+id/text_rating_range_psy_test_result"
@@ -85,7 +85,7 @@
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@id/image_rating_range_psy_test_result"
                 app:layout_constraintTop_toBottomOf="@id/text_test_result_score"
-                app:psyRatingRangeText="@{viewModel.psyTest.totalScore}"
+                app:psyResultRange="@{viewModel.psyTest.totalScore}"
                 tools:text="@string/light_range" />
 
             <TextView
@@ -94,14 +94,14 @@
                 android:layout_marginTop="@dimen/margin_quarter"
                 android:layout_marginEnd="@dimen/margin_half"
                 android:fontFamily="@font/droid_sans"
-                android:text="@string/light_advice"
+                android:text="@string/light_result_advice"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/text_rating_range_psy_test_result"
                 app:layout_constraintTop_toBottomOf="@id/text_rating_range_psy_test_result"
-                app:psyRatingText="@{viewModel.psyTest.totalScore}" />
+                app:psyResultAdvice="@{viewModel.psyTest.totalScore}" />
 
 
             <TextView
@@ -140,8 +140,8 @@
                 android:id="@+id/text_items_score_bar_chart_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/droid_sans"
                 android:text="@string/each_item_score"
                 android:textColor="@color/black_3f3a3a"
@@ -203,9 +203,9 @@
             android:layout_marginBottom="@dimen/margin_basic"
             android:onClick="@{() -> viewModel.showDeletePsyTestDialog(viewModel.psyTest)}"
             android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/delete_record : ""}'
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_psy_test_result_rating"
             app:layout_constraintVertical_bias="0.0" />
 

@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="FabShadow">
+    <style name="Shadow">
         <item name="android:windowBackground">@color/translucent_40</item>
     </style>
 
@@ -24,10 +24,6 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">false</item>
-    </style>
-
-    <style name="MessageDialog">
-        <item name="android:windowBackground">@color/translucent_40</item>
     </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.Light.Dialog">

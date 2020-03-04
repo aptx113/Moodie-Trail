@@ -1,5 +1,6 @@
 package com.danteyu.studio.moodietrail
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -16,10 +17,8 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.ext.FORMAT_HH_MM
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
-import com.danteyu.studio.moodietrail.recordmood.RecordMoodFragmentArgs
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.danteyu.studio.moodietrail.util.Util.getCalendar
@@ -27,11 +26,13 @@ import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getEndTimeOfDay
 import com.danteyu.studio.moodietrail.util.Util.getStartTimeOfDay
 import com.danteyu.studio.moodietrail.util.Util.getString
+import com.danteyu.studio.moodietrail.util.Util.setupAlarmManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.StringBuilder
+import java.util.*
 
 /**
  * Created by George Yu on 2020/3/1.
@@ -41,6 +42,8 @@ class AlarmReceiver : BroadcastReceiver() {
     private val notesToday = MutableLiveData<List<Note>>()
     private var repository: MoodieTrailRepository? = null
     private val timeInMillisecond = getCalendar().timeInMillis
+    private var alarmManager: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
 
     override fun onReceive(context: Context, intent: Intent) {
         val pendingResult: PendingResult = goAsync()
@@ -51,13 +54,18 @@ class AlarmReceiver : BroadcastReceiver() {
 
         intent.extras?.let {
 
-            if (it.get(receiveTitle) == receiveTag
+            if (it.get(receiveKey) == receiveIntentValue
                 && getCalendar().timeInMillis.toDisplayFormat(
                     TimeFormat.FORMAT_HH_MM
                 ).split(":")[0] == "12"
             ) {
                 setMessage()
             }
+        }
+
+        if (intent.action == "android.intent.action.BOOT_COMPLETED"){
+
+            setupAlarmManager()
         }
     }
 
@@ -195,11 +203,12 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        const val receiveTitle = "title"
-        const val receiveTag = "activity_app"
+        const val receiveKey = "regular reminder"
+        const val receiveIntentValue = "activity_app"
 
         private var textTitle: String? = ""
         private var textContent: String? = ""
         const val CHANNEL_ID = "MoodieTrail"
+
     }
 }

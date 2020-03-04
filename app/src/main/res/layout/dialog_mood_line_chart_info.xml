@@ -86,7 +86,7 @@
 
             <ImageView
                 android:id="@+id/image_very_good_line_chart_info"
-                android:layout_width="40dp"
+                android:layout_width="@dimen/size_image_line_chart_info"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_very_good_line_chart_info"
                 app:layout_constraintDimensionRatio="1:1"
@@ -108,7 +108,7 @@
 
             <ImageView
                 android:id="@+id/image_good_line_chart_info"
-                android:layout_width="40dp"
+                android:layout_width="@dimen/size_image_line_chart_info"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_good_line_chart_info"
                 app:layout_constraintDimensionRatio="1:1"
@@ -130,7 +130,7 @@
 
             <ImageView
                 android:id="@+id/image_normal_line_chart_info"
-                android:layout_width="40dp"
+                android:layout_width="@dimen/size_image_line_chart_info"
                 android:layout_height="0dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_normal_line_chart_info"
@@ -159,7 +159,7 @@
 
             <ImageView
                 android:id="@+id/image_bad_line_chart_info"
-                android:layout_width="40dp"
+                android:layout_width="@dimen/size_image_line_chart_info"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_bad_line_chart_info"
                 app:layout_constraintDimensionRatio="1:1"
@@ -180,7 +180,7 @@
                 app:layout_constraintTop_toTopOf="@id/text_bad_line_chart_info" />
 
             <ImageView
-                android:layout_width="40dp"
+                android:layout_width="@dimen/size_image_line_chart_info"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@id/text_very_bad_line_chart_info"
                 app:layout_constraintDimensionRatio="1:1"

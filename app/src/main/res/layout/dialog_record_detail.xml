@@ -274,7 +274,7 @@
                         app:layout_constraintEnd_toEndOf="@id/image_photo_hint_record_detail"
                         app:layout_constraintStart_toStartOf="@id/image_photo_hint_record_detail"
                         app:layout_constraintTop_toBottomOf="@id/image_photo_hint_record_detail"
-                        app:textMoodColor="@{viewModel.note.mood}" />
+                        app:textToDisplayMoodColor="@{viewModel.note.mood}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -288,7 +288,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/image_note_image_record_detail"
-                    app:textMoodColor="@{viewModel.note.mood}" />
+                    app:textToDisplayMoodColor="@{viewModel.note.mood}" />
 
                 <EditText
                     android:id="@+id/edit_record_detail_content"
@@ -321,7 +321,7 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@id/text_content_title_record_detail"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_content"
-                    app:textMoodColor="@{viewModel.note.mood}" />
+                    app:textToDisplayMoodColor="@{viewModel.note.mood}" />
 
                 <EditText
                     android:id="@+id/edit_record_detail_tag"

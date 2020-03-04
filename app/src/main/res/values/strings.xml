@@ -138,14 +138,14 @@
     <string name="light_range">輕度情緒困擾</string>
     <string name="medium_range">中度情緒困擾</string>
     <string name="heavy_range">重度情緒困擾</string>
-    <string name="normal_advice">身心適應狀況良好。</string>
-    <string name="light_advice">建議找家人或朋友談談，抒發情緒。</string>
-    <string name="medium_advice">建議尋求抒壓管道或接受心理專業諮詢。</string>
-    <string name="heavy_advice">建議諮詢精神科醫師接受進一步評估。</string>
-    <string name="normal_score">0–5\u0020分</string>
-    <string name="light_score">6–9\u0020分</string>
-    <string name="medium_score">10–14\u0020分</string>
-    <string name="heavy_score">15\u0020以上</string>
+    <string name="normal_result_advice">身心適應狀況良好。</string>
+    <string name="light_result_advice">建議找家人或朋友談談，抒發情緒。</string>
+    <string name="medium_result_advice">建議尋求抒壓管道或接受心理專業諮詢。</string>
+    <string name="heavy_result_advice">建議諮詢精神科醫師接受進一步評估。</string>
+    <string name="normal_score_range">0–5\u0020分</string>
+    <string name="light_score_range">6–9\u0020分</string>
+    <string name="medium_score_range">10–14\u0020分</string>
+    <string name="heavy_score_range">15\u0020以上</string>
     <string name="mental_health_resources">心衛資源</string>
     <string name="delete_record">刪除心情記錄</string>
 

@@ -75,8 +75,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_item_psy_test_date"
             app:layout_constraintTop_toBottomOf="@+id/text_item_psy_test_date"
-            app:psyRatingText="@{psyTest.totalScore}"
-            tools:text="@string/light_advice" />
+            app:psyResultAdvice="@{psyTest.totalScore}"
+            tools:text="@string/light_result_advice" />
 
 
         <TextView

@@ -62,4 +62,8 @@ object Util {
     fun getEndTimeOfDay(timestamp: Long): Long? {
         return MoodieTrailApplication.instance.appContainer.getEndTimeOfDay(timestamp)
     }
+
+    fun setupAlarmManager() {
+        return MoodieTrailApplication.instance.appContainer.setupAlarmManager()
+    }
 }
