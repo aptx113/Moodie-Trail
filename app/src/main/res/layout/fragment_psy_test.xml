@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/button_test_close"
+            android:id="@+id/button_close_psy_test"
             android:layout_width="@dimen/size_record_mood_close"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_basic"
@@ -33,15 +33,15 @@
             android:layout_height="0dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="@dimen/margin_quarter"
+            app:layout_constraintBottom_toBottomOf="@id/text_title_psy_test"
             app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/text_title_psy_test"
+            app:layout_constraintTop_toTopOf="@id/text_title_psy_test"
             app:layout_constraintVertical_bias="1.0"
-            app:layout_constraintEnd_toStartOf="@id/text_test_title"
-            app:layout_constraintTop_toTopOf="@id/text_test_title"
-            app:layout_constraintBottom_toBottomOf="@id/text_test_title"
-            app:srcCompat="@drawable/ic_bsrs_5"/>
+            app:srcCompat="@drawable/ic_bsrs_5" />
 
         <TextView
-            android:id="@+id/text_test_title"
+            android:id="@+id/text_title_psy_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_underline"
@@ -57,7 +57,7 @@
             app:layout_constraintVertical_bias="0.2" />
 
         <TextView
-            android:id="@+id/text_test_instruction"
+            android:id="@+id/text_instruction_psy_test"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
@@ -70,23 +70,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.375"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_test_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_title_psy_test" />
 
         <Button
-            android:id="@+id/button_start_test"
+            android:id="@+id/button_start_psy_test"
             style="@style/RecordMoodButton"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_advanced"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="@dimen/margin_basic"
             android:onClick="@{() -> viewModel.navigateToPsyTestBody()}"
             android:text="@string/test_start"
             android:textColor="@color/blue_700"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_test_instruction"
-            tools:layout_editor_absoluteX="71dp"
-            tools:layout_editor_absoluteY="551dp" />
+            app:layout_constraintTop_toBottomOf="@id/text_instruction_psy_test"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

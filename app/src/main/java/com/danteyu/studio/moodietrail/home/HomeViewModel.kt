@@ -13,11 +13,11 @@ import com.danteyu.studio.moodietrail.component.GridSpacingItemDecoration
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -133,10 +133,10 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_dayend,
-                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
+                "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
             )
         )
-        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
+        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
         return dayEnd.time
     }
 

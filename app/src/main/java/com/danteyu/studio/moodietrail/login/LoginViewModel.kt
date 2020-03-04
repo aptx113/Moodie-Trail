@@ -14,6 +14,7 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getAuth
 import com.danteyu.studio.moodietrail.util.Util.getString
 import com.facebook.*
+import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -253,7 +254,11 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
         _statusForFb.value = LoadApiStatus.LOADING
 
         fbCallbackManager = CallbackManager.Factory.create()
-        LoginManager.getInstance().registerCallback(fbCallbackManager, object :
+
+        val manager = LoginManager.getInstance()
+        manager.loginBehavior = LoginBehavior.WEB_ONLY
+
+        manager.registerCallback(fbCallbackManager, object :
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
 

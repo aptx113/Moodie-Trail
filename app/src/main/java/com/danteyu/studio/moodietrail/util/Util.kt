@@ -39,6 +39,10 @@ object Util {
         return MoodieTrailApplication.instance.getDrawable(resourceId)
     }
 
+    fun getDimensionPixelSize(resourceId: Int): Int {
+        return MoodieTrailApplication.instance.resources.getDimensionPixelSize(resourceId)
+    }
+
     fun getCalendar(): Calendar {
         return MoodieTrailApplication.instance.appContainer.calendar
     }
@@ -61,5 +65,9 @@ object Util {
 
     fun getEndTimeOfDay(timestamp: Long): Long? {
         return MoodieTrailApplication.instance.appContainer.getEndTimeOfDay(timestamp)
+    }
+
+    fun setupAlarmManager() {
+        return MoodieTrailApplication.instance.appContainer.setupAlarmManager()
     }
 }

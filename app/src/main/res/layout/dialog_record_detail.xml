@@ -7,6 +7,8 @@
 
         <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <import type="android.view.View" />
 
         <variable
@@ -49,7 +51,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/button_record_detail_back"
-                app:moodDetailImage="@{viewModel.note}"
+                app:moodImageDetail="@{viewModel.note}"
                 app:srcCompat="@drawable/ic_mood_square_trans_normal" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,7 +83,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:timeToDisplayDateFormat="@{viewModel.dateOfNote}"
+                    app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM_DD}"
+                    app:timeToDisplayFormat="@{viewModel.dateOfNote}"
                     tools:text="2020/02/04" />
 
                 <ImageView
@@ -124,7 +127,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:timeToDisplayTimeFormat="@{viewModel.dateOfNote}"
+                    app:timeFormat="@{TimeFormat.FORMAT_HH_MM}"
+                    app:timeToDisplayFormat="@{viewModel.dateOfNote}"
                     tools:text="12:42" />
 
                 <ImageView
@@ -208,14 +212,14 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/image_note_image"
+                    android:id="@+id/image_note_image_record_detail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_basic"
                     android:layout_marginTop="@dimen/margin_basic"
                     android:cropToPadding="false"
-                    android:scaleType="center"
                     android:onClick="@{()->viewModel.showImageSelector()}"
+                    android:scaleType="center"
                     app:imageUrlByMood='@{viewModel.note.image == null ? "" : viewModel.note.image}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -224,28 +228,29 @@
                     app:srcCompat="@color/transparent" />
 
                 <ImageView
+                    android:id="@+id/button_delete_image_record_detail"
                     android:layout_width="28dp"
                     android:layout_height="0dp"
                     android:onClick="@{() -> viewModel.removeImage()}"
                     android:visibility="gone"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="@id/image_note_image"
-                    app:layout_constraintTop_toTopOf="@id/image_note_image"
+                    app:layout_constraintEnd_toEndOf="@id/image_note_image_record_detail"
+                    app:layout_constraintTop_toTopOf="@id/image_note_image_record_detail"
                     app:srcCompat="@drawable/ic_close_image" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_photo_hint"
+                    android:id="@+id/layout_photo_hint_record_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="@{viewModel.selectedImage != null || viewModel.note.image != null ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@id/image_note_image"
-                    app:layout_constraintEnd_toEndOf="@id/image_note_image"
-                    app:layout_constraintStart_toStartOf="@id/image_note_image"
-                    app:layout_constraintTop_toTopOf="@id/image_note_image"
+                    app:layout_constraintBottom_toBottomOf="@id/image_note_image_record_detail"
+                    app:layout_constraintEnd_toEndOf="@id/image_note_image_record_detail"
+                    app:layout_constraintStart_toStartOf="@id/image_note_image_record_detail"
+                    app:layout_constraintTop_toTopOf="@id/image_note_image_record_detail"
                     app:layout_constraintVertical_bias="0.3">
 
                     <ImageView
-                        android:id="@+id/image_photo_hint"
+                        android:id="@+id/image_photo_hint_record_detail"
                         android:layout_width="70dp"
                         android:layout_height="0dp"
                         app:imagePickerMoodColor="@{viewModel.note.mood}"
@@ -257,7 +262,7 @@
                         app:srcCompat="@drawable/ic_add_image" />
 
                     <TextView
-                        android:id="@+id/text_photo_hint"
+                        android:id="@+id/text_photo_hint_record_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -266,14 +271,14 @@
                         android:text="@string/select_image_hint"
                         android:textColor="@color/blue_700_Dark"
                         android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="@id/image_photo_hint"
-                        app:layout_constraintStart_toStartOf="@id/image_photo_hint"
-                        app:layout_constraintTop_toBottomOf="@id/image_photo_hint"
-                        app:textMoodColor="@{viewModel.note.mood}" />
+                        app:layout_constraintEnd_toEndOf="@id/image_photo_hint_record_detail"
+                        app:layout_constraintStart_toStartOf="@id/image_photo_hint_record_detail"
+                        app:layout_constraintTop_toBottomOf="@id/image_photo_hint_record_detail"
+                        app:textToDisplayMoodColor="@{viewModel.note.mood}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/text_content_title"
+                    android:id="@+id/text_content_title_record_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_basic"
@@ -282,8 +287,8 @@
                     android:text="@string/what_happen"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/image_note_image"
-                    app:textMoodColor="@{viewModel.note.mood}" />
+                    app:layout_constraintTop_toBottomOf="@id/image_note_image_record_detail"
+                    app:textToDisplayMoodColor="@{viewModel.note.mood}" />
 
                 <EditText
                     android:id="@+id/edit_record_detail_content"
@@ -302,21 +307,21 @@
                     android:textColorHint="@color/gray_888888"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/text_content_title"
-                    app:layout_constraintTop_toBottomOf="@id/text_content_title"
+                    app:layout_constraintStart_toStartOf="@id/text_content_title_record_detail"
+                    app:layout_constraintTop_toBottomOf="@id/text_content_title_record_detail"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/text_tag_title"
+                    android:id="@+id/text_tag_title_record_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_advanced"
                     android:text="@string/hash_tags"
                     android:textColor="@color/blue_700_Dark"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@id/text_content_title"
+                    app:layout_constraintStart_toStartOf="@id/text_content_title_record_detail"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_content"
-                    app:textMoodColor="@{viewModel.note.mood}" />
+                    app:textToDisplayMoodColor="@{viewModel.note.mood}" />
 
                 <EditText
                     android:id="@+id/edit_record_detail_tag"
@@ -335,8 +340,8 @@
                     android:textSize="@dimen/text_size_tag"
                     app:layout_constraintEnd_toStartOf="@id/button_record_detail_add_tags"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/text_content_title"
-                    app:layout_constraintTop_toBottomOf="@id/text_tag_title" />
+                    app:layout_constraintStart_toStartOf="@id/text_content_title_record_detail"
+                    app:layout_constraintTop_toBottomOf="@id/text_tag_title_record_detail" />
 
                 <ImageButton
                     android:id="@+id/button_record_detail_add_tags"
@@ -344,7 +349,7 @@
                     android:layout_width="24dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/margin_basic"
-                    android:clickable='@{!viewModel.newTag.isEmpty ? true : false }'
+                    android:clickable='@{viewModel.newTag.isEmpty ? false : true }'
                     android:onClick="@{() -> viewModel.addNoteTag()}"
                     app:imageButtonMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintBottom_toBottomOf="@id/edit_record_detail_tag"
@@ -362,11 +367,11 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="16dp"
                     android:visibility="@{viewModel.tags.size() == 0 ? View.GONE : View.VISIBLE}"
-                    app:imageMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
-                    app:srcCompat="@drawable/ic_tag" />
+                    app:srcCompat="@drawable/ic_tag"
+                    app:srcMoodColor="@{viewModel.note.mood}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_record_detail_tags"
@@ -405,7 +410,7 @@
             app:loadApiStatus="@{viewModel.statusForPost}" />
 
         <ProgressBar
-            android:id="@+id/progress_record_mood_quick_save"
+            android:id="@+id/progress_save_record_detail"
             android:layout_width="@dimen/size_progress"
             android:layout_height="0dp"
             android:theme="@style/ProgressThemeDark"
@@ -443,346 +448,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_emotion_instruction"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="@dimen/margin_basic"-->
-    <!--android:fontFamily="@font/droid_sans"-->
-    <!--android:text="@string/record_detail_instruction"-->
-    <!--android:textColor="@color/black_3f3a3a"-->
-    <!--android:textSize="20sp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/layout_record_detail_top" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_happy"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginTop="@dimen/margin_advanced"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_sad"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/text_record_detail_emotion_instruction"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_happy" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_happy"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_happy"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_happy"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_happy"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_happy" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_sad"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_fear"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_happy"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_happy"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_sad" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_sad"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_sad"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_sad"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_sad"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_sad" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_fear"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_surprise"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_sad"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_sad"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_fear" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_fear"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_fear"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_fear"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_fear"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_fear" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_surprise"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_angry"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_fear"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_fear"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_surprise" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_surprise"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_surprise"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_surprise"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_surprise"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_surprise" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_angry"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_surprise"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_surprise"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_angry" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_angry"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_angry"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_angry"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_angry"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_angry" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_satisfied"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginTop="@dimen/margin_advanced"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_disgust"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/text_record_detail_happy"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_satisfaction" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_satisfied"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_satisfied"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_satisfied"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_satisfied"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_satisfied" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_disgust"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_anxious"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_satisfied"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_satisfied"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_disgusted" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_disgust"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_disgust"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_disgust"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_disgust"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_disgust" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_anxious"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_loneliness"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_disgust"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_disgust"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_anxious" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_anxious"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_anxious"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_anxious"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_anxious"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_anxious" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_loneliness"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_excited"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_anxious"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_anxious"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_loneliness" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_loneliness"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_loneliness"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_loneliness"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_loneliness"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_loneliness" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_excited"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_loneliness"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_loneliness"-->
-    <!--app:srcCompat="@drawable/ic_record_mood_excited" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_excited"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/emotion_excited"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_excited"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_excited"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_excited" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_headache"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginTop="@dimen/margin_advanced"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_dizziness"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintHorizontal_chainStyle="spread"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/text_record_detail_satisfied"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_frontal_headaches" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_headache"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_headache"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_headache"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_headache"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_headache" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_dizziness"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_fatigue"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_headache"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_headache"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_dizziness" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_dizziness"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_dizziness"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_dizziness"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_dizziness"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_dizziness" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_fatigue"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_joint"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_dizziness"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_dizziness"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_fatigue" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_fatigue"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_fatigue"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_fatigue"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_fatigue"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_fatigue" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_joint"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_fatigue"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_fatigue"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_joint" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_joint"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_joint"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_joint"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_joint"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_joint" />-->
-
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_muscle"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginTop="@dimen/margin_advanced"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_menstrual_pain"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/text_record_detail_headache"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_muscle" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_muscle"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_muscle"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_muscle"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_muscle"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_muscle" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_menstrual_pain"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toStartOf="@+id/image_record_detail_pain"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_muscle"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_muscle"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_menstrual_pain" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_menstrual_pain"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_menstrual_pain"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_menstrual_pain"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_menstrual_pain"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_menstrual_pain" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/image_record_detail_pain"-->
-    <!--android:layout_width="@dimen/size_record_detail_icon"-->
-    <!--android:layout_height="0dp"-->
-    <!--app:layout_constraintDimensionRatio="1:1"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.5"-->
-    <!--app:layout_constraintStart_toEndOf="@+id/image_record_detail_menstrual_pain"-->
-    <!--app:layout_constraintTop_toTopOf="@id/image_record_detail_muscle"-->
-    <!--app:srcCompat="@drawable/ic_record_feeling_pain" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/text_record_detail_pain"-->
-    <!--style="@style/RecordDetailMoodIcon"-->
-    <!--android:text="@string/feeling_pain"-->
-    <!--app:layout_constraintEnd_toEndOf="@id/image_record_detail_pain"-->
-    <!--app:layout_constraintStart_toStartOf="@id/image_record_detail_pain"-->
-    <!--app:layout_constraintTop_toBottomOf="@id/image_record_detail_pain" />-->

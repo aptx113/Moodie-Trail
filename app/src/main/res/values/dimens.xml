@@ -12,25 +12,15 @@
     <dimen name="height_bottom_nav_view_main">56dp</dimen>
     <dimen name="size_bottom_nav_icon">32dp</dimen>
 
-    <!-- Dialog Padding -->
-    <dimen name="dialog_padding">10dp</dimen>
-
     <!-- Note -->
-    <dimen name="space_note_grid">16dp</dimen>
-    <dimen name="width_note_item">156dp</dimen>
-    <dimen name="height_note_item">220dp</dimen>
     <dimen name="space_outside_horizontal_note_item">12dp</dimen>
     <dimen name="space_inside_horizontal_note_item">8dp</dimen>
     <dimen name="space_outside_vertical_note_item">24dp</dimen>
     <dimen name="space_inside_vertical_note_item">12dp</dimen>
-    <dimen name="note_image_corner_radius">15dp</dimen>
 
     <!-- Profile  -->
     <dimen name="height_profile_header">92dp</dimen>
     <dimen name="radius_profile_avatar">60dp</dimen>
-
-    <!-- Login Dialog -->
-    <dimen name="height_login">202dp</dimen>
 
     <!-- IMessage Dialog -->
     <dimen name="size_message">123dp</dimen>
@@ -43,16 +33,8 @@
     <dimen name="margin_half">8dp</dimen>
     <dimen name="margin_quarter">4dp</dimen>
     <dimen name="text_content">14sp</dimen>
-    <dimen name="text_content_title">16sp</dimen>
-    <dimen name="layout_title">20sp</dimen>
     <dimen name="size_progress">24dp</dimen>
     <dimen name="size_radius">12dp</dimen>
-
-    <!-- Logo -->
-    <dimen name="width_logo">254dp</dimen>
-    <dimen name="height_logo">39dp</dimen>
-    <dimen name="duration_logo_translate">-575dp</dimen>
-    <dimen name="size_particle_logo">30dp</dimen>
 
     <!-- FAB  -->
     <dimen name="standard_30">30dp</dimen>
@@ -67,15 +49,13 @@
     <dimen name="size_record_mood_close">36dp</dimen>
     <dimen name="text_size_tag">14sp</dimen>
     <dimen name="size_record_mood_icon">100dp</dimen>
-    <dimen name="space_outside_horizontal_tag_item">0dp</dimen>
-    <dimen name="space_inside_horizontal_tag_item">4dp</dimen>
-    <dimen name="space_outside_vertical_tag_item">0dp</dimen>
     <dimen name="space_detail_tag">4dp</dimen>
 
     <!-- Psy Test -->
     <dimen name="size_test_item">16sp</dimen>
-    <dimen name="size_toolbar_gone_top">36dp</dimen>
     <dimen name="size_image_psy_test_rating">60dp</dimen>
 
+    <!-- MoodLineChartInfoDialog -->
+    <dimen name="size_image_line_chart_info">40dp</dimen>
 
 </resources>

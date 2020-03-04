@@ -43,11 +43,11 @@ class StatisticFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.imageToolbarNext.setOnClickListener{
+        binding.imageStatisticNextMonth.setOnClickListener{
             activity.showToast("Coming Soon")
         }
 
-        binding.imageToolbarLast.setOnClickListener{
+        binding.imageLastMonthStatistic.setOnClickListener{
             activity.showToast("Coming Soon")
         }
 
@@ -76,7 +76,7 @@ class StatisticFragment : Fragment() {
     }
 
     private fun setupAvgMoodChart() {
-        moodLineChart = binding.lineChartMood
+        moodLineChart = binding.lineChartMoodStatistic
         moodLineChart.apply {
 
             // disable description
@@ -103,7 +103,7 @@ class StatisticFragment : Fragment() {
     }
 
     private fun setupPieChart() {
-        moodPieChart = binding.pieChartMood
+        moodPieChart = binding.pieChartMoodStatistic
         moodPieChart.apply {
             holeRadius = 20f
 

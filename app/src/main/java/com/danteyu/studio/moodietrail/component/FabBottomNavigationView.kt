@@ -7,7 +7,10 @@ import androidx.core.content.ContextCompat
 import com.danteyu.studio.moodietrail.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.MaterialShapeDrawable.SHADOW_COMPAT_MODE_DEFAULT
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapePathModel
+
 
 /**
  * Created by George Yu in Jan. 2020.
@@ -20,7 +23,7 @@ class FabBottomNavigationView @JvmOverloads constructor(
 ) : BottomNavigationView(context, attrs, defStyleAttr) {
 
     private var topCurvedEdgeTreatment: TopCurvedEdgeTreatment
-    private var materialShapeDrawable: MaterialShapeDrawable
+    private var materialShapeDrawable: MaterialShapeDrawable = MaterialShapeDrawable()
     private var fabSize = 0F
     var fabCradleMargin = 0F
     var fabCradleRoundedCornerRadius = 0F
@@ -28,8 +31,10 @@ class FabBottomNavigationView @JvmOverloads constructor(
 
     init {
         val ta =
-            context.theme.obtainStyledAttributes(attrs,
-                R.styleable.FabBottomNavigationView, 0, 0)
+            context.theme.obtainStyledAttributes(
+                attrs,
+                R.styleable.FabBottomNavigationView, 0, 0
+            )
         fabSize = ta.getDimension(R.styleable.FabBottomNavigationView_fab_size, 0F)
         fabCradleMargin = ta.getDimension(R.styleable.FabBottomNavigationView_fab_cradle_margin, 0F)
         fabCradleRoundedCornerRadius = ta.getDimension(
@@ -52,13 +57,25 @@ class FabBottomNavigationView @JvmOverloads constructor(
             topEdge = topCurvedEdgeTreatment
         }
 
-        materialShapeDrawable = MaterialShapeDrawable(shapePathModel).apply {
-            setTint(ContextCompat.getColor(context,
-                R.color.white
-            ))
-            shadowElevation = 4
+
+        val shapeAppearanceModel =
+            materialShapeDrawable.shapeAppearanceModel.apply {
+//                topEdge = topCurvedEdgeTreatment
+            }
+//        val shapeAppearanceModel = ShapeAppearanceModel().apply {
+//            topEdge = topCurvedEdgeTreatment
+//        }
+
+        materialShapeDrawable = MaterialShapeDrawable(shapeAppearanceModel).apply {
+            setTint(
+                ContextCompat.getColor(
+                    context,
+                    R.color.white
+                )
+            )
             shadowRadius = 16
-            isShadowEnabled = true
+            elevation = 4f
+            shadowCompatibilityMode = SHADOW_COMPAT_MODE_DEFAULT
             paintStyle = Paint.Style.FILL_AND_STROKE
         }
 

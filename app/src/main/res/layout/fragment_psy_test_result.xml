@@ -22,7 +22,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_result_rating"
+            android:id="@+id/layout_psy_test_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_basic"
@@ -35,10 +35,10 @@
             tools:layout_editor_absoluteY="218dp">
 
             <TextView
-                android:id="@+id/test_test_result_score"
+                android:id="@+id/text_test_result_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginStart="@dimen/margin_basic"
                 android:layout_marginTop="@dimen/margin_half"
                 android:fontFamily="@font/droid_sans"
                 android:textColor="@color/black_3f3a3a"
@@ -49,14 +49,14 @@
                 tools:text="測驗結果 4 分" />
 
             <ImageView
-                android:id="@+id/image_light_range"
+                android:id="@+id/image_rating_range_psy_test_result"
                 android:layout_width="@dimen/size_image_psy_test_rating"
                 android:layout_height="0dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="28dp"
                 android:layout_marginTop="@dimen/margin_half"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/test_test_result_score"
+                app:layout_constraintTop_toBottomOf="@id/text_test_result_score"
                 app:psyRatingImage="@{viewModel.psyTest}"
                 app:srcCompat="@drawable/ic_light_range" />
 
@@ -68,24 +68,24 @@
                 android:fontFamily="@font/droid_sans"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@id/text_suicide_advice"
-                app:layout_constraintEnd_toEndOf="@id/image_light_range"
-                app:layout_constraintStart_toStartOf="@id/image_light_range"
-                app:layout_constraintTop_toBottomOf="@id/image_light_range"
-                app:psyRatingResultRangeText="@{viewModel.psyTest.totalScore}"
-                tools:text="@string/light_score" />
+                app:layout_constraintBottom_toTopOf="@id/text_suicide_advice_psy_test_result"
+                app:layout_constraintEnd_toEndOf="@id/image_rating_range_psy_test_result"
+                app:layout_constraintStart_toStartOf="@id/image_rating_range_psy_test_result"
+                app:layout_constraintTop_toBottomOf="@id/image_rating_range_psy_test_result"
+                app:psyResultScoreRange="@{viewModel.psyTest.totalScore}"
+                tools:text="@string/light_score_range" />
 
             <TextView
-                android:id="@+id/text_light_range"
+                android:id="@+id/text_rating_range_psy_test_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/blue_700"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/image_light_range"
-                app:layout_constraintTop_toBottomOf="@id/test_test_result_score"
-                app:psyRatingRangeText="@{viewModel.psyTest.totalScore}"
+                app:layout_constraintStart_toEndOf="@id/image_rating_range_psy_test_result"
+                app:layout_constraintTop_toBottomOf="@id/text_test_result_score"
+                app:psyResultRange="@{viewModel.psyTest.totalScore}"
                 tools:text="@string/light_range" />
 
             <TextView
@@ -94,18 +94,18 @@
                 android:layout_marginTop="@dimen/margin_quarter"
                 android:layout_marginEnd="@dimen/margin_half"
                 android:fontFamily="@font/droid_sans"
-                android:text="@string/light_advice"
+                android:text="@string/light_result_advice"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/text_light_range"
-                app:layout_constraintTop_toBottomOf="@id/text_light_range"
-                app:psyRatingText="@{viewModel.psyTest.totalScore}" />
+                app:layout_constraintStart_toStartOf="@id/text_rating_range_psy_test_result"
+                app:layout_constraintTop_toBottomOf="@id/text_rating_range_psy_test_result"
+                app:psyResultAdvice="@{viewModel.psyTest.totalScore}" />
 
 
             <TextView
-                android:id="@+id/text_suicide_advice"
+                android:id="@+id/text_suicide_advice_psy_test_result"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_half"
@@ -118,13 +118,13 @@
                 android:visibility="@{viewModel.psyTest.itemSuicide &gt;= 2 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/test_test_result_score"
+                app:layout_constraintStart_toStartOf="@id/text_test_result_score"
                 app:layout_constraintTop_toBottomOf="@id/text_psy_test_result_range"
                 tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_items_score"
+            android:id="@+id/layout_items_score_psy_test_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_basic"
@@ -134,13 +134,14 @@
             android:paddingHorizontal="@dimen/margin_half"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_result_rating">
+            app:layout_constraintTop_toBottomOf="@id/layout_psy_test_result">
 
             <TextView
                 android:id="@+id/text_items_score_bar_chart_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/droid_sans"
                 android:text="@string/each_item_score"
                 android:textColor="@color/black_3f3a3a"
@@ -149,7 +150,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
-                android:id="@+id/bar_chart_items_score"
+                android:id="@+id/bar_chart_items_score_psy_test_result"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="@dimen/margin_half"
@@ -163,7 +164,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button_mental_health_resource"
+            android:id="@+id/button_mental_health_resource_psy_test_result"
             style="@style/PsyTestResultButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -174,7 +175,7 @@
             android:visibility="@{viewModel.psyTest.itemSuicide &gt;= 2 || viewModel.psyTest.totalScore &gt;= 10 ? View.VISIBLE : View.GONE }"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_items_score"
+            app:layout_constraintTop_toBottomOf="@id/layout_items_score_psy_test_result"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
@@ -189,11 +190,11 @@
             android:text="@string/psy_test_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_mental_health_resource"
+            app:layout_constraintTop_toBottomOf="@id/button_mental_health_resource_psy_test_result"
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/button_delete"
+            android:id="@+id/button_delete_psy_test_result"
             style="@style/PsyTestResultButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -202,10 +203,11 @@
             android:layout_marginBottom="@dimen/margin_basic"
             android:onClick="@{() -> viewModel.showDeletePsyTestDialog(viewModel.psyTest)}"
             android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/delete_record : ""}'
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_psy_test_result_rating"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
             android:id="@+id/progress_psy_test_delete"
@@ -213,11 +215,11 @@
             android:layout_height="0dp"
             android:theme="@style/ProgressThemeDark"
             android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/button_delete"
+            app:layout_constraintBottom_toBottomOf="@id/button_delete_psy_test_result"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@id/button_delete"
-            app:layout_constraintStart_toStartOf="@id/button_delete"
-            app:layout_constraintTop_toTopOf="@id/button_delete"
+            app:layout_constraintEnd_toEndOf="@id/button_delete_psy_test_result"
+            app:layout_constraintStart_toStartOf="@id/button_delete_psy_test_result"
+            app:layout_constraintTop_toTopOf="@id/button_delete_psy_test_result"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

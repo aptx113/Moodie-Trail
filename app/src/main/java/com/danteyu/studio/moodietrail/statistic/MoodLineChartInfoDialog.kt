@@ -16,7 +16,7 @@ class MoodLineChartInfoDialog : AppCompatDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.MessageDialog)
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Shadow)
     }
 
     override fun onCreateView(
