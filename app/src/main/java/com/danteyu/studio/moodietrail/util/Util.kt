@@ -39,6 +39,10 @@ object Util {
         return MoodieTrailApplication.instance.getDrawable(resourceId)
     }
 
+    fun getDimensionPixelSize(resourceId: Int): Int {
+        return MoodieTrailApplication.instance.resources.getDimensionPixelSize(resourceId)
+    }
+
     fun getCalendar(): Calendar {
         return MoodieTrailApplication.instance.appContainer.calendar
     }

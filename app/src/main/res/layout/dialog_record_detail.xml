@@ -51,7 +51,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/button_record_detail_back"
-                app:moodDetailImage="@{viewModel.note}"
+                app:moodImageDetail="@{viewModel.note}"
                 app:srcCompat="@drawable/ic_mood_square_trans_normal" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -367,11 +367,11 @@
                     android:layout_height="0dp"
                     android:layout_marginTop="16dp"
                     android:visibility="@{viewModel.tags.size() == 0 ? View.GONE : View.VISIBLE}"
-                    app:imageMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag"
                     app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
-                    app:srcCompat="@drawable/ic_tag" />
+                    app:srcCompat="@drawable/ic_tag"
+                    app:srcMoodColor="@{viewModel.note.mood}" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_record_detail_tags"

@@ -26,7 +26,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 
-
 /**
  * Created by George Yu in Jan. 2020.
  */
@@ -255,21 +254,21 @@ class MainActivity : BaseActivity() {
             fabStartTest.show()
             fabShadow.visibility = View.VISIBLE
 
-            fab.animate().rotation(rotationDegreeForOpenFab)
+            fab.animate().rotation(ROTATION_DEGREE_FOR_OPEN_FAB)
 
             fabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_70))
                 .translationX(-resources.getDimension(R.dimen.standard_70))
 
             textFabRecordMood.animate().translationY(-resources.getDimension(R.dimen.standard_30))
                 .translationX(-resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration =
-                durationForFabAnimation
+                DURATION_FOR_FAB_ANIMATION
 
             fabStartTest.animate().translationY(-resources.getDimension(R.dimen.standard_70))
                 .translationX(resources.getDimension(R.dimen.standard_70))
 
             textFabStartTest.animate().translationY(-resources.getDimension(R.dimen.standard_30))
                 .translationX(resources.getDimension(R.dimen.standard_70)).alpha(1.0f).duration =
-                durationForFabAnimation
+                DURATION_FOR_FAB_ANIMATION
         }
     }
 
@@ -298,8 +297,8 @@ class MainActivity : BaseActivity() {
             fabStartTest.animate().translationY(resources.getDimension(R.dimen.standard_0))
                 .translationX(resources.getDimension(R.dimen.standard_0))
 
-            textFabRecordMood.animate().alpha(0.0f).duration = durationForFabAnimation
-            textFabStartTest.animate().alpha(0.0f).duration = durationForFabAnimation
+            textFabRecordMood.animate().alpha(0.0f).duration = DURATION_FOR_FAB_ANIMATION
+            textFabStartTest.animate().alpha(0.0f).duration = DURATION_FOR_FAB_ANIMATION
 
             // When animation end, do something
             textFabStartTest.animate().setListener(object : Animator.AnimatorListener {
@@ -321,7 +320,7 @@ class MainActivity : BaseActivity() {
     }
 
     companion object {
-        private const val durationForFabAnimation = 300L
-        private const val rotationDegreeForOpenFab = 135.0f
+        private const val DURATION_FOR_FAB_ANIMATION = 300L
+        private const val ROTATION_DEGREE_FOR_OPEN_FAB = 135.0f
     }
 }
