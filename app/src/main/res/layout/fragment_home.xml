@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <variable
             name="viewModel"
             type="com.danteyu.studio.moodietrail.home.HomeViewModel" />
@@ -48,7 +50,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_last_month_home"
             app:layout_constraintTop_toTopOf="parent"
-            app:timeToDisplayDateYMFormat="@{viewModel.currentMonth}"
+            app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM}"
+            app:timeToDisplayFormat="@{viewModel.currentMonth}"
             tools:text="2020-01"
             tools:visibility="visible" />
 
@@ -97,8 +100,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.notes.size == 0 ? View.VISIBLE : View.GONE}"
             android:onClick="@{() -> viewModel.navigateToRecordMood()}"
+            android:visibility="@{viewModel.notes.size == 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -32,6 +32,7 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
@@ -88,7 +89,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.imageNoteImageRecordDetail.clipToOutline = true
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "") {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "" && viewModel.newTag.value != "\n") {
                 viewModel.addNoteTag()
                 true
             } else false
@@ -352,7 +353,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         val storageDir =
             context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
-        val timeStamp = viewModel.dateOfNote.value?.toDisplayFormat(FORMAT_YYYY_MM_DD_HH_MM_SS)
+        val timeStamp =
+            viewModel.dateOfNote.value?.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD_HH_MM_SS)
         return File.createTempFile(
             "JPEG_${timeStamp}_",  /* prefix */
             MoodieTrailApplication.instance.getString(R.string.start_camera_jpg), /* suffix */

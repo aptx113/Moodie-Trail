@@ -24,6 +24,7 @@ import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.util.Mood
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
 import com.danteyu.studio.moodietrail.util.Util.getString
@@ -447,44 +448,9 @@ fun bindDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDeco
     decoration?.let { recyclerView.addItemDecoration(it) }
 }
 
-/**
- * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD]
- */
-@BindingAdapter("timeToDisplayDateFormat")
-fun bindDisplayFormatDate(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD)
-}
-
-/**
- * Displays Time to [TextView] by [FORMAT_HH_MM]
- */
-@BindingAdapter("timeToDisplayTimeFormat")
-fun bindDisplayFormatTime(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_HH_MM)
-}
-
-/**
- * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E]
- */
-@BindingAdapter("timeToDisplayDateWithWeekFormat")
-fun bindDisplayFormatMoodRecord(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E)
-}
-
-/**
- * Displays Date to [TextView] by [FORMAT_YYYY_MM]
- */
-@BindingAdapter("timeToDisplayDateYMFormat")
-fun bindDisplayFormatForToolbar(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM)
-}
-
-/**
- * Displays Date to [TextView] by [FORMAT_YYYY_MM_DD_E_HH_MM]
- */
-@BindingAdapter("timeToDisplayFormatForPsyRecord")
-fun bindDisplayFormatForPsyRecord(textView: TextView, time: Long?) {
-    textView.text = time?.toDisplayFormat(FORMAT_YYYY_MM_DD_E_HH_MM)
+@BindingAdapter("timeToDisplayFormat", "timeFormat")
+fun bindDisplayFormatTime(textView: TextView, time: Long?, timeFormat: TimeFormat) {
+    textView.text = time?.toDisplayFormat(timeFormat)
 }
 
 /**

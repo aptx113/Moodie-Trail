@@ -7,6 +7,8 @@
 
         <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <import type="android.view.View" />
 
         <variable
@@ -81,7 +83,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:timeToDisplayDateFormat="@{viewModel.dateOfNote}"
+                    app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM_DD}"
+                    app:timeToDisplayFormat="@{viewModel.dateOfNote}"
                     tools:text="2020/02/04" />
 
                 <ImageView
@@ -124,7 +127,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:timeToDisplayTimeFormat="@{viewModel.dateOfNote}"
+                    app:timeFormat="@{TimeFormat.FORMAT_HH_MM}"
+                    app:timeToDisplayFormat="@{viewModel.dateOfNote}"
                     tools:text="12:42" />
 
                 <ImageView
@@ -330,7 +334,6 @@
                     android:hint="@string/hint_add_tags"
                     android:maxLines="1"
                     android:padding="6dp"
-                    android:enabled="@{!viewModel.newTag.isEmpty ? true : false}"
                     android:text="@={viewModel.newTag}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_888888"
@@ -346,7 +349,7 @@
                     android:layout_width="24dp"
                     android:layout_height="0dp"
                     android:layout_marginEnd="@dimen/margin_basic"
-                    android:clickable='@{!viewModel.newTag.isEmpty ? true : false }'
+                    android:clickable='@{viewModel.newTag.isEmpty ? false : true }'
                     android:onClick="@{() -> viewModel.addNoteTag()}"
                     app:imageButtonMoodColor="@{viewModel.note.mood}"
                     app:layout_constraintBottom_toBottomOf="@id/edit_record_detail_tag"

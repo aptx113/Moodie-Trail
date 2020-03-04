@@ -17,6 +17,7 @@ import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -96,7 +97,9 @@ class RecordDetailViewModel(
     val tags = MutableLiveData<MutableList<String>>().apply { value = mutableListOf() }
 
     //  Handle input tag
-    val newTag = MutableLiveData<String>()
+    val newTag = MutableLiveData<String>().apply {
+        value = ""
+    }
 
     private val _dateOfNote = MutableLiveData<Long>()
 
@@ -235,7 +238,7 @@ class RecordDetailViewModel(
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_daybegin,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+                timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD)
             )
         )
         return dayStart.time
@@ -249,7 +252,7 @@ class RecordDetailViewModel(
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_dayend,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+                timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD)
             )
         )
         return dayEnd.time
@@ -274,14 +277,15 @@ class RecordDetailViewModel(
     }
 
     fun addNoteTag() {
-        newTag.value?.let {
-            tags.value?.add(it)
+
+        tags.value?.let {
+            newTag.value?.let {
+                tags.value?.add(it)
+                tags.value = tags.value
+                newTag.value = ""
+                Logger.d("addNoteTags, tags = ${tags.value}")
+            }
         }
-
-        tags.value = tags.value
-        newTag.value = ""
-        Logger.d("addNoteTags, tags = ${tags.value}")
-
     }
 
     fun removeNoteTag(tag: String) {
@@ -364,7 +368,7 @@ class RecordDetailViewModel(
 
             val result = moodieTrailRepository.uploadNoteImage(
                 uid, noteImage, date.toDisplayFormat(
-                    FORMAT_YYYY_MM_DD_HH_MM_SS
+                    TimeFormat.FORMAT_YYYY_MM_DD_HH_MM_SS
                 )
             )
 
@@ -469,7 +473,7 @@ class RecordDetailViewModel(
             if (averageMoodScore.value == 0f) {
                 deleteAvgMood(
                     uid, _dateOfNote.value?.toDisplayFormat(
-                        FORMAT_YYYY_MM_DD
+                        TimeFormat.FORMAT_YYYY_MM_DD
                     )!!
                 )
 
@@ -480,7 +484,7 @@ class RecordDetailViewModel(
                         score = averageMoodScore.value!!,
                         time = getStartTimeOfDate(_dateOfNote.value!!)!!
                     ), _dateOfNote.value?.toDisplayFormat(
-                        FORMAT_YYYY_MM_DD
+                        TimeFormat.FORMAT_YYYY_MM_DD
                     )!!
                 )
             }

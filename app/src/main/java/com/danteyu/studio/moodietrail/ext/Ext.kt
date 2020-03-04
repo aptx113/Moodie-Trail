@@ -20,6 +20,7 @@ import com.danteyu.studio.moodietrail.network.Event
 import com.danteyu.studio.moodietrail.network.NetworkConnectivityListener
 import com.danteyu.studio.moodietrail.network.NetworkEvents
 import com.danteyu.studio.moodietrail.network.NetworkState
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.danteyu.studio.moodietrail.util.Util.getString
 import java.text.Format
 import java.util.*
@@ -28,32 +29,19 @@ import java.util.*
  * Created by George Yu in Jan. 2020.
  */
 
-fun Long.toDisplayFormat(dateFormat: Int): String {
+fun Long.toDisplayFormat(timeFormat: TimeFormat): String {
 
     return SimpleDateFormat(
-        when (dateFormat) {
-            FORMAT_MM_DD -> getString(
-                R.string.simpledateformat_MM_dd
-            )
-            FORMAT_YYYY_MM -> getString(
-                R.string.simpledateformat_yyyy_MM
-            )
-            FORMAT_YYYY_MM_DD -> getString(
-                R.string.simpledateformat_yyyy_MM_dd
-            )
-            FORMAT_YYYY_MM_DD_E -> getString(
-                R.string.simpledatefromat_yyyy_MM_dd_E
-            )
-            FORMAT_YYYY_MM_DD_E_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_E_HH_mm)
-            Format_YYYY_MM_DD_HH_MM_LIST -> getString(R.string.time_list_format)
-            FORMAT_YYYY_MM_DD_HH_MM_SS -> getString(R.string.simpledateformat_yyyy_MM_dd_HHmmss)
-            FORMAT_DD -> getString(R.string.simpledateformat_dd)
+        when (timeFormat) {
 
-            FORMAT_HH_MM -> getString(
-                R.string.simpledateformat_HH_mm
-            )
-
-            else -> null
+            TimeFormat.FORMAT_YYYY_MM_DD_HH_MM_SS -> getString(R.string.simpledateformat_yyyy_MM_dd_HHmmss)
+            TimeFormat.FORMAT_YYYY_MM_DD_E_HH_MM -> getString(R.string.simpledateformat_yyyy_MM_dd_E_HH_mm)
+            TimeFormat.FORMAT_YYYY_MM_DD_E -> getString(R.string.simpledatefromat_yyyy_MM_dd_E)
+            TimeFormat.FORMAT_YYYY_MM_DD -> getString(R.string.simpledateformat_yyyy_MM_dd)
+            TimeFormat.FORMAT_YYYY_MM -> getString(R.string.simpledateformat_yyyy_MM)
+            TimeFormat.FORMAT_MM_DD -> getString(R.string.simpledateformat_MM_dd)
+            TimeFormat.FORMAT_DD -> getString(R.string.simpledateformat_dd)
+            TimeFormat.FORMAT_HH_MM -> getString(R.string.simpledateformat_HH_mm)
         }
         , Locale.TAIWAN
     ).format(this)
@@ -218,13 +206,3 @@ internal var Bundle.previousState: Boolean?
     set(value) {
         putInt(Constants.ID_KEY, if (value == true) 1 else 0)
     }
-
-const val FORMAT_MM_DD: Int = 0x01
-const val FORMAT_YYYY_MM_DD_E: Int = 0x02
-const val FORMAT_YYYY_MM_DD: Int = 0x03
-const val FORMAT_YYYY_MM: Int = 0x04
-const val FORMAT_HH_MM: Int = 0x05
-const val FORMAT_YYYY_MM_DD_E_HH_MM = 0x06
-const val Format_YYYY_MM_DD_HH_MM_LIST = 0x07
-const val FORMAT_YYYY_MM_DD_HH_MM_SS = 0x08
-const val FORMAT_DD = 0x09

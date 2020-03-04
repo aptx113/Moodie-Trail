@@ -17,6 +17,7 @@ import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -153,7 +154,7 @@ class RecordMoodViewModel(
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_daybegin,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+                timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD)
             )
         )
         return dayStart.time
@@ -167,7 +168,7 @@ class RecordMoodViewModel(
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_dayend,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+                timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD)
             )
         )
         return dayEnd.time
@@ -240,13 +241,13 @@ class RecordMoodViewModel(
         }
     }
 
-    private fun postNote(uid:String, note: Note) {
+    private fun postNote(uid: String, note: Note) {
 
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.postNote(uid,note)
+            val result = moodieTrailRepository.postNote(uid, note)
 
             _writeDownSuccess.value = when (result) {
                 is Result.Success -> {
@@ -282,7 +283,7 @@ class RecordMoodViewModel(
 
     }
 
-    private fun getNotesResultByDateRange(uid: String,startDate: Long, endDate: Long) {
+    private fun getNotesResultByDateRange(uid: String, startDate: Long, endDate: Long) {
 
         coroutineScope.launch {
 
@@ -314,12 +315,14 @@ class RecordMoodViewModel(
                     null
                 }
             }
-            postAvgMood(uid,
+            postAvgMood(
+                uid,
                 AverageMood(
                     score = averageMoodScore.value!!,
                     time = getStartTimeOfDay(_dateOfNote.value!!)!!
                 ), _dateOfNote.value?.toDisplayFormat(
-                    FORMAT_YYYY_MM_DD
+                    TimeFormat.FORMAT_YYYY_MM_DD
+
                 )!!
             )
         }

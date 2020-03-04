@@ -7,6 +7,8 @@
 
         <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <import type="android.view.View" />
 
         <variable
@@ -50,7 +52,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_last_month_statistic"
             app:layout_constraintTop_toTopOf="parent"
-            app:timeToDisplayDateYMFormat="@{viewModel.currentDate}"
+            app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM}"
+            app:timeToDisplayFormat="@{viewModel.currentDate}"
             tools:text="2020-01"
             tools:visibility="visible" />
 

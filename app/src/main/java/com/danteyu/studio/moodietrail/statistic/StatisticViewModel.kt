@@ -16,6 +16,7 @@ import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.CoroutineScope
@@ -147,10 +148,10 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_daybegin,
-                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-01"
+                "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01"
             )
         )
-        Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-01")
+        Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01")
         return dayStart.time
     }
 
@@ -162,10 +163,10 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_dayend,
-                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
+                "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
             )
         )
-        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
+        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
         return dayEnd.time
     }
 
@@ -257,7 +258,12 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         val entries = ArrayList<Entry>().apply {
             avgMoodData.forEach { avgMood ->
 
-                add(Entry(avgMood.time.toDisplayFormat(FORMAT_DD).toFloat(), avgMood.score))
+                add(
+                    Entry(
+                        avgMood.time.toDisplayFormat(TimeFormat.FORMAT_DD).toFloat(),
+                        avgMood.score
+                    )
+                )
                 Logger.i("x = ${avgMood.time.toFloat()}, y = ${avgMood.score}")
             }
         }

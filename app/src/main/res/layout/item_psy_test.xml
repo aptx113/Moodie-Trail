@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <variable
             name="psyTest"
             type="com.danteyu.studio.moodietrail.data.PsyTest" />
@@ -57,7 +59,8 @@
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/image_item_psy_test_range"
             app:layout_constraintTop_toTopOf="parent"
-            app:timeToDisplayFormatForPsyRecord="@{psyTest.createdTime}"
+            app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM_DD_E_HH_MM}"
+            app:timeToDisplayFormat="@{psyTest.createdTime}"
             tools:text="2020/02/17 週一 09:39" />
 
         <TextView

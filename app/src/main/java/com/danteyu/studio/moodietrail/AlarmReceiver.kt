@@ -21,6 +21,7 @@ import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.recordmood.RecordMoodFragmentArgs
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.danteyu.studio.moodietrail.util.Util.getCalendar
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getEndTimeOfDay
@@ -52,7 +53,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
             if (it.get(receiveTitle) == receiveTag
                 && getCalendar().timeInMillis.toDisplayFormat(
-                    FORMAT_HH_MM
+                    TimeFormat.FORMAT_HH_MM
                 ).split(":")[0] == "12"
             ) {
                 setMessage()

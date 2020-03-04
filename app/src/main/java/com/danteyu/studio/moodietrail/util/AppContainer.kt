@@ -38,10 +38,10 @@ class AppContainer {
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_daybegin,
-                "${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-01"
+                "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01"
             )
         )
-        Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(FORMAT_YYYY_MM)}-01")
+        Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01")
         return dayStart.time
     }
 
@@ -53,7 +53,7 @@ class AppContainer {
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_daybegin,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+                timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD)
             )
         )
         return dayStart.time
@@ -67,7 +67,7 @@ class AppContainer {
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_dayend,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
+                timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD)
             )
         )
         return dayEnd.time
