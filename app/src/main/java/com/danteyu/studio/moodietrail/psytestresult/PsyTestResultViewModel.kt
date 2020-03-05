@@ -11,6 +11,7 @@ import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.PsyTestItem
 import com.danteyu.studio.moodietrail.util.Util.getString
 import com.github.mikephil.charting.data.BarEntry
 import kotlinx.coroutines.*
@@ -23,7 +24,7 @@ class PsyTestResultViewModel(
     private val arguments: PsyTest
 ) : ViewModel() {
 
-    // PsyTestResult has psytest data from arguments
+    // PsyTestResult has psyTest data from arguments
     private val _psyTest = MutableLiveData<PsyTest>().apply { value = arguments }
 
     val psyTest: LiveData<PsyTest>
@@ -39,8 +40,8 @@ class PsyTestResultViewModel(
     val psyTestRelatedCondition: LiveData<Int>
         get() = _psyTestRelatedCondition
 
-
     private val _showDeletePsyTestDialog = MutableLiveData<PsyTest>()
+
     val showDeletePsyTestDialog: LiveData<PsyTest>
         get() = _showDeletePsyTestDialog
 
@@ -89,18 +90,29 @@ class PsyTestResultViewModel(
         setEntryForPsyTest()
     }
 
-    fun setEntryForPsyTest() {
+    private fun setEntryForPsyTest() {
+
         val psyTestEntries = ArrayList<BarEntry>().apply {
-            add(BarEntry(6f, _psyTest.value?.itemSleep!!))
-            add(BarEntry(5f, _psyTest.value?.itemAnxiety!!))
-            add(BarEntry(4f, _psyTest.value?.itemAnger!!))
-            add(BarEntry(3f, _psyTest.value?.itemDepression!!))
-            add(BarEntry(2f, _psyTest.value?.itemInferiority!!))
-            add(BarEntry(1f, _psyTest.value?.itemSuicide!!))
+            _psyTest.value?.let {
+                add(BarEntry(PsyTestItem.INSOMNIA.value.toFloat(), it.itemSleep))
+                add(BarEntry(PsyTestItem.ANXIETY.value.toFloat(), it.itemAnxiety))
+                add(BarEntry(PsyTestItem.ANGER.value.toFloat(), it.itemAnger))
+                add(
+                    BarEntry(
+                        PsyTestItem.DEPRESSION.value.toFloat(),
+                        it.itemDepression
+                    )
+                )
+                add(
+                    BarEntry(
+                        PsyTestItem.INFERIORITY.value.toFloat(),
+                        it.itemInferiority
+                    )
+                )
+                add(BarEntry(PsyTestItem.SUICIDE.value.toFloat(), it.itemSuicide))
+            }
         }
-
         _psyTestEntries.value = psyTestEntries
-
     }
 
     fun formatValue(): SparseArray<String> {
@@ -114,12 +126,12 @@ class PsyTestResultViewModel(
 
         val itemLabels = SparseArray<String>()
         itemLabels.run {
-            put(1, suicide)
-            put(2, inferiority)
-            put(3, depression)
-            put(4, anger)
-            put(5, anxiety)
-            put(6, insomnia)
+            put(PsyTestItem.SUICIDE.value, suicide)
+            put(PsyTestItem.INFERIORITY.value, inferiority)
+            put(PsyTestItem.DEPRESSION.value, depression)
+            put(PsyTestItem.ANGER.value, anger)
+            put(PsyTestItem.ANXIETY.value, anxiety)
+            put(PsyTestItem.INSOMNIA.value, insomnia)
         }
         return itemLabels
     }
@@ -129,15 +141,13 @@ class PsyTestResultViewModel(
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
-            val result = moodieTrailRepository.deletePsyTest(uid, psyTest)
 
-            when (result) {
+            when (val result = moodieTrailRepository.deletePsyTest(uid, psyTest)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
 
                     _psyTestRelatedCondition.value = DELETE_PSY_TEST_SUCCESS
-
                 }
                 is Result.Fail -> {
                     _error.value = result.error
@@ -154,7 +164,6 @@ class PsyTestResultViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-
             navigateToPsyTestRecord()
         }
     }
@@ -175,7 +184,7 @@ class PsyTestResultViewModel(
         _navigateToPsyTestRating.value = null
     }
 
-    fun navigateToPsyTestRecord() {
+    private fun navigateToPsyTestRecord() {
         _navigateToPsyTestRecord.value = true
     }
 

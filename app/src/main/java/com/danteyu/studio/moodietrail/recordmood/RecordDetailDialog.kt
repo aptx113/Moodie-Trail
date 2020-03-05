@@ -19,6 +19,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
@@ -167,7 +170,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                     DELETE_NOTE_FAIL -> activity.showToast(
                         viewModel.error.value ?: getString(R.string.love_u_3000)
                     )
-
                     else -> {
                     }
                 }
@@ -214,6 +216,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 viewModel.setImage(bitmap)
 //                GlideApp.with(this)
 //                    .load(data.data)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true)
 //                    .transform(
 //                        RoundedCorners(
 //                            MoodieTrailApplication.instance.resources.getDimensionPixelSize(
@@ -226,14 +230,12 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 //                            .placeholder(R.drawable.ic_placeholder_record_detail)
 //                            .error(R.mipmap.ic_launcher)
 //                    )
-//                    .into(binding.imageNoteImage)
+//
+//                    .into(binding.imageNoteImageRecordDetail)
 
                 binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
-                CoroutineScope(Dispatchers.Main).launch {
-                    binding.scrollRecordDetail.requestLayout()
-                }
-                imageSourceSelectorDialog.dismiss()
 
+                imageSourceSelectorDialog.dismiss()
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -458,6 +460,5 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         private var filePath: Uri? = null
         //Bitmap to get image from gallery
         private var windowManager: WindowManager? = null
-        private var fileFromCamera: File? = null
     }
 }

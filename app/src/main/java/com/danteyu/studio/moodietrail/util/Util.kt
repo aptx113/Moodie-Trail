@@ -46,11 +46,9 @@ object Util {
                         ConnectivityManager.TYPE_ETHERNET -> true
                         else -> false
                     }
-
                 }
             }
         }
-
         return result
     }
 
@@ -82,15 +80,19 @@ object Util {
         return MoodieTrailApplication.instance.appContainer.googleSignInClient
     }
 
-    fun getStartDateOfMonth(timestamp: Long): Long? {
+    fun getStartDateOfMonth(timestamp: Long): Long {
         return MoodieTrailApplication.instance.appContainer.getStartDateOfMonth(timestamp)
     }
 
-    fun getStartTimeOfDay(timestamp: Long): Long? {
+    fun getEndDateOfMonth(calendar: Calendar, timestamp: Long): Long {
+        return MoodieTrailApplication.instance.appContainer.getEndDateOfMonth(calendar, timestamp)
+    }
+
+    fun getStartTimeOfDay(timestamp: Long): Long {
         return MoodieTrailApplication.instance.appContainer.getStartTimeOfDay(timestamp)
     }
 
-    fun getEndTimeOfDay(timestamp: Long): Long? {
+    fun getEndTimeOfDay(timestamp: Long): Long {
         return MoodieTrailApplication.instance.appContainer.getEndTimeOfDay(timestamp)
     }
 

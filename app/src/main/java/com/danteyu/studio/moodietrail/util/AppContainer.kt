@@ -33,10 +33,20 @@ class AppContainer {
 
     val calendar: Calendar = Calendar.getInstance()
 
+    private fun getThisMonthLastDate(calendar: Calendar, currentDate: Long): Int {
+
+        calendar.timeInMillis = currentDate
+        calendar.add(Calendar.MONTH, 0)
+        calendar.set(
+            Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        )
+        return calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
     /**
      * Function to get Start Time Of this Month in timestamp in milliseconds
      */
-    fun getStartDateOfMonth(timestamp: Long): Long? {
+    fun getStartDateOfMonth(timestamp: Long): Long {
 
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -49,9 +59,32 @@ class AppContainer {
     }
 
     /**
+     * Function to get End Time Of this Month in timestamp in milliseconds
+     */
+    fun getEndDateOfMonth(calendar: Calendar, timestamp: Long): Long {
+
+        val dayEnd = Timestamp.valueOf(
+            MoodieTrailApplication.instance.getString(
+                R.string.timestamp_dayend,
+                "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate(
+                    calendar,
+                    timestamp
+                )}"
+            )
+        )
+        Logger.i(
+            "ThisMonthLastDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate(
+                calendar,
+                timestamp
+            )}"
+        )
+        return dayEnd.time
+    }
+
+    /**
      * Function to get Start Time Of Day in timestamp in milliseconds
      */
-    fun getStartTimeOfDay(timestamp: Long): Long? {
+    fun getStartTimeOfDay(timestamp: Long): Long {
 
         val dayStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -65,7 +98,7 @@ class AppContainer {
     /**
      * Function to get End Time Of Day in timestamp in milliseconds
      */
-    fun getEndTimeOfDay(timestamp: Long): Long? {
+    fun getEndTimeOfDay(timestamp: Long): Long {
 
         val dayEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
@@ -82,12 +115,12 @@ class AppContainer {
         val alarmIntent =
             Intent(MoodieTrailApplication.instance, AlarmReceiver::class.java).let { intent ->
                 intent.putExtra(
-                    notificationKey,
-                    notificationIntentValue
+                    NOTIFICATION_KEY,
+                    NOTIFICATION_INTENT_VALUE
                 )
                 PendingIntent.getBroadcast(
                     MoodieTrailApplication.instance,
-                    alarmIntentRequestCode,
+                    ALARM_INTENT_REQUEST_CODE,
                     intent,
                     0
                 )
@@ -96,8 +129,8 @@ class AppContainer {
         // Set the alarm to start at 12:30 p.m.
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 12)
-            set(Calendar.MINUTE, 30)
+            set(Calendar.HOUR_OF_DAY, ALARM_CALENDAR_HOUR)
+            set(Calendar.MINUTE, ALARM_CALENDAR_MINUTE)
         }
 
         // setRepeating() lets you specify a precise custom interval--in this case,
@@ -105,15 +138,18 @@ class AppContainer {
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            1000 * 60 * 60 * 24,
+            ALARM_INTERVAL_MILLIS.toLong(),
             alarmIntent
         )
     }
 
-    companion object{
-        const val notificationKey = "regular reminder"
-        const val notificationIntentValue = "activity_app"
-        const val alarmIntentRequestCode = 0
+    companion object {
+        const val NOTIFICATION_KEY = "regular reminder"
+        const val NOTIFICATION_INTENT_VALUE = "activity_app"
+        const val ALARM_INTENT_REQUEST_CODE = 0
+        const val ALARM_INTERVAL_MILLIS = 1000 * 60 * 60 * 24
+        const val ALARM_CALENDAR_HOUR = 12
+        const val ALARM_CALENDAR_MINUTE = 30
 
     }
 }

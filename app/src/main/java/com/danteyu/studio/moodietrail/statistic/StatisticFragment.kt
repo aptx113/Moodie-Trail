@@ -1,6 +1,5 @@
 package com.danteyu.studio.moodietrail.statistic
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.util.Util.getColor
+import com.danteyu.studio.moodietrail.util.Util.getDimensionPixelSize
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
@@ -27,9 +28,7 @@ class StatisticFragment : Fragment() {
     val viewModel by viewModels<StatisticViewModel> { getVmFactory() }
 
     private lateinit var binding: FragmentStatisticBinding
-    private lateinit var moodLineChart: LineChart
     private lateinit var moodLineChartInfoDialog: MoodLineChartInfoDialog
-    private lateinit var moodPieChart: PieChart
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,23 +42,23 @@ class StatisticFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.imageStatisticNextMonth.setOnClickListener{
+        binding.imageStatisticNextMonth.setOnClickListener {
             activity.showToast("Coming Soon")
         }
 
-        binding.imageLastMonthStatistic.setOnClickListener{
+        binding.imageLastMonthStatistic.setOnClickListener {
             activity.showToast("Coming Soon")
         }
 
-        viewModel.avgMoodEntries.observe(viewLifecycleOwner, Observer {
+        viewModel.avgMoodScoreEntries.observe(viewLifecycleOwner, Observer {
             it?.let {
-                displayAvgMoodData(it)
+                displayAvgMoodScoresData(it, binding.lineChartMoodStatistic)
             }
         })
 
         viewModel.noteEntries.observe(viewLifecycleOwner, Observer {
             it?.let {
-                displayNoteData(it)
+                displayNotesData(it, binding.pieChartMoodStatistic)
             }
         })
 
@@ -69,21 +68,25 @@ class StatisticFragment : Fragment() {
                 viewModel.onLineChartInfoShowed()
             }
         })
-        setupAvgMoodChart()
-        setupPieChart()
+        setupAvgMoodScoresChart(binding.lineChartMoodStatistic)
+        setupPieChart(binding.pieChartMoodStatistic)
 
         return binding.root
     }
 
-    private fun setupAvgMoodChart() {
-        moodLineChart = binding.lineChartMoodStatistic
-        moodLineChart.apply {
+    private fun setupAvgMoodScoresChart(moodLineChart: LineChart) {
 
+        moodLineChart.apply {
             // disable description
             description.isEnabled = false
 
-            setExtraOffsets(5f, 10f, 10f, 10f)
-            animateX(1000, Easing.EaseInBack)
+            setExtraOffsets(
+                getDimensionPixelSize(R.dimen.offset_left_line_chart).toFloat(),
+                getDimensionPixelSize(R.dimen.offset_top_line_chart).toFloat(),
+                getDimensionPixelSize(R.dimen.offset_right_line_chart).toFloat(),
+                getDimensionPixelSize(R.dimen.offset_bottom_line_chart).toFloat()
+            )
+            animateX(ANIMATE_DURATION_MILLIS, Easing.EaseInBack)
             // enable scaling and dragging
             isDragEnabled = true
 
@@ -102,32 +105,39 @@ class StatisticFragment : Fragment() {
         }
     }
 
-    private fun setupPieChart() {
-        moodPieChart = binding.pieChartMoodStatistic
-        moodPieChart.apply {
-            holeRadius = 20f
+    private fun setupPieChart(moodPieChart: PieChart) {
 
-            setExtraOffsets(0f, 8.5f, 0f, 5f)
+        moodPieChart.apply {
+            holeRadius = getDimensionPixelSize(R.dimen.radius_hole_pie_chart).toFloat()
+
+            setExtraOffsets(
+                getDimensionPixelSize(R.dimen.offset_left_pie_chart).toFloat(),
+                getDimensionPixelSize(R.dimen.offset_top_pie_chart).toFloat(),
+                getDimensionPixelSize(R.dimen.offset_right_pie_chart).toFloat(),
+                getDimensionPixelSize(R.dimen.offset_bottom_pie_chart).toFloat()
+            )
             setNoDataText("")
-            animateY(1000, Easing.EaseInCubic)
+            animateY(ANIMATE_DURATION_MILLIS, Easing.EaseInCubic)
             description.isEnabled = false
             setUsePercentValues(true)
-            transparentCircleRadius = 40f
-            setTransparentCircleAlpha(50)
+            transparentCircleRadius =
+                getDimensionPixelSize(R.dimen.radius_transparent_circle_pie_chart).toFloat()
+            setTransparentCircleAlpha(getDimensionPixelSize(R.dimen.alpha_transparent_circle_pie_chart))
             legend.isEnabled = false
             invalidate()
         }
     }
 
-    private fun displayAvgMoodData(avgMoodEntries: List<Entry>) {
+    private fun displayAvgMoodScoresData(avgMoodEntries: List<Entry>, moodLineChart: LineChart) {
 
         val dataSet = LineDataSet(avgMoodEntries, getString(R.string.mood))
 
         dataSet.apply {
 
-            color = Color.parseColor("#63a4ff")
-            lineWidth = 2f
-            circleRadius = 3f
+            color = MoodieTrailApplication.instance.getColor(R.color.blue_700)
+            lineWidth = getDimensionPixelSize(R.dimen.width_line_chart_data_set_line).toFloat()
+            circleRadius =
+                getDimensionPixelSize(R.dimen.radius_line_chart_data_set_circle).toFloat()
 
             setDrawCircleHole(false)
             setDrawCircles(true)
@@ -145,11 +155,11 @@ class StatisticFragment : Fragment() {
             } else {
                 setDrawAxisLine(true)
             }
-            textSize = 11f
+            textSize = getDimensionPixelSize(R.dimen.size_text_value_chart).toFloat()
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = LineChartXValueFormatter()
             setDrawGridLines(false)
-            axisLineWidth = 2f
+            axisLineWidth = getDimensionPixelSize(R.dimen.width_line_chart_axis_line).toFloat()
             isGranularityEnabled = true
 
         }
@@ -168,19 +178,17 @@ class StatisticFragment : Fragment() {
                 setDrawAxisLine(true)
             }
 
-            granularity = 1f
             isGranularityEnabled = true
-            axisLineWidth = 1.5f
-            textSize = 12f
+            axisLineWidth = getDimensionPixelSize(R.dimen.width_line_chart_axis_line).toFloat()
+            textSize = getDimensionPixelSize(R.dimen.size_text_value_chart).toFloat()
 
         }
-
         moodLineChart.data = LineData(dataSet)
         moodLineChart.notifyDataSetChanged()
         moodLineChart.invalidate()
     }
 
-    private fun displayNoteData(noteEntries: List<PieEntry>) {
+    private fun displayNotesData(noteEntries: List<PieEntry>, moodPieChart: PieChart) {
 
         val colors = ArrayList<Int>()
         val colorTable = listOf(
@@ -199,30 +207,38 @@ class StatisticFragment : Fragment() {
         dataSet.colors = colors
         dataSet.apply {
 
-            valueTextSize = 12f
-            valueLinePart1OffsetPercentage = 110f
-            valueLinePart1Length = 1f
-            valueLinePart2Length = 0.8f
+            valueTextSize = getDimensionPixelSize(R.dimen.size_text_value_chart).toFloat()
+            valueLinePart1OffsetPercentage =
+                getDimensionPixelSize(R.dimen.percentage_value_line_part_1_offset).toFloat()
+            valueLinePart1Length =
+                getDimensionPixelSize(R.dimen.length_pie_chart_value_line_part_1).toFloat()
+            valueLinePart2Length =
+                getDimensionPixelSize(R.dimen.length_pie_chart_value_line_part_2).toFloat()
             valueFormatter = PieChartValueFormatter()
             isUsingSliceColorAsValueLineColor = true
-            valueLineWidth = 1f
+            valueLineWidth =
+                getDimensionPixelSize(R.dimen.width_pie_chart_value_line).toFloat()
+
             xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
             yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-            sliceSpace = 2f
+            sliceSpace = getDimensionPixelSize(R.dimen.size_slice_space_pie_chart).toFloat()
         }
-
         moodPieChart.data = PieData(dataSet)
         moodPieChart.notifyDataSetChanged()
         moodPieChart.invalidate()
-
     }
 
     private fun showLineChartInfoDialog() {
 
-        parentFragmentManager.let { fragmentManager ->
+        childFragmentManager.let { fragmentManager ->
             if (!moodLineChartInfoDialog.isInLayout) {
-                moodLineChartInfoDialog.show(fragmentManager, "Mood Line Chart Info")
+                moodLineChartInfoDialog.show(fragmentManager, LINE_CHART_INFO_TAG)
             }
         }
+    }
+
+    companion object {
+        const val LINE_CHART_INFO_TAG = "Mood Line Chart Info"
+        const val ANIMATE_DURATION_MILLIS = 1000
     }
 }
