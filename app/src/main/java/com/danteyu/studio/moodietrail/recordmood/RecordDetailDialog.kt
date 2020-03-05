@@ -38,6 +38,9 @@ import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -226,6 +229,9 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 //                    .into(binding.imageNoteImage)
 
                 binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.scrollRecordDetail.requestLayout()
+                }
                 imageSourceSelectorDialog.dismiss()
 
 
