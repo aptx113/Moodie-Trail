@@ -101,7 +101,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
 
     }
 
-    fun checkUser(uid: String) {
+    private fun checkUser(uid: String) {
         getUserProfile(uid)
 
     }
@@ -127,13 +127,21 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
 
-                    signUpUserProfile(
-                        User(
-                            name = UserManager.name!!,
-                            picture = UserManager.picture!!,
-                            email = UserManager.email!!
-                        ), uid
-                    )
+                    UserManager.name?.let {
+                        UserManager.picture?.let { picture ->
+                            UserManager.email?.let { email ->
+                                User(
+                                    name = it,
+                                    picture = picture,
+                                    email = email
+                                )
+                            }
+                        }
+                    }?.let {
+                        signUpUserProfile(
+                            it, uid
+                        )
+                    }
                 }
                 is Result.Error -> {
                     _error.value = result.exception.toString()
@@ -269,11 +277,11 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                     loginResult.accessToken
                 ) { `object`, response ->
                     try {
-                        if (response.connection.responseCode == 200) {
+                        if (response.connection.responseCode == REQUEST_SUCCESS_CODE) {
 //                            handleFacebookAccessToken(loginResult.accessToken)
-                            UserManager.userToken = `object`.getLong("id").toString()
-                            UserManager.name = `object`.getString("name")
-                            UserManager.email = `object`.getString("email")
+                            UserManager.userToken = `object`.getLong(ID).toString()
+                            UserManager.name = `object`.getString(NAME)
+                            UserManager.email = `object`.getString(EMAIL)
                             Profile.getCurrentProfile()?.let {
                                 UserManager.picture = it.getProfilePictureUri(300, 300).toString()
                             }
@@ -287,7 +295,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                     }
                 }
                 val parameters = Bundle()
-                parameters.putString("fields", "id,name,email")
+                parameters.putString(FIELDS, "$ID,$NAME,$EMAIL")
                 graphRequest.parameters = parameters
                 graphRequest.executeAsync()
 
@@ -301,7 +309,7 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
                 Logger.w("[${this::class.simpleName}] exception=${exception.message}")
 
                 exception.message?.let {
-                    _error.value = if (it.contains("ERR_INTERNET_DISCONNECTED")) {
+                    _error.value = if (it.contains(ERROR_INTERNET_DISCONNECTED)) {
                         getString(R.string.internet_not_connected)
                     } else {
                         it
@@ -336,8 +344,14 @@ class LoginViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
 
 
     companion object {
-        private val logInWithPermissionsEmail = "email"
-        private val loginWithPermissionProfile = "public_profile"
+        const val LOGIN_WITH_PERMISSIONS_EMAIL = "email"
+        const val LOGIN_WITH_PERMISSION_PROFILE = "public_profile"
         const val RC_SIGN_IN = 0x01
+        const val REQUEST_SUCCESS_CODE = 200
+        const val ID = "id"
+        const val NAME = "name"
+        const val EMAIL = "email"
+        const val FIELDS = "fields"
+        const val ERROR_INTERNET_DISCONNECTED = "ERR_INTERNET_DISCONNECTED"
     }
 }

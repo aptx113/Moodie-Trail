@@ -33,8 +33,6 @@ class PsyTestRecordViewModel(private val moodieTrailRepository: MoodieTrailRepos
     val psyTests: LiveData<List<PsyTest>>
         get() = _psyTests
 
-
-
     // status for the loading notes
     private val _refreshStatus = MutableLiveData<Boolean>()
 

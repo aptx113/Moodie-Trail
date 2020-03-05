@@ -12,6 +12,7 @@ import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel
  * Factory for all ViewModels which need [PsyTest].
  */
 
+@Suppress("UNCHECKED_CAST")
 class PsyTestViewModelFactory(
     private val moodieTrailRepository: MoodieTrailRepository,
     private val psyTest: PsyTest

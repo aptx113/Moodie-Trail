@@ -1,29 +1,24 @@
 package com.danteyu.studio.moodietrail.home
 
-import android.graphics.Rect
-import android.icu.util.Calendar
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.component.GridSpacingItemDecoration
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
-import com.danteyu.studio.moodietrail.util.TimeFormat
+import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
+import java.util.*
 
 
 /**
@@ -92,7 +87,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         viewModelJob.cancel()
     }
 
-    val calendar = Calendar.getInstance()
+    private val calendar: Calendar = Calendar.getInstance()
 
     init {
         Logger.i("------------------------------------")
@@ -101,43 +96,19 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
         initialDate()
         UserManager.id?.let {
-            getNotesByDateRange(
-                it,
-                getStartDateOfMonth(_currentMonth.value!!)!!,
-                getEndDateOfMonth(_currentMonth.value!!)!!
-            )
+            _currentMonth.value?.let { date ->
+                getNotesByDateRange(
+                    it,
+                    getStartDateOfMonth(date),
+                    getEndDateOfMonth(calendar, date)
+                )
+            }
         }
     }
 
     private fun initialDate() {
 
         _currentMonth.value = calendar.timeInMillis
-    }
-
-    private fun getThisMonthLastDate(): Int {
-
-        calendar.timeInMillis = currentMonth.value!!
-        calendar.add(java.util.Calendar.MONTH, 0)
-        calendar.set(
-            java.util.Calendar.DAY_OF_MONTH,
-            calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
-        )
-        return calendar.get(java.util.Calendar.DAY_OF_MONTH)
-    }
-
-    /**
-     * Function to get End Time Of this Month in timestamp in milliseconds
-     */
-    private fun getEndDateOfMonth(timestamp: Long): Long? {
-
-        val dayEnd = Timestamp.valueOf(
-            MoodieTrailApplication.instance.getString(
-                R.string.timestamp_dayend,
-                "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate()}"
-            )
-        )
-        Logger.i("ThisMonthLastDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate()}")
-        return dayEnd.time
     }
 
     private fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long) {
@@ -194,11 +165,13 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     fun refresh() {
         if (_status.value != LoadApiStatus.LOADING)
             UserManager.id?.let {
-                getNotesByDateRange(
-                    it,
-                    getStartDateOfMonth(_currentMonth.value!!)!!,
-                    getEndDateOfMonth(_currentMonth.value!!)!!
-                )
+                _currentMonth.value?.let { date ->
+                    getNotesByDateRange(
+                        it,
+                        getStartDateOfMonth(date),
+                        getEndDateOfMonth(calendar, date)
+                    )
+                }
             }
     }
 }

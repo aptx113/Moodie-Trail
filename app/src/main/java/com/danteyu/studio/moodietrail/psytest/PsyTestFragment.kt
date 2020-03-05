@@ -48,7 +48,6 @@ class PsyTestFragment : Fragment() {
             }
         })
 
-
         return binding.root
     }
 }

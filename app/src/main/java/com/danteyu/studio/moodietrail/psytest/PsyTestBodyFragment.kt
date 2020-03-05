@@ -2,27 +2,24 @@ package com.danteyu.studio.moodietrail.psytest
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.R
-import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestBodyBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
-import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_ANGER_EMPTY
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_ANXIETY_EMPTY
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_DEPRESSION_EMPTY
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_INFERIORITY_EMPTY
-import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_SLEEP_EMPTY
+import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_INSOMNIA_EMPTY
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_SUICIDE_EMPTY
-import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.POST_PSYTEST_FAIL
+import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel.Companion.POST_PSY_TEST_FAIL
 
 /**
  * Created by George Yu on 2020/2/14.
@@ -43,7 +40,6 @@ class PsyTestBodyFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-//        binding.buttonTestBodyBack.setTouchDelegate()
 
         viewModel.submitSuccess.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -56,7 +52,7 @@ class PsyTestBodyFragment : Fragment() {
         viewModel.invalidSubmit.observe(viewLifecycleOwner, Observer {
             it?.let {
                 when (it) {
-                    INVALID_FORMAT_SLEEP_EMPTY -> {
+                    INVALID_FORMAT_INSOMNIA_EMPTY -> {
                         activity.showToast(getString(R.string.do_not_forget_to_select_sleep))
                     }
 
@@ -80,7 +76,7 @@ class PsyTestBodyFragment : Fragment() {
                         activity.showToast(getString(R.string.do_not_forget_to_select_suicide))
                     }
 
-                    POST_PSYTEST_FAIL -> {
+                    POST_PSY_TEST_FAIL -> {
                         activity.showToast(viewModel.error.value ?: getString(R.string.love_u_3000))
                     }
                     else -> {
@@ -102,6 +98,5 @@ class PsyTestBodyFragment : Fragment() {
 
         return binding.root
     }
-
 
 }
