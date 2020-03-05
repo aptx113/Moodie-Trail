@@ -48,14 +48,14 @@ class AppContainer {
      */
     fun getStartDateOfMonth(timestamp: Long): Long {
 
-        val dayStart = Timestamp.valueOf(
+        val monthStart = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_daybegin,
                 "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01"
             )
         )
         Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01")
-        return dayStart.time
+        return monthStart.time
     }
 
     /**
@@ -63,7 +63,7 @@ class AppContainer {
      */
     fun getEndDateOfMonth(calendar: Calendar, timestamp: Long): Long {
 
-        val dayEnd = Timestamp.valueOf(
+        val monthEnd = Timestamp.valueOf(
             MoodieTrailApplication.instance.getString(
                 R.string.timestamp_dayend,
                 "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-${getThisMonthLastDate(
@@ -78,7 +78,7 @@ class AppContainer {
                 timestamp
             )}"
         )
-        return dayEnd.time
+        return monthEnd.time
     }
 
     /**

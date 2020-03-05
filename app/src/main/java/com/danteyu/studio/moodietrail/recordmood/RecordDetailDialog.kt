@@ -19,10 +19,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.danteyu.studio.moodietrail.*
+import com.danteyu.studio.moodietrail.MainActivity
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import com.danteyu.studio.moodietrail.NavigationDirections
+import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
@@ -41,9 +41,6 @@ import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -201,7 +198,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         return binding.root
     }
 
-
     //handling the image chooser activity result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -214,27 +210,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
-//                GlideApp.with(this)
-//                    .load(data.data)
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .skipMemoryCache(true)
-//                    .transform(
-//                        RoundedCorners(
-//                            MoodieTrailApplication.instance.resources.getDimensionPixelSize(
-//                                R.dimen.margin_half
-//                            )
-//                        )
-//                    )
-//                    .apply(
-//                        RequestOptions()
-//                            .placeholder(R.drawable.ic_placeholder_record_detail)
-//                            .error(R.mipmap.ic_launcher)
-//                    )
-//
-//                    .into(binding.imageNoteImageRecordDetail)
-
                 binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
-
                 imageSourceSelectorDialog.dismiss()
 
             } catch (e: IOException) {
@@ -258,7 +234,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             }
         }
     }
-
 
     private fun getPermissions() = runWithPermissions(
         PERMISSION_CAMERA,
