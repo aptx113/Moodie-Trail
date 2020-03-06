@@ -70,11 +70,11 @@ fun bindMoodColorForPlaceholder(imageView: ImageView, mood: Int?) {
         imageView.setBackgroundColor(
             getColor(
                 when (it) {
-                    1 -> R.color.mood_very_bad_Light
-                    2 -> R.color.mood_bad_Light
-                    3 -> R.color.mood_normal_Light
-                    4 -> R.color.mood_good_Light
-                    5 -> R.color.mood_very_good_Light
+                    Mood.VERY_BAD.value -> R.color.mood_very_bad_Light
+                    Mood.BAD.value -> R.color.mood_bad_Light
+                    Mood.NORMAL.value -> R.color.mood_normal_Light
+                    Mood.GOOD.value -> R.color.mood_good_Light
+                    Mood.VERY_GOOD.value -> R.color.mood_very_good_Light
                     else -> R.color.blue_700_Light
                 }
             )
@@ -88,11 +88,11 @@ fun bindMoodColorForImagePicker(imageView: ImageView, mood: Int?) {
         imageView.setColorFilter(
             getColor(
                 when (it) {
-                    1 -> R.color.mood_very_bad_Light
-                    2 -> R.color.mood_bad_Light
-                    3 -> R.color.mood_normal_Light
-                    4 -> R.color.mood_good_Light
-                    5 -> R.color.mood_very_good_Light
+                    Mood.VERY_BAD.value -> R.color.mood_very_bad_Light
+                    Mood.BAD.value -> R.color.mood_bad_Light
+                    Mood.NORMAL.value -> R.color.mood_normal_Light
+                    Mood.GOOD.value -> R.color.mood_good_Light
+                    Mood.VERY_GOOD.value -> R.color.mood_very_good_Light
                     else -> R.color.blue_700_Light
                 }
             )
@@ -106,11 +106,11 @@ fun bindMoodColorForSrc(imageView: ImageView, mood: Int?) {
         imageView.setColorFilter(
             getColor(
                 when (it) {
-                    1 -> R.color.mood_very_bad
-                    2 -> R.color.mood_bad
-                    3 -> R.color.mood_normal
-                    4 -> R.color.mood_good
-                    5 -> R.color.mood_very_good
+                    Mood.VERY_BAD.value -> R.color.mood_very_bad
+                    Mood.BAD.value -> R.color.mood_bad
+                    Mood.NORMAL.value -> R.color.mood_normal
+                    Mood.GOOD.value -> R.color.mood_good
+                    Mood.VERY_GOOD.value -> R.color.mood_very_good
                     else -> R.color.blue_700
                 }
             )

@@ -139,4 +139,5 @@ dependencies {
     implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1'
 
     implementation 'com.karumi:dexter:6.0.2'
+    implementation 'androidx.exifinterface:exifinterface:1.1.0-beta01'
 }

@@ -91,4 +91,9 @@
     <dimen name="offset_right_bar_chart">10px</dimen>
     <dimen name="offset_bottom_bar_chart">10px</dimen>
 
+<!-- Ext -->
+    <dimen name="orientation_rotate_90">90px</dimen>
+    <dimen name="orientation_rotate_180">180px</dimen>
+    <dimen name="orientation_rotate_270">270px</dimen>
+
 </resources>

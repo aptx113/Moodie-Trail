@@ -41,7 +41,6 @@ class MessageDialog : AppCompatDialogFragment() {
         binding.lifecycleOwner = this
         binding.dialog = this
 
-
         return binding.root
     }
 

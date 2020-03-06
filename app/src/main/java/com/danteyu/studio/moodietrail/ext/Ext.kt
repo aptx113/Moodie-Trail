@@ -6,11 +6,11 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Rect
 import android.icu.text.SimpleDateFormat
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.view.TouchDelegate
 import android.view.View
+import androidx.exifinterface.media.ExifInterface
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -21,8 +21,8 @@ import com.danteyu.studio.moodietrail.network.NetworkConnectivityListener
 import com.danteyu.studio.moodietrail.network.NetworkEvents
 import com.danteyu.studio.moodietrail.network.NetworkState
 import com.danteyu.studio.moodietrail.util.TimeFormat
+import com.danteyu.studio.moodietrail.util.Util.getDimensionPixelSize
 import com.danteyu.studio.moodietrail.util.Util.getString
-import java.text.Format
 import java.util.*
 
 /**
@@ -88,7 +88,7 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
     if (options.outWidth == -1 || options.outHeight == -1) return null
     var bitmapWidth = options.outWidth.toFloat()
     var bitmapHeight = options.outHeight.toFloat()
-    if (rotatedDegree == 90) {
+    if (rotatedDegree == getDimensionPixelSize(R.dimen.orientation_rotate_90)) {
         // Side way -> options.outWidth is actually HEIGHT
         //          -> options.outHeight is actually WIDTH
         bitmapWidth = options.outHeight.toFloat()
@@ -97,7 +97,7 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
     var scale = 1
     while (true) {
         if (bitmapWidth / 2 < width || bitmapHeight / 2 < height)
-            break;
+            break
         bitmapWidth /= 2
         bitmapHeight /= 2
         scale *= 2
@@ -116,7 +116,7 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
     if (rotatedDegree != 0) {
         matrix.preRotate(rotatedDegree.toFloat())
     }
-    var bmpWidth = 0
+    val bmpWidth: Int
     try {
         if (bitmap == null) {
             return null
@@ -135,9 +135,9 @@ fun Uri.getBitmap(width: Int, height: Int): Bitmap? {
 
 fun Int.fromExifInterfaceOrientationToDegree(): Int {
     return when (this) {
-        ExifInterface.ORIENTATION_ROTATE_90 -> 90
-        ExifInterface.ORIENTATION_ROTATE_180 -> 180
-        ExifInterface.ORIENTATION_ROTATE_270 -> 270
+        ExifInterface.ORIENTATION_ROTATE_90 -> getDimensionPixelSize(R.dimen.orientation_rotate_90)
+        ExifInterface.ORIENTATION_ROTATE_180 -> getDimensionPixelSize(R.dimen.orientation_rotate_180)
+        ExifInterface.ORIENTATION_ROTATE_270 -> getDimensionPixelSize(R.dimen.orientation_rotate_270)
         else -> 0
     }
 }
@@ -177,20 +177,20 @@ internal fun NetworkConnectivityListener.onListenerResume(networkState: NetworkS
  */
 internal var NetworkConnectivityListener.previousState: Boolean?
     get() {
-        return when {
-            this is Fragment -> this.arguments?.previousState
-            this is Activity -> this.intent.extras?.previousState
+        return when (this) {
+            is Fragment -> this.arguments?.previousState
+            is Activity -> this.intent.extras?.previousState
             else -> null
         }
     }
     set(value) {
-        when {
-            this is Fragment -> {
+        when (this) {
+            is Fragment -> {
                 val a = this.arguments ?: Bundle()
                 a.previousState = value
                 this.arguments = a
             }
-            this is Activity -> {
+            is Activity -> {
                 val a = this.intent.extras ?: Bundle()
                 a.previousState = value
                 this.intent.replaceExtras(a)

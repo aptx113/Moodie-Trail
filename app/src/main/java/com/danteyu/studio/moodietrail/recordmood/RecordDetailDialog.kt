@@ -9,11 +9,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.*
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -59,9 +62,12 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         )
     }
 
+    private lateinit var handler:Handler
+    private lateinit var runnable:Runnable
+
     private lateinit var binding: DialogRecordDetailBinding
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
-    lateinit var currentPhotoPath: String
+    private lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -210,7 +216,9 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
+                binding.imageNoteImageRecordDetail.setImageBitmap(null)
                 binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
+
                 imageSourceSelectorDialog.dismiss()
 
             } catch (e: IOException) {
