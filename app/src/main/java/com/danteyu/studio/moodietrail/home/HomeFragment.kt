@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.NavigationDirections
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.FragmentHomeBinding
@@ -50,7 +48,7 @@ class HomeFragment : Fragment() {
         viewModel.navigateToRecordDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToRecordDetailFragment(it)
+                    NavigationDirections.navigateToRecordDetailFragment(it)
                 )
                 viewModel.onRecordDetailNavigated()
             }
@@ -64,15 +62,6 @@ class HomeFragment : Fragment() {
                 viewModel.onRecordMoodNavigated()
             }
         })
-
-//        ViewModelProvider(activity!!).get(MainViewModel::class.java).apply {
-//            refresh.observe(viewLifecycleOwner, Observer {
-//                it?.let {
-//                    viewModel.refresh()
-//                    onRefreshed()
-//                }
-//            })
-//        }
 
         return binding.root
     }

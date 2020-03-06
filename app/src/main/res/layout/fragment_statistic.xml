@@ -7,6 +7,8 @@
 
         <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <import type="android.view.View" />
 
         <variable
@@ -21,7 +23,7 @@
         android:background="@color/gray_f0f0f0">
 
         <ImageView
-            android:id="@+id/image_toolbar_last"
+            android:id="@+id/image_last_month_statistic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_half"
@@ -29,14 +31,14 @@
             android:src="@drawable/ic_toolbar_back"
             android:tint="@color/blue_700_Dark"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/text_toolbar_date"
+            app:layout_constraintEnd_toStartOf="@+id/text_statistic_date"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/text_toolbar_date"
+            android:id="@+id/text_statistic_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -46,16 +48,17 @@
             android:textColor="@color/blue_700_Dark"
             android:textSize="16sp"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/image_toolbar_next"
+            app:layout_constraintEnd_toStartOf="@+id/image_statistic_next_month"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_toolbar_last"
+            app:layout_constraintStart_toEndOf="@+id/image_last_month_statistic"
             app:layout_constraintTop_toTopOf="parent"
-            app:timeToDisplayDateYMFormat="@{viewModel.currentDate}"
+            app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM}"
+            app:timeToDisplayFormat="@{viewModel.currentDate}"
             tools:text="2020-01"
             tools:visibility="visible" />
 
         <ImageView
-            android:id="@+id/image_toolbar_next"
+            android:id="@+id/image_statistic_next_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -66,7 +69,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/text_toolbar_date"
+            app:layout_constraintStart_toEndOf="@+id/text_statistic_date"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
@@ -77,15 +80,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_toolbar_last">
+            app:layout_constraintTop_toBottomOf="@id/image_last_month_statistic">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="@dimen/margin_basic">
+                android:paddingBottom="@dimen/margin_basic">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_month"
+                    android:id="@+id/layout_line_chart_month_statistic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_basic"
@@ -98,7 +101,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/text_month_line_chart_title"
+                        android:id="@+id/text_line_chart_title_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -120,27 +123,27 @@
                         android:backgroundTint="@color/blue_700"
                         android:onClick="@{() -> viewModel.showLineChartInfo()}"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintStart_toEndOf="@id/text_month_line_chart_title"
-                        app:layout_constraintTop_toTopOf="@id/text_month_line_chart_title" />
+                        app:layout_constraintStart_toEndOf="@id/text_line_chart_title_statistic"
+                        app:layout_constraintTop_toTopOf="@id/text_line_chart_title_statistic" />
 
                     <TextView
-                        android:id="@+id/text_month_no_mood_data"
+                        android:id="@+id/text_month_no_mood_data_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/margin_basic"
-                        android:text='@{viewModel.avgMoods != null ? @string/chart_no_data : ""}'
+                        android:text='@{viewModel.avgMoodScores != null ? @string/chart_no_data : ""}'
                         android:textAlignment="center"
                         android:textColor="@color/blue_700_Dark"
                         android:textSize="16sp"
-                        android:visibility="@{viewModel.avgMoods.size() == 0  ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="@id/line_chart_mood"
-                        app:layout_constraintEnd_toEndOf="@id/line_chart_mood"
-                        app:layout_constraintStart_toStartOf="@id/line_chart_mood"
-                        app:layout_constraintTop_toTopOf="@id/line_chart_mood"
+                        android:visibility="@{viewModel.avgMoodScores.size() == 0  ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_statistic"
+                        app:layout_constraintEnd_toEndOf="@id/line_chart_mood_statistic"
+                        app:layout_constraintStart_toStartOf="@id/line_chart_mood_statistic"
+                        app:layout_constraintTop_toTopOf="@id/line_chart_mood_statistic"
                         tools:visibility="visible" />
 
                     <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/line_chart_mood"
+                        android:id="@+id/line_chart_mood_statistic"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginHorizontal="@dimen/margin_half"
@@ -149,16 +152,16 @@
                         app:layout_constraintDimensionRatio="1.77:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text_month_line_chart_title" />
+                        app:layout_constraintTop_toBottomOf="@id/text_line_chart_title_statistic" />
 
                     <ProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:theme="@style/ProgressTheme"
-                        app:layout_constraintBottom_toBottomOf="@id/line_chart_mood"
+                        app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_statistic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/line_chart_mood"
+                        app:layout_constraintTop_toTopOf="@id/line_chart_mood_statistic"
                         app:setupApiStatus="@{viewModel.status}"
                         tools:visibility="visible" />
 
@@ -175,7 +178,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_day"
+                    android:id="@+id/layout_pie_chart_statistic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_basic"
@@ -188,10 +191,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_month">
+                    app:layout_constraintTop_toBottomOf="@id/layout_line_chart_month_statistic">
 
                     <TextView
-                        android:id="@+id/text_pie_chart_title"
+                        android:id="@+id/text_pie_chart_title_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -204,7 +207,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/text_no_mood_data_for_pie"
+                        android:id="@+id/text_no_mood_data_for_pie_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="1dp"
@@ -213,14 +216,14 @@
                         android:textColor="@color/blue_700_Dark"
                         android:textSize="16sp"
                         android:visibility="@{viewModel.notes.size() == 0  ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="@id/pie_chart_mood"
-                        app:layout_constraintEnd_toEndOf="@id/pie_chart_mood"
-                        app:layout_constraintStart_toStartOf="@id/pie_chart_mood"
-                        app:layout_constraintTop_toTopOf="@id/pie_chart_mood"
+                        app:layout_constraintBottom_toBottomOf="@id/pie_chart_mood_statistic"
+                        app:layout_constraintEnd_toEndOf="@id/pie_chart_mood_statistic"
+                        app:layout_constraintStart_toStartOf="@id/pie_chart_mood_statistic"
+                        app:layout_constraintTop_toTopOf="@id/pie_chart_mood_statistic"
                         tools:visibility="visible" />
 
                     <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/pie_chart_mood"
+                        android:id="@+id/pie_chart_mood_statistic"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginHorizontal="@dimen/margin_half"
@@ -228,23 +231,23 @@
                         app:layout_constraintDimensionRatio="1.77:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text_pie_chart_title" />
+                        app:layout_constraintTop_toBottomOf="@id/text_pie_chart_title_statistic" />
 
                     <ImageView
-                        android:id="@+id/image_very_good"
+                        android:id="@+id/image_very_good_statistic"
                         android:layout_width="54dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/margin_half"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toStartOf="@+id/image_good"
+                        app:layout_constraintEnd_toStartOf="@+id/image_good_statistic"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pie_chart_mood"
+                        app:layout_constraintTop_toBottomOf="@id/pie_chart_mood_statistic"
                         app:srcCompat="@drawable/ic_mood_circle_very_good_normal" />
 
                     <TextView
-                        android:id="@+id/text_badge_very_good"
+                        android:id="@+id/text_badge_very_good_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="4dp"
@@ -257,22 +260,22 @@
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="@{viewModel.veryGoodCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="@id/image_very_good"
-                        app:layout_constraintTop_toTopOf="@id/image_very_good" />
+                        app:layout_constraintEnd_toEndOf="@id/image_very_good_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_very_good_statistic" />
 
                     <ImageView
-                        android:id="@+id/image_good"
+                        android:id="@+id/image_good_statistic"
                         android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toStartOf="@+id/image_normal"
+                        app:layout_constraintEnd_toStartOf="@+id/image_normal_statistic"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/image_very_good"
-                        app:layout_constraintTop_toTopOf="@id/image_very_good"
+                        app:layout_constraintStart_toEndOf="@+id/image_very_good_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_very_good_statistic"
                         app:srcCompat="@drawable/ic_mood_circle_good_normal" />
 
                     <TextView
-                        android:id="@+id/text_badge_good"
+                        android:id="@+id/text_badge_good_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="4dp"
@@ -285,22 +288,22 @@
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="@{viewModel.goodCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="@id/image_good"
-                        app:layout_constraintTop_toTopOf="@id/image_good" />
+                        app:layout_constraintEnd_toEndOf="@id/image_good_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_good_statistic" />
 
                     <ImageView
-                        android:id="@+id/image_normal"
+                        android:id="@+id/image_normal_statistic"
                         android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toStartOf="@+id/image_bad"
+                        app:layout_constraintEnd_toStartOf="@+id/image_bad_statistic"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/image_good"
-                        app:layout_constraintTop_toTopOf="@id/image_very_good"
+                        app:layout_constraintStart_toEndOf="@+id/image_good_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_very_good_statistic"
                         app:srcCompat="@drawable/ic_mood_circle_normal_normal" />
 
                     <TextView
-                        android:id="@+id/text_badge_normal"
+                        android:id="@+id/text_badge_normal_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="4dp"
@@ -313,22 +316,22 @@
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="@{viewModel.normalCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="@id/image_normal"
-                        app:layout_constraintTop_toTopOf="@id/image_normal" />
+                        app:layout_constraintEnd_toEndOf="@id/image_normal_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_normal_statistic" />
 
                     <ImageView
-                        android:id="@+id/image_bad"
+                        android:id="@+id/image_bad_statistic"
                         android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
-                        app:layout_constraintEnd_toStartOf="@+id/image_very_bad"
+                        app:layout_constraintEnd_toStartOf="@+id/image_very_bad_statistic"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/image_normal"
-                        app:layout_constraintTop_toTopOf="@id/image_very_good"
+                        app:layout_constraintStart_toEndOf="@+id/image_normal_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_very_good_statistic"
                         app:srcCompat="@drawable/ic_mood_circle_bad_normal" />
 
                     <TextView
-                        android:id="@+id/text_badge_bad"
+                        android:id="@+id/text_badge_bad_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="4dp"
@@ -341,22 +344,22 @@
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="@{viewModel.badCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="@id/image_bad"
-                        app:layout_constraintTop_toTopOf="@id/image_bad" />
+                        app:layout_constraintEnd_toEndOf="@id/image_bad_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_bad_statistic" />
 
                     <ImageView
-                        android:id="@+id/image_very_bad"
+                        android:id="@+id/image_very_bad_statistic"
                         android:layout_width="54dp"
                         android:layout_height="0dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/image_bad"
-                        app:layout_constraintTop_toTopOf="@id/image_very_good"
+                        app:layout_constraintStart_toEndOf="@+id/image_bad_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_very_good_statistic"
                         app:srcCompat="@drawable/ic_mood_circle_very_bad_normal" />
 
                     <TextView
-                        android:id="@+id/text_badge_very_bad"
+                        android:id="@+id/text_badge_very_bad_statistic"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="4dp"
@@ -369,17 +372,17 @@
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="@{viewModel.veryBadCountInNotes  > 0 ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintEnd_toEndOf="@id/image_very_bad"
-                        app:layout_constraintTop_toTopOf="@id/image_very_bad" />
+                        app:layout_constraintEnd_toEndOf="@id/image_very_bad_statistic"
+                        app:layout_constraintTop_toTopOf="@id/image_very_bad_statistic" />
 
                     <ProgressBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:theme="@style/ProgressTheme"
-                        app:layout_constraintBottom_toBottomOf="@id/pie_chart_mood"
+                        app:layout_constraintBottom_toBottomOf="@id/pie_chart_mood_statistic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/pie_chart_mood"
+                        app:layout_constraintTop_toTopOf="@id/pie_chart_mood_statistic"
                         app:setupApiStatus="@{viewModel.status}"
                         tools:visibility="visible" />
 

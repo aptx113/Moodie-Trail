@@ -11,17 +11,17 @@ import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD
-import com.danteyu.studio.moodietrail.ext.FORMAT_YYYY_MM_DD_HH_MM_SS
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
+import com.danteyu.studio.moodietrail.util.Util.getEndTimeOfDay
+import com.danteyu.studio.moodietrail.util.Util.getStartTimeOfDay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
 import java.util.*
 
 /**
@@ -40,7 +40,7 @@ class RecordDetailViewModel(
     val note: LiveData<Note>
         get() = _note
 
-    val noteImage = MutableLiveData<String>()
+    private val noteImage = MutableLiveData<String>()
 
     private val notesByDate = MutableLiveData<List<Note>>()
 
@@ -50,68 +50,38 @@ class RecordDetailViewModel(
 
         if (it.count() > 0) {
             it.forEach { note ->
-                note.mood.let { mood ->
+                note.mood.let {
                     totalMood += note.mood
                 }
             }
-
             aveMood = totalMood / it.count()
         }
-
         aveMood
-    }
-
-    //  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
-    val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
-        addSource(noteImage) {
-            UserManager.id?.let { id ->
-
-                if (_note.value?.id == "") {
-                    postNote(
-                        id, Note(
-                            date = _dateOfNote.value!!,
-                            weekOfMonth = weekOfMonthOfNote.value!!,
-                            mood = _note.value!!.mood,
-                            image = noteImage.value,
-                            content = _note.value!!.content,
-                            tags = tags.value
-                        )
-                    )
-                } else {
-                    updateNote(
-                        id, Note(
-                            date = _dateOfNote.value!!,
-                            weekOfMonth = weekOfMonthOfNote.value!!,
-                            image = noteImage.value,
-                            content = _note.value!!.content,
-                            tags = tags.value
-                        ), _note.value!!.id
-                    )
-                }
-
-            }
-        }
     }
 
     val tags = MutableLiveData<MutableList<String>>().apply { value = mutableListOf() }
 
     //  Handle input tag
-    val newTag = MutableLiveData<String>()
+    val newTag = MutableLiveData<String>().apply {
+        value = ""
+    }
 
     private val _dateOfNote = MutableLiveData<Long>()
 
     val dateOfNote: LiveData<Long>
         get() = _dateOfNote
 
-    val weekOfMonthOfNote = MutableLiveData<Int>()
+    private val weekOfMonthOfNote = MutableLiveData<Int>()
 
     // Handle show DatePickerDialog
     private val _showDatePickerDialog = MutableLiveData<Boolean>()
+
     val showDatePickerDialog: LiveData<Boolean>
         get() = _showDatePickerDialog
 
     // Handle show TimePickerDialog
     private val _showTimePickerDialog = MutableLiveData<Boolean>()
+
     val showTimePickerDialog: LiveData<Boolean>
         get() = _showTimePickerDialog
 
@@ -157,6 +127,60 @@ class RecordDetailViewModel(
     val backToRecordMood: LiveData<Boolean>
         get() = _backToRecordMood
 
+    private val _statusForPost = MutableLiveData<LoadApiStatus>()
+
+    val statusForPost: LiveData<LoadApiStatus>
+        get() = _statusForPost
+
+    // status: The internal MutableLiveData that stores the status of the most recent request
+    private val _status = MutableLiveData<LoadApiStatus>()
+
+    val status: LiveData<LoadApiStatus>
+        get() = _status
+
+    // error: The internal MutableLiveData that stores the error of the most recent request
+    private val _error = MutableLiveData<String>()
+
+    val error: LiveData<String>
+        get() = _error
+
+    //  MediatorLiveData to observe note's image. If noteImage's value change, then postNote
+    val isUploadImageFinished = MediatorLiveData<Boolean>().apply {
+        addSource(noteImage) {
+            UserManager.id?.let { id ->
+                _note.value?.let {
+                    _dateOfNote.value?.let { date ->
+                        weekOfMonthOfNote.value?.let { weekOfTheMonth ->
+                            if (_note.value?.id == "") {
+                                postNote(
+                                    id, Note(
+                                        date = date,
+                                        weekOfMonth = weekOfTheMonth,
+                                        mood = it.mood,
+                                        image = noteImage.value,
+                                        content = it.content,
+                                        tags = tags.value
+                                    ), date
+
+                                )
+                            } else {
+                                updateNote(
+                                    id, Note(
+                                        date = date,
+                                        weekOfMonth = weekOfTheMonth,
+                                        image = noteImage.value,
+                                        content = it.content,
+                                        tags = tags.value
+                                    ), it.id
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     val decoration = object : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect,
@@ -175,23 +199,6 @@ class RecordDetailViewModel(
             }
         }
     }
-
-    private val _statusForPost = MutableLiveData<LoadApiStatus>()
-
-    val statusForPost: LiveData<LoadApiStatus>
-        get() = _statusForPost
-
-    // status: The internal MutableLiveData that stores the status of the most recent request
-    private val _status = MutableLiveData<LoadApiStatus>()
-
-    val status: LiveData<LoadApiStatus>
-        get() = _status
-
-    // error: The internal MutableLiveData that stores the error of the most recent request
-    private val _error = MutableLiveData<String>()
-
-    val error: LiveData<String>
-        get() = _error
 
     val calendar: Calendar = Calendar.getInstance()
 
@@ -219,42 +226,12 @@ class RecordDetailViewModel(
     }
 
     private fun initializeNote() {
-        _note.value.let { it ->
+        _note.value.let {
             it?.tags?.let { list ->
                 tags.value = list
             }
-
-
         }
         initializeDateOfNote()
-    }
-
-    /**
-     * Function to get Start Time Of Date in timestamp in milliseconds
-     */
-    private fun getStartTimeOfDate(timestamp: Long): Long? {
-
-        val dayStart = Timestamp.valueOf(
-            MoodieTrailApplication.instance.getString(
-                R.string.timestamp_daybegin,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
-            )
-        )
-        return dayStart.time
-    }
-
-    /**
-     * Function to get End Time Of Date in timestamp in milliseconds
-     */
-    private fun getEndTimeOfDate(timestamp: Long): Long? {
-
-        val dayEnd = Timestamp.valueOf(
-            MoodieTrailApplication.instance.getString(
-                R.string.timestamp_dayend,
-                timestamp.toDisplayFormat(FORMAT_YYYY_MM_DD)
-            )
-        )
-        return dayEnd.time
     }
 
     private fun initializeDateOfNote() {
@@ -273,20 +250,18 @@ class RecordDetailViewModel(
     fun updateDateOfNote() {
         _dateOfNote.value = calendar.timeInMillis
         weekOfMonthOfNote.value = calendar.get(Calendar.WEEK_OF_MONTH)
-
     }
 
     fun addNoteTag() {
 
-        newTag.value?.let {
-            tags.value?.add(it)
+        tags.value?.let {
+            newTag.value?.let {
+                tags.value?.add(it)
+                tags.value = tags.value
+                newTag.value = ""
+                Logger.d("addNoteTags, tags = ${tags.value}")
+            }
         }
-
-        tags.value = tags.value
-        newTag.value = ""
-        Logger.d("addNoteTags, tags = ${tags.value}")
-
-
     }
 
     fun removeNoteTag(tag: String) {
@@ -321,21 +296,27 @@ class RecordDetailViewModel(
     private fun writeDetailWithImageOptional() {
 
         UserManager.id?.let {
-            if (_selectedImage.value != null) {
-                uploadNoteImage(
-                    it, _selectedImage.value!!, _dateOfNote.value!!
-                )
-            } else {
-                postNote(
-                    it,
-                    Note(
-                        date = _dateOfNote.value!!,
-                        weekOfMonth = weekOfMonthOfNote.value!!,
-                        mood = _note.value!!.mood,
-                        content = _note.value!!.content,
-                        tags = tags.value
-                    )
-                )
+            _note.value?.let { note ->
+                _dateOfNote.value?.let { date ->
+                    weekOfMonthOfNote.value?.let { weekOfTheMonth ->
+                        if (_selectedImage.value != null) {
+                            uploadNoteImage(
+                                it, _selectedImage.value!!, date
+                            )
+                        } else {
+                            postNote(
+                                it,
+                                Note(
+                                    date = date,
+                                    weekOfMonth = weekOfTheMonth,
+                                    mood = note.mood,
+                                    content = note.content,
+                                    tags = tags.value
+                                ), date
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -343,20 +324,26 @@ class RecordDetailViewModel(
     private fun updateDetailWithImageOptional() {
 
         UserManager.id?.let {
-            if (_selectedImage.value != null) {
-                uploadNoteImage(
-                    it, _selectedImage.value!!, _dateOfNote.value!!
-                )
-            } else {
-                updateNote(
-                    it, Note(
-                        date = _dateOfNote.value!!,
-                        weekOfMonth = weekOfMonthOfNote.value!!,
-                        content = _note.value!!.content,
-                        image = _note.value!!.image,
-                        tags = tags.value
-                    ), _note.value!!.id
-                )
+            _note.value?.let { note ->
+                _dateOfNote.value?.let { date ->
+                    weekOfMonthOfNote.value?.let { weekOfTheMonth ->
+                        if (_selectedImage.value != null) {
+                            uploadNoteImage(
+                                it, _selectedImage.value!!, date
+                            )
+                        } else {
+                            updateNote(
+                                it, Note(
+                                    date = date,
+                                    weekOfMonth = weekOfTheMonth,
+                                    content = note.content,
+                                    image = note.image,
+                                    tags = tags.value
+                                ), note.id
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -369,7 +356,7 @@ class RecordDetailViewModel(
 
             val result = moodieTrailRepository.uploadNoteImage(
                 uid, noteImage, date.toDisplayFormat(
-                    FORMAT_YYYY_MM_DD_HH_MM_SS
+                    TimeFormat.FORMAT_YYYY_MM_DD_HH_MM_SS
                 )
             )
 
@@ -400,22 +387,20 @@ class RecordDetailViewModel(
         }
     }
 
-    private fun postNote(uid: String, note: Note) {
+    private fun postNote(uid: String, note: Note, date: Long) {
 
         coroutineScope.launch {
 
             _statusForPost.value = LoadApiStatus.LOADING
 
-            val result = moodieTrailRepository.postNote(uid, note)
-
-            when (result) {
+            when (val result = moodieTrailRepository.postNote(uid, note)) {
                 is Result.Success -> {
                     _error.value = null
                     _statusForPost.value = LoadApiStatus.DONE
                     getNotesResultByDateRange(
                         uid,
-                        getStartTimeOfDate(_dateOfNote.value!!)!!,
-                        getEndTimeOfDate(_dateOfNote.value!!)!!
+                        getStartTimeOfDay(date),
+                        getEndTimeOfDay(date)
                     )
                     _noteRelatedCondition.value = POST_NOTE_SUCCESS
 
@@ -435,9 +420,7 @@ class RecordDetailViewModel(
                     _statusForPost.value = LoadApiStatus.ERROR
                 }
             }
-
         }
-
     }
 
     private fun getNotesResultByDateRange(uid: String, startDate: Long, endDate: Long) {
@@ -472,24 +455,27 @@ class RecordDetailViewModel(
                     null
                 }
             }
+            _dateOfNote.value?.let {
+                if (averageMoodScore.value == 0f) {
+                    deleteAvgMood(
+                        uid, it.toDisplayFormat(
+                            TimeFormat.FORMAT_YYYY_MM_DD
+                        )
+                    )
 
-            if (averageMoodScore.value == 0f) {
-                deleteAvgMood(
-                    uid, _dateOfNote.value?.toDisplayFormat(
-                        FORMAT_YYYY_MM_DD
-                    )!!
-                )
-
-            } else {
-                postAvgMood(
-                    uid,
-                    AverageMood(
-                        score = averageMoodScore.value!!,
-                        time = getStartTimeOfDate(_dateOfNote.value!!)!!
-                    ), _dateOfNote.value?.toDisplayFormat(
-                        FORMAT_YYYY_MM_DD
-                    )!!
-                )
+                } else {
+                    averageMoodScore.value?.let { averageScore ->
+                        postAvgMood(
+                            uid,
+                            AverageMood(
+                                score = averageScore,
+                                time = getStartTimeOfDay(it)
+                            ), it.toDisplayFormat(
+                                TimeFormat.FORMAT_YYYY_MM_DD
+                            )
+                        )
+                    }
+                }
             }
         }
 
@@ -533,9 +519,8 @@ class RecordDetailViewModel(
         coroutineScope.launch {
 
             _statusForPost.value = LoadApiStatus.LOADING
-            val result = moodieTrailRepository.updateNote(uid, editedNote, noteId)
 
-            when (result) {
+            when (val result = moodieTrailRepository.updateNote(uid, editedNote, noteId)) {
                 is Result.Success -> {
                     _error.value = null
                     _statusForPost.value = LoadApiStatus.DONE
@@ -566,16 +551,15 @@ class RecordDetailViewModel(
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
-            val result = moodieTrailRepository.deleteNote(uid, note)
 
-            when (result) {
+            when (val result = moodieTrailRepository.deleteNote(uid, note)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
                     getNotesResultByDateRange(
                         uid,
-                        getStartTimeOfDate(note.date)!!,
-                        getEndTimeOfDate(note.date)!!
+                        getStartTimeOfDay(note.date),
+                        getEndTimeOfDay(note.date)
                     )
                     _noteRelatedCondition.value = DELETE_NOTE_SUCCESS
 
@@ -603,9 +587,8 @@ class RecordDetailViewModel(
         coroutineScope.launch {
 
             _status.value = LoadApiStatus.LOADING
-            val result = moodieTrailRepository.deleteAvgMood(uid, averageMoodId)
 
-            when (result) {
+            when (val result = moodieTrailRepository.deleteAvgMood(uid, averageMoodId)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = LoadApiStatus.DONE

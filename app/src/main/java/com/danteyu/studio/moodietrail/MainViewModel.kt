@@ -8,7 +8,6 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
-import java.util.*
 
 
 /**
@@ -17,8 +16,6 @@ import java.util.*
  * The [ViewModel] that is attached to the [MainActivity].
  */
 class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
-
-    private val calendar = Calendar.getInstance()
 
     private val _user = MutableLiveData<User>()
 
@@ -65,21 +62,15 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val backToPsyTest: LiveData<Boolean>
         get() = _backToPsyTest
 
-    private val _navigateToPsyTestRecord = MutableLiveData<Boolean>()
+    private val _navigateToPsyTestRecordByBottomNav = MutableLiveData<Boolean>()
 
-    val navigateToPsyTestRecord: LiveData<Boolean>
-        get() = _navigateToPsyTestRecord
-
-    private val _refresh = MutableLiveData<Boolean>()
-
-    val refresh: LiveData<Boolean>
-        get() = _refresh
+    val navigateToPsyTestRecordByBottomNav: LiveData<Boolean>
+        get() = _navigateToPsyTestRecordByBottomNav
 
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
-
 
     }
 
@@ -98,7 +89,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
 
-    fun changeFabStatus() {
+    fun closeFabByBottomNav() {
         _isFabOpen.value = false
     }
 
@@ -144,20 +135,12 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _backToPsyTest.value = null
     }
 
-    fun navigateToPsyTestRecord() {
-        _navigateToPsyTestRecord.value = true
+    fun navigateToPsyTestRecordByBottomNav() {
+        _navigateToPsyTestRecordByBottomNav.value = true
     }
 
     fun onPsyTestRecordNavigated() {
-        _navigateToPsyTestRecord.value = null
-    }
-
-    fun refresh() {
-        _refresh.value = true
-    }
-
-    fun onRefreshed() {
-        _refresh.value = null
+        _navigateToPsyTestRecordByBottomNav.value = null
     }
 
 }

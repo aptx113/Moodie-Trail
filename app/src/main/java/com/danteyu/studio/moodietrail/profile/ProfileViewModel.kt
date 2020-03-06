@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.danteyu.studio.moodietrail.component.ProfileAvatarOutlineProvider
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.util.Logger
 
 
 /**
@@ -18,4 +19,11 @@ class ProfileViewModel(private val moodieTrailRepository: MoodieTrailRepository)
     val userPic = UserManager.picture
 
     val outlineProvider = ProfileAvatarOutlineProvider()
+
+    init {
+        Logger.i("------------------------------------")
+        Logger.i("[${this::class.simpleName}]${this}")
+        Logger.i("------------------------------------")
+
+    }
 }

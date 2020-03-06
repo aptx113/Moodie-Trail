@@ -32,7 +32,7 @@ class PsyTestFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonTestClose.setTouchDelegate()
+        binding.buttonClosePsyTest.setTouchDelegate()
 
         viewModel.navigateToPsyTestBody.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -47,7 +47,6 @@ class PsyTestFragment : Fragment() {
                 viewModel.onPsyTestLeft()
             }
         })
-
 
         return binding.root
     }

@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <variable
             name="psyTest"
             type="com.danteyu.studio.moodietrail.data.PsyTest" />
@@ -22,7 +24,7 @@
         android:elevation="@dimen/elevation_all">
 
         <ImageView
-            android:id="@+id/image_light_range"
+            android:id="@+id/image_item_psy_test_range"
             android:layout_width="@dimen/size_image_psy_test_rating"
             android:layout_height="0dp"
             android:layout_marginStart="20dp"
@@ -33,31 +35,32 @@
             app:psyRatingImage="@{psyTest}" />
 
         <TextView
-            android:id="@+id/text_psy_test_result_score"
+            android:id="@+id/text_item_psy_test_result_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/droid_sans"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/text_suicide_advice"
-            app:layout_constraintEnd_toEndOf="@id/image_light_range"
-            app:layout_constraintStart_toStartOf="@id/image_light_range"
-            app:layout_constraintTop_toBottomOf="@id/image_light_range"
+            app:layout_constraintBottom_toTopOf="@id/text_item_psy_test_suicide_advice"
+            app:layout_constraintEnd_toEndOf="@id/image_item_psy_test_range"
+            app:layout_constraintStart_toStartOf="@id/image_item_psy_test_range"
+            app:layout_constraintTop_toBottomOf="@id/image_item_psy_test_range"
             app:scoreWithSuffix="@{psyTest.totalScore}"
             tools:text="12 分" />
 
         <TextView
-            android:id="@+id/text_test_date"
+            android:id="@+id/text_item_psy_test_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="@dimen/margin_half"
             android:textColor="@color/black_3f3a3a"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/image_light_range"
+            app:layout_constraintStart_toEndOf="@id/image_item_psy_test_range"
             app:layout_constraintTop_toTopOf="parent"
-            app:timeToDisplayFormatForPsyRecord="@{psyTest.createdTime}"
+            app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM_DD_E_HH_MM}"
+            app:timeToDisplayFormat="@{psyTest.createdTime}"
             tools:text="2020/02/17 週一 09:39" />
 
         <TextView
@@ -70,14 +73,14 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/text_test_date"
-            app:layout_constraintTop_toBottomOf="@+id/text_test_date"
-            app:psyRatingText="@{psyTest.totalScore}"
-            tools:text="@string/light_advice" />
+            app:layout_constraintStart_toStartOf="@+id/text_item_psy_test_date"
+            app:layout_constraintTop_toBottomOf="@+id/text_item_psy_test_date"
+            app:psyResultAdvice="@{psyTest.totalScore}"
+            tools:text="@string/light_result_advice" />
 
 
         <TextView
-            android:id="@+id/text_suicide_advice"
+            android:id="@+id/text_item_psy_test_suicide_advice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_half"
@@ -92,7 +95,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_psy_test_result_score"
+            app:layout_constraintTop_toBottomOf="@id/text_item_psy_test_result_score"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

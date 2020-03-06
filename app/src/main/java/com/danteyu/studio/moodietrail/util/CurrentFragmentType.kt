@@ -11,13 +11,13 @@ enum class CurrentFragmentType(val value: String) {
     LOGIN(""),
     HOME(getString(R.string.note)),
     STATISTIC(getString(R.string.statistic)),
-    PSYTESTRECORD(getString(R.string.psy_test_record)),
+    PSY_TEST_RECORD(getString(R.string.psy_test_record)),
     PROFILE(getString(R.string.profile)),
-    RECORDMOOD(""),
-    RECORDDETAIL(""),
-    PSYTEST(""),
-    PSYTESTBODY(getString(R.string.bsrs_5)),
-    PSYTESTRESULT(getString(R.string.psy_test_result)),
-    PSYTESTRATING(getString(R.string.psy_test_rating))
+    RECORD_MOOD(""),
+    RECORD_DETAIL(""),
+    PSY_TEST(""),
+    PSY_TEST_BODY(getString(R.string.bsrs_5)),
+    PSY_TEST_RESULT(getString(R.string.psy_test_result)),
+    PSY_TEST_RATING(getString(R.string.psy_test_rating))
 
 }

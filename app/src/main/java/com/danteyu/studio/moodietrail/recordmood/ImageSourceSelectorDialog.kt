@@ -12,13 +12,12 @@ import com.danteyu.studio.moodietrail.databinding.DialogImageSourceSelectorBindi
 /**
  * Created by George Yu on 2020/2/20.
  */
-
 class ImageSourceSelectorDialog(private val viewModel: RecordDetailViewModel) :
     AppCompatDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.MessageDialog)
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.Shadow)
     }
 
     override fun onCreateView(
@@ -32,9 +31,9 @@ class ImageSourceSelectorDialog(private val viewModel: RecordDetailViewModel) :
         binding.lifecycleOwner = this
         binding.dialog = this
 
-        binding.buttonCamera.setOnClickListener { viewModel.launchCamera() }
-        binding.buttonPhoto.setOnClickListener { viewModel.showGallery() }
-        binding.buttonCancel.setOnClickListener { dismiss() }
+        binding.buttonCameraImageSourceSelector.setOnClickListener { viewModel.launchCamera() }
+        binding.buttonPhotoImageSourceSelector.setOnClickListener { viewModel.showGallery() }
+        binding.buttonCancelImageSourceSelector.setOnClickListener { dismiss() }
 
         return binding.root
     }

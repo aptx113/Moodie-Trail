@@ -6,22 +6,26 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.*
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.core.content.ContextCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.*
+import com.danteyu.studio.moodietrail.MainActivity
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import com.danteyu.studio.moodietrail.NavigationDirections
+import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
@@ -34,11 +38,11 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException
@@ -58,9 +62,12 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         )
     }
 
+    private lateinit var handler:Handler
+    private lateinit var runnable:Runnable
+
     private lateinit var binding: DialogRecordDetailBinding
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
-    lateinit var currentPhotoPath: String
+    private lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -88,10 +95,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.buttonRecordDetailBack.setTouchDelegate()
-        binding.imageNoteImage.clipToOutline = true
+        binding.imageNoteImageRecordDetail.clipToOutline = true
 
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "" && viewModel.newTag.value != "\n") {
                 viewModel.addNoteTag()
                 true
             } else false
@@ -166,7 +173,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                     DELETE_NOTE_FAIL -> activity.showToast(
                         viewModel.error.value ?: getString(R.string.love_u_3000)
                     )
-
                     else -> {
                     }
                 }
@@ -198,7 +204,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         return binding.root
     }
 
-
     //handling the image chooser activity result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -206,21 +211,19 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         if (resultCode == Activity.RESULT_OK && data != null && data.data != null && requestCode == IMAGE_FROM_GALLERY) {
 
             val bitmap = data.data!!.getBitmap(
-                binding.imageNoteImage.width,
-                binding.imageNoteImage.height
+                binding.imageNoteImageRecordDetail.width,
+                binding.imageNoteImageRecordDetail.height
             )
             try {
                 viewModel.setImage(bitmap)
-//                GlideApp.with(this)
-//                    .load(viewModel.selectedImage.value)
-//                    .apply(
-//                        RequestOptions()
-//                            .error(R.mipmap.ic_launcher)
-//                    )
-//                    .into(binding.imageNoteImage)
-                binding.imageNoteImage.setImageBitmap(bitmap)
-                imageSourceSelectorDialog.dismiss()
+                binding.imageNoteImageRecordDetail.setImageBitmap(null)
+                binding.imageNoteImageRecordDetail.invalidate()
+                binding.imageNoteImageRecordDetail.requestLayout()
+                binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
+                binding.imageNoteImageRecordDetail.invalidate()
+                binding.imageNoteImageRecordDetail.requestLayout()
 
+                imageSourceSelectorDialog.dismiss()
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -228,12 +231,12 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         } else if (resultCode == Activity.RESULT_OK && data != null && requestCode == IMAGE_FROM_CAMERA) {
 
             val imageBitmap = filePath?.getBitmap(
-                binding.imageNoteImage.width,
-                binding.imageNoteImage.height
+                binding.imageNoteImageRecordDetail.width,
+                binding.imageNoteImageRecordDetail.height
             )
             try {
                 viewModel.setImage(imageBitmap)
-                binding.imageNoteImage.setImageBitmap(imageBitmap)
+                binding.imageNoteImageRecordDetail.setImageBitmap(imageBitmap)
                 imageSourceSelectorDialog.dismiss()
 
                 filePath = null
@@ -243,7 +246,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             }
         }
     }
-
 
     private fun getPermissions() = runWithPermissions(
         PERMISSION_CAMERA,
@@ -346,7 +348,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         val storageDir =
             context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
-        val timeStamp = viewModel.dateOfNote.value?.toDisplayFormat(FORMAT_YYYY_MM_DD_HH_MM_SS)
+        val timeStamp =
+            viewModel.dateOfNote.value?.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM_DD_HH_MM_SS)
         return File.createTempFile(
             "JPEG_${timeStamp}_",  /* prefix */
             MoodieTrailApplication.instance.getString(R.string.start_camera_jpg), /* suffix */
@@ -357,83 +360,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
     }
 
-    //        private fun getPermissionsByNative() {
-//
-//        val permissions = arrayOf(
-//            PERMISSION_CAMERA,
-//            PERMISSION_READ_EXTERNAL_STORAGE,
-//            PERMISSION_WRITE_EXTERNAL_STORAGE
-//        )
-//        if (ContextCompat.checkSelfPermission(
-//                MoodieTrailApplication.instance,
-//                PERMISSION_CAMERA
-//            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-//                MoodieTrailApplication.instance,
-//                PERMISSION_WRITE_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-//                MoodieTrailApplication.instance,
-//                PERMISSION_READ_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            if (shouldShowRequestPermissionRationale(
-//                    PERMISSION_CAMERA
-//                ) || shouldShowRequestPermissionRationale(
-//                    PERMISSION_READ_EXTERNAL_STORAGE
-//                ) || shouldShowRequestPermissionRationale(
-//                    PERMISSION_WRITE_EXTERNAL_STORAGE
-//                )
-//            ) {
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//                AlertDialog.Builder(context!!)
-//                    .setMessage("需要允許相機和儲存空間權限才能新增圖片唷^.<")
-//                    .setPositiveButton("前往設定") { _, _ ->
-//                        requestPermissions(
-//
-//                            permissions,
-//                            SELECT_PHOTO_PERMISSION_REQUEST_CODE
-//                        )
-//                    }
-//                    .setNegativeButton("取消") { _, _ -> }
-//                    .show()
-//            } else {
-//                requestPermissions(
-//                    permissions,
-//                    SELECT_PHOTO_PERMISSION_REQUEST_CODE
-//                )
-//            }
-//        }
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//
-////        isUploadPermissionsGranted = false
-//
-//        when (requestCode) {
-//
-//            SELECT_PHOTO_PERMISSION_REQUEST_CODE ->
-//
-//                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-//                    && grantResults[1] == PackageManager.PERMISSION_GRANTED
-//                    && grantResults[2] == PackageManager.PERMISSION_GRANTED
-//                ) {
-////                    isUploadPermissionsGranted = true
-//                    try {
-//                        showGallery()
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                    }
-//                } else {
-////                    isUploadPermissionsGranted = false
-//                    return
-//                }
-//        }
-//    }
     private fun setupDatePickerDialog() {
 
         val datePickerListener =
@@ -512,7 +438,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         private const val PERMISSION_READ_EXTERNAL_STORAGE =
             Manifest.permission.READ_EXTERNAL_STORAGE
-        private const val SELECT_PHOTO_PERMISSION_REQUEST_CODE = 1234
 
         //Image request code
         private const val IMAGE_FROM_CAMERA = 0
@@ -522,7 +447,5 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         private var filePath: Uri? = null
         //Bitmap to get image from gallery
         private var windowManager: WindowManager? = null
-        private var fileFromCamera: File? = null
-        private var isUploadPermissionsGranted = false
     }
 }

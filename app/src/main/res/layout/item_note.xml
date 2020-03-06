@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.danteyu.studio.moodietrail.util.TimeFormat" />
+
         <variable
             name="note"
             type="com.danteyu.studio.moodietrail.data.Note" />
@@ -14,6 +16,7 @@
         <variable
             name="itemPosition"
             type="Integer" />
+
 
         <variable
             name="itemCount"
@@ -88,7 +91,8 @@
             app:layout_constraintStart_toEndOf="@id/image_note_created_time"
             app:layout_constraintTop_toTopOf="@id/image_note_created_time"
             app:layout_constraintVertical_bias="0.1"
-            app:timeToDisplayDateWithWeekFormat="@{note.date}"
+            app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM_DD_E}"
+            app:timeToDisplayFormat="@{note.date}"
             tools:text='2020/02/01 \n週六' />
 
         <TextView
@@ -106,7 +110,8 @@
             app:layout_constraintStart_toEndOf="@id/image_note_created_time"
             app:layout_constraintTop_toTopOf="@id/text_note_created_date"
             app:layout_constraintVertical_bias="0.95"
-            app:timeToDisplayTimeFormat="@{note.date}"
+            app:timeFormat="@{TimeFormat.FORMAT_HH_MM}"
+            app:timeToDisplayFormat="@{note.date}"
             tools:text="16:10" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -153,9 +158,10 @@
             android:id="@+id/image_note_location"
             android:layout_width="13dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_half"
             android:layout_marginStart="1dp"
+            android:layout_marginTop="@dimen/margin_half"
             android:layout_marginBottom="@dimen/margin_half"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="@id/image_note_created_time"
@@ -171,8 +177,8 @@
             android:ellipsize="end"
             android:fontFamily="@font/droid_sans"
             android:maxLines="1"
-            android:text="台灣台北市信義區"
             android:textSize="12sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/image_note_location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

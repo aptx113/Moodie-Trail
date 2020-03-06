@@ -36,11 +36,11 @@
                 android:outlineProvider="@{viewModel.outlineProvider}"
                 android:scaleType="centerCrop"
                 app:imageUrl='@{viewModel.userPic}'
-                app:srcCompat ="@drawable/ic_nav_profile_normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_nav_profile_normal" />
 
             <TextView
                 android:id="@+id/text_profile_name"
@@ -48,10 +48,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/margin_basic"
+                android:ellipsize="marquee"
+                android:focusable="true"
                 android:fontFamily="@font/droid_sans"
                 android:letterSpacing="0.15"
-                android:maxLines="1"
                 android:padding="@dimen/elevation_all"
+                android:singleLine="true"
                 android:text="@{viewModel.userName}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -85,7 +87,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_report"
+            android:id="@+id/layout_report_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_half"
@@ -96,7 +98,7 @@
             app:layout_constraintTop_toBottomOf="@id/layout_profile_header">
 
             <ImageView
-                android:id="@+id/image_report"
+                android:id="@+id/image_report_profile"
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_basic"
@@ -114,14 +116,14 @@
                 android:text="@string/week_report"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/image_report"
-                app:layout_constraintStart_toEndOf="@id/image_report"
-                app:layout_constraintTop_toTopOf="@id/image_report" />
+                app:layout_constraintBottom_toBottomOf="@id/image_report_profile"
+                app:layout_constraintStart_toEndOf="@id/image_report_profile"
+                app:layout_constraintTop_toTopOf="@id/image_report_profile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_mental_resource"
+            android:id="@+id/layout_mental_resource_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_half"
@@ -129,10 +131,10 @@
             android:paddingVertical="@dimen/margin_basic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_report">
+            app:layout_constraintTop_toBottomOf="@id/layout_report_profile">
 
             <ImageView
-                android:id="@+id/image_mental_resource"
+                android:id="@+id/image_mental_resource_profile"
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_basic"
@@ -150,25 +152,27 @@
                 android:text="@string/mental_health_resources"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/image_mental_resource"
-                app:layout_constraintStart_toEndOf="@id/image_mental_resource"
-                app:layout_constraintTop_toTopOf="@id/image_mental_resource" />
+                app:layout_constraintBottom_toBottomOf="@id/image_mental_resource_profile"
+                app:layout_constraintStart_toEndOf="@id/image_mental_resource_profile"
+                app:layout_constraintTop_toTopOf="@id/image_mental_resource_profile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_notification"
+            android:id="@+id/layout_notification_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_half"
             android:background="@color/white"
             android:paddingVertical="@dimen/margin_basic"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_mental_resource">
+            app:layout_constraintTop_toBottomOf="@id/layout_mental_resource_profile"
+            app:layout_constraintVertical_bias="0.0">
 
             <ImageView
-                android:id="@+id/image_notification"
+                android:id="@+id/image_notification_profile"
                 android:layout_width="24dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_basic"
@@ -186,9 +190,9 @@
                 android:text="@string/notification"
                 android:textColor="@color/blue_700_Dark"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/image_notification"
-                app:layout_constraintStart_toEndOf="@id/image_notification"
-                app:layout_constraintTop_toTopOf="@id/image_notification" />
+                app:layout_constraintBottom_toBottomOf="@id/image_notification_profile"
+                app:layout_constraintStart_toEndOf="@id/image_notification_profile"
+                app:layout_constraintTop_toTopOf="@id/image_notification_profile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

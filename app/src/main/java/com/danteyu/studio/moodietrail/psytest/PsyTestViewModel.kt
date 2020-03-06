@@ -22,7 +22,6 @@ class PsyTestViewModel(moodieTrailRepository: MoodieTrailRepository) : ViewModel
     val leavePsyTest: LiveData<Boolean>
         get() = _leavePsyTest
 
-
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
