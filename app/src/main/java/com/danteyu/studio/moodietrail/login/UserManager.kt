@@ -2,7 +2,6 @@ package com.danteyu.studio.moodietrail.login
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
@@ -17,10 +16,10 @@ object UserManager {
 
     private const val USER_DATA = "user_data"
     private const val USER_TOKEN = "user_token"
-    const val USER_NAME = "name"
-    const val USER_ID = "uid"
-    const val USER_PHOTO = "pic"
-    const val USER_MAIL = "mail"
+    private const val USER_NAME = "name"
+    private const val USER_ID = "uid"
+    private const val USER_PHOTO = "pic"
+    private const val USER_MAIL = "mail"
 
 
     private const val FB_DATA = "fb_data"
@@ -142,6 +141,5 @@ object UserManager {
         userToken = null
         _user.value = null
     }
-
 
 }

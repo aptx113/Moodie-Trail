@@ -131,11 +131,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/margin_basic"
-                        android:text='@{viewModel.avgMoods != null ? @string/chart_no_data : ""}'
+                        android:text='@{viewModel.avgMoodScores != null ? @string/chart_no_data : ""}'
                         android:textAlignment="center"
                         android:textColor="@color/blue_700_Dark"
                         android:textSize="16sp"
-                        android:visibility="@{viewModel.avgMoods.size() == 0  ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{viewModel.avgMoodScores.size() == 0  ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@id/line_chart_mood_statistic"
                         app:layout_constraintEnd_toEndOf="@id/line_chart_mood_statistic"
                         app:layout_constraintStart_toStartOf="@id/line_chart_mood_statistic"

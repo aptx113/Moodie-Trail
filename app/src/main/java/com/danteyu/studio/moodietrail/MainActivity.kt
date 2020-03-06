@@ -22,6 +22,7 @@ import com.danteyu.studio.moodietrail.ext.setTouchDelegate
 import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.setupAlarmManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
@@ -163,9 +164,8 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.navigateToPsyTestRecord.observe(this, Observer {
+        viewModel.navigateToPsyTestRecordByBottomNav.observe(this, Observer {
             it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
                 binding.bottomNavView.selectedItemId =
                     R.id.navigation_psy_test_record
                 viewModel.onPsyTestRecordNavigated()
@@ -175,6 +175,7 @@ class MainActivity : BaseActivity() {
         setupToolbar()
         setupBottomNav()
         setupNavController()
+        setupAlarmManager()
 
     }
 
@@ -194,14 +195,14 @@ class MainActivity : BaseActivity() {
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.statisticFragment -> CurrentFragmentType.STATISTIC
-                R.id.psyTestRecordFragment -> CurrentFragmentType.PSYTESTRECORD
+                R.id.psyTestRecordFragment -> CurrentFragmentType.PSY_TEST_RECORD
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
-                R.id.recordMoodFragment -> CurrentFragmentType.RECORDMOOD
-                R.id.recordDetailFragment -> CurrentFragmentType.RECORDDETAIL
-                R.id.psyTestFragment -> CurrentFragmentType.PSYTEST
-                R.id.psyTestBodyFragment -> CurrentFragmentType.PSYTESTBODY
-                R.id.psyTestResultFragment -> CurrentFragmentType.PSYTESTRESULT
-                R.id.psyTestRatingFragment -> CurrentFragmentType.PSYTESTRATING
+                R.id.recordMoodFragment -> CurrentFragmentType.RECORD_MOOD
+                R.id.recordDetailFragment -> CurrentFragmentType.RECORD_DETAIL
+                R.id.psyTestFragment -> CurrentFragmentType.PSY_TEST
+                R.id.psyTestBodyFragment -> CurrentFragmentType.PSY_TEST_BODY
+                R.id.psyTestResultFragment -> CurrentFragmentType.PSY_TEST_RESULT
+                R.id.psyTestRatingFragment -> CurrentFragmentType.PSY_TEST_RATING
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -275,9 +276,9 @@ class MainActivity : BaseActivity() {
     @SuppressLint("RestrictedApi")
     private fun closeFabMenu() {
 
-        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORDMOOD
+        if (viewModel.currentFragmentType.value == CurrentFragmentType.RECORD_MOOD
             || viewModel.currentFragmentType.value == CurrentFragmentType.LOGIN
-            || viewModel.currentFragmentType.value == CurrentFragmentType.PSYTEST
+            || viewModel.currentFragmentType.value == CurrentFragmentType.PSY_TEST
         ) {
             binding.fabRecordMood.visibility = View.GONE
             binding.fabStartTest.visibility = View.INVISIBLE

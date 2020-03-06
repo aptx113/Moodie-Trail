@@ -16,9 +16,12 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentLoginBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.showToast
+import com.danteyu.studio.moodietrail.login.LoginViewModel.Companion.LOGIN_WITH_PERMISSIONS_EMAIL
+import com.danteyu.studio.moodietrail.login.LoginViewModel.Companion.LOGIN_WITH_PERMISSION_PROFILE
 import com.danteyu.studio.moodietrail.login.LoginViewModel.Companion.RC_SIGN_IN
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getGoogleSignInClient
+import com.danteyu.studio.moodietrail.util.Util.isInternetAvailable
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -26,9 +29,6 @@ import com.google.android.gms.common.api.ApiException
 class LoginFragment : Fragment() {
 
     val viewModel by viewModels<LoginViewModel> { getVmFactory() }
-
-//    private lateinit var auth: FirebaseAuth
-//    private lateinit var currentUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,16 +38,13 @@ class LoginFragment : Fragment() {
 
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-//        auth = FirebaseAuth.getInstance()
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
 
         if (UserManager.userToken!!.isNotEmpty()) {
-
             findNavController().navigate(NavigationDirections.navigateToHomeFragment())
-
 
         } else {
 
@@ -65,7 +62,7 @@ class LoginFragment : Fragment() {
                 it?.let {
                     LoginManager.getInstance().logInWithReadPermissions(
                         this, listOf(
-                            "email", "public_profile"
+                            LOGIN_WITH_PERMISSIONS_EMAIL, LOGIN_WITH_PERMISSION_PROFILE
                         )
                     )
                     viewModel.onLoginFacebookCompleted()
@@ -80,7 +77,7 @@ class LoginFragment : Fragment() {
 
             viewModel.navigateToLoginSuccess.observe(viewLifecycleOwner, Observer {
                 it?.let {
-                  mainViewModel.navigateToLoginSuccess(it)
+                    mainViewModel.navigateToLoginSuccess(it)
 
                 }
             })
@@ -106,48 +103,28 @@ class LoginFragment : Fragment() {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
 
-                UserManager.userToken = account!!.idToken
-                UserManager.name = account.displayName
-                UserManager.picture = account.photoUrl.toString()
-                UserManager.email = account.email
+                account?.let {
+                    UserManager.userToken = it.idToken
+                    UserManager.name = it.displayName
+                    UserManager.picture = it.photoUrl.toString()
+                    UserManager.email = it.email
 
-                viewModel.firebaseAuthWithGoogle(account)
-                Logger.i("ServerAuthCode =${account.serverAuthCode} account.id =${account.id}")
-
+                    viewModel.firebaseAuthWithGoogle(it)
+                    Logger.i("ServerAuthCode =${it.serverAuthCode} account.id =${it.id}")
+                }
             } catch (e: ApiException) {
                 viewModel.cancelLoginGoogle()
-                activity.showToast(getString(R.string.login_fail_toast))
+                if (!isInternetAvailable()) {
+                    activity.showToast(getString(R.string.login_fail_due_to_no_connected))
+                } else {
+                    activity.showToast(getString(R.string.login_fail_toast))
 
+                }
                 Logger.w("Google sign in failed, ApiException = $e")
-
             }
         } else {
             viewModel.fbCallbackManager.onActivityResult(requestCode, resultCode, data)
         }
-
     }
 
-//    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-//        Logger.d("firebaseAuthWithGoogle:" + acct.id!!)
-//
-//        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-//        auth.signInWithCredential(credential)
-//            .addOnCompleteListener { task ->
-//
-//                if (task.isSuccessful) {
-//
-//                    Logger.d("signInWithCredential:success")
-//                    val user = auth.currentUser
-//                    user?.let {
-//                        UserManager.id = it.uid
-//                        viewModel.checkUser(it.uid)
-//                    }
-//
-//                } else {
-//                    activity.showToast(getString(R.string.login_fail_toast))
-//
-//                    Logger.w("signInWithCredential:failure ${task.exception} error_code =${task.exception}")
-//                }
-//            }
-//    }
 }

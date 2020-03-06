@@ -9,17 +9,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.*
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.*
+import com.danteyu.studio.moodietrail.MainActivity
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import com.danteyu.studio.moodietrail.NavigationDirections
+import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
@@ -56,9 +62,12 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         )
     }
 
+    private lateinit var handler:Handler
+    private lateinit var runnable:Runnable
+
     private lateinit var binding: DialogRecordDetailBinding
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
-    lateinit var currentPhotoPath: String
+    private lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -164,7 +173,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                     DELETE_NOTE_FAIL -> activity.showToast(
                         viewModel.error.value ?: getString(R.string.love_u_3000)
                     )
-
                     else -> {
                     }
                 }
@@ -196,7 +204,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         return binding.root
     }
 
-
     //handling the image chooser activity result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -209,25 +216,14 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             )
             try {
                 viewModel.setImage(bitmap)
-//                GlideApp.with(this)
-//                    .load(data.data)
-//                    .transform(
-//                        RoundedCorners(
-//                            MoodieTrailApplication.instance.resources.getDimensionPixelSize(
-//                                R.dimen.margin_half
-//                            )
-//                        )
-//                    )
-//                    .apply(
-//                        RequestOptions()
-//                            .placeholder(R.drawable.ic_placeholder_record_detail)
-//                            .error(R.mipmap.ic_launcher)
-//                    )
-//                    .into(binding.imageNoteImage)
-
+                binding.imageNoteImageRecordDetail.setImageBitmap(null)
+                binding.imageNoteImageRecordDetail.invalidate()
+                binding.imageNoteImageRecordDetail.requestLayout()
                 binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
-                imageSourceSelectorDialog.dismiss()
+                binding.imageNoteImageRecordDetail.invalidate()
+                binding.imageNoteImageRecordDetail.requestLayout()
 
+                imageSourceSelectorDialog.dismiss()
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -250,7 +246,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             }
         }
     }
-
 
     private fun getPermissions() = runWithPermissions(
         PERMISSION_CAMERA,
@@ -452,6 +447,5 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         private var filePath: Uri? = null
         //Bitmap to get image from gallery
         private var windowManager: WindowManager? = null
-        private var fileFromCamera: File? = null
     }
 }

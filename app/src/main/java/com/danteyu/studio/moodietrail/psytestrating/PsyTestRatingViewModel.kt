@@ -9,7 +9,6 @@ import com.danteyu.studio.moodietrail.util.Logger
 /**
  * Created by George Yu on 2020/2/16.
  */
-
 class PsyTestRatingViewModel(private val moodieTrailRepository: MoodieTrailRepository) :
     ViewModel() {
 

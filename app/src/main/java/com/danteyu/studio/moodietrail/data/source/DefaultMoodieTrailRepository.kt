@@ -32,7 +32,7 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.getUserProfile(uid)
     }
 
-    override suspend fun getAvgMoodByDateRange(
+    override suspend fun getAvgMoodScoresByDateRange(
         uid: String,
         startDate: Long,
         endDate: Long

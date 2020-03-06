@@ -12,14 +12,9 @@ import com.danteyu.studio.moodietrail.ext.setTouchDelegate
  * Created by George Yu on 2020/2/7.
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * [String], including computing diffs between lists.
- * @param onClickListener a lambda that takes the
  */
 class TagAdapter(private val viewModel: RecordDetailViewModel) :
     ListAdapter<String, TagAdapter.TagViewHolder>(DiffCallback) {
-
-    /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [String]
-     */
 
     class TagViewHolder(
         private var binding: ItemTagBinding,
@@ -38,7 +33,7 @@ class TagAdapter(private val viewModel: RecordDetailViewModel) :
     }
 
     /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [Note]
+     * Allows the RecyclerView to determine which items have changed when the [List] of [String]
      * has been updated.
      */
     companion object DiffCallback : DiffUtil.ItemCallback<String>() {
@@ -73,7 +68,5 @@ class TagAdapter(private val viewModel: RecordDetailViewModel) :
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         val tag = getItem(position)
         holder.bind(tag)
-
     }
-
 }

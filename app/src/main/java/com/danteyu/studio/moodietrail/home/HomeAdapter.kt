@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.ItemNoteBinding
-import kotlin.random.Random
 
 /**
  * Created by George Yu on 2020/2/1.
@@ -99,12 +98,8 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
         holder.itemView.setOnClickListener {
             onClickListener.onClick(note)
         }
-//        holder.itemView.layoutParams.height = getRandomIntInRange(400, 300)
         holder.bind(note, itemCount)
 
     }
 
-//    private fun getRandomIntInRange(max: Int, min: Int): Int {
-//        return Random.nextInt(max - min + min) + min
-//    }
 }

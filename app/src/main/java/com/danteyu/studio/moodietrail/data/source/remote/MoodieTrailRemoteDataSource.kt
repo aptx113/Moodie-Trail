@@ -2,22 +2,18 @@ package com.danteyu.studio.moodietrail.data.source.remote
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
-import androidx.core.net.toUri
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
-import com.danteyu.studio.moodietrail.ext.showToast
-import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getAuth
 import com.danteyu.studio.moodietrail.util.Util.getString
+import com.danteyu.studio.moodietrail.util.Util.isInternetAvailable
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.CollectionReference
@@ -26,7 +22,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.io.ByteArrayOutputStream
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -40,14 +35,14 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
     private const val PATH_USERS = "users"
     private const val PATH_NOTES = "notes"
-    private const val PATH_PSYTESTS = "psyTests"
-    private const val PATH_AVGMOODS = "avgMoods"
+    private const val PATH_PSY_TESTS = "psyTests"
+    private const val PATH_AVG_MOODS = "avgMoods"
     private const val KEY_ID = "id"
     private const val KEY_DATE = "date"
     private const val KEY_CONTENT = "content"
     private const val KEY_IMAGE = "image"
     private const val KEY_TAGS = "tags"
-    private const val KEY_CREATEDTIME = "createdTime"
+    private const val KEY_CREATED_TIME = "createdTime"
     private const val KEY_WEEK = "weekOfMonth"
     private const val KEY_TIME = "time"
 
@@ -59,11 +54,11 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     }
 
     private fun getPsyTestsRefFrom(uid: String): CollectionReference {
-        return userReference.document(uid).collection(PATH_PSYTESTS)
+        return userReference.document(uid).collection(PATH_PSY_TESTS)
     }
 
     private fun getAvgMoodRefFrom(uid: String): CollectionReference {
-        return userReference.document(uid).collection(PATH_AVGMOODS)
+        return userReference.document(uid).collection(PATH_AVG_MOODS)
     }
 
     override suspend fun getNotesByDateRange(
@@ -73,59 +68,81 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     ): Result<List<Note>> =
         suspendCoroutine { continuation ->
 
-            getNotesRefFrom(uid)
-                .whereGreaterThanOrEqualTo(KEY_DATE, startDate)
-                .whereLessThanOrEqualTo(KEY_DATE, endDate)
-                .orderBy(KEY_DATE, Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val list = mutableListOf<Note>()
-                        for (document in task.result!!) {
-                            Logger.d(document.id + " => " + document.data)
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                            val note = document.toObject(Note::class.java)
-                            list.add(note)
-                        }
-                        continuation.resume(Result.Success(list))
-                    } else {
-                        task.exception?.let {
+                getNotesRefFrom(uid)
+                    .whereGreaterThanOrEqualTo(KEY_DATE, startDate)
+                    .whereLessThanOrEqualTo(KEY_DATE, endDate)
+                    .orderBy(KEY_DATE, Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val list = mutableListOf<Note>()
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                                val note = document.toObject(Note::class.java)
+                                list.add(note)
+                            }
+                            continuation.resume(Result.Success(list))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun getPsyTests(uid: String): Result<List<PsyTest>> =
         suspendCoroutine { continuation ->
 
-            getPsyTestsRefFrom(uid)
-                .orderBy(KEY_CREATEDTIME, Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val list = mutableListOf<PsyTest>()
-                        for (document in task.result!!) {
-                            Logger.d(document.id + " => " + document.data)
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                            val psyTest = document.toObject(PsyTest::class.java)
-                            list.add(psyTest)
-                        }
-                        continuation.resume(Result.Success(list))
-                    } else {
-                        task.exception?.let {
+                getPsyTestsRefFrom(uid)
+                    .orderBy(KEY_CREATED_TIME, Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val list = mutableListOf<PsyTest>()
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                                val psyTest = document.toObject(PsyTest::class.java)
+                                list.add(psyTest)
+                            }
+                            continuation.resume(Result.Success(list))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun getAvgMoodByDateRange(
@@ -135,168 +152,230 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     ): Result<List<AverageMood>> =
         suspendCoroutine { continuation ->
 
-            getAvgMoodRefFrom(uid)
-                .whereGreaterThanOrEqualTo(KEY_TIME, startDate)
-                .whereLessThanOrEqualTo(KEY_TIME, endDate)
-                .orderBy(KEY_TIME, Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val list = mutableListOf<AverageMood>()
-                        for (document in task.result!!) {
-                            Logger.d(document.id + " => " + document.data)
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                            val averageMood = document.toObject(AverageMood::class.java)
-                            list.add(averageMood)
-                        }
-                        continuation.resume(Result.Success(list))
-                    } else {
-                        task.exception?.let {
+                getAvgMoodRefFrom(uid)
+                    .whereGreaterThanOrEqualTo(KEY_TIME, startDate)
+                    .whereLessThanOrEqualTo(KEY_TIME, endDate)
+                    .orderBy(KEY_TIME, Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val list = mutableListOf<AverageMood>()
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                                val averageMood = document.toObject(AverageMood::class.java)
+                                list.add(averageMood)
+                            }
+                            continuation.resume(Result.Success(list))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun getUserProfile(uid: String): Result<User> =
         suspendCoroutine { continuation ->
 
-            FirebaseFirestore.getInstance().collection(PATH_USERS).whereEqualTo(KEY_ID, uid)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                        val document = task.result!!
-                        if (document.documents.size > 0) {
-                            val user = document.documents.first().toObject(User::class.java)
-                            continuation.resume(Result.Success(user!!))
+                FirebaseFirestore.getInstance().collection(PATH_USERS).whereEqualTo(KEY_ID, uid)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+
+                            val document = task.result!!
+                            if (document.documents.size > 0) {
+                                val user = document.documents.first().toObject(User::class.java)
+                                continuation.resume(Result.Success(user!!))
+                            } else {
+                                continuation.resume(Result.Fail("No User Found"))
+                            }
+
                         } else {
-                            continuation.resume(Result.Fail("No User Found"))
-                        }
+                            task.exception?.let {
 
-                    } else {
-                        task.exception?.let {
-
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun signUpUser(user: User, id: String): Result<Boolean> =
         suspendCoroutine { continuation ->
-            val userData = FirebaseFirestore.getInstance().collection(PATH_USERS)
-            val document = userData.document(id)
 
-            user.id = document.id
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            document
-                .set(user)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Logger.i("Post: $user")
+                val userData = FirebaseFirestore.getInstance().collection(PATH_USERS)
+                val document = userData.document(id)
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                user.id = document.id
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                document
+                    .set(user)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Logger.i("Post: $user")
+
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun handleFacebookAccessToken(token: AccessToken): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            Logger.d("handleFacebookAccessToken:${token.token}")
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            val credential = FacebookAuthProvider.getCredential(token.token)
-            getAuth().signInWithCredential(credential)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
+                Logger.d("handleFacebookAccessToken:${token.token}")
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                val credential = FacebookAuthProvider.getCredential(token.token)
+                getAuth().signInWithCredential(credential)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
 
-                            MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
-                            Logger.w("[${this::class.simpleName}] Authentication failed. signInWithCredential:failure: ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
+
+                                MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
+                                Logger.w("[${this::class.simpleName}] Authentication failed. signInWithCredential:failure: ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
-
-
+            }
         }
 
     override suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount): Result<Boolean> =
         suspendCoroutine { continuation ->
 
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            Logger.d("firebaseAuthWithGoogle:" + acct.id!!)
+                Logger.d("firebaseAuthWithGoogle:" + acct.id!!)
 
-            val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-            getAuth().signInWithCredential(credential)
-                .addOnCompleteListener { task ->
+                val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+                getAuth().signInWithCredential(credential)
+                    .addOnCompleteListener { task ->
 
-                    if (task.isSuccessful) {
+                        if (task.isSuccessful) {
 
-                        Logger.d("signInWithCredential:success")
+                            Logger.d("signInWithCredential:success")
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
 
-                            MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
-                            Logger.w("[${this::class.simpleName}] signInWithCredential:failure: ${it.message} error_code =${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                                MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
+                                Logger.w("[${this::class.simpleName}] signInWithCredential:failure: ${it.message} error_code =${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
-
-
+            }
         }
 
     override suspend fun postNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            val document = userReference.document(uid).collection(PATH_NOTES).document()
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            note.id = document.id
+                val document = userReference.document(uid).collection(PATH_NOTES).document()
 
-            document
-                .set(note)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Logger.i("Post: $note")
+                note.id = document.id
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                document
+                    .set(note)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Logger.i("Post: $note")
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun postAvgMood(
@@ -305,61 +384,78 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         timeList: String
     ): Result<Boolean> =
         suspendCoroutine { continuation ->
-            val avgMoods = userReference.document(uid)
-                .collection(PATH_AVGMOODS)
-            val document = avgMoods.document(timeList)
 
-            averageMood.idTime = document.id
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            document
-                .set(averageMood)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Logger.i("Post: $averageMood")
+                val avgMoods = userReference.document(uid)
+                    .collection(PATH_AVG_MOODS)
+                val document = avgMoods.document(timeList)
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                averageMood.idTime = document.id
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
-                        }
-                        continuation.resume(
-                            Result.Fail(
-                                MoodieTrailApplication.instance.getString(
-                                    R.string.you_know_nothing
+                document
+                    .set(averageMood)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Logger.i("Post: $averageMood")
+
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
                                 )
                             )
-                        )
+                        }
                     }
-                }
+            }
         }
 
     override suspend fun postPsyTest(uid: String, psyTest: PsyTest): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            val document = userReference.document(uid).collection(PATH_PSYTESTS).document()
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            psyTest.id = document.id
+                val document = userReference.document(uid).collection(PATH_PSY_TESTS).document()
 
-            document
-                .set(psyTest)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Logger.i("Post: $psyTest")
+                psyTest.id = document.id
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                document
+                    .set(psyTest)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Logger.i("Post: $psyTest")
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
     override suspend fun uploadNoteImage(
@@ -368,48 +464,53 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         date: String
     ): Result<String> = suspendCoroutine { continuation ->
 
-        val imageRef = storageReference.child(
-            MoodieTrailApplication.instance.getString(
-                R.string.firebase_storage_reference,
-                uid,
-                date
+        if (!isInternetAvailable()) {
+            continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+        } else {
+
+            val imageRef = storageReference.child(
+                MoodieTrailApplication.instance.getString(
+                    R.string.firebase_storage_reference,
+                    uid,
+                    date
+                )
             )
-        )
 
-        val byteArrayOutput = ByteArrayOutputStream()
+            val byteArrayOutput = ByteArrayOutputStream()
 
-        noteImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput)
-        val bytes = byteArrayOutput.toByteArray()
+            noteImage.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput)
+            val bytes = byteArrayOutput.toByteArray()
 
-        val uploadTask = imageRef.putBytes(bytes)
+            val uploadTask = imageRef.putBytes(bytes)
 
-        uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-            if (!task.isSuccessful) {
-                task.exception?.let {
-                    throw it
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
                 }
-            }
-            return@Continuation imageRef.downloadUrl
-        }).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val downloadUri = task.result
-                Logger.i("downloadUri : $downloadUri")
+                return@Continuation imageRef.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    Logger.i("downloadUri : $downloadUri")
 
-                continuation.resume(Result.Success(downloadUri.toString()))
-            } else {
-                task.exception?.let {
+                    continuation.resume(Result.Success(downloadUri.toString()))
+                } else {
+                    task.exception?.let {
 
-                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                    continuation.resume(Result.Error(it))
-                    return@addOnCompleteListener
-                }
-                continuation.resume(
-                    Result.Fail(
-                        MoodieTrailApplication.instance.getString(
-                            R.string.you_know_nothing
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                        return@addOnCompleteListener
+                    }
+                    continuation.resume(
+                        Result.Fail(
+                            MoodieTrailApplication.instance.getString(
+                                R.string.you_know_nothing
+                            )
                         )
                     )
-                )
+                }
             }
         }
     }
@@ -421,81 +522,106 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     ): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            val document = getNotesRefFrom(uid).document(noteId)
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-            val editedNoteMap = hashMapOf(
-                KEY_DATE to editedNote.date,
-                KEY_WEEK to editedNote.weekOfMonth,
-                KEY_CONTENT to editedNote.content,
-                KEY_IMAGE to editedNote.image,
-                KEY_TAGS to editedNote.tags
-            )
+                val document = getNotesRefFrom(uid).document(noteId)
+                val editedNoteMap = hashMapOf(
+                    KEY_DATE to editedNote.date,
+                    KEY_WEEK to editedNote.weekOfMonth,
+                    KEY_CONTENT to editedNote.content,
+                    KEY_IMAGE to editedNote.image,
+                    KEY_TAGS to editedNote.tags
+                )
 
-            document
-                .update(editedNoteMap)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Logger.i("Post: $editedNote")
+                document
+                    .update(editedNoteMap)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Logger.i("Post: $editedNote")
 
-                        continuation.resume(Result.Success(true))
-                    } else {
-                        task.exception?.let {
+                            continuation.resume(Result.Success(true))
+                        } else {
+                            task.exception?.let {
 
-                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                            continuation.resume(Result.Error(it))
-                            return@addOnCompleteListener
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
                         }
-                        continuation.resume(Result.Fail(MoodieTrailApplication.instance.getString(R.string.you_know_nothing)))
                     }
-                }
+            }
         }
 
 
     override suspend fun deleteNote(uid: String, note: Note): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            userReference.document(uid).collection(PATH_NOTES)
-                .document(note.id)
-                .delete()
-                .addOnSuccessListener {
-                    Logger.i("Delete: $note")
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                    continuation.resume(Result.Success(true))
-                }.addOnFailureListener {
-                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                    continuation.resume(Result.Error(it))
-                }
+                userReference.document(uid).collection(PATH_NOTES)
+                    .document(note.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        Logger.i("Delete: $note")
+
+                        continuation.resume(Result.Success(true))
+                    }.addOnFailureListener {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+            }
         }
 
     override suspend fun deleteAvgMood(uid: String, avgMoodId: String): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            userReference.document(uid).collection(PATH_AVGMOODS)
-                .document(avgMoodId)
-                .delete()
-                .addOnSuccessListener {
-                    Logger.i("Delete: $avgMoodId")
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                    continuation.resume(Result.Success(true))
-                }.addOnFailureListener {
-                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                    continuation.resume(Result.Error(it))
-                }
+                userReference.document(uid).collection(PATH_AVG_MOODS)
+                    .document(avgMoodId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Logger.i("Delete: $avgMoodId")
+
+                        continuation.resume(Result.Success(true))
+                    }.addOnFailureListener {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+            }
         }
 
     override suspend fun deletePsyTest(uid: String, psyTest: PsyTest): Result<Boolean> =
         suspendCoroutine { continuation ->
 
-            userReference.document(uid).collection(PATH_PSYTESTS)
-                .document(psyTest.id)
-                .delete()
-                .addOnSuccessListener {
-                    Logger.i("Delete: $psyTest")
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
 
-                    continuation.resume(Result.Success(true))
-                }.addOnFailureListener {
-                    Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                    continuation.resume(Result.Error(it))
-                }
+                userReference.document(uid).collection(PATH_PSY_TESTS)
+                    .document(psyTest.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        Logger.i("Delete: $psyTest")
+
+                        continuation.resume(Result.Success(true))
+                    }.addOnFailureListener {
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                        continuation.resume(Result.Error(it))
+                    }
+            }
         }
 }

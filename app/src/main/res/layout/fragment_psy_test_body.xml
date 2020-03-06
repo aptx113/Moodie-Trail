@@ -65,19 +65,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="29dp"
                     android:layout_marginTop="10dp"
-                    android:checkedButton="@={viewModel.selectedSleepRadio}"
+                    android:checkedButton="@={viewModel.selectedInsomniaRadio}"
                     android:theme="@style/PsyTestColorTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_item_sleep_title">
 
                     <RadioButton
-                        android:id="@+id/radio_sleep_never"
+                        android:id="@+id/radio_insomnia_never"
                         style="@style/psy_test_button"
                         android:tag="0"
                         android:text="@string/never" />
 
                     <RadioButton
-                        android:id="@+id/radio_sleep_seldom"
+                        android:id="@+id/radio_insomnia_seldom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
@@ -86,7 +86,7 @@
                         android:textSize="@dimen/size_test_item" />
 
                     <RadioButton
-                        android:id="@+id/radio_sleep_sometimes"
+                        android:id="@+id/radio_insomnia_sometimes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
@@ -95,7 +95,7 @@
                         android:textSize="@dimen/size_test_item" />
 
                     <RadioButton
-                        android:id="@+id/radio_sleep_usually"
+                        android:id="@+id/radio_insomnia_usually"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"
@@ -104,7 +104,7 @@
                         android:textSize="@dimen/size_test_item" />
 
                     <RadioButton
-                        android:id="@+id/radio_sleep_always"
+                        android:id="@+id/radio_insomnia_always"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/droid_sans"

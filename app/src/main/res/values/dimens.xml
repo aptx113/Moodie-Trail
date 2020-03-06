@@ -58,4 +58,42 @@
     <!-- MoodLineChartInfoDialog -->
     <dimen name="size_image_line_chart_info">40dp</dimen>
 
+    <!-- Statistic PieChart -->
+    <!-- Since using the text size will multiple by 2 with dp, so use px here to get desired effect   -->
+    <dimen name="size_text_value_chart">14px</dimen>
+    <dimen name="size_slice_space_pie_chart">2px</dimen>
+    <dimen name="width_pie_chart_value_line">1px</dimen>
+    <dimen name="length_pie_chart_value_line_part_1">1px</dimen>
+    <dimen name="length_pie_chart_value_line_part_2">0.8px</dimen>
+    <dimen name="percentage_value_line_part_1_offset">110px</dimen>
+    <dimen name="radius_hole_pie_chart">20px</dimen>
+    <dimen name="radius_transparent_circle_pie_chart">40px</dimen>
+    <dimen name="alpha_transparent_circle_pie_chart">50px</dimen>
+    <dimen name="offset_left_pie_chart">0px</dimen>
+    <dimen name="offset_top_pie_chart">8.5px</dimen>
+    <dimen name="offset_right_pie_chart">0px</dimen>
+    <dimen name="offset_bottom_pie_chart">5px</dimen>
+
+    <!-- Statistic LineChart -->
+    <dimen name="width_line_chart_axis_line">1.5px</dimen>
+    <dimen name="width_line_chart_data_set_line">1.5px</dimen>
+    <dimen name="radius_line_chart_data_set_circle">3px</dimen>
+    <dimen name="offset_left_line_chart">5px</dimen>
+    <dimen name="offset_top_line_chart">10px</dimen>
+    <dimen name="offset_right_line_chart">10px</dimen>
+    <dimen name="offset_bottom_line_chart">10px</dimen>
+
+    <!-- PsyTestResult BarChart -->
+    <dimen name="width_bar_chart_axis_line">1px</dimen>
+    <dimen name="size_bar_chart_axis_text_size">15px</dimen>
+    <dimen name="offset_left_bar_chart">2px</dimen>
+    <dimen name="offset_top_bar_chart">10px</dimen>
+    <dimen name="offset_right_bar_chart">10px</dimen>
+    <dimen name="offset_bottom_bar_chart">10px</dimen>
+
+<!-- Ext -->
+    <dimen name="orientation_rotate_90">90px</dimen>
+    <dimen name="orientation_rotate_180">180px</dimen>
+    <dimen name="orientation_rotate_270">270px</dimen>
+
 </resources>

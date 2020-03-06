@@ -51,6 +51,7 @@ class PsyTestRecordFragment : Fragment() {
             }
         })
 
+        // Handle when user has no Psy Test record, the user can start Test by click hint on this
         viewModel.navigateToPsyTest.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(

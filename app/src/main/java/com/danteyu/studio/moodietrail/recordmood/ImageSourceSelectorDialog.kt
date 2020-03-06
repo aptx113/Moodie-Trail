@@ -12,7 +12,6 @@ import com.danteyu.studio.moodietrail.databinding.DialogImageSourceSelectorBindi
 /**
  * Created by George Yu on 2020/2/20.
  */
-
 class ImageSourceSelectorDialog(private val viewModel: RecordDetailViewModel) :
     AppCompatDialogFragment() {
 

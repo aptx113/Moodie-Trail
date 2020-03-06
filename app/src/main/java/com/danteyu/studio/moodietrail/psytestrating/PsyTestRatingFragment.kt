@@ -36,6 +36,4 @@ class PsyTestRatingFragment : Fragment() {
 
         return binding.root
     }
-
-
 }

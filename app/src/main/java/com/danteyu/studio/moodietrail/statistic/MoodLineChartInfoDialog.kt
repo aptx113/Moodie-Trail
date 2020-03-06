@@ -31,7 +31,6 @@ class MoodLineChartInfoDialog : AppCompatDialogFragment() {
         binding.dialog = this
         this.isCancelable = true
 
-
         return binding.root
     }
 

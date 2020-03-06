@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
+import com.danteyu.studio.moodietrail.util.Mood
 import com.danteyu.studio.moodietrail.util.Util.getString
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
@@ -18,11 +19,11 @@ fun bindMoodColorForButton(button: Button, mood: Int?) {
     mood?.let {
         button.background = getDrawable(
             when (it) {
-                1 -> R.drawable.button_record_detail_ripple_very_bad
-                2 -> R.drawable.button_record_detail_ripple_bad
-                3 -> R.drawable.button_record_detail_ripple_normal
-                4 -> R.drawable.button_record_detail_ripple_good
-                5 -> R.drawable.button_record_detail_ripple_very_good
+                Mood.VERY_BAD.value -> R.drawable.button_record_detail_ripple_very_bad
+                Mood.BAD.value -> R.drawable.button_record_detail_ripple_bad
+                Mood.NORMAL.value -> R.drawable.button_record_detail_ripple_normal
+                Mood.GOOD.value -> R.drawable.button_record_detail_ripple_good
+                Mood.VERY_GOOD.value -> R.drawable.button_record_detail_ripple_very_good
                 else -> R.color.blue_700
             }
         )
@@ -38,11 +39,11 @@ fun bindMoodColorForImageButton(imageButton: ImageButton, mood: Int?, newTag: St
             imageButton.setColorFilter(
                 getColor(
                     when (it) {
-                        1 -> R.color.mood_very_bad
-                        2 -> R.color.mood_bad
-                        3 -> R.color.mood_normal
-                        4 -> R.color.mood_good
-                        5 -> R.color.mood_very_good
+                        Mood.VERY_BAD.value -> R.color.mood_very_bad
+                        Mood.BAD.value -> R.color.mood_bad
+                        Mood.NORMAL.value -> R.color.mood_normal
+                        Mood.GOOD.value -> R.color.mood_good
+                        Mood.VERY_GOOD.value -> R.color.mood_very_good
                         else -> R.color.blue_700
                     }
                 )

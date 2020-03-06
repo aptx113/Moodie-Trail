@@ -9,7 +9,6 @@ import com.github.mikephil.charting.data.LineDataSet
 /**
  * Created by George Yu on 2020/2/23.
  */
-
 class MyLineDataSet(yVals: List<Entry>, label: String?) : LineDataSet(yVals, label) {
     override fun getColor(index: Int): Int {
         return when (getEntryForIndex(index).y) {
