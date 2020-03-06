@@ -1,20 +1,17 @@
 package com.danteyu.studio.moodietrail.psytestresult
 
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
-import com.danteyu.studio.moodietrail.NavigationDirections
-import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestResultBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
@@ -25,12 +22,10 @@ import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel.Compa
 import com.danteyu.studio.moodietrail.util.Util.getDimensionPixelSize
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -54,15 +49,15 @@ class PsyTestResultFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // This callback will only be called when Fragment is at least Started.
-        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-
-            // Handle the back button event
-            findNavController().navigate(NavigationDirections.navigateToPsyTestRecordFragment())
-            (activity as MainActivity).bottomNavView.selectedItemId =
-                R.id.navigation_psy_test_record
-
-        }
-        // The callback can be enabled or disabled here or in the lambda
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                // Handle the back button event
+                override fun handleOnBackPressed() {
+                    val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
+                    mainViewModel.navigateToPsyTestRecordByBottomNav()
+                }
+            })
     }
 
     override fun onCreateView(

@@ -164,9 +164,8 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.navigateToPsyTestRecord.observe(this, Observer {
+        viewModel.navigateToPsyTestRecordByBottomNav.observe(this, Observer {
             it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
                 binding.bottomNavView.selectedItemId =
                     R.id.navigation_psy_test_record
                 viewModel.onPsyTestRecordNavigated()

@@ -217,7 +217,11 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             try {
                 viewModel.setImage(bitmap)
                 binding.imageNoteImageRecordDetail.setImageBitmap(null)
+                binding.imageNoteImageRecordDetail.invalidate()
+                binding.imageNoteImageRecordDetail.requestLayout()
                 binding.imageNoteImageRecordDetail.setImageBitmap(bitmap)
+                binding.imageNoteImageRecordDetail.invalidate()
+                binding.imageNoteImageRecordDetail.requestLayout()
 
                 imageSourceSelectorDialog.dismiss()
 

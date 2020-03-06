@@ -50,7 +50,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="start"
                 android:background="@drawable/ic_back"
-                android:onClick="@{() -> viewModel.navigateToPsyTestRecord()}"
+                android:onClick="@{() -> viewModel.navigateToPsyTestRecordByBottomNav()}"
                 android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_RESULT ? View.VISIBLE : View.GONE}"
                 tools:visibility="visible" />
 

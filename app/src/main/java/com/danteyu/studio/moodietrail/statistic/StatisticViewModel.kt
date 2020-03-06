@@ -45,24 +45,24 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     val notes: LiveData<List<Note>>
         get() = _notes
 
-    val veryBadCountInNotes: LiveData<Int> = Transformations.map(notes) {
-        it.filter { note -> note.mood == Mood.VERY_BAD.value }.size
+    val veryBadCountInNotes: LiveData<Int>? = Transformations.map(notes) {
+        it?.filter { note -> note.mood == Mood.VERY_BAD.value }?.size
     }
 
-    val badCountInNotes: LiveData<Int> = Transformations.map(notes) {
-        it.filter { note -> note.mood == Mood.BAD.value }.size
+    val badCountInNotes: LiveData<Int>? = Transformations.map(notes) {
+        it?.filter { note -> note.mood == Mood.BAD.value }?.size
     }
 
-    val normalCountInNotes: LiveData<Int> = Transformations.map(notes) {
-        it.filter { note -> note.mood == Mood.NORMAL.value }.size
+    val normalCountInNotes: LiveData<Int>? = Transformations.map(notes) {
+        it?.filter { note -> note.mood == Mood.NORMAL.value }?.size
     }
 
-    val goodCountInNotes: LiveData<Int> = Transformations.map(notes) {
-        it.filter { note -> note.mood == Mood.GOOD.value }.size
+    val goodCountInNotes: LiveData<Int>? = Transformations.map(notes) {
+        it?.filter { note -> note.mood == Mood.GOOD.value }?.size
     }
 
-    val veryGoodCountInNotes: LiveData<Int> = Transformations.map(notes) {
-        it.filter { note -> note.mood == Mood.VERY_GOOD.value }.size
+    val veryGoodCountInNotes: LiveData<Int>? = Transformations.map(notes) {
+        it?.filter { note -> note.mood == Mood.VERY_GOOD.value }?.size
     }
 
     private val _showLineChartInfo = MutableLiveData<Boolean>()

@@ -21,6 +21,7 @@ import com.danteyu.studio.moodietrail.login.LoginViewModel.Companion.LOGIN_WITH_
 import com.danteyu.studio.moodietrail.login.LoginViewModel.Companion.RC_SIGN_IN
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getGoogleSignInClient
+import com.danteyu.studio.moodietrail.util.Util.isInternetAvailable
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -113,10 +114,13 @@ class LoginFragment : Fragment() {
                 }
             } catch (e: ApiException) {
                 viewModel.cancelLoginGoogle()
-                activity.showToast(getString(R.string.login_fail_toast))
+                if (!isInternetAvailable()) {
+                    activity.showToast(getString(R.string.login_fail_due_to_no_connected))
+                } else {
+                    activity.showToast(getString(R.string.login_fail_toast))
 
+                }
                 Logger.w("Google sign in failed, ApiException = $e")
-
             }
         } else {
             viewModel.fbCallbackManager.onActivityResult(requestCode, resultCode, data)
