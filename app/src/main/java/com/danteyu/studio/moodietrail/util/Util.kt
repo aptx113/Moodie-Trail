@@ -69,7 +69,7 @@ object Util {
     }
 
     fun getCalendar(): Calendar {
-        return MoodieTrailApplication.instance.appContainer.calendar
+        return MoodieTrailApplication.instance.appContainer.dateTimeContainer.calendar
     }
 
     fun getAuth(): FirebaseAuth {
@@ -81,19 +81,19 @@ object Util {
     }
 
     fun getStartDateOfMonth(timestamp: Long): Long {
-        return MoodieTrailApplication.instance.appContainer.getStartDateOfMonth(timestamp)
+        return MoodieTrailApplication.instance.appContainer.dateTimeContainer.getStartDateOfMonth(timestamp)
     }
 
     fun getEndDateOfMonth(calendar: Calendar, timestamp: Long): Long {
-        return MoodieTrailApplication.instance.appContainer.getEndDateOfMonth(calendar, timestamp)
+        return MoodieTrailApplication.instance.appContainer.dateTimeContainer.getEndDateOfMonth(calendar, timestamp)
     }
 
     fun getStartTimeOfDay(timestamp: Long): Long {
-        return MoodieTrailApplication.instance.appContainer.getStartTimeOfDay(timestamp)
+        return MoodieTrailApplication.instance.appContainer.dateTimeContainer.getStartTimeOfDay(timestamp)
     }
 
     fun getEndTimeOfDay(timestamp: Long): Long {
-        return MoodieTrailApplication.instance.appContainer.getEndTimeOfDay(timestamp)
+        return MoodieTrailApplication.instance.appContainer.dateTimeContainer.getEndTimeOfDay(timestamp)
     }
 
     fun setupAlarmManager() {

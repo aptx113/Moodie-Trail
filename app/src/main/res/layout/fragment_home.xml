@@ -26,14 +26,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_half"
             android:background="?selectableItemBackgroundBorderless"
+            android:onClick="@{() -> viewModel.getLastMonthNotes()}"
             android:src="@drawable/ic_toolbar_back"
             android:tint="@color/blue_700_Dark"
-            android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@+id/text_date_home"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/text_date_home"
@@ -45,15 +44,13 @@
             android:fontFamily="@font/droid_sans"
             android:textColor="@color/blue_700_Dark"
             android:textSize="16sp"
-            android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@+id/image_next_home"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/image_last_month_home"
             app:layout_constraintTop_toTopOf="parent"
             app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM}"
             app:timeToDisplayFormat="@{viewModel.currentMonth}"
-            tools:text="2020-01"
-            tools:visibility="visible" />
+            tools:text="2020-01" />
 
         <ImageView
             android:id="@+id/image_next_home"
@@ -62,14 +59,14 @@
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_half"
             android:layout_marginTop="@dimen/margin_half"
+            android:background="?selectableItemBackgroundBorderless"
+            android:onClick="@{() -> viewModel.getNextMonthNotes()}"
             android:src="@drawable/ic_toolbar_next"
             android:tint="@color/blue_700_Dark"
-            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/text_date_home"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/layout_swipe_refresh_note"
