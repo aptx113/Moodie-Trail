@@ -12,6 +12,7 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getCalendar
 import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import kotlinx.coroutines.CoroutineScope
@@ -87,14 +88,14 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         viewModelJob.cancel()
     }
 
-    private val calendar: Calendar = Calendar.getInstance()
+    private val calendar: Calendar = getCalendar()
 
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        initialDate()
+        initializeDate(calendar.timeInMillis)
         UserManager.id?.let {
             _currentMonth.value?.let { date ->
                 getNotesByDateRange(
@@ -106,9 +107,41 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         }
     }
 
-    private fun initialDate() {
+    private fun initializeDate(date: Long) {
 
-        _currentMonth.value = calendar.timeInMillis
+        _currentMonth.value = date
+    }
+
+    fun getLastMonthNotes() {
+
+        _currentMonth.value?.let {
+            calendar.timeInMillis = it
+            calendar.add(Calendar.MONTH, -1)
+            initializeDate(calendar.timeInMillis)
+
+            UserManager.id?.let { uid ->
+                getNotesByDateRange(
+                    uid, getStartDateOfMonth(calendar.timeInMillis),
+                    getEndDateOfMonth(calendar, calendar.timeInMillis)
+                )
+            }
+        }
+    }
+
+    fun getNextMonthNotes() {
+
+        _currentMonth.value?.let {
+            calendar.timeInMillis = it
+            calendar.add(Calendar.MONTH, 1)
+            initializeDate(calendar.timeInMillis)
+
+            UserManager.id?.let { uid ->
+                getNotesByDateRange(
+                    uid, getStartDateOfMonth(calendar.timeInMillis),
+                    getEndDateOfMonth(calendar, calendar.timeInMillis)
+                )
+            }
+        }
     }
 
     private fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long) {

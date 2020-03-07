@@ -10,12 +10,14 @@ import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.source.remote.MoodieTrailRemoteDataSource.getNotesByDateRange
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Mood
 import com.danteyu.studio.moodietrail.util.TimeFormat
+import com.danteyu.studio.moodietrail.util.Util.getCalendar
 import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import com.github.mikephil.charting.data.Entry
@@ -112,7 +114,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
         viewModelJob.cancel()
     }
 
-    private val calendar: Calendar = Calendar.getInstance()
+    private val calendar: Calendar = getCalendar()
 
     init {
         Logger.i("------------------------------------")
@@ -127,6 +129,30 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     private fun initializeDate() {
 
         _currentDate.value = calendar.timeInMillis
+    }
+
+    fun getLastMonthData() {
+
+        _currentDate.value?.let {
+            calendar.timeInMillis = it
+            calendar.add(Calendar.MONTH, -1)
+            initializeDate()
+
+            getNotes()
+            getAvgMoodScores()
+        }
+    }
+
+    fun getNextMonthData() {
+
+        _currentDate.value?.let {
+            calendar.timeInMillis = it
+            calendar.add(Calendar.MONTH, 1)
+            initializeDate()
+
+            getNotes()
+            getAvgMoodScores()
+        }
     }
 
     private fun getAvgMoodScores() {
