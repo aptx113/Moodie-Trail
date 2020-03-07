@@ -7,10 +7,11 @@ import kotlinx.android.parcel.Parcelize
  * Created by George Yu on 2020/3/7.
  */
 @Parcelize
-data class PhoneConsultingInst(
-    var id: String = "",
+data class ConsultationCall(
+    var id: Int = 0,
     var logo: String = "",
-    var title: String = "",
-    var phoneFee: String = "",
+    var name: String = "",
+    var phoneNumber: String = "",
+    var callCharge: String = "",
     var serviceHour: String = ""
 ) : Parcelable

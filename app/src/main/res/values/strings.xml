@@ -179,7 +179,7 @@
     <string name="score_bad">2 :</string>
     <string name="score_very_bad">1 :</string>
 
-    <!-- PhoneConsulting -->
-    <string name="service_time">服務時間：%s</string>
+    <!-- Consultation Call -->
+    <string name="service_hour">服務時間：%s</string>
 
 </resources>

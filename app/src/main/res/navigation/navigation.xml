@@ -91,9 +91,9 @@
 
     <fragment
         android:id="@+id/phoneConsultingFragment"
-        android:name="com.danteyu.studio.moodietrail.phoneconsulting.PhoneConsultingFragment"
+        android:name="com.danteyu.studio.moodietrail.phoneconsulting.ConsultationCallFragment"
         android:label="fragment_phone_consulting"
-        tools:layout="@layout/fragment_phone_consulting" />
+        tools:layout="@layout/fragment_consultation_call" />
 
     <dialog
         android:id="@+id/recordDetailFragment"

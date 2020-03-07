@@ -34,6 +34,7 @@ import kotlin.coroutines.suspendCoroutine
 object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
     private const val PATH_USERS = "users"
+    private const val PATH_CONSULTATION_CALLS = "consultationCalls"
     private const val PATH_NOTES = "notes"
     private const val PATH_PSY_TESTS = "psyTests"
     private const val PATH_AVG_MOODS = "avgMoods"
@@ -47,6 +48,9 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
     private const val KEY_TIME = "time"
 
     private val userReference = FirebaseFirestore.getInstance().collection(PATH_USERS)
+    private val phoneConsultingInstReference = FirebaseFirestore.getInstance().collection(
+        PATH_CONSULTATION_CALLS
+    )
     private val storageReference = FirebaseStorage.getInstance().reference
 
     private fun getNotesRefFrom(uid: String): CollectionReference {
@@ -169,6 +173,46 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
 
                                 val averageMood = document.toObject(AverageMood::class.java)
                                 list.add(averageMood)
+                            }
+                            continuation.resume(Result.Success(list))
+                        } else {
+                            task.exception?.let {
+
+                                Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                continuation.resume(Result.Error(it))
+                                return@addOnCompleteListener
+                            }
+                            continuation.resume(
+                                Result.Fail(
+                                    MoodieTrailApplication.instance.getString(
+                                        R.string.you_know_nothing
+                                    )
+                                )
+                            )
+                        }
+                    }
+            }
+        }
+
+    override suspend fun getConsultationCalls(): Result<List<ConsultationCall>> =
+        suspendCoroutine { continuation ->
+
+            if (!isInternetAvailable()) {
+                continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
+            } else {
+
+                phoneConsultingInstReference
+                    .orderBy(KEY_ID, Query.Direction.ASCENDING)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val list = mutableListOf<ConsultationCall>()
+                            for (document in task.result!!) {
+                                Logger.d(document.id + " => " + document.data)
+
+                                val phoneConsultingInst =
+                                    document.toObject(ConsultationCall::class.java)
+                                list.add(phoneConsultingInst)
                             }
                             continuation.resume(Result.Success(list))
                         } else {

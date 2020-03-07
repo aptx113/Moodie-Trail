@@ -6,7 +6,7 @@ import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.home.HomeViewModel
 import com.danteyu.studio.moodietrail.login.LoginViewModel
-import com.danteyu.studio.moodietrail.phoneconsulting.PhoneConsultingViewModel
+import com.danteyu.studio.moodietrail.phoneconsulting.ConsultationCallViewModel
 import com.danteyu.studio.moodietrail.profile.ProfileViewModel
 import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel
 import com.danteyu.studio.moodietrail.psytest.PsyTestViewModel
@@ -58,7 +58,7 @@ class ViewModelFactory constructor(
                     moodieTrailRepository
                 )
 
-                isAssignableFrom(PhoneConsultingViewModel::class.java) -> PhoneConsultingViewModel(
+                isAssignableFrom(ConsultationCallViewModel::class.java) -> ConsultationCallViewModel(
                     moodieTrailRepository
                 )
 

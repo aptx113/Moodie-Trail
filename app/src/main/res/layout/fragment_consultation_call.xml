@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.phoneconsulting.PhoneConsultingViewModel" />
+            type="com.danteyu.studio.moodietrail.phoneconsulting.ConsultationCallViewModel" />
 
     </data>
 
@@ -16,18 +17,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".phoneconsulting.PhoneConsultingFragment">
+        tools:context=".phoneconsulting.ConsultationCallFragment">
 
         <androidx.recyclerview.widget.RecyclerView
 
-            android:id="@+id/recycler_phone_consulting_institution"
+            android:id="@+id/recycler_consultation_call"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:consultationCall="@{viewModel.consultationCalls}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_consultation_call">
 
         </androidx.recyclerview.widget.RecyclerView>
 
