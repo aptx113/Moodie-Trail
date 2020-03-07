@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_phone_consulting"
+            android:layout_width="82dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="@dimen/margin_basic"
+            android:layout_marginTop="@dimen/margin_advanced"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/ic_placeholder"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_phone_consulting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_advanced"
+            android:layout_marginEnd="@dimen/margin_basic"
+            android:ellipsize="end"
+            android:fontFamily="@font/droid_sans"
+            android:maxLines="2"
+            android:textColor="@color/blue_700"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/image_phone_consulting"
+            app:layout_constraintTop_toTopOf="@id/image_phone_consulting"
+            tools:text="男性關懷專線 0800-013-999" />
+
+        <TextView
+            android:id="@+id/text_phone_consulting_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_half"
+            android:fontFamily="@font/droid_sans"
+            android:textColor="@color/black_3f3a3a"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/text_phone_consulting_title"
+            app:layout_constraintTop_toBottomOf="@id/text_phone_consulting_title"
+            tools:text="免通話費" />
+
+        <TextView
+            android:id="@+id/text_phone_consulting_service_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_half"
+            android:fontFamily="@font/droid_sans"
+            android:textColor="@color/black_3f3a3a"
+            app:layout_constraintStart_toStartOf="@id/text_phone_consulting_title"
+            app:layout_constraintTop_toBottomOf="@id/text_phone_consulting_fee"
+            tools:text="服務時間：每日 9:00-23:00" />
+
+        <ImageView
+            android:id="@+id/image_phone_consulting_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_basic"
+            android:tint="@color/blue_700_Light"
+            app:layout_constraintBottom_toBottomOf="@id/text_phone_consulting_fee"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_phone_consulting_fee"
+            app:srcCompat="@drawable/ic_nav_emergency_call" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

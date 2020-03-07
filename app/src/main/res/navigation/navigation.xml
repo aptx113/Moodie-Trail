@@ -15,7 +15,7 @@
         android:id="@+id/homeFragment"
         android:name="com.danteyu.studio.moodietrail.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_recordDetailFragment"
             app:destination="@id/recordDetailFragment" />
@@ -89,6 +89,12 @@
         android:label="fragment_psy_test_rating"
         tools:layout="@layout/fragment_psy_test_rating" />
 
+    <fragment
+        android:id="@+id/phoneConsultingFragment"
+        android:name="com.danteyu.studio.moodietrail.phoneconsulting.PhoneConsultingFragment"
+        android:label="fragment_phone_consulting"
+        tools:layout="@layout/fragment_phone_consulting" />
+
     <dialog
         android:id="@+id/recordDetailFragment"
         android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailDialog"
@@ -150,6 +156,10 @@
     <action
         android:id="@+id/navigate_to_message_dialog"
         app:destination="@id/messageDialog" />
+
+    <action
+        android:id="@+id/navigate_to_phoneConsulting"
+        app:destination="@id/phoneConsultingFragment" />
 
 
 </navigation>
