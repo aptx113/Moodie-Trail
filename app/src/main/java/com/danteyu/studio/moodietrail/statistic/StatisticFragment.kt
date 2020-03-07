@@ -42,14 +42,6 @@ class StatisticFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.imageStatisticNextMonth.setOnClickListener {
-            activity.showToast("Coming Soon")
-        }
-
-        binding.imageLastMonthStatistic.setOnClickListener {
-            activity.showToast("Coming Soon")
-        }
-
         viewModel.avgMoodScoreEntries.observe(viewLifecycleOwner, Observer {
             it?.let {
                 displayAvgMoodScoresData(it, binding.lineChartMoodStatistic)

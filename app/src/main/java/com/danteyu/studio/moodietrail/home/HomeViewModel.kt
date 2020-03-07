@@ -12,6 +12,7 @@ import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getCalendar
 import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import kotlinx.coroutines.CoroutineScope
@@ -87,8 +88,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         viewModelJob.cancel()
     }
 
-    private val calendar: Calendar = Calendar.getInstance()
-
+    private val calendar: Calendar = getCalendar()
 
     init {
         Logger.i("------------------------------------")
