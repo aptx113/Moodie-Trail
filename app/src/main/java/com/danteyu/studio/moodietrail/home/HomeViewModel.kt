@@ -89,12 +89,13 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     private val calendar: Calendar = Calendar.getInstance()
 
+
     init {
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
 
-        initialDate()
+        initializeDate(calendar.timeInMillis)
         UserManager.id?.let {
             _currentMonth.value?.let { date ->
                 getNotesByDateRange(
@@ -106,9 +107,41 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         }
     }
 
-    private fun initialDate() {
+    private fun initializeDate(date: Long) {
 
-        _currentMonth.value = calendar.timeInMillis
+        _currentMonth.value = date
+    }
+
+    fun getLastMonthNotes() {
+
+        _currentMonth.value?.let {
+            calendar.timeInMillis = it
+            calendar.add(Calendar.MONTH, -1)
+            initializeDate(calendar.timeInMillis)
+
+            UserManager.id?.let { uid ->
+                getNotesByDateRange(
+                    uid, getStartDateOfMonth(calendar.timeInMillis),
+                    getEndDateOfMonth(calendar, calendar.timeInMillis)
+                )
+            }
+        }
+    }
+
+    fun getNextMonthNotes() {
+
+        _currentMonth.value?.let {
+            calendar.timeInMillis = it
+            calendar.add(Calendar.MONTH, 1)
+            initializeDate(calendar.timeInMillis)
+
+            UserManager.id?.let { uid ->
+                getNotesByDateRange(
+                    uid, getStartDateOfMonth(calendar.timeInMillis),
+                    getEndDateOfMonth(calendar, calendar.timeInMillis)
+                )
+            }
+        }
     }
 
     private fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long) {
