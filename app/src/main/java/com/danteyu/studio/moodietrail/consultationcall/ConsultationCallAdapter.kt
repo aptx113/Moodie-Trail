@@ -28,6 +28,7 @@ class ConsultationCallAdapter :
 
             binding.consultationCall = consultationCall
             consultationCall.serviceHour = consultationCall.serviceHour.replace("\\n","\n")
+            consultationCall.clientele = consultationCall.clientele.replace("\\n","\n")
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()

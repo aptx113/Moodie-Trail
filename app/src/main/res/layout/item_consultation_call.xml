@@ -67,7 +67,7 @@
             android:layout_marginTop="@dimen/margin_half"
             android:text="@{consultationCall.callCharge}"
             app:layout_constraintStart_toStartOf="@id/text_consultation_call_name"
-            app:layout_constraintTop_toBottomOf="@id/text_consultation_call_clientele_title"
+            app:layout_constraintTop_toBottomOf="@id/text_consultation_call_clientele"
             tools:text="免通話費" />
 
         <TextView
