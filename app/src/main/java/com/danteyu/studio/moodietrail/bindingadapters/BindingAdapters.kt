@@ -11,7 +11,7 @@ import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.PsyTest
 import com.danteyu.studio.moodietrail.home.HomeAdapter
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
-import com.danteyu.studio.moodietrail.phoneconsulting.ConsultationCallAdapter
+import com.danteyu.studio.moodietrail.consultationcall.ConsultationCallAdapter
 import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger

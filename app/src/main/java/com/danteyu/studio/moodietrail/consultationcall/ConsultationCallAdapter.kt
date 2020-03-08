@@ -1,29 +1,25 @@
-package com.danteyu.studio.moodietrail.phoneconsulting
+package com.danteyu.studio.moodietrail.consultationcall
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.data.ConsultationCall
 import com.danteyu.studio.moodietrail.databinding.ItemConsultationCallBinding
+import kotlinx.android.synthetic.main.item_consultation_call.view.*
 
 /**
  * Created by George Yu on 2020/3/7.
  */
-class ConsultationCallAdapter(private val onClickListener: OnClickListener) :
+class ConsultationCallAdapter :
     ListAdapter<ConsultationCall, ConsultationCallAdapter.ConsultationCallViewHolder>(
         DiffCallback
     ) {
-
-    /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [ConsultationCall]
-     * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [ConsultationCall]
-     */
-    class OnClickListener(val clickListener: (consultationCall: ConsultationCall) -> Unit) {
-        fun onClick(consultationCall: ConsultationCall) = clickListener(consultationCall)
-    }
 
     class ConsultationCallViewHolder(private var binding: ItemConsultationCallBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -31,6 +27,7 @@ class ConsultationCallAdapter(private val onClickListener: OnClickListener) :
         fun bind(consultationCall: ConsultationCall) {
 
             binding.consultationCall = consultationCall
+            consultationCall.serviceHour = consultationCall.serviceHour.replace("\\n","\n")
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -79,10 +76,18 @@ class ConsultationCallAdapter(private val onClickListener: OnClickListener) :
     override fun onBindViewHolder(holder: ConsultationCallViewHolder, position: Int) {
         val consultationCall = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(consultationCall)
+            makePhoneCall(consultationCall.phoneNumber)
         }
         holder.bind(consultationCall)
 
+    }
+
+    private fun makePhoneCall(phoneNumber: String) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_DIAL
+        intent.data = Uri.parse("tel:${phoneNumber}")
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        MoodieTrailApplication.instance.startActivity(intent)
     }
 
 }

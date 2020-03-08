@@ -145,4 +145,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ConsultationCallTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/droid_sans</item>
+        <item name="android:textColor">@color/black_3f3a3a</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>

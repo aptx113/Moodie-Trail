@@ -11,6 +11,7 @@ data class ConsultationCall(
     var id: Int = 0,
     var logo: String = "",
     var name: String = "",
+    var clientele: String = "",
     var phoneNumber: String = "",
     var callCharge: String = "",
     var serviceHour: String = ""

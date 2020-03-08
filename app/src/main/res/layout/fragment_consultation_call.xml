@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.phoneconsulting.ConsultationCallViewModel" />
+            type="com.danteyu.studio.moodietrail.consultationcall.ConsultationCallViewModel" />
 
     </data>
 
@@ -17,13 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".phoneconsulting.ConsultationCallFragment">
+        tools:context=".consultationcall.ConsultationCallFragment">
 
         <androidx.recyclerview.widget.RecyclerView
 
             android:id="@+id/recycler_consultation_call"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/margin_advanced"
+            android:paddingBottom="@dimen/margin_basic"
+            app:addDecoration="@{viewModel.decoration}"
             app:consultationCall="@{viewModel.consultationCalls}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

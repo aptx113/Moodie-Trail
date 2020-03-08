@@ -1,14 +1,19 @@
-package com.danteyu.studio.moodietrail.phoneconsulting
+package com.danteyu.studio.moodietrail.consultationcall
 
+import android.graphics.Rect
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
+import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.ConsultationCall
 import com.danteyu.studio.moodietrail.data.Result
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.Util.getDimensionPixelSize
 import com.danteyu.studio.moodietrail.util.Util.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +44,25 @@ class ConsultationCallViewModel(private val moodieTrailRepository: MoodieTrailRe
 
     val error: LiveData<String>
         get() = _error
+
+    val decoration = object : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            super.getItemOffsets(outRect, view, parent, state)
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.top = 0
+            } else {
+                outRect.top =
+                    getDimensionPixelSize(R.dimen.margin_basic)
+            }
+        }
+    }
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private val viewModelJob = Job()
