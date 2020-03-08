@@ -209,8 +209,7 @@ class RecordDetailViewModel(
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     /**
-     * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob], which tells the
-     * Retrofit service to stop.
+     * When the [ViewModel] is finished, we cancel our coroutine [viewModelJob].
      */
     override fun onCleared() {
         super.onCleared()

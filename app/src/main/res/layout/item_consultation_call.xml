@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="consultationCall"
+            type="com.danteyu.studio.moodietrail.data.ConsultationCall" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_consultation_call"
+            imageUrl="@{consultationCall.logo}"
+            android:layout_width="95dp"
+            android:layout_height="135dp"
+            android:layout_marginStart="@dimen/margin_basic"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/ic_placeholder"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_consultation_call_name"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="@dimen/margin_basic"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{consultationCall.name}"
+            android:textColor="@color/blue_700"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/image_consultation_call"
+            app:layout_constraintTop_toTopOf="@id/image_consultation_call"
+            tools:text="男性關懷專線 0800-013-999" />
+
+        <TextView
+            android:id="@+id/text_consultation_call_clientele_title"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginTop="@dimen/margin_half"
+            android:text="@string/clientele"
+            app:layout_constraintStart_toStartOf="@id/text_consultation_call_name"
+            app:layout_constraintTop_toBottomOf="@id/text_consultation_call_name"
+            tools:text="服務對象：" />
+
+        <TextView
+            android:id="@+id/text_consultation_call_clientele"
+            style="@style/ConsultationCallTextView"
+            android:text="@{consultationCall.clientele}"
+            app:layout_constraintStart_toEndOf="@id/text_consultation_call_clientele_title"
+            app:layout_constraintTop_toTopOf="@id/text_consultation_call_clientele_title" />
+
+        <TextView
+            android:id="@+id/text_consultation_call_fee"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginTop="@dimen/margin_half"
+            android:text="@{consultationCall.callCharge}"
+            app:layout_constraintStart_toStartOf="@id/text_consultation_call_name"
+            app:layout_constraintTop_toBottomOf="@id/text_consultation_call_clientele"
+            tools:text="免通話費" />
+
+        <TextView
+            android:id="@+id/text_consultation_call_service_hour_title"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginTop="@dimen/margin_half"
+            android:text="@string/service_hour_text_only"
+            app:layout_constraintStart_toStartOf="@id/text_consultation_call_name"
+            app:layout_constraintTop_toBottomOf="@id/text_consultation_call_fee"
+            tools:text="服務時間：" />
+
+        <TextView
+            android:id="@+id/text_consultation_call_service_hour"
+            style="@style/ConsultationCallTextView"
+            android:text="@{consultationCall.serviceHour}"
+            app:layout_constraintStart_toEndOf="@id/text_consultation_call_service_hour_title"
+            app:layout_constraintTop_toTopOf="@id/text_consultation_call_service_hour_title"
+            tools:text="每日 9:00-23:00" />
+
+        <ImageView
+            android:id="@+id/image_consultation_call_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_basic"
+            android:tint="@color/blue_700_Light"
+            app:layout_constraintBottom_toBottomOf="@id/text_consultation_call_fee"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_consultation_call_fee"
+            app:srcCompat="@drawable/ic_nav_emergency_call" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

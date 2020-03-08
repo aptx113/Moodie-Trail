@@ -1,16 +1,17 @@
 package com.danteyu.studio.moodietrail.bindingadapters
 
 import android.view.View
-import android.widget.*
+import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.data.ConsultationCall
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.data.PsyTest
-import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.home.HomeAdapter
+import com.danteyu.studio.moodietrail.network.LoadApiStatus
+import com.danteyu.studio.moodietrail.consultationcall.ConsultationCallAdapter
 import com.danteyu.studio.moodietrail.psytestrecord.PsyTestAdapter
 import com.danteyu.studio.moodietrail.recordmood.TagAdapter
 import com.danteyu.studio.moodietrail.util.Logger
@@ -57,6 +58,20 @@ fun bindRecyclerViewWithPsyTests(recyclerView: RecyclerView, psyTests: List<PsyT
         recyclerView.adapter?.apply {
             when (this) {
                 is PsyTestAdapter -> submitList(it)
+            }
+        }
+    }
+}
+
+@BindingAdapter("consultationCall")
+fun bindRecyclerViewWithConsultationCalls(
+    recyclerView: RecyclerView,
+    consultationCalls: List<ConsultationCall>?
+) {
+    consultationCalls?.let {
+        recyclerView.adapter?.apply {
+            when (this) {
+                is ConsultationCallAdapter -> submitList(it)
             }
         }
     }

@@ -177,5 +177,12 @@ fun bindApiErrorMessage(view: TextView, message: String?) {
     }
 }
 
+@BindingAdapter("serviceHour")
+fun bindServiceHour(textView: TextView, serviceHour: String?) {
+    serviceHour?.let {
+        textView.text = MoodieTrailApplication.instance.getString(R.string.service_hour, it)
+    }
+}
+
 const val resultTotalScoreStartIndex = 5
 const val resultTotalScoreEndIndex = 7

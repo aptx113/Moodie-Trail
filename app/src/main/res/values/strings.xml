@@ -8,6 +8,7 @@
     <string name="profile">個人</string>
     <string name="psy_test_result">測驗結果</string>
     <string name="psy_test_rating">認識心情分級</string>
+    <string name="phone_consulting">全國諮詢專線</string>
     <string name="internet_not_connected">您尚未連接 Internet</string>
     <string name="you_know_nothing">You know nothing</string>
     <string name="love_u_3000">Love you 3000</string>
@@ -177,5 +178,10 @@
     <string name="score_normal">3 :</string>
     <string name="score_bad">2 :</string>
     <string name="score_very_bad">1 :</string>
+
+    <!-- Consultation Call -->
+    <string name="service_hour">服務時間：%s</string>
+    <string name="clientele">服務對象：</string>
+    <string name="service_hour_text_only">服務時間：</string>
 
 </resources>
