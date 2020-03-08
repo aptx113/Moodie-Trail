@@ -7,9 +7,9 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Mood
-import com.danteyu.studio.moodietrail.util.Util.getString
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDrawable
+import com.danteyu.studio.moodietrail.util.Util.getString
 
 /**
  * Created by George Yu on 2020/3/5.

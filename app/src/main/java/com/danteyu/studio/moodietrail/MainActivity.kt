@@ -101,10 +101,7 @@ class MainActivity : BaseActivity() {
         binding.fabStartTest.setTouchDelegate()
         binding.buttonTestBodyBack.setTouchDelegate()
         binding.buttonTestResultBack.setTouchDelegate()
-
-        binding.imageToolbarCall.setOnClickListener {
-            showToast("Coming Soon")
-        }
+        binding.imageToolbarCall.setTouchDelegate()
 
         // observe current fragment change, only for show info
         viewModel.currentFragmentType.observe(this, Observer {
@@ -172,6 +169,13 @@ class MainActivity : BaseActivity() {
             }
         })
 
+        viewModel.navigateToPhoneConsulting.observe(this, Observer {
+            it?.let {
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPhoneConsulting())
+                viewModel.onPhoneConsultingNavigated()
+            }
+        })
+
         setupToolbar()
         setupBottomNav()
         setupNavController()
@@ -203,6 +207,7 @@ class MainActivity : BaseActivity() {
                 R.id.psyTestBodyFragment -> CurrentFragmentType.PSY_TEST_BODY
                 R.id.psyTestResultFragment -> CurrentFragmentType.PSY_TEST_RESULT
                 R.id.psyTestRatingFragment -> CurrentFragmentType.PSY_TEST_RATING
+                R.id.phoneConsultingFragment -> CurrentFragmentType.PHONE_CONSULTING
                 else -> viewModel.currentFragmentType.value
             }
         }

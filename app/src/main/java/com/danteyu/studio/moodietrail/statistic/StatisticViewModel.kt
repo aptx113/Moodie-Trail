@@ -106,8 +106,7 @@ class StatisticViewModel(private val moodieTrailRepository: MoodieTrailRepositor
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     /**
-     * When the [ViewModel] is finished, we can cancel our coroutine [viewModelJob], which tells the
-     * service to stop
+     * When the [ViewModel] is finished, we can cancel our coroutine [viewModelJob].
      */
     override fun onCleared() {
         super.onCleared()

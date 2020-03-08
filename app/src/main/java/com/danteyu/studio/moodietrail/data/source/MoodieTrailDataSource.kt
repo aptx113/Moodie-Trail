@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.AuthResult
 
 
 /**
@@ -24,13 +23,15 @@ interface MoodieTrailDataSource {
         endDate: Long
     ): Result<List<AverageMood>>
 
+    suspend fun getConsultationCalls(): Result<List<ConsultationCall>>
+
     suspend fun getUserProfile(uid: String): Result<User>
 
     suspend fun signUpUser(user: User, id: String): Result<Boolean>
 
-    suspend fun handleFacebookAccessToken(token: AccessToken):Result<Boolean>
+    suspend fun handleFacebookAccessToken(token: AccessToken): Result<Boolean>
 
-    suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount):Result<Boolean>
+    suspend fun firebaseAuthWithGoogle(acct: GoogleSignInAccount): Result<Boolean>
 
     suspend fun postNote(uid: String, note: Note): Result<Boolean>
 

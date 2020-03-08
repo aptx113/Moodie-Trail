@@ -28,16 +28,20 @@ class DefaultMoodieTrailRepository(
         return remoteDataSource.getPsyTests(uid)
     }
 
-    override suspend fun getUserProfile(uid: String): Result<User> {
-        return remoteDataSource.getUserProfile(uid)
-    }
-
     override suspend fun getAvgMoodScoresByDateRange(
         uid: String,
         startDate: Long,
         endDate: Long
     ): Result<List<AverageMood>> {
         return remoteDataSource.getAvgMoodByDateRange(uid, startDate, endDate)
+    }
+
+    override suspend fun getConsultationCalls(): Result<List<ConsultationCall>> {
+        return remoteDataSource.getConsultationCalls()
+    }
+
+    override suspend fun getUserProfile(uid: String): Result<User> {
+        return remoteDataSource.getUserProfile(uid)
     }
 
     override suspend fun signUpUser(user: User, id: String): Result<Boolean> {
