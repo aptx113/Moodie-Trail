@@ -171,7 +171,6 @@
             android:layout_marginHorizontal="@dimen/margin_basic"
             android:layout_marginTop="@dimen/margin_basic"
             android:layout_marginBottom="@dimen/margin_basic"
-            android:onClick="@{() -> viewModel.navigateToMentalHealthRes()}"
             android:text="@string/mental_health_resources"
             android:visibility="@{viewModel.psyTest.itemSuicide &gt;= 2 || viewModel.psyTest.totalScore &gt;= 10 ? View.VISIBLE : View.GONE }"
             app:layout_constraintEnd_toEndOf="parent"
