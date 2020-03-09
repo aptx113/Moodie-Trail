@@ -75,7 +75,7 @@
     <string name="choose_from_gallery">圖庫</string>
     <string name="add_photo_title">新增圖片</string>
     <string name="camera_and_storage_permission">相機和儲存空間權限</string>
-    <string name="permanently_denied_title"><![CDATA[需要允許權限才能新增圖片唷 ^.<]]></string>
+    <string name="permanently_denied_title"><![CDATA[需要允許權限才能新增圖片唷]]></string>
     <string name="went_to_setting">前往設定</string>
     <string name="update_success">修改成功！</string>
     <string name="confirm_edit">確認修改</string>
@@ -116,12 +116,12 @@
     <string name="suicide">附加題\u0020\u0020有自殺的想法</string>
     <string name="check_psy_test_result">查看測驗結果</string>
     <string name="psy_test_complete">測驗完成</string>
-    <string name="do_not_forget_to_select_sleep">別忘了填寫第一題喔 ^.&#60;</string>
-    <string name="do_not_forget_to_select_anxiety">別忘了填寫第二題喔 ^.&#60;</string>
-    <string name="do_not_forget_to_select_anger">別忘了填寫第三題喔 ^.&#60;</string>
-    <string name="do_not_forget_to_select_depression">別忘了填寫第四題喔 ^.&#60;</string>
-    <string name="do_not_forget_to_select_inferiority">別忘了填寫第五題喔 ^.&#60;</string>
-    <string name="do_not_forget_to_select_suicide">別忘了填寫附加題喔 ^.&#60;</string>
+    <string name="do_not_forget_to_select_sleep">別忘了填寫第一題喔</string>
+    <string name="do_not_forget_to_select_anxiety">別忘了填寫第二題喔</string>
+    <string name="do_not_forget_to_select_anger">別忘了填寫第三題喔</string>
+    <string name="do_not_forget_to_select_depression">別忘了填寫第四題喔</string>
+    <string name="do_not_forget_to_select_inferiority">別忘了填寫第五題喔</string>
+    <string name="do_not_forget_to_select_suicide">別忘了填寫附加題喔</string>
 
     <!-- PsyTestResult -->
     <string name="psy_test_result_score">測驗結果\u0020%d\u0020分</string>
@@ -134,6 +134,9 @@
     <string name="inferiority">自卑傾向</string>
     <string name="suicide_thought">自殺想法</string>
     <string name="check_delete_psy_test_message">確定要刪除此筆測驗記錄嗎？</string>
+    <string name="delete_record">刪除心情記錄</string>
+    <string name="mental_health_resources">心衛資源</string>
+    <string name="back_to_psy_test_record">返回記錄頁面</string>
 
     <!-- PsyTestRating -->
     <string name="normal_range">落於一般範圍內</string>
@@ -148,8 +151,6 @@
     <string name="light_score_range">6–9\u0020分</string>
     <string name="medium_score_range">10–14\u0020分</string>
     <string name="heavy_score_range">15\u0020以上</string>
-    <string name="mental_health_resources">心衛資源</string>
-    <string name="delete_record">刪除心情記錄</string>
 
     <!-- PsyTestRecord -->
     <string name="no_psy_tests">想瞭解自己的身心狀態嗎？\n點選新增按鈕開始進行測驗吧！</string>
@@ -183,5 +184,8 @@
     <string name="service_hour">服務時間：%s</string>
     <string name="clientele">服務對象：</string>
     <string name="service_hour_text_only">服務時間：</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

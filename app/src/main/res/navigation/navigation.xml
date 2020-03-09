@@ -90,10 +90,16 @@
         tools:layout="@layout/fragment_psy_test_rating" />
 
     <fragment
-        android:id="@+id/phoneConsultingFragment"
+        android:id="@+id/consultationCallFragment"
         android:name="com.danteyu.studio.moodietrail.consultationcall.ConsultationCallFragment"
         android:label="fragment_phone_consulting"
         tools:layout="@layout/fragment_consultation_call" />
+
+    <fragment
+        android:id="@+id/mentalHealthResFragment"
+        android:name="com.danteyu.studio.moodietrail.mentalhealthres.MentalHealthResFragment"
+        android:label="fragment_mental_health_res"
+        tools:layout="@layout/fragment_mental_health_res" />
 
     <dialog
         android:id="@+id/recordDetailFragment"
@@ -158,8 +164,12 @@
         app:destination="@id/messageDialog" />
 
     <action
-        android:id="@+id/navigate_to_phoneConsulting"
-        app:destination="@id/phoneConsultingFragment" />
+        android:id="@+id/navigate_to_consultationCallFragment"
+        app:destination="@id/consultationCallFragment" />
+
+    <action
+        android:id="@+id/navigate_to_mentalHealthResFragment"
+        app:destination="@id/mentalHealthResFragment" />
 
 
 </navigation>

@@ -13,11 +13,13 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.view.*
+import android.widget.ScrollView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -61,9 +63,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             ).noteKey
         )
     }
-
-    private lateinit var handler:Handler
-    private lateinit var runnable:Runnable
 
     private lateinit var binding: DialogRecordDetailBinding
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
@@ -196,6 +195,17 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         viewModel.note.observe(viewLifecycleOwner, Observer {
             Logger.w("note = $it")
+        })
+
+        //  If tags value change, scrollview will scroll to bottom
+        viewModel.tags.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val scrollView = binding.scrollRecordDetail
+
+                scrollView.post {
+                    scrollView.fullScroll(View.FOCUS_DOWN)
+                }
+            }
         })
 
         setupDatePickerDialog()
@@ -445,6 +455,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         //Uri to store the image uri
         private var filePath: Uri? = null
+
         //Bitmap to get image from gallery
         private var windowManager: WindowManager? = null
     }

@@ -67,10 +67,10 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val navigateToPsyTestRecordByBottomNav: LiveData<Boolean>
         get() = _navigateToPsyTestRecordByBottomNav
 
-    private val _navigateToPhoneConsulting = MutableLiveData<Boolean>()
+    private val _navigateToConsultationCall = MutableLiveData<Boolean>()
 
-    val navigateToPhoneConsulting: LiveData<Boolean>
-        get() = _navigateToPhoneConsulting
+    val navigateToConsultationCall: LiveData<Boolean>
+        get() = _navigateToConsultationCall
 
     init {
         Logger.i("------------------------------------")
@@ -148,12 +148,12 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _navigateToPsyTestRecordByBottomNav.value = null
     }
 
-    fun navigateToPhoneConsulting() {
-        _navigateToPhoneConsulting.value = true
+    fun navigateToConsultationCall() {
+        _navigateToConsultationCall.value = true
     }
 
-    fun onPhoneConsultingNavigated() {
-        _navigateToPhoneConsulting.value = null
+    fun onConsultationCallNavigated() {
+        _navigateToConsultationCall.value = null
     }
 
 }

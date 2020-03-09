@@ -19,7 +19,6 @@ import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
 import com.danteyu.studio.moodietrail.dialog.MessageDialog
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.setTouchDelegate
-import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.setupAlarmManager
@@ -169,10 +168,10 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.navigateToPhoneConsulting.observe(this, Observer {
+        viewModel.navigateToConsultationCall.observe(this, Observer {
             it?.let {
-                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPhoneConsulting())
-                viewModel.onPhoneConsultingNavigated()
+                findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToConsultationCallFragment())
+                viewModel.onConsultationCallNavigated()
             }
         })
 
@@ -207,7 +206,8 @@ class MainActivity : BaseActivity() {
                 R.id.psyTestBodyFragment -> CurrentFragmentType.PSY_TEST_BODY
                 R.id.psyTestResultFragment -> CurrentFragmentType.PSY_TEST_RESULT
                 R.id.psyTestRatingFragment -> CurrentFragmentType.PSY_TEST_RATING
-                R.id.phoneConsultingFragment -> CurrentFragmentType.PHONE_CONSULTING
+                R.id.consultationCallFragment -> CurrentFragmentType.CONSULTATION_CALL
+                R.id.mentalHealthResFragment -> CurrentFragmentType.MENTAL_HEALTH_RES
                 else -> viewModel.currentFragmentType.value
             }
         }

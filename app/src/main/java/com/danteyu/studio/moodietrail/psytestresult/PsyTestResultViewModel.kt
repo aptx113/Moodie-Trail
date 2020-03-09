@@ -50,10 +50,15 @@ class PsyTestResultViewModel(
     val navigateToPsyTestRating: LiveData<Boolean>
         get() = _navigateToPsyTestRating
 
-    private val _navigateToPsyTestRecord = MutableLiveData<Boolean>()
+    private val _navigateToPsyTestRecordByBottomNav = MutableLiveData<Boolean>()
 
-    val navigateToPsyTestRecord: LiveData<Boolean>
-        get() = _navigateToPsyTestRecord
+    val navigateToPsyTestRecordByBottomNav: LiveData<Boolean>
+        get() = _navigateToPsyTestRecordByBottomNav
+
+    private val _navigateToMentalHealthRes = MutableLiveData<Boolean>()
+
+    val navigateToMentalHealthRes: LiveData<Boolean>
+        get() = _navigateToMentalHealthRes
 
     // status: The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<LoadApiStatus>()
@@ -163,7 +168,7 @@ class PsyTestResultViewModel(
                     _status.value = LoadApiStatus.ERROR
                 }
             }
-            navigateToPsyTestRecord()
+            navigateToPsyTestRecordByBottomNav()
         }
     }
 
@@ -183,12 +188,20 @@ class PsyTestResultViewModel(
         _navigateToPsyTestRating.value = null
     }
 
-    private fun navigateToPsyTestRecord() {
-        _navigateToPsyTestRecord.value = true
+    fun navigateToPsyTestRecordByBottomNav() {
+        _navigateToPsyTestRecordByBottomNav.value = true
     }
 
     fun onPsyTestRecordNavigated() {
-        _navigateToPsyTestRecord.value = null
+        _navigateToPsyTestRecordByBottomNav.value = null
+    }
+
+    fun navigateToMentalHealthRes() {
+        _navigateToMentalHealthRes.value = true
+    }
+
+    fun onMentalHealthResNavigated() {
+        _navigateToMentalHealthRes.value = null
     }
 
     companion object {
