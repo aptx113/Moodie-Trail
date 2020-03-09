@@ -5,6 +5,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -22,10 +26,11 @@ class ConsultationCallAdapter :
     ) {
 
     class ConsultationCallViewHolder(private var binding: ItemConsultationCallBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), LifecycleObserver, LifecycleOwner {
 
         fun bind(consultationCall: ConsultationCall) {
 
+            binding.lifecycleOwner = this
             binding.consultationCall = consultationCall
             consultationCall.serviceHour = consultationCall.serviceHour.replace("\\n","\n")
             consultationCall.clientele = consultationCall.clientele.replace("\\n","\n")
@@ -33,6 +38,25 @@ class ConsultationCallAdapter :
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
         }
+
+        private val lifecycleRegistry = LifecycleRegistry(this)
+
+        init {
+            lifecycleRegistry.currentState = Lifecycle.State.INITIALIZED
+        }
+
+        fun onAttach() {
+            lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        }
+
+        fun onDetach() {
+            lifecycleRegistry.currentState = Lifecycle.State.CREATED
+        }
+
+        override fun getLifecycle(): Lifecycle {
+            return lifecycleRegistry
+        }
+
     }
 
     /**

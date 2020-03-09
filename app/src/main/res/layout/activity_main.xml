@@ -41,7 +41,7 @@
                 android:layout_marginStart="@dimen/margin_basic"
                 android:background="@drawable/ic_back"
                 android:onClick="@{() -> viewModel.backToPsyTest()}"
-                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_BODY || viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_RATING || viewModel.currentFragmentType == CurrentFragmentType.PHONE_CONSULTING ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_BODY || viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_RATING || viewModel.currentFragmentType == CurrentFragmentType.CONSULTATION_CALL || viewModel.currentFragmentType == CurrentFragmentType.MENTAL_HEALTH_RES ? View.VISIBLE : View.GONE}"
                 tools:visibility="visible" />
 
             <ImageView
@@ -74,8 +74,8 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_basic"
                 android:background="@drawable/ic_nav_emergency_call"
-                android:onClick="@{() -> viewModel.navigateToPhoneConsulting()}"
-                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_BODY || viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_RATING || viewModel.currentFragmentType == CurrentFragmentType.PHONE_CONSULTING ? View.GONE : View.VISIBLE}"
+                android:onClick="@{() -> viewModel.navigateToConsultationCall()}"
+                android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_BODY || viewModel.currentFragmentType == CurrentFragmentType.PSY_TEST_RATING || viewModel.currentFragmentType == CurrentFragmentType.CONSULTATION_CALL ? View.GONE : View.VISIBLE}"
                 tools:visibility="visible" />
 
             <ImageView

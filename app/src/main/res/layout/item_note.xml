@@ -53,15 +53,14 @@
             android:layout_width="60dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_basic"
-            android:layout_marginBottom="@dimen/margin_quarter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/text_note_created_time"
+            android:layout_marginTop="@dimen/margin_half"
+            app:layout_constraintBottom_toBottomOf="@id/text_note_created_time"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@id/text_note_created_date"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.9"
             app:moodImage="@{note}"
             tools:src="@drawable/ic_mood_circle_very_good_selected" />
 
@@ -71,10 +70,13 @@
             android:layout_height="0dp"
             android:layout_marginStart="9dp"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/margin_advanced"
             android:src="@drawable/ic_note_created_time"
+            app:layout_constraintBottom_toTopOf="@id/layout_note_content"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_note" />
+            app:layout_constraintTop_toBottomOf="@id/image_note"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/text_note_created_date"
@@ -87,10 +89,8 @@
             android:lines="2"
             android:textSize="13sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/image_note_created_time"
             app:layout_constraintStart_toEndOf="@id/image_note_created_time"
             app:layout_constraintTop_toTopOf="@id/image_note_created_time"
-            app:layout_constraintVertical_bias="0.1"
             app:timeFormat="@{TimeFormat.FORMAT_YYYY_MM_DD_E}"
             app:timeToDisplayFormat="@{note.date}"
             tools:text='2020/02/01 \n週六' />
@@ -119,19 +119,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_half"
+            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginBottom="@dimen/margin_half"
             android:visibility="@{note.content == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@id/image_note_location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_note_created_time">
+            app:layout_constraintTop_toBottomOf="@id/text_note_created_time"
+            app:layout_constraintVertical_bias="0.0">
 
             <ImageView
                 android:id="@+id/image_note_content"
                 android:layout_width="17dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_half"
+
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+
                 app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/ic_note_title" />
 
@@ -140,7 +145,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/margin_half"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/droid_sans"
@@ -159,9 +163,8 @@
             android:layout_width="13dp"
             android:layout_height="0dp"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="@dimen/margin_half"
             android:layout_marginBottom="@dimen/margin_half"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="@id/image_note_created_time"
@@ -178,7 +181,7 @@
             android:fontFamily="@font/droid_sans"
             android:maxLines="1"
             android:textSize="12sp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/image_note_location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

@@ -26,10 +26,10 @@
 
         <ImageButton
             android:id="@+id/button_record_mood_close"
-            android:layout_width="@dimen/size_record_mood_close"
+            android:layout_width="@dimen/margin_advanced"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_basic"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="64dp"
             android:background="@drawable/ic_close"
             android:backgroundTint="@color/blue_700"
             android:onClick="@{() -> viewModel.leaveRecordMood()}"

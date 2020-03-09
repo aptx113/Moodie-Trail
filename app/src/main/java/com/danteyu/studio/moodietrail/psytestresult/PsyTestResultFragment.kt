@@ -106,12 +106,18 @@ class PsyTestResultFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToPsyTestRecord.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToPsyTestRecordByBottomNav.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToPsyTestRecordFragment())
                 (activity as MainActivity).bottomNavView.selectedItemId =
                     R.id.navigation_psy_test_record
                 viewModel.onPsyTestRecordNavigated()
+            }
+        })
+
+        viewModel.navigateToMentalHealthRes.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(NavigationDirections.navigateToMentalHealthResFragment())
+                viewModel.onMentalHealthResNavigated()
             }
         })
 

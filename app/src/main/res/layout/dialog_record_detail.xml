@@ -209,6 +209,7 @@
             app:layout_constraintTop_toBottomOf="@id/layout_record_detail_top">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_record_detail_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -366,7 +367,10 @@
                     android:id="@+id/image_record_detail_tags"
                     android:layout_width="20dp"
                     android:layout_height="0dp"
-                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:layout_marginBottom="@dimen/margin_basic"
+                    android:layout_marginTop="@dimen/margin_basic"
                     android:visibility="@{viewModel.tags.size() == 0 ? View.GONE : View.VISIBLE}"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@id/edit_record_detail_tag"
@@ -379,15 +383,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="@dimen/margin_basic"
                     android:orientation="horizontal"
                     app:addDecoration="@{viewModel.decoration}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/image_record_detail_tags"
-                    app:layout_constraintTop_toBottomOf="@id/edit_record_detail_tag"
-                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintTop_toTopOf="@+id/image_record_detail_tags"
                     app:tags="@{viewModel.note.tags.size() == 0 ? viewModel.tags: viewModel.note.tags}"
                     tools:listitem="@layout/item_tag" />
             </androidx.constraintlayout.widget.ConstraintLayout>

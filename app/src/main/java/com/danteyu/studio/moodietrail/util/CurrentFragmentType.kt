@@ -19,6 +19,7 @@ enum class CurrentFragmentType(val value: String) {
     PSY_TEST_BODY(getString(R.string.bsrs_5)),
     PSY_TEST_RESULT(getString(R.string.psy_test_result)),
     PSY_TEST_RATING(getString(R.string.psy_test_rating)),
-    PHONE_CONSULTING(getString(R.string.phone_consulting))
+    CONSULTATION_CALL(getString(R.string.phone_consulting)),
+    MENTAL_HEALTH_RES(getString(R.string.mental_health_resources))
 
 }

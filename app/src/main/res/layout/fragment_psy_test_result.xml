@@ -203,10 +203,25 @@
             android:layout_marginBottom="@dimen/margin_basic"
             android:onClick="@{() -> viewModel.showDeletePsyTestDialog(viewModel.psyTest)}"
             android:text='@{viewModel.status != LoadApiStatus.LOADING ? @string/delete_record : ""}'
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_psy_test_result_rating"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/button_psy_test_result_complete"
+            style="@style/PsyTestResultButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_basic"
+            android:layout_marginTop="@dimen/margin_basic"
+            android:layout_marginBottom="@dimen/margin_basic"
+            android:onClick="@{() -> viewModel.navigateToPsyTestRecordByBottomNav()}"
+            android:text='@string/back_to_psy_test_record'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_delete_psy_test_result"
             app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
