@@ -46,20 +46,20 @@ class RecordMoodViewModel(
     private val notesByDate = MutableLiveData<List<Note>>()
 
     val averageMoodScore: LiveData<Float> = Transformations.map(notesByDate) {
-        var totalMood = 0f
-        var aveMood = 0f
+        var totalMoodScore = 0f
+        var avgMoodScore = 0f
 
         if (it.count() > 0) {
             it.forEach { note ->
                 note.mood.let {
-                    totalMood += note.mood
+                    totalMoodScore += note.mood
                 }
             }
 
-            aveMood = totalMood / it.count()
+            avgMoodScore = totalMoodScore / it.count()
         }
 
-        aveMood
+        avgMoodScore
     }
 
     private val dateOfNote = MutableLiveData<Long>()
