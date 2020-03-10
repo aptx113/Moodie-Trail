@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.ConsultationCall
 import com.danteyu.studio.moodietrail.data.Result
@@ -117,5 +116,6 @@ class ConsultationCallViewModel(private val moodieTrailRepository: MoodieTrailRe
 
             }
         }
+
     }
 }

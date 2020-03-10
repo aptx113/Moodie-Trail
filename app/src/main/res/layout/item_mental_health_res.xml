@@ -9,7 +9,54 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/text_mental_health_res_title"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginStart="@dimen/margin_basic"
+            android:textColor="@color/blue_700"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="台北市立聯合醫院（松德院區）" />
+
+        <TextView
+            android:id="@+id/text_mental_health_res_phone_number"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginTop="@dimen/margin_half"
+            app:layout_constraintStart_toStartOf="@id/text_mental_health_res_title"
+            app:layout_constraintTop_toBottomOf="@id/text_mental_health_res_title"
+            tools:text="02-27263141" />
+
+        <TextView
+            android:id="@+id/text_mental_health_res_address"
+            style="@style/ConsultationCallTextView"
+            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/text_mental_health_res_title"
+            app:layout_constraintTop_toBottomOf="@id/text_mental_health_res_phone_number"
+            tools:text="台北市信義區松德路 309 號" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_basic"
+            android:tint="@color/blue_700_Light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_mental_health_res_phone_number"
+            app:srcCompat="@drawable/ic_nav_emergency_call" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_basic"
+            android:tint="@color/blue_700_Light"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/text_mental_health_res_address"
+            app:srcCompat="@drawable/ic_map" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
