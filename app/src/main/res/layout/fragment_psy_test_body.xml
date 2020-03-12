@@ -40,6 +40,7 @@
             tools:text="@string/test_body_instruction" />
 
         <ScrollView
+            android:id="@+id/scroll_psy_test_body"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_advanced"

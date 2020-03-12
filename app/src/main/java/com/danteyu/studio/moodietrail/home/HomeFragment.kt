@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.NavigationDirections
+import com.danteyu.studio.moodietrail.bindingadapters.bindApiErrorMessage
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.FragmentHomeBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory

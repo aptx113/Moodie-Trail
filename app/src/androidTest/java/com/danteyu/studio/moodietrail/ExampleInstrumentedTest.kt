@@ -1,19 +1,17 @@
 package com.danteyu.studio.moodietrail
 
 import androidx.lifecycle.MutableLiveData
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.danteyu.studio.moodietrail.data.AverageMood
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getEndTimeOfDay
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getStartTimeOfDay
-
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 import java.util.*
 
 /**
@@ -65,7 +63,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun whetherGetStartDateOfMonth() {
+    fun whetherGetStartDateOfMonth_isCorrect() {
 
         val note = Note(
             date = 1582992000000
