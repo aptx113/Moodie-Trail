@@ -44,7 +44,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private var regularTextContent: String? = ""
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-    
+
     override fun onReceive(context: Context, intent: Intent) {
         val pendingResult: PendingResult = goAsync()
         val asyncTask = Task(pendingResult, intent)
@@ -63,7 +63,10 @@ class AlarmReceiver : BroadcastReceiver() {
             }
         }
 
-        if (intent.action == INTENT_ACTION_BOOT_COMPLETED) {
+        if (intent.action == INTENT_ACTION_BOOT_COMPLETED
+            || intent.action == INTENT_ACTION_TIME_TIMEZONE_CHANGED
+            || intent.action == INTENT_ACTION_TIME_SET
+        ) {
             setupAlarmManager()
         }
     }
@@ -123,7 +126,7 @@ class AlarmReceiver : BroadcastReceiver() {
             notify(REGULAR_NOTIFICATION_ID, createNotification().build())
         }
     }
-    
+
     private fun setMessage() {
         UserManager.id?.let {
             getStartTimeOfDay(timeInMillisecond)?.let { startTime ->
@@ -205,6 +208,8 @@ class AlarmReceiver : BroadcastReceiver() {
         const val RECEIVE_KEY = "regular reminder"
         const val RECEIVE_INTENT_VALUE = "activity_app"
         const val INTENT_ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED"
+        const val INTENT_ACTION_TIME_TIMEZONE_CHANGED = "android.intent.action.TIMEZONE_CHANGED"
+        const val INTENT_ACTION_TIME_SET = "android.intent.action.TIME_SET"
         const val CHANNEL_ID = "MoodieTrail"
         const val REGULAR_NOTIFICATION_ID = 0
 
