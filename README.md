@@ -36,3 +36,18 @@
 6. 推撥通知功能：MoodieTrail 會在每天中午提醒使用者記得記錄心情，或是今天已記錄了多少筆記。
 
 ## Implementations 實作技術與工具
+
+## Requirement 環境需求
+
+* Android Studio 3.5.0+
+* Android SDK 26+
+* Gradle 5.4.1+
+
+## Release 版本更新
+
+* 1.3.1 - 2020/03/09
+
+## Contact 聯絡資訊
+
+danteyu.studio@gmail.com
+Dante Yu
