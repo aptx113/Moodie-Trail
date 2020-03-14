@@ -1,5 +1,9 @@
 package com.danteyu.studio.moodietrail
 
+import com.danteyu.studio.moodietrail.data.AverageMood
+import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.util.Util.getEndTimeOfDay
+
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,4 +18,5 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
 }

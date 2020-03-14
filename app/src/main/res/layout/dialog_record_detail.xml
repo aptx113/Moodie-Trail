@@ -437,17 +437,5 @@
             app:setupApiStatus="@{viewModel.status}"
             tools:visibility="visible" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/translucent_40"
-            android:elevation="1dp"
-            android:visibility="@{viewModel.status == LoadApiStatus.LOADING ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
