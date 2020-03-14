@@ -36,6 +36,11 @@
 6. 推撥通知功能：MoodieTrail 會在每天中午提醒使用者記得記錄心情，或是今天已記錄了多少筆記。
 
 ## Implementations 實作技術與工具
+* **Design Patterns** - MVVM, Factory, Adapter, Singleton, Observer
+* **Jetpack** - ViewModel, Navigation, LiveData, Data Binding, Permissions, Notifications, Lifecycles, Animation
+* **Firebase** - Firestore, Firebase Authentication, Firebase Storage, Crashlytics
+* **Third Parties** - Glide, MPAndroidChart, QuickPermissions
+* **Test** - JUnit, Espresso
 
 ## Requirement 環境需求
 
@@ -49,5 +54,6 @@
 
 ## Contact 聯絡資訊
 
-danteyu.studio@gmail.com
+<danteyu.studio@gmail.com>
+
 Dante Yu
