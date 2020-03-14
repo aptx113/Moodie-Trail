@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "626010178842-el5e6jgpc49d5g9emefd3bcmf9c0jc4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danteyu.studio.moodietrail",
+            "certificate_hash": "f314435a9deb5edad0aa07a659c686cc4ce00707"
+          }
+        },
+        {
+          "client_id": "626010178842-bl0crm3j1ndmm84doj9rhri5v8ee8do6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.danteyu.studio.moodietrail",
+            "certificate_hash": "2825fa7163463e937f20e99fe1fe8533efa13d1a"
+          }
+        },
+        {
           "client_id": "626010178842-vtu4d4trvi1ibl3q90pujqqmjaub1b38.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
