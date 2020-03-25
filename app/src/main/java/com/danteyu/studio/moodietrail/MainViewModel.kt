@@ -31,10 +31,10 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val navigateToLoginSuccess: LiveData<User>
         get() = _navigateToLoginSuccess
 
-    private val _navigateToHome = MutableLiveData<Boolean>()
+    private val _navigateToHomeByBottomNav = MutableLiveData<Boolean>()
 
-    val navigateToHome: LiveData<Boolean>
-        get() = _navigateToHome
+    val navigateToHomeByBottomNav: LiveData<Boolean>
+        get() = _navigateToHomeByBottomNav
 
     //Handle Fab open and close
     private val _isFabOpen = MutableLiveData<Boolean>()
@@ -124,12 +124,12 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         _navigateToLoginSuccess.value = null
     }
 
-    fun navigateToHome() {
-        _navigateToHome.value = true
+    fun navigateToHomeByBottomNav() {
+        _navigateToHomeByBottomNav.value = true
     }
 
     fun onHomeNavigated() {
-        _navigateToHome.value = null
+        _navigateToHomeByBottomNav.value = null
     }
 
     fun backToPsyTest() {

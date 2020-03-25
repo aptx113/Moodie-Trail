@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.MainViewModel
 import com.danteyu.studio.moodietrail.NavigationDirections
@@ -41,7 +41,7 @@ class LoginFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
+        val mainViewModel by activityViewModels<MainViewModel> { getVmFactory() }
 
         if (UserManager.userToken!!.isNotEmpty()) {
             findNavController().navigate(NavigationDirections.navigateToHomeFragment())

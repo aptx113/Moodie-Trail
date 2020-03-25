@@ -3,6 +3,7 @@ package com.danteyu.studio.moodietrail.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.component.GridSpacingItemDecoration
@@ -68,11 +69,11 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val refreshStatus: LiveData<Boolean>
         get() = _refreshStatus
 
-    // Create a Coroutine scope using a job to be able to cancel when needed
-    private var viewModelJob = Job()
-
-    // the Coroutine runs using the Main (UI) dispatcher
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+//    // Create a Coroutine scope using a job to be able to cancel when needed
+//    private var viewModelJob = Job()
+//
+//    // the Coroutine runs using the Main (UI) dispatcher
+//    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     val decoration = GridSpacingItemDecoration(
         2,
@@ -83,10 +84,10 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
      * When the [ViewModel] is finished, we can cancel our coroutine [viewModelJob], which tells the
      * service to stop
      */
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
+//    override fun onCleared() {
+//        super.onCleared()
+//        viewModelJob.cancel()
+//    }
 
     private val calendar: Calendar = getCalendar()
 
@@ -145,7 +146,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     }
 
     private fun getNotesByDateRange(uid: String, startDate: Long, endDate: Long) {
-        coroutineScope.launch {
+        viewModelScope.launch {
 
             _status.value = LoadApiStatus.LOADING
 

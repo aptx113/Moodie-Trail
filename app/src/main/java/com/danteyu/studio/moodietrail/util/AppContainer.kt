@@ -57,10 +57,10 @@ class AppContainer {
 
         // setRepeating() lets you specify a precise custom interval--in this case,
         // 1 day
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            ALARM_INTERVAL_MILLIS.toLong(),
+            AlarmManager.INTERVAL_DAY,
             alarmIntent
         )
     }
@@ -69,7 +69,7 @@ class AppContainer {
         const val NOTIFICATION_KEY = "regular reminder"
         const val NOTIFICATION_INTENT_VALUE = "activity_app"
         const val ALARM_INTENT_REQUEST_CODE = 0
-        const val ALARM_INTERVAL_MILLIS = 1000 * 60 * 60 * 24
+        const val ALARM_INTERVAL_MILLIS = 1000 * 60 * 5
         const val ALARM_CALENDAR_HOUR = 12
         const val ALARM_CALENDAR_MINUTE = 30
 

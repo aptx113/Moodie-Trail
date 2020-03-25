@@ -142,11 +142,11 @@ class MainActivity : BaseActivity() {
                     NavigationDirections.navigateToMessageDialog(MessageDialog.MessageType.LOGIN_SUCCESS)
                 )
                 viewModel.onLoginSuccessNavigated()
-                viewModel.navigateToHome()
+                viewModel.navigateToHomeByBottomNav()
             }
         })
 
-        viewModel.navigateToHome.observe(this, Observer {
+        viewModel.navigateToHomeByBottomNav.observe(this, Observer {
             it?.let {
                 binding.bottomNavView.selectedItemId = R.id.navigation_home
                 viewModel.onHomeNavigated()
