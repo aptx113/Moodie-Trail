@@ -198,7 +198,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_record_detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -303,6 +303,8 @@
                     android:gravity="top|start"
                     android:hint="@string/hint_write_some_content"
                     android:padding="8dp"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
                     android:text="@={viewModel.note.content}"
                     android:textColor="@color/black"
@@ -393,7 +395,7 @@
                     app:tags="@{viewModel.note.tags.size() == 0 ? viewModel.tags: viewModel.note.tags}"
                     tools:listitem="@layout/item_tag" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <Button
             android:id="@+id/button_record_detail_save"

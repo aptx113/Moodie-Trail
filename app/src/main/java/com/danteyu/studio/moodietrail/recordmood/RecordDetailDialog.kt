@@ -1,6 +1,7 @@
 package com.danteyu.studio.moodietrail.recordmood
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -76,6 +77,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -96,6 +98,18 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                 viewModel.addNoteTag()
                 true
             } else false
+        }
+
+        // Scroll ediText in ScrollView
+        binding.editRecordDetailContent.setOnTouchListener { view, event ->
+            if (view.id == R.id.edit_record_detail_content) {
+                view.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> view.parent
+                        .requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
         }
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
