@@ -29,7 +29,7 @@ class MentalHealthResFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-
+        binding.viewModel = viewModel
 
         return binding.root
     }
