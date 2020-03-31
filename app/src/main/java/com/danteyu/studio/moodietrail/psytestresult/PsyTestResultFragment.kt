@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.PsyTest
@@ -54,7 +54,7 @@ class PsyTestResultFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 // Handle the back button event
                 override fun handleOnBackPressed() {
-                    val mainViewModel = ViewModelProvider(activity!!).get(MainViewModel::class.java)
+                    val mainViewModel by activityViewModels<MainViewModel> { getVmFactory() }
                     mainViewModel.navigateToPsyTestRecordByBottomNav()
                 }
             })
