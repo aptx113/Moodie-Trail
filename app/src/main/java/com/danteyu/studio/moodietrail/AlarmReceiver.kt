@@ -160,7 +160,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     null
                 }
             }
-            decideMessageContent(notesToday.value!!)
+            notesToday.value?.let { decideMessageContent(it) }
         }
     }
 
