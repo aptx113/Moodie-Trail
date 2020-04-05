@@ -32,7 +32,7 @@ class ConsultationCallFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.recyclerConsultationCall.adapter =
-            ConsultationCallAdapter()
+            ConsultationCallAdapter(viewModel)
 
         val dividerItemDecoration: RecyclerView.ItemDecoration =
             DividerItemDecoration(getDrawable(R.drawable.divider_consultation_call_recycler)!!)

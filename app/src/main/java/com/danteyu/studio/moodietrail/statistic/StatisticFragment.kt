@@ -11,7 +11,6 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentStatisticBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
-import com.danteyu.studio.moodietrail.ext.showToast
 import com.danteyu.studio.moodietrail.util.Util.getColor
 import com.danteyu.studio.moodietrail.util.Util.getDimensionPixelSize
 import com.github.mikephil.charting.animation.Easing

@@ -22,7 +22,6 @@
 
     <style name="DialogTheme" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
-
         <item name="android:windowIsFloating">false</item>
     </style>
 
@@ -151,6 +150,12 @@
         <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:textColor">@color/black_3f3a3a</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Widget.AppCompat.SearchView_Mental" parent="Widget.AppCompat.SearchView">
+        <item name="fontFamily">@font/droid_sans</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">#00FFFFFF</item>
     </style>
 
 </resources>

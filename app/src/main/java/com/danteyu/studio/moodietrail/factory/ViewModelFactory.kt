@@ -63,7 +63,7 @@ class ViewModelFactory constructor(
                     moodieTrailRepository
                 )
 
-                isAssignableFrom(ConsultationCallViewModel::class.java) -> MentalHealthResViewModel(
+                isAssignableFrom(MentalHealthResViewModel::class.java) -> MentalHealthResViewModel(
                     moodieTrailRepository
                 )
 

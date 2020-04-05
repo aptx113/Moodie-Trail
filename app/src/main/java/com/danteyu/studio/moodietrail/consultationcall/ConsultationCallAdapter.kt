@@ -4,36 +4,40 @@ import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.data.ConsultationCall
 import com.danteyu.studio.moodietrail.databinding.ItemConsultationCallBinding
-import kotlinx.android.synthetic.main.item_consultation_call.view.*
 
 /**
  * Created by George Yu on 2020/3/7.
  */
-class ConsultationCallAdapter :
+class ConsultationCallAdapter(val viewModel: ConsultationCallViewModel) :
     ListAdapter<ConsultationCall, ConsultationCallAdapter.ConsultationCallViewHolder>(
         DiffCallback
     ) {
 
-    class ConsultationCallViewHolder(private var binding: ItemConsultationCallBinding) :
+    class ConsultationCallViewHolder(
+        private var binding: ItemConsultationCallBinding,
+        private val viewModel: ConsultationCallViewModel
+    ) :
         RecyclerView.ViewHolder(binding.root), LifecycleObserver, LifecycleOwner {
 
         fun bind(consultationCall: ConsultationCall) {
 
             binding.lifecycleOwner = this
+            binding.viewModel = viewModel
             binding.consultationCall = consultationCall
-            consultationCall.serviceHour = consultationCall.serviceHour.replace("\\n","\n")
-            consultationCall.clientele = consultationCall.clientele.replace("\\n","\n")
+            consultationCall.serviceHour = consultationCall.serviceHour.replace("\\n", "\n")
+            consultationCall.clientele = consultationCall.clientele.replace("\\n", "\n")
+
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -56,7 +60,6 @@ class ConsultationCallAdapter :
         override fun getLifecycle(): Lifecycle {
             return lifecycleRegistry
         }
-
     }
 
     /**
@@ -92,6 +95,7 @@ class ConsultationCallAdapter :
                 parent,
                 false
             )
+            , viewModel
         )
     }
 
@@ -101,13 +105,24 @@ class ConsultationCallAdapter :
     override fun onBindViewHolder(holder: ConsultationCallViewHolder, position: Int) {
         val consultationCall = getItem(position)
         holder.itemView.setOnClickListener {
-            makePhoneCall(consultationCall.phoneNumber)
+            dialPhoneNumber(consultationCall.phoneNumber)
         }
+
         holder.bind(consultationCall)
 
     }
 
-    private fun makePhoneCall(phoneNumber: String) {
+    override fun onViewAttachedToWindow(holder: ConsultationCallViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.onAttach()
+    }
+
+    override fun onViewDetachedFromWindow(holder: ConsultationCallViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.onDetach()
+    }
+
+    private fun dialPhoneNumber(phoneNumber: String) {
         val intent = Intent()
         intent.action = Intent.ACTION_DIAL
         intent.data = Uri.parse("tel:${phoneNumber}")

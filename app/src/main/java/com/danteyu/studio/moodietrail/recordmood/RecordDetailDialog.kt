@@ -55,7 +55,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     private val viewModel by viewModels<RecordDetailViewModel> {
         getVmFactory(
             RecordDetailDialogArgs.fromBundle(
-                arguments!!
+                requireArguments()
             ).noteKey
         )
     }
@@ -344,7 +344,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
                     // Continue only if the File was successfully created
                     photoFile?.also {
                         val photoUri: Uri = FileProvider.getUriForFile(
-                            this.context!!,
+                            this.requireContext(),
                             MoodieTrailApplication.instance.packageName + MoodieTrailApplication.instance.getString(
                                 R.string.start_camera_provider
                             ), it
@@ -389,7 +389,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             }
 
         val datePickerDialog = DatePickerDialog(
-            this.context!!,
+            this.requireContext(),
             R.style.DatePicker,
             datePickerListener,
             calendar.get(Calendar.YEAR),
@@ -441,7 +441,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     }
 
     private fun showDeleteNoteDialog(note: Note) {
-        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme_Center)
+        val builder = AlertDialog.Builder(this.requireContext(), R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_note_message))
         builder.setIcon(R.mipmap.ic_launcher)

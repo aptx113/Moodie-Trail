@@ -9,6 +9,10 @@
             name="consultationCall"
             type="com.danteyu.studio.moodietrail.data.ConsultationCall" />
 
+        <variable
+            name="viewModel"
+            type="com.danteyu.studio.moodietrail.consultationcall.ConsultationCallViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
