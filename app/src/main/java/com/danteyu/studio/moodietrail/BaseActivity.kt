@@ -42,8 +42,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
 
                     window?.let {
-                        it.decorView.rootWindowInsets?.let { windowInsect ->
-                            val displayCutout: DisplayCutout? = windowInsect.displayCutout
+                            val displayCutout: DisplayCutout? = it.decorView.rootWindowInsets?.displayCutout
                             Logger.d("displayCutout?.safeInsetTop=${displayCutout?.safeInsetTop}")
                             Logger.d("displayCutout?.safeInsetBottom=${displayCutout?.safeInsetBottom}")
                             Logger.d("displayCutout?.safeInsetLeft=${displayCutout?.safeInsetLeft}")
@@ -55,7 +54,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
 
                             displayCutout?.safeInsetTop ?: 0
 
-                        } ?: 0
+
                     } ?: 0
                 }
                 else -> 0
@@ -64,7 +63,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope {
     }
 
     /**
-     * Set up status bar to transparent
+     * Set up status bar to transparent and make layout extend to StatusBar
      * @notice this method have to be used before setContentView.
      */
     private fun setupStatusBar() {
