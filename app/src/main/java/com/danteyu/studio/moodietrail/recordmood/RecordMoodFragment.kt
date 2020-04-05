@@ -32,7 +32,7 @@ class RecordMoodFragment : Fragment() {
     private val viewModel by viewModels<RecordMoodViewModel> {
         getVmFactory(
             RecordMoodFragmentArgs.fromBundle(
-                arguments!!
+                requireArguments()
             ).noteKey
         )
     }

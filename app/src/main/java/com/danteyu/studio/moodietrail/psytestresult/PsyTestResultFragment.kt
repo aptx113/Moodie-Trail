@@ -39,7 +39,7 @@ class PsyTestResultFragment : Fragment() {
     val viewModel by viewModels<PsyTestResultViewModel> {
         getVmFactory(
             PsyTestResultFragmentArgs.fromBundle(
-                arguments!!
+                requireArguments()
             ).psyTestKey
         )
     }
@@ -201,7 +201,7 @@ class PsyTestResultFragment : Fragment() {
     }
 
     private fun showDeletePsyTestDialog(psyTest: PsyTest) {
-        val builder = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme_Center)
+        val builder = AlertDialog.Builder(this.requireContext(), R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_psy_test_message))
         builder.setIcon(R.mipmap.ic_launcher)

@@ -23,7 +23,7 @@ class MessageDialog : AppCompatDialogFragment() {
     var iconRes: Drawable? = null
     var message: String? = null
     private val messageType by lazy {
-        MessageDialogArgs.fromBundle(arguments!!).messageTypeKey
+        MessageDialogArgs.fromBundle(requireArguments()).messageTypeKey
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

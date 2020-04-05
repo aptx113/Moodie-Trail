@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -246,9 +247,11 @@ class MainActivity : BaseActivity() {
                     layoutParams.gravity = Gravity.CENTER
                     layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
                     binding.textToolbarTitle.layoutParams = layoutParams
+
                 }
             }
             Logger.i("====== ${Build.MODEL} ======")
+            Logger.i("123=${binding.textToolbarTitle.marginTop}")
         }
     }
 
