@@ -38,6 +38,7 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
@@ -281,9 +282,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handleRationale() {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
-                .setTitle(getString(R.string.camera_and_storage_permission))
-                .setMessage(getString(R.string.permanently_denied_title))
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme_Center)
+                .setTitle(getString(R.string.permanently_denied_title))
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton(android.R.string.ok) { _, _ -> }
                 .setCancelable(true)
@@ -293,7 +293,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handlePermanentlyDenied(req: QuickPermissionsRequest) {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme_Center)
                 .setTitle(getString(R.string.permanently_denied_title))
                 .setMessage(getString(R.string.text_note_permission_message))
                 .setPositiveButton(getString(R.string.went_to_setting)) { _, _ ->
@@ -441,7 +441,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     }
 
     private fun showDeleteNoteDialog(note: Note) {
-        val builder = AlertDialog.Builder(this.requireContext(), R.style.AlertDialogTheme_Center)
+        val builder = MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_note_message))
         builder.setIcon(R.mipmap.ic_launcher)
