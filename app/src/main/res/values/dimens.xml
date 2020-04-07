@@ -28,10 +28,10 @@
     <!-- General -->
     <dimen name="elevation_all">4dp</dimen>
     <dimen name="height_all_bottom_layout">80dp</dimen>
-    <dimen name="margin_advanced">24dp</dimen>
-    <dimen name="margin_basic">16dp</dimen>
-    <dimen name="margin_half">8dp</dimen>
-    <dimen name="margin_quarter">4dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_quarter">4dp</dimen>
     <dimen name="text_content">14sp</dimen>
     <dimen name="size_progress">24dp</dimen>
     <dimen name="size_radius">12dp</dimen>

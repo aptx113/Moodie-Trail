@@ -13,17 +13,16 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.*
 import android.widget.TimePicker
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
-import com.danteyu.studio.moodietrail.NavigationDirections
-import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
@@ -76,6 +75,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme)
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -89,7 +89,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         calendar = viewModel.calendar
         imageSourceSelectorDialog = ImageSourceSelectorDialog(viewModel)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
         binding.buttonRecordDetailBack.setTouchDelegate()
         binding.imageNoteImageRecordDetail.clipToOutline = true
@@ -114,6 +114,17 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showWhetherCancelDialog()
+            }
+        }
+        // This callback will only be called when Fragment is at least Started.
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
 
         viewModel.newTag.observe(viewLifecycleOwner, Observer {
             Logger.w("newTag = $it")
@@ -441,12 +452,29 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     }
 
     private fun showDeleteNoteDialog(note: Note) {
-        val builder = MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
+        val builder =
+            MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_note_message))
         builder.setIcon(R.mipmap.ic_launcher)
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
             UserManager.id?.let { viewModel.deleteNote(it, note) }
+        }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
+        }.show()
+    }
+
+    private fun showWhetherCancelDialog() {
+        val builder =
+            MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
+
+        builder.apply {
+            setIcon(R.mipmap.ic_launcher)
+            setTitle(getString(R.string.check_whether_leave_message))
+            setMessage(getString(R.string.may_not_save_your_change))
+        }
+
+        builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+            findNavController().navigateUp()
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
         }.show()
     }

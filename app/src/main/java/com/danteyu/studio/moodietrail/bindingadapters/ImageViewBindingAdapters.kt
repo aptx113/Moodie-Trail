@@ -158,7 +158,7 @@ fun bindImageByMood(imgView: ImageView, imgUrl: String?, mood: Int?) {
         .transform(
             RoundedCorners(
                 MoodieTrailApplication.instance.resources.getDimensionPixelSize(
-                    R.dimen.margin_half
+                    R.dimen.spacing_small
                 )
             )
         )

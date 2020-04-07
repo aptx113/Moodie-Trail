@@ -40,7 +40,7 @@
             android:id="@+id/image_delete_tag"
             android:layout_width="12dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/margin_quarter"
+            android:layout_marginHorizontal="@dimen/spacing_quarter"
             android:layout_marginBottom="1dp"
             android:onClick="@{() -> viewModel.removeNoteTag(tag)}"
             app:layout_constraintBottom_toBottomOf="parent"
