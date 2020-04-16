@@ -43,36 +43,41 @@ class MainActivity : BaseActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    findNavController(
-                        R.id
-                            .myNavHostFragment
-                    ).navigate(NavigationDirections.navigateToHomeFragment())
-                    if (viewModel.isFabOpen.value == true) {
-                        viewModel.closeFabByBottomNav()
+                    if (viewModel.currentFragmentType.value != CurrentFragmentType.HOME) {
+                        findNavController(
+                            R.id
+                                .myNavHostFragment
+                        ).navigate(NavigationDirections.navigateToHomeFragment())
+                        if (viewModel.isFabOpen.value == true) {
+                            viewModel.closeFabByBottomNav()
+                        }
                     }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_statistic -> {
-
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToStatisticFragment())
-                    if (viewModel.isFabOpen.value == true) {
-                        viewModel.closeFabByBottomNav()
+                    if (viewModel.currentFragmentType.value != CurrentFragmentType.STATISTIC) {
+                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToStatisticFragment())
+                        if (viewModel.isFabOpen.value == true) {
+                            viewModel.closeFabByBottomNav()
+                        }
                     }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_psy_test_record -> {
-
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
-                    if (viewModel.isFabOpen.value == true) {
-                        viewModel.closeFabByBottomNav()
+                    if (viewModel.currentFragmentType.value != CurrentFragmentType.PSY_TEST_RECORD) {
+                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToPsyTestRecordFragment())
+                        if (viewModel.isFabOpen.value == true) {
+                            viewModel.closeFabByBottomNav()
+                        }
                     }
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
-
-                    findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
-                    if (viewModel.isFabOpen.value == true) {
-                        viewModel.closeFabByBottomNav()
+                    if (viewModel.currentFragmentType.value != CurrentFragmentType.PROFILE) {
+                        findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToProfileFragment())
+                        if (viewModel.isFabOpen.value == true) {
+                            viewModel.closeFabByBottomNav()
+                        }
                     }
                     return@OnNavigationItemSelectedListener true
                 }
@@ -179,7 +184,7 @@ class MainActivity : BaseActivity() {
         setupToolbar()
         setupBottomNav()
         setupNavController()
-        setupAlarmManager()
+//        setupAlarmManager()
 
     }
 

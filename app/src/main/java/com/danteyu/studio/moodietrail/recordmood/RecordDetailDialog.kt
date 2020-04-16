@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -14,7 +15,6 @@ import android.provider.MediaStore
 import android.view.*
 import android.widget.TimePicker
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
@@ -27,6 +27,7 @@ import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
@@ -34,6 +35,7 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
+import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -60,6 +62,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         )
     }
 
+    private val mainViewModel by activityViewModels<MainViewModel> { getVmFactory() }
+
     private lateinit var binding: DialogRecordDetailBinding
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
     private lateinit var currentPhotoPath: String
@@ -71,6 +75,19 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         permissionsDeniedMethod = { handleRationale() },
         permanentDeniedMethod = { handlePermanentlyDenied(it) }
     )
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return object : Dialog(requireActivity(), theme) {
+            override fun onBackPressed() {
+                //do your stuff
+                if (viewModel.status.value == LoadApiStatus.LOADING || viewModel.statusForPost.value == LoadApiStatus.LOADING) {
+                    showWhetherCancelDialog()
+                } else {
+                    cancel()
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,17 +131,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
 
         binding.recyclerRecordDetailTags.adapter = TagAdapter(viewModel)
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                showWhetherCancelDialog()
-            }
-        }
-        // This callback will only be called when Fragment is at least Started.
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            callback
-        )
 
         viewModel.newTag.observe(viewLifecycleOwner, Observer {
             Logger.w("newTag = $it")
@@ -474,10 +480,15 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }
 
         builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-            findNavController().navigateUp()
+            if (mainViewModel.currentFragmentType.value == CurrentFragmentType.RECORD_DETAIL) {
+                findNavController().navigateUp()
+            } else {
+
+            }
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
         }.show()
     }
+
 
     companion object {
         private const val PERMISSION_CAMERA = Manifest.permission.CAMERA
