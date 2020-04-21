@@ -26,6 +26,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -49,15 +50,16 @@ class PsyTestResultFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // This callback will only be called when Fragment is at least Started.
+        val callback = object : OnBackPressedCallback(true) {
+            // Handle the back button event
+            override fun handleOnBackPressed() {
+                val mainViewModel by activityViewModels<MainViewModel> { getVmFactory() }
+                mainViewModel.navigateToPsyTestRecordByBottomNav()
+            }
+        }
         requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                // Handle the back button event
-                override fun handleOnBackPressed() {
-                    val mainViewModel by activityViewModels<MainViewModel> { getVmFactory() }
-                    mainViewModel.navigateToPsyTestRecordByBottomNav()
-                }
-            })
+            this, callback
+        )
     }
 
     override fun onCreateView(
@@ -201,7 +203,8 @@ class PsyTestResultFragment : Fragment() {
     }
 
     private fun showDeletePsyTestDialog(psyTest: PsyTest) {
-        val builder = AlertDialog.Builder(this.requireContext(), R.style.AlertDialogTheme_Center)
+        val builder =
+            MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_psy_test_message))
         builder.setIcon(R.mipmap.ic_launcher)

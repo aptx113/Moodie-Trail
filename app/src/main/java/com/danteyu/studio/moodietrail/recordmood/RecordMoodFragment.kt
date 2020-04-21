@@ -46,7 +46,7 @@ class RecordMoodFragment : Fragment() {
 
         val binding = FragmentRecordMoodBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
         binding.buttonRecordMoodClose.setTouchDelegate()
 

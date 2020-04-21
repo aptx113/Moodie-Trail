@@ -80,6 +80,8 @@
     <string name="update_success">修改成功！</string>
     <string name="confirm_edit">確認修改</string>
     <string name="check_delete_note_message">確定要刪除此筆記錄嗎？</string>
+    <string name="check_whether_leave_message">確定要回到上個頁面嗎？</string>
+    <string name="may_not_save_your_change">資料可能會遺失</string>
 
     <!-- SimpleDateFormat -->
     <string name="simpledateformat_yyyy_MM_dd">yyyy-MM-dd</string>

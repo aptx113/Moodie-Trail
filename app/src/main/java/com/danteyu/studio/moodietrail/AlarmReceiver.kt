@@ -57,8 +57,7 @@ class AlarmReceiver : BroadcastReceiver() {
             if (it.get(RECEIVE_KEY) == RECEIVE_INTENT_VALUE
                 && getCalendar().timeInMillis.toDisplayFormat(
                     TimeFormat.FORMAT_HH_MM
-                ).split(":")[0] == ALARM_START_HOUR
-            ) {
+                ).split(":")[0] == ALARM_START_HOUR ) {
                 setMessage()
             }
         }
@@ -205,6 +204,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
         const val ALARM_START_HOUR = "12"
+        const val ALARM_START_MINUTE = "30"
         const val RECEIVE_KEY = "regular reminder"
         const val RECEIVE_INTENT_VALUE = "activity_app"
         const val INTENT_ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED"

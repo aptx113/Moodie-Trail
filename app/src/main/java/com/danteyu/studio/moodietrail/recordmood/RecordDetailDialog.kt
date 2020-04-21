@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -20,14 +21,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.danteyu.studio.moodietrail.MainActivity
-import com.danteyu.studio.moodietrail.MoodieTrailApplication
-import com.danteyu.studio.moodietrail.NavigationDirections
-import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.*
 import com.danteyu.studio.moodietrail.data.Note
 import com.danteyu.studio.moodietrail.databinding.DialogRecordDetailBinding
 import com.danteyu.studio.moodietrail.ext.*
 import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.DELETE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.POST_NOTE_FAIL
@@ -38,6 +37,7 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
@@ -64,6 +64,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
     private lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
+    private lateinit var backKeyAlertDialog: AlertDialog
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val quickPermissionsOption = QuickPermissionsOptions(
@@ -72,9 +73,24 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         permanentDeniedMethod = { handlePermanentlyDenied(it) }
     )
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return object : Dialog(requireActivity(), theme) {
+            override fun onBackPressed() {
+                //do your stuff
+                if (viewModel.status.value == LoadApiStatus.LOADING || viewModel.statusForPost.value == LoadApiStatus.LOADING) {
+                    backKeyAlertDialog = createBackKeyDialog()
+                    backKeyAlertDialog.show()
+                } else {
+                    cancel()
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme)
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -86,9 +102,10 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         binding = DialogRecordDetailBinding.inflate(inflater, container, false)
         calendar = viewModel.calendar
+        val scrollView = binding.scrollRecordDetail
         imageSourceSelectorDialog = ImageSourceSelectorDialog(viewModel)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
         binding.buttonRecordDetailBack.setTouchDelegate()
         binding.imageNoteImageRecordDetail.clipToOutline = true
@@ -96,6 +113,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "" && viewModel.newTag.value != "\n") {
                 viewModel.addNoteTag()
+
                 true
             } else false
         }
@@ -189,7 +207,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+                if (backKeyAlertDialog.isShowing) backKeyAlertDialog.dismiss()
                 (activity as MainActivity).bottomNavView.selectedItemId = R.id.navigation_home
                 viewModel.onHomeNavigated()
             }
@@ -209,8 +227,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         //  If tags value change, scrollview will scroll to bottom
         viewModel.tags.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val scrollView = binding.scrollRecordDetail
-
                 scrollView.post {
                     scrollView.fullScroll(View.FOCUS_DOWN)
                 }
@@ -281,9 +297,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handleRationale() {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
-                .setTitle(getString(R.string.camera_and_storage_permission))
-                .setMessage(getString(R.string.permanently_denied_title))
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme_Center)
+                .setTitle(getString(R.string.permanently_denied_title))
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton(android.R.string.ok) { _, _ -> }
                 .setCancelable(true)
@@ -293,7 +308,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
     private fun handlePermanentlyDenied(req: QuickPermissionsRequest) {
         this.context?.let {
-            AlertDialog.Builder(it, R.style.AlertDialogTheme_Center)
+            MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme_Center)
                 .setTitle(getString(R.string.permanently_denied_title))
                 .setMessage(getString(R.string.text_note_permission_message))
                 .setPositiveButton(getString(R.string.went_to_setting)) { _, _ ->
@@ -441,7 +456,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
     }
 
     private fun showDeleteNoteDialog(note: Note) {
-        val builder = AlertDialog.Builder(this.requireContext(), R.style.AlertDialogTheme_Center)
+        val builder =
+            MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
 
         builder.setTitle(getString(R.string.check_delete_note_message))
         builder.setIcon(R.mipmap.ic_launcher)
@@ -449,6 +465,21 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             UserManager.id?.let { viewModel.deleteNote(it, note) }
         }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
         }.show()
+    }
+
+    private fun createBackKeyDialog(): AlertDialog {
+        val builder =
+            MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle(getString(R.string.check_whether_leave_message))
+                .setMessage(getString(R.string.may_not_save_your_change))
+                .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                    findNavController().navigateUp()
+                }
+                .setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
+                }
+
+        return builder.create()
     }
 
     companion object {

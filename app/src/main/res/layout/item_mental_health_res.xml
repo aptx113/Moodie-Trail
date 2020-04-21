@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/text_mental_health_res_title"
             style="@style/ConsultationCallTextView"
-            android:layout_marginStart="@dimen/margin_basic"
+            android:layout_marginStart="@dimen/spacing_normal"
             android:textColor="@color/blue_700"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/text_mental_health_res_phone_number"
             style="@style/ConsultationCallTextView"
-            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintStart_toStartOf="@id/text_mental_health_res_title"
             app:layout_constraintTop_toBottomOf="@id/text_mental_health_res_title"
             tools:text="02-27263141" />
@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/text_mental_health_res_address"
             style="@style/ConsultationCallTextView"
-            android:layout_marginTop="@dimen/margin_half"
+            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/text_mental_health_res_title"
@@ -43,7 +43,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_basic"
+            android:layout_marginEnd="@dimen/spacing_normal"
             android:tint="@color/blue_700_Light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/text_mental_health_res_phone_number"
@@ -52,7 +52,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/margin_basic"
+            android:layout_marginEnd="@dimen/spacing_normal"
             android:tint="@color/blue_700_Light"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"

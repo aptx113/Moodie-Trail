@@ -58,7 +58,7 @@ class ConsultationCallViewModel(private val moodieTrailRepository: MoodieTrailRe
                 outRect.top = 0
             } else {
                 outRect.top =
-                    getDimensionPixelSize(R.dimen.margin_basic)
+                    getDimensionPixelSize(R.dimen.spacing_normal)
             }
         }
     }
