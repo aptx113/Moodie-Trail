@@ -14,11 +14,10 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.*
 import android.widget.TimePicker
-import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -35,7 +34,6 @@ import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_FAIL
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPDATE_NOTE_SUCCESS
 import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel.Companion.UPLOAD_IMAGE_FAIL
-import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.TimeFormat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -62,12 +60,11 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         )
     }
 
-    private val mainViewModel by activityViewModels<MainViewModel> { getVmFactory() }
-
     private lateinit var binding: DialogRecordDetailBinding
     private lateinit var imageSourceSelectorDialog: ImageSourceSelectorDialog
     private lateinit var currentPhotoPath: String
     private lateinit var calendar: Calendar
+    private lateinit var backKeyAlertDialog: AlertDialog
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val quickPermissionsOption = QuickPermissionsOptions(
@@ -81,7 +78,8 @@ class RecordDetailDialog : AppCompatDialogFragment() {
             override fun onBackPressed() {
                 //do your stuff
                 if (viewModel.status.value == LoadApiStatus.LOADING || viewModel.statusForPost.value == LoadApiStatus.LOADING) {
-                    showWhetherCancelDialog()
+                    backKeyAlertDialog = createBackKeyDialog()
+                    backKeyAlertDialog.show()
                 } else {
                     cancel()
                 }
@@ -104,6 +102,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         binding = DialogRecordDetailBinding.inflate(inflater, container, false)
         calendar = viewModel.calendar
+        val scrollView = binding.scrollRecordDetail
         imageSourceSelectorDialog = ImageSourceSelectorDialog(viewModel)
 
         binding.lifecycleOwner = this.viewLifecycleOwner
@@ -114,6 +113,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         binding.editRecordDetailTag.setOnKeyListener { _, keyCode, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER && viewModel.newTag.value != "" && viewModel.newTag.value != "\n") {
                 viewModel.addNoteTag()
+
                 true
             } else false
         }
@@ -207,7 +207,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
 
         viewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NavigationDirections.navigateToHomeFragment())
+                if (backKeyAlertDialog.isShowing) backKeyAlertDialog.dismiss()
                 (activity as MainActivity).bottomNavView.selectedItemId = R.id.navigation_home
                 viewModel.onHomeNavigated()
             }
@@ -227,8 +227,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         //  If tags value change, scrollview will scroll to bottom
         viewModel.tags.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val scrollView = binding.scrollRecordDetail
-
                 scrollView.post {
                     scrollView.fullScroll(View.FOCUS_DOWN)
                 }
@@ -469,26 +467,20 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         }.show()
     }
 
-    private fun showWhetherCancelDialog() {
+    private fun createBackKeyDialog(): AlertDialog {
         val builder =
             MaterialAlertDialogBuilder(this.requireContext(), R.style.AlertDialogTheme_Center)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle(getString(R.string.check_whether_leave_message))
+                .setMessage(getString(R.string.may_not_save_your_change))
+                .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                    findNavController().navigateUp()
+                }
+                .setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
+                }
 
-        builder.apply {
-            setIcon(R.mipmap.ic_launcher)
-            setTitle(getString(R.string.check_whether_leave_message))
-            setMessage(getString(R.string.may_not_save_your_change))
-        }
-
-        builder.setPositiveButton(getString(android.R.string.ok)) { _, _ ->
-            if (mainViewModel.currentFragmentType.value == CurrentFragmentType.RECORD_DETAIL) {
-                findNavController().navigateUp()
-            } else {
-
-            }
-        }.setNegativeButton(getString(R.string.text_cancel)) { _, _ ->
-        }.show()
+        return builder.create()
     }
-
 
     companion object {
         private const val PERMISSION_CAMERA = Manifest.permission.CAMERA

@@ -3,7 +3,9 @@ package com.danteyu.studio.moodietrail.bindingadapters
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.danteyu.studio.moodietrail.GlideApp
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
