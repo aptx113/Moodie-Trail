@@ -35,7 +35,7 @@
                android:layout_width="match_parent"
                android:background="@drawable/bg_dialog_radius_top"
                android:layout_height="wrap_content"
-               android:paddingBottom="@dimen/margin_basic"
+               android:paddingBottom="@dimen/spacing_normal"
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintEnd_toEndOf="parent">

@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin_basic"
+                android:paddingTop="@dimen/spacing_normal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:psyTests="@{viewModel.psyTests}"
                 tools:listitem="@layout/item_psy_test">
@@ -68,7 +68,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="@dimen/margin_half"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="16dp"
                 android:gravity="center"
                 android:text='@{viewModel.psyTests != null ? @string/no_psy_tests : ""}'

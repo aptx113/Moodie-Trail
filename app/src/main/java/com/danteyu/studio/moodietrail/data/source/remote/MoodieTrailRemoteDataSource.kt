@@ -71,7 +71,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
         endDate: Long
     ): Result<List<Note>> =
         suspendCoroutine { continuation ->
-
+            Logger.i("getNotesByDateRange = ${Thread.currentThread().name}")
             if (!isInternetAvailable()) {
                 continuation.resume(Result.Fail(getString(R.string.internet_not_connected)))
             } else {
@@ -82,6 +82,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                     .orderBy(KEY_DATE, Query.Direction.DESCENDING)
                     .get()
                     .addOnCompleteListener { task ->
+                        Logger.i("getNotesByDateRange = ${Thread.currentThread()}")
                         if (task.isSuccessful) {
                             val list = mutableListOf<Note>()
                             for (document in task.result!!) {
@@ -90,6 +91,7 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                                 val note = document.toObject(Note::class.java)
                                 list.add(note)
                             }
+                            Logger.i("getNotesByDateRange = ${Thread.currentThread()}")
                             continuation.resume(Result.Success(list))
                         } else {
                             task.exception?.let {

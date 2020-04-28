@@ -16,9 +16,6 @@ import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getCalendar
 import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -77,7 +74,7 @@ class HomeViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     val decoration = GridSpacingItemDecoration(
         2,
-        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.margin_basic), true
+        MoodieTrailApplication.instance.resources.getDimensionPixelSize(R.dimen.spacing_normal), true
     )
 
     /**
