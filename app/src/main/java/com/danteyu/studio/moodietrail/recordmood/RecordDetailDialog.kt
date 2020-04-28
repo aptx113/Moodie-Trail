@@ -73,24 +73,25 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         permanentDeniedMethod = { handlePermanentlyDenied(it) }
     )
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return object : Dialog(requireActivity(), theme) {
-            override fun onBackPressed() {
-                //do your stuff
-                if (viewModel.status.value == LoadApiStatus.LOADING || viewModel.statusForPost.value == LoadApiStatus.LOADING) {
-                    backKeyAlertDialog = createBackKeyDialog()
-                    backKeyAlertDialog.show()
-                } else {
-                    cancel()
-                }
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, R.style.DialogTheme)
+        backKeyAlertDialog = createBackKeyDialog()
+    }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return object : Dialog(requireActivity(), theme) {
+            override fun onBackPressed() {
+
+                //do your stuff
+                if (viewModel.status.value == LoadApiStatus.LOADING || viewModel.statusForPost.value == LoadApiStatus.LOADING) {
+                    backKeyAlertDialog.show()
+                } else {
+                    super.onBackPressed()
+                }
+
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -104,6 +105,7 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         calendar = viewModel.calendar
         val scrollView = binding.scrollRecordDetail
         imageSourceSelectorDialog = ImageSourceSelectorDialog(viewModel)
+//        backKeyAlertDialog = createBackKeyDialog()
 
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel

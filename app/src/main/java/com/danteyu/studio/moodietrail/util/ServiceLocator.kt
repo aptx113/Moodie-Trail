@@ -23,7 +23,6 @@ object ServiceLocator {
     fun provideRepository(context: Context): MoodieTrailRepository {
         synchronized(this) {
             return moodieTrailRepository
-                ?: moodieTrailRepository
                 ?: createMoodieTrailRepository(context)
         }
     }
