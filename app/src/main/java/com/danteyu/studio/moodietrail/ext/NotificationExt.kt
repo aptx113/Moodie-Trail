@@ -22,7 +22,12 @@ private const val NOTIFICATION_ID_DAILY = 1
 private const val REQUEST_CODE_DAILY = 1
 private const val FLAG_DAILY = 1
 
-fun NotificationManager.sendDailyNotification(messageBody: String, applicationContext: Context) {
+/**
+ * Builds and delivers the notification.
+ *
+ * @param context, activity context.
+ */
+fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
 
     val bundle = bundleOf("noteKey" to Note())
 
@@ -53,4 +58,11 @@ fun NotificationManager.sendDailyNotification(messageBody: String, applicationCo
         .setColor(Util.getColor(R.color.blue_700))
 
     notify(NOTIFICATION_ID_DAILY, builder.build())
+}
+
+/**
+ * Cancels all notifications.
+ */
+fun NotificationManager.cancelNotification() {
+    cancelAll()
 }

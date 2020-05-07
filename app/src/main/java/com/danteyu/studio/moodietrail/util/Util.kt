@@ -1,5 +1,7 @@
 package com.danteyu.studio.moodietrail.util
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -7,6 +9,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
+import com.danteyu.studio.moodietrail.R
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
@@ -110,6 +113,21 @@ object Util {
     }
 
     fun createChannel(channelId: String, channelName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel =
+                NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    description = getString(R.string.remind_record_mood)
+                }
 
+            val notificationManager =
+                MoodieTrailApplication.instance.getSystemService(NotificationManager::class.java) as NotificationManager
+
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        }
     }
 }
