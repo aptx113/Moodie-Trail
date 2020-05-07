@@ -166,7 +166,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun decideMessageContent(notesToday: List<Note>) {
 
         regularTextTitle =
-            MoodieTrailApplication.instance.getString(R.string.remind_note_notification_title)
+            MoodieTrailApplication.instance.getString(R.string.daily_notification_title)
         regularTextContent = if (notesToday.isEmpty()) {
             getString(R.string.how_do_you_feel_today)
         } else {
@@ -176,7 +176,7 @@ class AlarmReceiver : BroadcastReceiver() {
             )
         }
 
-        if (regularTextTitle.equals(getString(R.string.remind_note_notification_title))) {
+        if (regularTextTitle.equals(getString(R.string.daily_notification_title))) {
 
             createNotificationChannel()
         }
