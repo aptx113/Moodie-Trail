@@ -3,17 +3,17 @@ package com.danteyu.studio.moodietrail.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.MainViewModel
-import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.home.HomeViewModel
-import com.danteyu.studio.moodietrail.login.LoginViewModel
-import com.danteyu.studio.moodietrail.consultationcall.ConsultationCallViewModel
-import com.danteyu.studio.moodietrail.mentalhealthres.MentalHealthResViewModel
-import com.danteyu.studio.moodietrail.profile.ProfileViewModel
-import com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel
-import com.danteyu.studio.moodietrail.psytest.PsyTestViewModel
-import com.danteyu.studio.moodietrail.psytestrating.PsyTestRatingViewModel
-import com.danteyu.studio.moodietrail.psytestrecord.PsyTestRecordViewModel
-import com.danteyu.studio.moodietrail.statistic.StatisticViewModel
+import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ui.home.HomeViewModel
+import com.danteyu.studio.moodietrail.ui.login.LoginViewModel
+import com.danteyu.studio.moodietrail.ui.consultationcall.ConsultationCallViewModel
+import com.danteyu.studio.moodietrail.ui.mentalhealthres.MentalHealthResViewModel
+import com.danteyu.studio.moodietrail.ui.profile.ProfileViewModel
+import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel
+import com.danteyu.studio.moodietrail.ui.psytest.PsyTestViewModel
+import com.danteyu.studio.moodietrail.ui.psytestrating.PsyTestRatingViewModel
+import com.danteyu.studio.moodietrail.ui.psytestrecord.PsyTestRecordViewModel
+import com.danteyu.studio.moodietrail.ui.statistic.StatisticViewModel
 
 
 /**

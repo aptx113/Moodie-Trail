@@ -3,8 +3,8 @@ package com.danteyu.studio.moodietrail
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.danteyu.studio.moodietrail.data.AverageMood
-import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.model.AverageMood
+import com.danteyu.studio.moodietrail.data.model.Note
 import com.danteyu.studio.moodietrail.util.Util.getEndDateOfMonth
 import com.danteyu.studio.moodietrail.util.Util.getEndTimeOfDay
 import com.danteyu.studio.moodietrail.util.Util.getStartDateOfMonth

@@ -3,9 +3,9 @@ package com.danteyu.studio.moodietrail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.danteyu.studio.moodietrail.data.User
-import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.login.UserManager
+import com.danteyu.studio.moodietrail.data.model.User
+import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ui.login.UserManager
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 

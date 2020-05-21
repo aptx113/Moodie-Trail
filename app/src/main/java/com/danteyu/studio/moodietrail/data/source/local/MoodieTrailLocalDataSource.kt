@@ -3,6 +3,7 @@ package com.danteyu.studio.moodietrail.data.source.local
 import android.content.Context
 import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*
+import com.danteyu.studio.moodietrail.data.model.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

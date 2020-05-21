@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.psytest.PsyTestViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.psytest.PsyTestViewModel" />
 
     </data>
 

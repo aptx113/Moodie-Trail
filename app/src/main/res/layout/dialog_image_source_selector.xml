@@ -9,7 +9,7 @@
 
         <variable
             name="dialog"
-            type="com.danteyu.studio.moodietrail.recordmood.ImageSourceSelectorDialog" />
+            type="com.danteyu.studio.moodietrail.ui.recordmood.ImageSourceSelectorDialog" />
 
     </data>
 

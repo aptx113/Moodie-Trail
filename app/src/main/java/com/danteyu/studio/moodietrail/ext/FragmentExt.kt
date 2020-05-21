@@ -2,8 +2,8 @@ package com.danteyu.studio.moodietrail.ext
 
 import androidx.fragment.app.Fragment
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
-import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.PsyTest
+import com.danteyu.studio.moodietrail.data.model.Note
+import com.danteyu.studio.moodietrail.data.model.PsyTest
 import com.danteyu.studio.moodietrail.factory.NoteViewModelFactory
 import com.danteyu.studio.moodietrail.factory.PsyTestViewModelFactory
 

@@ -10,7 +10,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.danteyu.studio.moodietrail.MainActivity
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
-import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.model.Note
 import com.danteyu.studio.moodietrail.util.Util
 import com.danteyu.studio.moodietrail.util.Util.getString
 

@@ -7,7 +7,7 @@
 
         <import type="com.danteyu.studio.moodietrail.network.LoadApiStatus" />
 
-        <import type="com.danteyu.studio.moodietrail.recordmood.NoteSavedType" />
+        <import type="com.danteyu.studio.moodietrail.ui.recordmood.NoteSavedType" />
 
         <import type="com.danteyu.studio.moodietrail.util.Mood" />
 
@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.recordmood.RecordMoodViewModel" />
 
     </data>
 

@@ -7,11 +7,11 @@
 
         <variable
             name="consultationCall"
-            type="com.danteyu.studio.moodietrail.data.ConsultationCall" />
+            type="com.danteyu.studio.moodietrail.data.model.ConsultationCall" />
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.consultationcall.ConsultationCallViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.consultationcall.ConsultationCallViewModel" />
 
     </data>
 

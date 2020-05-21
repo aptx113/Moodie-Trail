@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.home.HomeViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.home.HomeViewModel" />
 
     </data>
 

@@ -15,14 +15,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import com.danteyu.studio.moodietrail.data.Note
+import com.danteyu.studio.moodietrail.data.model.Note
 import com.danteyu.studio.moodietrail.databinding.ActivityMainBinding
-import com.danteyu.studio.moodietrail.dialog.MessageDialog
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.setTouchDelegate
+import com.danteyu.studio.moodietrail.ui.dialog.MessageDialog
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
-import com.danteyu.studio.moodietrail.util.Util.setupAlarmManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 

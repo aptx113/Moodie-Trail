@@ -11,7 +11,7 @@
 
         <variable
             name="psyTest"
-            type="com.danteyu.studio.moodietrail.data.PsyTest" />
+            type="com.danteyu.studio.moodietrail.data.model.PsyTest" />
 
     </data>
 

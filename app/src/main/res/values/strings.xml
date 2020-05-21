@@ -16,6 +16,7 @@
     <string name="start_test">開始測驗</string>
     <string name="firebase_storage_reference">images/users/%s/%s.jpg</string>
     <string name="delete_success">刪除成功</string>
+    <string name="daily_notification">每日心情記錄提醒</string>
     <string name="daily_notification_channel_id" translatable="false">daily_reminder_channel</string>
     <string name="daily_notification_title">心情記錄提醒</string>
     <string name="how_do_you_feel_today">今天心情如何？</string>

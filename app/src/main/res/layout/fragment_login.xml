@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.login.LoginViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.login.LoginViewModel" />
 
     </data>
 

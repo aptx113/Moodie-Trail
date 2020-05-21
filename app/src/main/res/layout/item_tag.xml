@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.recordmood.RecordDetailViewModel" />
 
     </data>
 

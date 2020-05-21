@@ -113,6 +113,8 @@ object Util {
     }
 
     fun createChannel(channelId: String, channelName: String) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
                 NotificationChannel(
@@ -123,6 +125,7 @@ object Util {
                     description = getString(R.string.remind_record_mood)
                 }
 
+            // Register the channel with the system
             val notificationManager =
                 MoodieTrailApplication.instance.getSystemService(NotificationManager::class.java) as NotificationManager
 

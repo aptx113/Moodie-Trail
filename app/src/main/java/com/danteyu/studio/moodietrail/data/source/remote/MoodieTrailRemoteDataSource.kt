@@ -5,6 +5,7 @@ import android.net.Uri
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.*
+import com.danteyu.studio.moodietrail.data.model.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getAuth
