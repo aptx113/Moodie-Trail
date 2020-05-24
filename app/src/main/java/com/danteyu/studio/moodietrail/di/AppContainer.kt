@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.util
+package com.danteyu.studio.moodietrail.di
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -7,6 +7,7 @@ import android.content.Intent
 import com.danteyu.studio.moodietrail.AlarmReceiver
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
+import com.danteyu.studio.moodietrail.util.Util
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -29,7 +30,8 @@ class AppContainer {
     val googleSignInClient: GoogleSignInClient =
         GoogleSignIn.getClient(MoodieTrailApplication.instance, gso)
 
-    val dateTimeContainer = DateTimeContainer()
+    val dateTimeContainer =
+        DateTimeContainer()
 
     fun setupAlarmManager() {
         val alarmManager =
@@ -51,8 +53,12 @@ class AppContainer {
         // Set the alarm to start at 12:30 p.m.
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, ALARM_CALENDAR_HOUR)
-            set(Calendar.MINUTE, ALARM_CALENDAR_MINUTE)
+            set(Calendar.HOUR_OF_DAY,
+                ALARM_CALENDAR_HOUR
+            )
+            set(Calendar.MINUTE,
+                ALARM_CALENDAR_MINUTE
+            )
         }
 
         // setRepeating() lets you specify a precise custom interval--in this case,

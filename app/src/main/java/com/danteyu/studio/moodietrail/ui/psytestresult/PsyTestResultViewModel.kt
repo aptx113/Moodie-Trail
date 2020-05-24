@@ -4,6 +4,7 @@ import android.util.SparseArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.danteyu.studio.moodietrail.Event
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.model.PsyTest
@@ -45,9 +46,9 @@ class PsyTestResultViewModel(
     val showDeletePsyTestDialog: LiveData<PsyTest>
         get() = _showDeletePsyTestDialog
 
-    private val _navigateToPsyTestRating = MutableLiveData<Boolean>()
+    private val _navigateToPsyTestRating = MutableLiveData<Event<Boolean>>()
 
-    val navigateToPsyTestRating: LiveData<Boolean>
+    val navigateToPsyTestRating: LiveData<Event<Boolean>>
         get() = _navigateToPsyTestRating
 
     private val _navigateToPsyTestRecordByBottomNav = MutableLiveData<Boolean>()
@@ -181,11 +182,7 @@ class PsyTestResultViewModel(
     }
 
     fun navigateToPsyTestRating() {
-        _navigateToPsyTestRating.value = true
-    }
-
-    fun onPsyTestRatingNavigated() {
-        _navigateToPsyTestRating.value = null
+        _navigateToPsyTestRating.value = Event(true)
     }
 
     fun navigateToPsyTestRecordByBottomNav() {

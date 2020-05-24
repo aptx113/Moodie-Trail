@@ -1,8 +1,10 @@
-package com.danteyu.studio.moodietrail.util
+package com.danteyu.studio.moodietrail.di
 
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
+import com.danteyu.studio.moodietrail.util.Logger
+import com.danteyu.studio.moodietrail.util.TimeFormat
 import java.sql.Timestamp
 import java.util.*
 
@@ -34,7 +36,11 @@ class DateTimeContainer {
                 "${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01"
             )
         )
-        Logger.i("ThisMonthFirstDate = ${timestamp.toDisplayFormat(TimeFormat.FORMAT_YYYY_MM)}-01")
+        Logger.i(
+            "ThisMonthFirstDate = ${timestamp.toDisplayFormat(
+                TimeFormat.FORMAT_YYYY_MM
+            )}-01"
+        )
         return monthStart.time
     }
 

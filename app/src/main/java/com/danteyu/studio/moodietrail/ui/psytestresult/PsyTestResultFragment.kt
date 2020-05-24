@@ -101,11 +101,10 @@ class PsyTestResultFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToPsyTestRating.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                findNavController().navigate(PsyTestResultFragmentDirections.navigateToPsyTestRatingFragment())
-                viewModel.onPsyTestRatingNavigated()
-            }
+        viewModel.navigateToPsyTestRating.observe(viewLifecycleOwner, EventObserver {
+            findNavController().navigate(R.id.psyTestRatingFragment)
+//                viewModel.onPsyTestRatingNavigated()
+
         })
 
         viewModel.navigateToPsyTestRecordByBottomNav.observe(viewLifecycleOwner, Observer {

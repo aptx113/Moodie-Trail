@@ -142,6 +142,10 @@ fun Int.fromExifInterfaceOrientationToDegree(): Int {
     }
 }
 
+/**
+ *  For network state, although I am not sure of usage
+ */
+
 internal object Constants {
     const val ID_KEY = "network.monitoring.previousState"
 }
