@@ -20,8 +20,16 @@ buildscript {
     }
     repositories {
         google()
-        jcenter()
-        maven { url "http://jitpack.io/" }
+        jcenter {
+            content {
+                // just allow to include kotlinx projects
+                // detekt needs 'kotlinx-html' for the html report
+                includeGroup "org.jetbrains.kotlinx"
+            }
+        }
+        maven {
+            url "http://jitpack.io/"
+        }
         mavenCentral()
 
     }
@@ -32,19 +40,41 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta04'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.0'
     }
 }
+
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.9.1")
+}
+
 
 allprojects {
     repositories {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-        
+
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+subprojects {
+    apply {
+        plugin("io.gitlab.arturbosch.detekt")
+    }
+    detekt {
+        buildUponDefaultConfig = true
+        config = files("$projectDir/detekt-config.yml")
+        baseline = file("$projectDir/detekt-baseline.xml")
+        input = files("$projectDir/src")
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            txt.enabled = true
+        }
+    }
 }
