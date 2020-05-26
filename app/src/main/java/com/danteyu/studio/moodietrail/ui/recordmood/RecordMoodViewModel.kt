@@ -66,8 +66,6 @@ class RecordMoodViewModel(
 
     private val weekOfMonthOfNote = MutableLiveData<Int>()
 
-    private val selectedIcon = MutableLiveData<View>()
-
     val selectedMood = MutableLiveData<Int>()
 
     // Handle the error for write
@@ -150,8 +148,7 @@ class RecordMoodViewModel(
         }
     }
 
-    fun selectMood(view: View, mood: Mood) {
-        if (selectedIcon.value == view) return
+    fun selectMood( mood: Mood) {
 
         when (mood) {
 
@@ -161,10 +158,6 @@ class RecordMoodViewModel(
             Mood.GOOD -> selectedMood.value = Mood.GOOD.value
             Mood.VERY_GOOD -> selectedMood.value = Mood.VERY_GOOD.value
         }
-
-        selectedIcon.value?.isSelected = false
-        selectedIcon.value = view
-        selectedIcon.value?.isSelected = true
     }
 
     fun prepareWriteDown(noteSavedType: NoteSavedType) {

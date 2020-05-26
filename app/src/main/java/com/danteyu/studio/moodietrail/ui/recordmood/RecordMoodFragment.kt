@@ -36,6 +36,7 @@ class RecordMoodFragment : Fragment() {
             ).noteKey
         )
     }
+    private lateinit var binding: FragmentRecordMoodBinding
     private lateinit var calendar: Calendar
 
     override fun onCreateView(
@@ -44,11 +45,11 @@ class RecordMoodFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentRecordMoodBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = this.viewLifecycleOwner
-        binding.viewModel = viewModel
-        binding.buttonRecordMoodClose.setTouchDelegate()
+        binding = FragmentRecordMoodBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@RecordMoodFragment.viewModel
+            buttonRecordMoodClose.setTouchDelegate()
+        }
 
         calendar = viewModel.calendar
 

@@ -105,7 +105,6 @@ class RecordDetailDialog : AppCompatDialogFragment() {
         calendar = viewModel.calendar
         val scrollView = binding.scrollRecordDetail
         imageSourceSelectorDialog = ImageSourceSelectorDialog(viewModel)
-//        backKeyAlertDialog = createBackKeyDialog()
 
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
