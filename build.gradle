@@ -20,13 +20,7 @@ buildscript {
     }
     repositories {
         google()
-        jcenter {
-            content {
-                // just allow to include kotlinx projects
-                // detekt needs 'kotlinx-html' for the html report
-                includeGroup "org.jetbrains.kotlinx"
-            }
-        }
+        jcenter()
         maven {
             url "http://jitpack.io/"
         }
@@ -37,17 +31,17 @@ buildscript {
         classpath "com.android.tools.build:gradle:$version_android_gradle_plugin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$version_kotlin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
         classpath 'com.google.gms:google-services:4.3.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.0'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.1'
     }
 }
 
 plugins {
     id("io.gitlab.arturbosch.detekt").version("1.9.1")
 }
-
 
 allprojects {
     repositories {
