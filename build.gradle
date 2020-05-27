@@ -69,7 +69,7 @@ subprojects {
     detekt {
         buildUponDefaultConfig = true
         config = files("$projectDir/detekt-config.yml")
-        baseline = file("$projectDir/detekt-baseline.xml")
+//        baseline = file("$projectDir/detekt-baseline.xml")
         input = files("$projectDir/src")
         reports {
             html.enabled = true

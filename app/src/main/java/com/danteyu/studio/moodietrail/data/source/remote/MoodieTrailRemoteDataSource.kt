@@ -372,7 +372,9 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                             task.exception?.let {
 
                                 MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
-                                Logger.w("[${this::class.simpleName}] signInWithCredential:failure: ${it.message} error_code =${it.message}")
+                                Logger.w("[${this::class.simpleName}] " +
+                                        "signInWithCredential:" +
+                                        "failure:${it.message} error_code =${it.message}")
                                 continuation.resume(Result.Error(it))
                                 return@addOnCompleteListener
                             }
