@@ -57,11 +57,11 @@ task clean(type: Delete) {
 }
 
 subprojects {
-    apply {
-        plugin("io.gitlab.arturbosch.detekt")
-    }
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+
     detekt {
         buildUponDefaultConfig = true
+//        config = files("$projectDir/config/detekt/detekt.yml")
         config = files("$projectDir/detekt-config.yml")
 //        baseline = file("$projectDir/detekt-baseline.xml")
         input = files("$projectDir/src")

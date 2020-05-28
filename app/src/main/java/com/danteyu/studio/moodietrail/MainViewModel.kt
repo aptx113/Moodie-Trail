@@ -9,7 +9,6 @@ import com.danteyu.studio.moodietrail.ui.login.UserManager
 import com.danteyu.studio.moodietrail.util.CurrentFragmentType
 import com.danteyu.studio.moodietrail.util.Logger
 
-
 /**
  * Created by George Yu in Jan. 2020.
  *
@@ -36,7 +35,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     val navigateToHomeByBottomNav: LiveData<Boolean>
         get() = _navigateToHomeByBottomNav
 
-    //Handle Fab open and close
+    // Handle Fab open and close
     private val _isFabOpen = MutableLiveData<Boolean>()
 
     val isFabOpen: LiveData<Boolean>
@@ -76,7 +75,6 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]${this}")
         Logger.i("------------------------------------")
-
     }
 
     fun setupUser(user: User) {
@@ -85,7 +83,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("=============")
         Logger.i("| setupUser |")
         Logger.i("user=$user")
-        Logger.i("MainViewModel=${this}")
+        Logger.i("MainViewModel=$this")
         Logger.i("=============")
     }
 
