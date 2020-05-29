@@ -73,7 +73,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
 
     init {
         Logger.i("------------------------------------")
-        Logger.i("[${this::class.simpleName}]${this}")
+        Logger.i("[${this::class.simpleName}]$this")
         Logger.i("------------------------------------")
     }
 
@@ -87,7 +87,7 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
         Logger.i("=============")
     }
 
-    //Change Fab status when is pressed
+    // Change Fab status when is pressed
     fun onFabPressed() {
         _isFabOpen.value = !(_isFabOpen.value ?: false)
     }
@@ -153,5 +153,4 @@ class MainViewModel(private val moodieTrailRepository: MoodieTrailRepository) : 
     fun onConsultationCallNavigated() {
         _navigateToConsultationCall.value = null
     }
-
 }
