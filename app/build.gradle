@@ -54,13 +54,13 @@ android {
             java.srcDir sharedTestDir
         }
     }
-    testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true // for RobolectricTestRunner
-            }
-        }
-    }
+//    testOptions {
+//        unitTests.all {
+//            jacoco {
+//                includeNoLocationClasses = true // for RobolectricTestRunner
+//            }
+//        }
+//    }
     buildTypes {
         release {
             buildConfigField("Boolean", "LOGGER_VISIABLE", "false")
@@ -184,7 +184,7 @@ dependencies {
     testImplementation "com.squareup.okhttp3:mockwebserver:4.2.2"
     testImplementation "org.mockito:mockito-inline:2.28.2"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0"
     testImplementation "org.robolectric:robolectric:4.3"
     testImplementation "androidx.test.espresso:espresso-core:3.2.0"

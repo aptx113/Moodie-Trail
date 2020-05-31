@@ -89,7 +89,7 @@ class PsyTestResultViewModel(
 
     init {
         Logger.i("------------------------------------")
-        Logger.i("[${this::class.simpleName}]${this}")
+        Logger.i("[${this::class.simpleName}]$this")
         Logger.i("------------------------------------")
 
         setEntryForPsyTest()
