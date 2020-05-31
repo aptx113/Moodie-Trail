@@ -11,7 +11,6 @@ import com.google.android.material.shape.MaterialShapeDrawable.SHADOW_COMPAT_MOD
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapePathModel
 
-
 /**
  * Created by George Yu in Jan. 2020.
  *
@@ -19,7 +18,9 @@ import com.google.android.material.shape.ShapePathModel
  */
 
 class FabBottomNavigationView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : BottomNavigationView(context, attrs, defStyleAttr) {
 
     private var topCurvedEdgeTreatment: TopCurvedEdgeTreatment

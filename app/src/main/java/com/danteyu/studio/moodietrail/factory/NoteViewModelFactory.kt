@@ -2,10 +2,10 @@ package com.danteyu.studio.moodietrail.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.danteyu.studio.moodietrail.data.Note
-import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.recordmood.RecordDetailViewModel
-import com.danteyu.studio.moodietrail.recordmood.RecordMoodViewModel
+import com.danteyu.studio.moodietrail.data.model.Note
+import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ui.recordmood.RecordDetailViewModel
+import com.danteyu.studio.moodietrail.ui.recordmood.RecordMoodViewModel
 
 /**
  * Created by George Yu on 2020/2/5.

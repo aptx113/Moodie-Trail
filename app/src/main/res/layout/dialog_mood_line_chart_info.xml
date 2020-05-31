@@ -7,7 +7,7 @@
 
         <variable
             name="dialog"
-            type="com.danteyu.studio.moodietrail.statistic.MoodLineChartInfoDialog" />
+            type="com.danteyu.studio.moodietrail.ui.statistic.MoodLineChartInfoDialog" />
 
     </data>
 

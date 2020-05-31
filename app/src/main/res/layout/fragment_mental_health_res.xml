@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.mentalhealthres.MentalHealthResViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.mentalhealthres.MentalHealthResViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".mentalhealthres.MentalHealthResFragment">
+        tools:context=".ui.mentalhealthres.MentalHealthResFragment">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_mental_health_res"

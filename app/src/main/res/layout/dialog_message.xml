@@ -9,7 +9,7 @@
 
         <variable
             name="dialog"
-            type="com.danteyu.studio.moodietrail.dialog.MessageDialog" />
+            type="com.danteyu.studio.moodietrail.ui.dialog.MessageDialog" />
 
     </data>
 

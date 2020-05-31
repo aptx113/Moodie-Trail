@@ -11,14 +11,14 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.psytest.PsyTestBodyViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".psytest.PsyTestBodyFragment">
+        tools:context=".ui.psytest.PsyTestBodyFragment">
 
 
         <TextView

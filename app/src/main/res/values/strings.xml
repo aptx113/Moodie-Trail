@@ -16,6 +16,11 @@
     <string name="start_test">開始測驗</string>
     <string name="firebase_storage_reference">images/users/%s/%s.jpg</string>
     <string name="delete_success">刪除成功</string>
+    <string name="daily_notification">每日心情記錄提醒</string>
+    <string name="daily_notification_channel_id" translatable="false">daily_reminder_channel</string>
+    <string name="daily_notification_title">心情記錄提醒</string>
+    <string name="how_do_you_feel_today">今天心情如何？</string>
+    <string name="today_notes_size">今天已記錄 %d 則心情，繼續保持記錄心情的習慣唷！</string>
 
     <!-- Home -->
     <string name="no_notes">Hi\u0020現在心情如何？\n點選新增按鈕開始記錄心情吧！</string>
@@ -171,9 +176,7 @@
     <string name="notification">提醒</string>
     <string name="default_notification_channel_id">MoodieTrail</string>
     <string name="remind_record_mood">提醒記錄心情</string>
-    <string name="remind_note_notification_title">好的開始是成功的一半</string>
-    <string name="how_do_you_feel_today">今天心情如何？</string>
-    <string name="today_notes_size">今天已記錄 %d 則心情，繼續保持記錄心情的習慣唷！</string>
+
 
     <!-- MoodLineChartInfoDialog -->
     <string name="score_very_good">5 :</string>
@@ -187,7 +190,5 @@
     <string name="clientele">服務對象：</string>
     <string name="service_hour_text_only">服務時間：</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

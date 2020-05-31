@@ -13,7 +13,7 @@
 
         <variable
             name="viewModel"
-            type="com.danteyu.studio.moodietrail.statistic.StatisticViewModel" />
+            type="com.danteyu.studio.moodietrail.ui.statistic.StatisticViewModel" />
 
     </data>
 

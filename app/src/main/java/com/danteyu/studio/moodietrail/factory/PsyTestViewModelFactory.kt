@@ -2,9 +2,9 @@ package com.danteyu.studio.moodietrail.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.danteyu.studio.moodietrail.data.PsyTest
-import com.danteyu.studio.moodietrail.data.source.MoodieTrailRepository
-import com.danteyu.studio.moodietrail.psytestresult.PsyTestResultViewModel
+import com.danteyu.studio.moodietrail.data.model.PsyTest
+import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ui.psytestresult.PsyTestResultViewModel
 
 /**
  * Created by George Yu on 2020/2/15.

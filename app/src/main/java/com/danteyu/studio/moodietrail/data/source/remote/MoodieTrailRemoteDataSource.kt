@@ -5,6 +5,7 @@ import android.net.Uri
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.*
+import com.danteyu.studio.moodietrail.data.model.*
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 import com.danteyu.studio.moodietrail.util.Logger
 import com.danteyu.studio.moodietrail.util.Util.getAuth
@@ -371,7 +372,9 @@ object MoodieTrailRemoteDataSource : MoodieTrailDataSource {
                             task.exception?.let {
 
                                 MoodieTrailApplication.instance.getString(R.string.login_fail_toast)
-                                Logger.w("[${this::class.simpleName}] signInWithCredential:failure: ${it.message} error_code =${it.message}")
+                                Logger.w("[${this::class.simpleName}] " +
+                                        "signInWithCredential:" +
+                                        "failure:${it.message} error_code =${it.message}")
                                 continuation.resume(Result.Error(it))
                                 return@addOnCompleteListener
                             }

@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.danteyu.studio.moodietrail.login.LoginFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.danteyu.studio.moodietrail.home.HomeFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -22,13 +22,13 @@
     </fragment>
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.danteyu.studio.moodietrail.statistic.StatisticFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.statistic.StatisticFragment"
         android:label="StatisticFragment"
         tools:layout="@layout/fragment_statistic" />
 
     <fragment
         android:id="@+id/psyTestRecordFragment"
-        android:name="com.danteyu.studio.moodietrail.psytestrecord.PsyTestRecordFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytestrecord.PsyTestRecordFragment"
         android:label="PsyTestRecordFragment"
         tools:layout="@layout/fragment_psy_test_record">
         <action
@@ -37,24 +37,24 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.danteyu.studio.moodietrail.profile.ProfileFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/recordMoodFragment"
-        android:name="com.danteyu.studio.moodietrail.recordmood.RecordMoodFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.recordmood.RecordMoodFragment"
         android:label="RecordMoodFragment"
         tools:layout="@layout/fragment_record_mood">
         <argument
             android:name="noteKey"
-            app:argType="com.danteyu.studio.moodietrail.data.Note"
+            app:argType="com.danteyu.studio.moodietrail.data.model.Note"
             app:nullable="false" />
     </fragment>
 
     <fragment
         android:id="@+id/psyTestFragment"
-        android:name="com.danteyu.studio.moodietrail.psytest.PsyTestFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytest.PsyTestFragment"
         android:label="PsyTestFragment"
         tools:layout="@layout/fragment_psy_test">
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/psyTestBodyFragment"
-        android:name="com.danteyu.studio.moodietrail.psytest.PsyTestBodyFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyFragment"
         android:label="fragment_psy_test_body"
         tools:layout="@layout/fragment_psy_test_body">
         <action
@@ -72,12 +72,12 @@
     </fragment>
     <fragment
         android:id="@+id/psyTestResultFragment"
-        android:name="com.danteyu.studio.moodietrail.psytestresult.PsyTestResultFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytestresult.PsyTestResultFragment"
         android:label="PsyTestResultFragment"
         tools:layout="@layout/fragment_psy_test_result">
         <argument
             android:name="psyTestKey"
-            app:argType="com.danteyu.studio.moodietrail.data.PsyTest"
+            app:argType="com.danteyu.studio.moodietrail.data.model.PsyTest"
             app:nullable="false" />
         <action
             android:id="@+id/navigate_to_psyTestRatingFragment"
@@ -85,42 +85,42 @@
     </fragment>
     <fragment
         android:id="@+id/psyTestRatingFragment"
-        android:name="com.danteyu.studio.moodietrail.psytestrating.PsyTestRatingFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytestrating.PsyTestRatingFragment"
         android:label="fragment_psy_test_rating"
         tools:layout="@layout/fragment_psy_test_rating" />
 
     <fragment
         android:id="@+id/consultationCallFragment"
-        android:name="com.danteyu.studio.moodietrail.consultationcall.ConsultationCallFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.consultationcall.ConsultationCallFragment"
         android:label="fragment_phone_consulting"
         tools:layout="@layout/fragment_consultation_call" />
 
     <fragment
         android:id="@+id/mentalHealthResFragment"
-        android:name="com.danteyu.studio.moodietrail.mentalhealthres.MentalHealthResFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.mentalhealthres.MentalHealthResFragment"
         android:label="fragment_mental_health_res"
         tools:layout="@layout/fragment_mental_health_res" />
 
     <dialog
         android:id="@+id/recordDetailFragment"
-        android:name="com.danteyu.studio.moodietrail.recordmood.RecordDetailDialog"
+        android:name="com.danteyu.studio.moodietrail.ui.recordmood.RecordDetailDialog"
         android:label="RecordDetailFragment"
         tools:layout="@layout/dialog_record_detail">
         <argument
             android:name="noteKey"
-            app:argType="com.danteyu.studio.moodietrail.data.Note"
+            app:argType="com.danteyu.studio.moodietrail.data.model.Note"
             app:nullable="false" />
     </dialog>
 
     <dialog
         android:id="@+id/messageDialog"
-        android:name="com.danteyu.studio.moodietrail.dialog.MessageDialog"
+        android:name="com.danteyu.studio.moodietrail.ui.dialog.MessageDialog"
         android:label="MessageDialog"
         tools:layout="@layout/dialog_message">
 
         <argument
             android:name="messageTypeKey"
-            app:argType="com.danteyu.studio.moodietrail.dialog.MessageDialog$MessageType"
+            app:argType="com.danteyu.studio.moodietrail.ui.dialog.MessageDialog$MessageType"
             app:nullable="false" />
         <action
             android:id="@+id/action_messageDialog_to_homeFragment"

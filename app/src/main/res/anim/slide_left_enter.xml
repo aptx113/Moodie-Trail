@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+<!--&lt;!&ndash;    <translate&ndash;&gt;-->
+<!--&lt;!&ndash;        android:duration="@integer/common_slide_anim_duration"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:fromXDelta="100%"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:toXDelta="0" />&ndash;&gt;-->
+</set>

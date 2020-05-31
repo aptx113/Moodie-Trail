@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+//apply plugin: 'jacoco-android'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -12,12 +14,11 @@ apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+
 android {
     compileSdkVersion 29
-    dataBinding {
-        enabled = true
-    }
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.danteyu.studio.moodietrail"
         minSdkVersion 26
@@ -25,7 +26,41 @@ android {
         versionCode 9
         versionName "1.3.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.incremental": "true"]
+            }
+        }
     }
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.canRead()) {
+                def properties = new Properties()
+                properties.load(new FileInputStream(keystorePropertiesFile))
+                keyAlias properties['keyAlias']
+                keyPassword properties['keyPassword']
+                storeFile file(properties['storeFile'])
+                storePassword properties['storePassword']
+            }
+        }
+    }
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+//    testOptions {
+//        unitTests.all {
+//            jacoco {
+//                includeNoLocationClasses = true // for RobolectricTestRunner
+//            }
+//        }
+//    }
     buildTypes {
         release {
             buildConfigField("Boolean", "LOGGER_VISIABLE", "false")
@@ -35,6 +70,7 @@ android {
         }
         debug {
             buildConfigField("Boolean", "LOGGER_VISIABLE", "true")
+            testCoverageEnabled true
         }
     }
     androidExtensions {
@@ -43,42 +79,50 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
 }
 
 dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
 
-    implementation 'com.google.android.material:material:1.2.0-alpha06'
+    // Core with Ktx
+    implementation "androidx.core:core-ktx:$version_core"
+
+    implementation "androidx.annotation:annotation:1.1.0"
+
+    implementation 'com.google.android.material:material:1.2.0-beta01'
 
     implementation 'androidx.exifinterface:exifinterface:1.3.0-alpha01'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
 
     // Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
 
-    // ViewModel and LiveData
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
+
+    // Lifecycle including ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
-
-    // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-
-    // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-
-    // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
-
-    // Room and Lifecycle dependencies
-    implementation "androidx.room:room-runtime:$version_room"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    kapt "androidx.room:room-compiler:$version_room"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
 
-    // Core with Ktx
-    implementation "androidx.core:core-ktx:$version_core"
+    // Room and Lifecycle dependencies
+    implementation "androidx.room:room-runtime:$version_room"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "androidx.room:room-compiler:$version_room"
 
     // Moshi
     implementation "com.squareup.moshi:moshi:$version_moshi"
@@ -87,10 +131,6 @@ dependencies {
     // Retrofit with Moshi Converter
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
 
     // Retrofit Coroutines Support
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
@@ -103,18 +143,15 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$version_glide"
 
     implementation 'com.github.bumptech.glide:annotations:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'com.github.bumptech.glide:annotations:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     // If you want to use the GPU Filters
     implementation 'jp.co.cyberagent.android:gpuimage:2.0.0'
 
-    // RecyclerView
-    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
-
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:$version_paging"
+    implementation "androidx.paging:paging-common-ktx:$version_paging"
 
     // Fragment
     implementation "androidx.fragment:fragment:$version_fragment"
@@ -125,33 +162,62 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.3.0'
-    implementation 'com.google.firebase:firebase-analytics:17.3.0'
-    implementation 'com.google.firebase:firebase-firestore:21.4.2'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-core:17.4.2'
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'
+    implementation 'com.google.firebase:firebase-firestore:21.4.3'
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.google.firebase:firebase-config:19.1.3'
+    implementation 'com.google.firebase:firebase-config:19.1.4'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.0'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     // Add the Firebase SDK for Crashlytics.
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta04'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
 
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    // For test
-    testImplementation 'junit:junit:4.12'
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:2.28.2"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.2.2"
+    testImplementation "org.mockito:mockito-inline:2.28.2"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0"
+    testImplementation "org.robolectric:robolectric:4.3"
+    testImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    testImplementation "androidx.test.espresso:espresso-contrib:3.2.0"
+    testImplementation "androidx.test.espresso:espresso-intents:3.2.0"
+    testImplementation "com.google.truth:truth:0.44"
+    testImplementation "org.powermock:powermock-module-junit4:2.0.4"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.4"
+
+    // Dependencies for Android unit tests
+    androidTestImplementation "junit:junit:4.12"
+    androidTestImplementation "org.mockito:mockito-core:2.28.2"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:2.12.1"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0"
+
+    // AndroidX Test - JVM testing
+    testImplementation "androidx.test:core-ktx:1.2.0"
+    testImplementation "androidx.test.ext:junit-ktx:1.1.1"
+    testImplementation "androidx.test:rules:1.2.0"
+
+    // AndroidX Test - Instrumented testing
+    androidTestImplementation "androidx.test:core-ktx:1.2.0"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.1"
+    androidTestImplementation "androidx.test:rules:1.2.0"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.2.0"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:3.2.0"
+    androidTestImplementation "org.robolectric:annotations:4.3"
     androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
     androidTestImplementation 'androidx.test:monitor:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    testImplementation "android.arch.core:core-testing:1.1.1"
 
     // QuickPermission
     implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.1'
@@ -159,3 +225,7 @@ dependencies {
     implementation 'com.karumi:dexter:6.0.2'
 
 }
+
+//jacocoAndroidUnitTestReport {
+//    excludes += ['**/databinding/*', '**/DataBinderMapperImpl*']
+//}
