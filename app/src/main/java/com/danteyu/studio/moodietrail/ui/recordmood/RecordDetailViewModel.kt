@@ -688,3 +688,4 @@ class RecordDetailViewModel(
         const val DELETE_NOTE_FAIL = 0x37
     }
 }
+

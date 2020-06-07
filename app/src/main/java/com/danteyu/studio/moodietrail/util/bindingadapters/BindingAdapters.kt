@@ -204,4 +204,3 @@ fun bindApiStatus(view: ProgressBar, status: LoadApiStatus?) {
         else -> view.visibility = View.GONE
     }
 }
-
