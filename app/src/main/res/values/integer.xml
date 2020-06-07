@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="common_slide_anim_duration">350</integer>
+    <integer name="one_shot_work_span_count">3</integer>
+    <integer name="comment_max_input_count">140</integer>
+</resources>
