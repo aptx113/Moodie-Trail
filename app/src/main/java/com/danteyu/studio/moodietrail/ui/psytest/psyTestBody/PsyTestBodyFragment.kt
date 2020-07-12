@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.ui.psytest
+package com.danteyu.studio.moodietrail.ui.psytest.psyTestBody
 
 
 import android.os.Bundle
@@ -13,13 +13,14 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestBodyBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.showToast
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_ANGER_EMPTY
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_ANXIETY_EMPTY
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_DEPRESSION_EMPTY
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_INFERIORITY_EMPTY
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_INSOMNIA_EMPTY
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.INVALID_FORMAT_SUICIDE_EMPTY
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel.Companion.POST_PSY_TEST_FAIL
+import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyFragmentDirections
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.INVALID_FORMAT_ANGER_EMPTY
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.INVALID_FORMAT_ANXIETY_EMPTY
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.INVALID_FORMAT_DEPRESSION_EMPTY
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.INVALID_FORMAT_INFERIORITY_EMPTY
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.INVALID_FORMAT_INSOMNIA_EMPTY
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.INVALID_FORMAT_SUICIDE_EMPTY
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel.Companion.POST_PSY_TEST_FAIL
 
 /**
  * Created by George Yu on 2020/2/14.

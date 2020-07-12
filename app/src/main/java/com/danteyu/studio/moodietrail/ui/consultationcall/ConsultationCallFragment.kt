@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.danteyu.studio.moodietrail.R
-import com.danteyu.studio.moodietrail.component.DividerItemDecoration
+import com.danteyu.studio.moodietrail.ui.component.DividerItemDecoration
 import com.danteyu.studio.moodietrail.databinding.FragmentConsultationCallBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.util.Util.getDrawable

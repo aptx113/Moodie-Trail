@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/psyTestFragment"
-        android:name="com.danteyu.studio.moodietrail.ui.psytest.PsyTestFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytest.psyTestIHeader.PsyTestHeaderFragment"
         android:label="PsyTestFragment"
         tools:layout="@layout/fragment_psy_test">
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/psyTestBodyFragment"
-        android:name="com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyFragment"
+        android:name="com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyFragment"
         android:label="fragment_psy_test_body"
         tools:layout="@layout/fragment_psy_test_body">
         <action

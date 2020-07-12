@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.ui.psytest
+package com.danteyu.studio.moodietrail.ui.psytest.psyTestBody
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.model.PsyTest
 import com.danteyu.studio.moodietrail.data.Result
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ui.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger
@@ -139,12 +139,18 @@ class PsyTestBodyViewModel(private val moodieTrailRepository: MoodieTrailReposit
     fun prepareSubmit() {
 
         when {
-            itemSleepScore == NO_ANSWER -> _invalidSubmit.value = INVALID_FORMAT_INSOMNIA_EMPTY
-            itemAnxietyScore == NO_ANSWER -> _invalidSubmit.value = INVALID_FORMAT_ANXIETY_EMPTY
-            itemAngerScore == NO_ANSWER -> _invalidSubmit.value = INVALID_FORMAT_ANGER_EMPTY
-            itemDepressionScore == NO_ANSWER -> _invalidSubmit.value = INVALID_FORMAT_DEPRESSION_EMPTY
-            itemInferiorityScore == NO_ANSWER -> _invalidSubmit.value = INVALID_FORMAT_INFERIORITY_EMPTY
-            itemSuicideScore == NO_ANSWER -> _invalidSubmit.value = INVALID_FORMAT_SUICIDE_EMPTY
+            itemSleepScore == NO_ANSWER -> _invalidSubmit.value =
+                INVALID_FORMAT_INSOMNIA_EMPTY
+            itemAnxietyScore == NO_ANSWER -> _invalidSubmit.value =
+                INVALID_FORMAT_ANXIETY_EMPTY
+            itemAngerScore == NO_ANSWER -> _invalidSubmit.value =
+                INVALID_FORMAT_ANGER_EMPTY
+            itemDepressionScore == NO_ANSWER -> _invalidSubmit.value =
+                INVALID_FORMAT_DEPRESSION_EMPTY
+            itemInferiorityScore == NO_ANSWER -> _invalidSubmit.value =
+                INVALID_FORMAT_INFERIORITY_EMPTY
+            itemSuicideScore == NO_ANSWER -> _invalidSubmit.value =
+                INVALID_FORMAT_SUICIDE_EMPTY
 
             else -> submit()
         }
@@ -190,7 +196,8 @@ class PsyTestBodyViewModel(private val moodieTrailRepository: MoodieTrailReposit
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
-                    _invalidSubmit.value = POST_PSY_TEST_FAIL
+                    _invalidSubmit.value =
+                        POST_PSY_TEST_FAIL
                     null
                 }
                 is Result.Error -> {

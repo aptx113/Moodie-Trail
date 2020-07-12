@@ -1,15 +1,15 @@
-package com.danteyu.studio.moodietrail.ui.psytest
+package com.danteyu.studio.moodietrail.ui.psytest.psyTestIHeader
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.util.Logger
 
 /**
  * Created by George Yu on 2020/2/14.
  */
-class PsyTestViewModel(moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
+class PsyTestHeaderViewModel(moodieTrailRepository: MoodieTrailRepository) : ViewModel() {
 
     private val _navigateToPsyTestBody = MutableLiveData<Boolean>()
 

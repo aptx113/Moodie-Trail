@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.component
+package com.danteyu.studio.moodietrail.ui.component
 
 import android.graphics.Outline
 import android.view.View

@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.component
+package com.danteyu.studio.moodietrail.ui.component
 
 import com.google.android.material.shape.EdgeTreatment
 import com.google.android.material.shape.ShapePath

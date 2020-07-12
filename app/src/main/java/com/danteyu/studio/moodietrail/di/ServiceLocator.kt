@@ -2,11 +2,11 @@ package com.danteyu.studio.moodietrail.di
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import com.danteyu.studio.moodietrail.repository.DefaultMoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.DefaultMoodieTrailRepository
 import com.danteyu.studio.moodietrail.data.source.MoodieTrailDataSource
 import com.danteyu.studio.moodietrail.data.source.local.MoodieTrailLocalDataSource
 import com.danteyu.studio.moodietrail.data.source.remote.MoodieTrailRemoteDataSource
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 
 
 /**

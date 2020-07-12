@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.util.bindingadapters
+package com.danteyu.studio.moodietrail.util.bindings
 
 import android.graphics.Typeface
 import android.text.Spannable

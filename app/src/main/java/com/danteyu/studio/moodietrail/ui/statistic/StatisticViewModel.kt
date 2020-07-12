@@ -9,7 +9,7 @@ import com.danteyu.studio.moodietrail.R
 import com.danteyu.studio.moodietrail.data.model.AverageMood
 import com.danteyu.studio.moodietrail.data.model.Note
 import com.danteyu.studio.moodietrail.data.Result
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.ui.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus

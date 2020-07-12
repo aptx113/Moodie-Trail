@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.util.bindingadapters
+package com.danteyu.studio.moodietrail.util.bindings
 
 import android.widget.ImageView
 import androidx.core.net.toUri

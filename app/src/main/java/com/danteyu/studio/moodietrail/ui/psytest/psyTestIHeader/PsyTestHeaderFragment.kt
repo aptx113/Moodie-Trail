@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.ui.psytest
+package com.danteyu.studio.moodietrail.ui.psytest.psyTestIHeader
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,16 +11,17 @@ import androidx.navigation.fragment.findNavController
 import com.danteyu.studio.moodietrail.databinding.FragmentPsyTestBinding
 import com.danteyu.studio.moodietrail.ext.getVmFactory
 import com.danteyu.studio.moodietrail.ext.setTouchDelegate
+import com.danteyu.studio.moodietrail.ui.psytest.PsyTestFragmentDirections
 
 /**
  * Created by George Yu on 2020/2/14.
  */
-class PsyTestFragment : Fragment() {
+class PsyTestHeaderFragment : Fragment() {
 
     /**
-     * Lazily initialize [PsyTestViewModel]
+     * Lazily initialize [PsyTestHeaderViewModel]
      */
-    val viewModel by viewModels<PsyTestViewModel> { getVmFactory() }
+    val viewModel by viewModels<PsyTestHeaderViewModel> { getVmFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,

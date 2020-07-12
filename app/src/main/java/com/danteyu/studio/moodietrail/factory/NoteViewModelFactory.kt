@@ -3,7 +3,7 @@ package com.danteyu.studio.moodietrail.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.data.model.Note
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ui.recordmood.RecordDetailViewModel
 import com.danteyu.studio.moodietrail.ui.recordmood.RecordMoodViewModel
 

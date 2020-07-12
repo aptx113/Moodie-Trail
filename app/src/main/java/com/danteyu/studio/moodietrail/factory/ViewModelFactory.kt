@@ -3,14 +3,14 @@ package com.danteyu.studio.moodietrail.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.danteyu.studio.moodietrail.MainViewModel
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ui.home.HomeViewModel
 import com.danteyu.studio.moodietrail.ui.login.LoginViewModel
 import com.danteyu.studio.moodietrail.ui.consultationcall.ConsultationCallViewModel
 import com.danteyu.studio.moodietrail.ui.mentalhealthres.MentalHealthResViewModel
 import com.danteyu.studio.moodietrail.ui.profile.ProfileViewModel
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestBodyViewModel
-import com.danteyu.studio.moodietrail.ui.psytest.PsyTestViewModel
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestBody.PsyTestBodyViewModel
+import com.danteyu.studio.moodietrail.ui.psytest.psyTestIHeader.PsyTestHeaderViewModel
 import com.danteyu.studio.moodietrail.ui.psytestrating.PsyTestRatingViewModel
 import com.danteyu.studio.moodietrail.ui.psytestrecord.PsyTestRecordViewModel
 import com.danteyu.studio.moodietrail.ui.statistic.StatisticViewModel
@@ -47,7 +47,7 @@ class ViewModelFactory constructor(
                     moodieTrailRepository
                 )
 
-                isAssignableFrom(PsyTestViewModel::class.java) -> PsyTestViewModel(
+                isAssignableFrom(PsyTestHeaderViewModel::class.java) -> PsyTestHeaderViewModel(
                     moodieTrailRepository
                 )
 

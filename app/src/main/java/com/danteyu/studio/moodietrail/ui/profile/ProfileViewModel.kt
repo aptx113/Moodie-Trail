@@ -1,8 +1,8 @@
 package com.danteyu.studio.moodietrail.ui.profile
 
 import androidx.lifecycle.ViewModel
-import com.danteyu.studio.moodietrail.component.ProfileAvatarOutlineProvider
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.ui.component.ProfileAvatarOutlineProvider
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ui.login.UserManager
 import com.danteyu.studio.moodietrail.util.Logger
 

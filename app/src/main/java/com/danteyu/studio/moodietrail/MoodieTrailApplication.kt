@@ -1,7 +1,7 @@
 package com.danteyu.studio.moodietrail
 
 import android.app.Application
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.network.NetworkStateHolder.registerConnectivityBroadcaster
 import com.danteyu.studio.moodietrail.di.AppContainer
 import com.danteyu.studio.moodietrail.di.ServiceLocator

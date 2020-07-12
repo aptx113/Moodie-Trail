@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.component
+package com.danteyu.studio.moodietrail.ui.component
 
 import android.content.Context
 import android.graphics.Paint
@@ -8,7 +8,6 @@ import com.danteyu.studio.moodietrail.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.MaterialShapeDrawable.SHADOW_COMPAT_MODE_DEFAULT
-import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapePathModel
 
 /**

@@ -1,7 +1,7 @@
 package com.danteyu.studio.moodietrail.ui.psytestrating
 
 import androidx.lifecycle.ViewModel
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.util.Logger
 
 /**

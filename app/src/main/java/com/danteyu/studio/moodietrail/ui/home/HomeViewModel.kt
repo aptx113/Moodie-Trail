@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danteyu.studio.moodietrail.MoodieTrailApplication
 import com.danteyu.studio.moodietrail.R
-import com.danteyu.studio.moodietrail.component.GridSpacingItemDecoration
+import com.danteyu.studio.moodietrail.ui.component.GridSpacingItemDecoration
 import com.danteyu.studio.moodietrail.data.model.Note
 import com.danteyu.studio.moodietrail.data.Result
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ui.login.UserManager
 import com.danteyu.studio.moodietrail.network.LoadApiStatus
 import com.danteyu.studio.moodietrail.util.Logger

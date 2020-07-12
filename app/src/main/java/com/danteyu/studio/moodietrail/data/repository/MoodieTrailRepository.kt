@@ -1,4 +1,4 @@
-package com.danteyu.studio.moodietrail.repository
+package com.danteyu.studio.moodietrail.data.repository
 
 import android.graphics.Bitmap
 import com.danteyu.studio.moodietrail.data.*

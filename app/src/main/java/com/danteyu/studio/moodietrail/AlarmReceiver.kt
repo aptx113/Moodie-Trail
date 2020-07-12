@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.danteyu.studio.moodietrail.data.model.Note
 import com.danteyu.studio.moodietrail.data.Result
-import com.danteyu.studio.moodietrail.repository.MoodieTrailRepository
+import com.danteyu.studio.moodietrail.data.repository.MoodieTrailRepository
 import com.danteyu.studio.moodietrail.ext.sendNotification
 import com.danteyu.studio.moodietrail.ext.toDisplayFormat
 import com.danteyu.studio.moodietrail.ui.login.UserManager
